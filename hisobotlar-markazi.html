@@ -32,7 +32,7 @@
 }
 .kutubxona-band:hover{box-shadow:var(--soya)}
 .kutubxona-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
-.fayl-ikon{width:42px;height:42px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:9px;font-weight:800;color:#fff}
+.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:800;color:#fff}
 .fayl-ikon.pdf{background:#E8563F}
 .fayl-ikon.xlsx{background:#3E9B4F}
 .fayl-ikon.pptx{background:#E8752C}
@@ -316,7 +316,8 @@ document.getElementById("hisobot-yaratish").addEventListener("click", ()=>{
     { okMatn:"Yaratish", ok(){ AUGA.toast("Hisobot navbatga qo'yildi — tayyor bo'lganda xabar beramiz"); } });
 });
 const et = document.getElementById("eksport-tugma"), em = document.getElementById("eksport-menyu");
-et.addEventListener("click", ()=>{
+et.addEventListener("click", e=>{
+  e.stopPropagation();
   const o = em.classList.contains("ochiq");
   document.querySelectorAll(".menyu-popover.ochiq").forEach(x=>x.classList.remove("ochiq"));
   em.classList.toggle("ochiq", !o);

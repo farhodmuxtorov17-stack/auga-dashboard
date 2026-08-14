@@ -99,7 +99,7 @@
 .f-doira .ic{width:18px;height:18px}
 .f-doira.yashil{background:#E8F7DB;color:#3E9412}
 .f-doira.kok{background:#E7F0FE;color:#2F6BCF}
-.f-doira.sariq{background:#FFF3D6;color:#B07C08}
+.f-doira.sariq{background:#FFF6DE;color:#9A6E00}
 .f-doira.binafsha{background:#F3EBFE;color:#8A4BD8}
 .f-matn{flex:1;min-width:0}
 .f-matn b{display:block;font-size:14.5px;font-weight:650;color:#1F2328;line-height:1.35}
@@ -110,7 +110,7 @@
 .faoliyat-tugma{
   width:100%;height:50px;margin-top:14px;border-radius:13px;border:1px solid var(--kirish-chiziq);
   display:flex;align-items:center;justify-content:center;gap:9px;
-  font-size:14.5px;font-weight:700;color:#23272C;transition:background var(--tez);
+  font-size:14.5px;font-weight:650;color:#23272C;transition:background var(--tez);
 }
 .faoliyat-tugma:hover{background:#F6F7F8}
 .faoliyat-tugma .ic{width:16px;height:16px}
@@ -385,7 +385,8 @@ document.getElementById("tahrir").addEventListener("click", ()=>{
 
 /* Hisobot dropdown */
 const ht = document.getElementById("hisobot-tugma"), hm = document.getElementById("hisobot-menyu");
-ht.addEventListener("click", ()=>{
+ht.addEventListener("click", e=>{
+  e.stopPropagation();
   const ochiq = hm.classList.contains("ochiq");
   document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
   hm.classList.toggle("ochiq", !ochiq);

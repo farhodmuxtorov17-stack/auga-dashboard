@@ -34,10 +34,10 @@
 .q-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
 .q-band .tile{width:40px;height:40px;border-radius:11px;background:#F0F1F4;display:grid;place-items:center;color:#43484E;flex:none;position:relative}
 .q-band .tile .ic{width:18px;height:18px}
-.q-band .tile.qizil{background:#FDEBE7;color:#D14C34}
+.q-band .tile.qizil{background:#FDEEEC;color:#C43C31}
 .q-band .tile .n{position:absolute;left:-3px;top:-3px;width:9px;height:9px;border-radius:99px;background:#22B14C;border:2px solid #fff}
 .q-band .tile .n.of{background:#C7C7CD}
-.q-band b{display:block;font-size:13.5px;font-weight:700}
+.q-band b{display:block;font-size:13.5px;font-weight:650}
 .q-band span{display:block;font-size:11.5px;color:var(--matn-4)}
 .signal{margin-left:auto;display:flex;align-items:flex-end;gap:2px;flex:none}
 .signal i{width:3.5px;border-radius:2px;background:#8CD121;display:block}
@@ -74,7 +74,7 @@
 .ak-katak .yorliq{font-size:11.5px;color:var(--matn-3);line-height:1.3}
 .ak-katak b{display:block;font-size:18px;font-weight:750;margin-top:5px}
 .ak-katak svg.chizma{width:100%;height:22px;margin-top:8px}
-.ak-katak .qulf{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:15px;font-weight:750;color:#B07C08}
+.ak-katak .qulf{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:15px;font-weight:750;color:#9A6E00}
 .ak-katak .qulf .ic{width:16px;height:16px}
 
 /* O'ng ustun */
@@ -99,6 +99,7 @@
 .log-tugma{width:100%;height:46px;margin-top:12px;border-radius:12px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:700;transition:background var(--tez)}
 .log-tugma:hover{background:#F6F7F8}
 .log-tugma .ic{width:15px;height:15px}
+.qd-grid > aside{display:flex;flex-direction:column;gap:18px}
 @media (max-width:1700px){.qd-grid{grid-template-columns:320px 1fr}.qd-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}}
 @media (max-width:1200px){.qd-grid{grid-template-columns:1fr}.qd-grid > aside{grid-template-columns:1fr}.ak-grid{grid-template-columns:repeat(2,1fr)}.info-strip{grid-template-columns:1fr 1fr}}
 </style>
@@ -208,7 +209,7 @@
       </div>
 
       <!-- O'ng ustun -->
-      <aside style="display:flex;flex-direction:column;gap:18px">
+      <aside>
         <div class="karta qh-karta">
           <h3>Qurilma holati</h3>
           <div class="qh-qator"><span class="yorliq">Holat</span><b><span class="nuqta"></span>Onlayn</b></div>
@@ -324,7 +325,8 @@ document.getElementById("qurilma-qoshish").addEventListener("click", ()=>{
 
 /* Xizmat hisoboti dropdown */
 const xt = document.getElementById("xizmat-tugma"), xm = document.getElementById("xizmat-menyu");
-xt.addEventListener("click", ()=>{
+xt.addEventListener("click", e=>{
+  e.stopPropagation();
   const o = xm.classList.contains("ochiq");
   document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
   xm.classList.toggle("ochiq", !o);

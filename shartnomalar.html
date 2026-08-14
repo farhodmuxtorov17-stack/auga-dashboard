@@ -44,14 +44,14 @@
 .sh-band img{width:74px;height:64px;object-fit:cover;border-radius:11px;outline:1px solid rgba(23,26,31,.06);outline-offset:-1px;flex:none}
 .sh-band .kod{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:650;color:#33383E}
 .sh-band .kod .nuqta{width:7px;height:7px;border-radius:99px;background:#22B14C}
-.sh-band b{display:block;font-size:14px;font-weight:700;margin-top:2px}
+.sh-band b{display:block;font-size:14px;font-weight:650;margin-top:2px}
 .sh-band .firma{display:block;font-size:12.5px;color:var(--matn-3)}
 .sh-band .sana{display:block;font-size:12px;color:var(--matn-4);margin-top:3px}
 .sh-band .summa{display:block;font-size:13px;font-weight:700;margin-top:2px}
 .sh-teg{margin-left:auto;flex:none;align-self:flex-start;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px}
 .sh-teg.faol{background:#EBF7D8;color:#3E7C0A}
-.sh-teg.kun30{background:#FFF3D6;color:#B07C08}
-.sh-teg.otgan{background:#FDEBE7;color:#D14C34}
+.sh-teg.kun30{background:#FFF6DE;color:#9A6E00}
+.sh-teg.otgan{background:#FDEEEC;color:#C43C31}
 
 /* Markaz */
 .tafsilot-bosh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
@@ -87,7 +87,7 @@
 .tolov .summa{display:block;font-size:11.5px;color:var(--matn-3);margin-top:2px}
 .tolov .holat{display:inline-block;font-size:11px;font-weight:700;margin-top:5px}
 .tolov.tolandi .holat{color:#3E7C0A}
-.tolov.kutish .holat{color:#B07C08}
+.tolov.kutish .holat{color:#9A6E00}
 .tolov.reja .holat{color:#71767E}
 
 .uzaytirish{margin-top:20px;padding-top:18px;border-top:1px solid var(--chiziq)}
@@ -129,6 +129,7 @@
 .menejer-aloqa button{flex:1;height:44px;border:1px solid var(--kirish-chiziq);border-radius:12px;display:grid;place-items:center;color:#33383E;transition:background var(--tez)}
 .menejer-aloqa button:hover{background:#F6F7F8}
 .menejer-aloqa .ic{width:18px;height:18px}
+.sh-grid > aside{display:flex;flex-direction:column;gap:18px}
 @media (max-width:1600px){.sh-grid{grid-template-columns:360px 1fr}.sh-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px}}
 @media (max-width:1500px){.sh-kpi{grid-template-columns:repeat(3,1fr)}}
 @media (max-width:1200px){.sh-grid{grid-template-columns:1fr}.sh-grid > aside{grid-template-columns:1fr}.sh-tafsilot{grid-template-columns:1fr 1fr}.sh-rasm{grid-row:auto;grid-column:1/-1}}
@@ -253,7 +254,7 @@
       </div>
 
       <!-- O'ng ustun -->
-      <aside style="display:flex;flex-direction:column;gap:18px">
+      <aside>
         <div class="karta amal-karta">
           <h3>Tezkor amallar</h3>
           <button class="amal-band asosiy" data-toast="Shartnoma tasdiqlandi"><svg class="ic" style="color:#3E7C0A"><use href="#i-belgi-doira"/></svg>Tasdiqlash</button>

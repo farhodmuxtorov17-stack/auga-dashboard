@@ -47,7 +47,7 @@
 .inspektor{position:sticky;top:20px;display:none}
 .asosiy-grid.inspector-ochiq .inspektor{display:block}
 .insp-bosh{display:flex;align-items:flex-start;gap:10px}
-.insp-bosh h2{font-size:21px;font-weight:750;color:#17191C;line-height:1.2}
+.insp-bosh h2{font-size:20px;font-weight:750;color:#17191C;line-height:1.2}
 .insp-bosh .kod{font-size:13.5px;color:var(--matn-4);margin-top:4px}
 .insp-yop{margin-left:auto;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:#5B6168;transition:background var(--tez)}
 .insp-yop:hover{background:#F0F1F4;color:#17191C}
@@ -345,7 +345,8 @@ if (p.get("holat")){
 
 /* Eksport dropdown */
 const et = document.getElementById("eksport-tugma"), em = document.getElementById("eksport-menyu");
-et.addEventListener("click", ()=>{
+et.addEventListener("click", e=>{
+  e.stopPropagation();
   const ochiq = em.classList.contains("ochiq");
   document.querySelectorAll(".menyu-popover.ochiq").forEach(x=>x.classList.remove("ochiq"));
   em.classList.toggle("ochiq", !ochiq);

@@ -588,7 +588,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   /* Hisobot dropdown */
   const ht = document.getElementById("hisobot-tugma");
   const hm = document.getElementById("hisobot-menyu");
-  ht.addEventListener("click", ()=>{
+  ht.addEventListener("click", e=>{
+    e.stopPropagation();
     const ochiq = hm.classList.contains("ochiq");
     document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
     hm.classList.toggle("ochiq", !ochiq);

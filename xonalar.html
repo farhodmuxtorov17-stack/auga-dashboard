@@ -314,7 +314,8 @@ document.getElementById("rj-2d").addEventListener("click", function(){ this.clas
 
 /* Hisobot */
 const ht = document.getElementById("hisobot-tugma"), hm = document.getElementById("hisobot-menyu");
-ht.addEventListener("click", ()=>{
+ht.addEventListener("click", e=>{
+  e.stopPropagation();
   const o = hm.classList.contains("ochiq");
   document.querySelectorAll(".menyu-popover.ochiq").forEach(x=>x.classList.remove("ochiq"));
   hm.classList.toggle("ochiq", !o);

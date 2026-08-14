@@ -39,9 +39,9 @@
 .royxat-band .sarlavha{font-size:13.5px;font-weight:600;color:#1F2328;line-height:1.4;margin-top:6px}
 .royxat-band .meta{display:flex;align-items:center;margin-top:8px}
 .royxat-band .vaqt{font-size:12px;color:var(--matn-4)}
-.jiddiylik{margin-left:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px}
-.jiddiylik.yuqori{background:#FDEBE7;color:#D14C34}
-.jiddiylik.orta{background:#FFF3D6;color:#B07C08}
+.jiddiylik{margin-left:auto;font-size:11.5px;font-weight:650;padding:3px 9px;border-radius:99px}
+.jiddiylik.yuqori{background:#FDEEEC;color:#C43C31}
+.jiddiylik.orta{background:#FFF6DE;color:#9A6E00}
 .jiddiylik.past{background:#EBF7D8;color:#3E7C0A}
 .royxat-hamma{display:flex;align-items:center;gap:8px;width:100%;padding:11px 6px;font-size:13.5px;font-weight:650;color:#33383E;border-radius:10px}
 .royxat-hamma:hover{background:#F0F1F4}
@@ -124,15 +124,16 @@
 .stat-katak{border:1px solid var(--chiziq);border-radius:13px;padding:13px 14px}
 .stat-katak .yorliq{font-size:12px;color:var(--matn-3);line-height:1.35}
 .stat-katak .qiymat{display:flex;align-items:baseline;gap:8px;margin-top:6px}
-.stat-katak .qiymat b{font-size:23px;font-weight:750}
+.stat-katak .qiymat b{font-size:24px;font-weight:750}
 .stat-katak .delta{font-size:12.5px}
 .ortacha{border:1px solid var(--chiziq);border-radius:13px;padding:14px;margin-top:12px}
 .ortacha .yorliq{font-size:12.5px;color:var(--matn-3)}
 .ortacha .qiymat{display:flex;align-items:baseline;gap:10px;margin-top:5px}
-.ortacha .qiymat b{font-size:21px;font-weight:750}
+.ortacha .qiymat b{font-size:24px;font-weight:750}
 @media (max-width:1560px){
   .hodisa-grid{grid-template-columns:1fr}
-  .kanban-korpus{grid-template-columns:230px repeat(2,1fr);grid-auto-rows:auto}
+  .kanban-korpus{grid-template-columns:repeat(2,1fr)}
+  .royxat-panel{grid-column:1/-1;border-right:none;border-bottom:1px solid var(--chiziq)}
   .kb-ustun{border-bottom:1px solid var(--chiziq)}
 }
 @media (max-width:1100px){
@@ -360,15 +361,17 @@ function detalChiz(h){
     </div>
     <div class="detal-harakat">
       <button class="tugma tugma-yashil" id="detal-tahrir">Tahrirlash</button>
-      <button class="nuqtalar-tugma" id="detal-menyu-tugma" aria-haspopup="menu">
-        <svg class="ic" style="width:18px;height:18px"><use href="#i-nuqtalar"/></svg>
+      <div style="position:relative">
+        <button class="nuqtalar-tugma" id="detal-menyu-tugma" aria-haspopup="menu">
+          <svg class="ic" style="width:18px;height:18px"><use href="#i-nuqtalar"/></svg>
+        </button>
         <div class="menyu-popover" id="detal-menyu" style="bottom:calc(100% + 8px);top:auto;right:0">
           <button type="button" data-amal="yopish"><svg class="ic"><use href="#i-belgi-doira"/></svg>Hodisani yopish</button>
           <button type="button" data-amal="biriktirish"><svg class="ic"><use href="#i-foyd"/></svg>Mas'ul biriktirish</button>
           <div class="ajrat"></div>
           <button type="button" class="xavf" data-amal="ochirish"><svg class="ic"><use href="#i-savat"/></svg>O'chirish</button>
         </div>
-      </button>
+      </div>
     </div>`;
 
   document.getElementById("detal-tahrir").addEventListener("click", ()=>{
@@ -382,6 +385,7 @@ function detalChiz(h){
   const mt = document.getElementById("detal-menyu-tugma"), mm = document.getElementById("detal-menyu");
   mt.addEventListener("click", e=>{
     if (e.target.closest(".menyu-popover")) return;
+    e.stopPropagation();
     const ochiq = mm.classList.contains("ochiq");
     document.querySelectorAll(".menyu-popover.ochiq").forEach(x=>x.classList.remove("ochiq"));
     mm.classList.toggle("ochiq", !ochiq);

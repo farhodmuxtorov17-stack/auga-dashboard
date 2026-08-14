@@ -23,16 +23,16 @@
 .kt-tile{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
 .kt-tile .ic{width:20px;height:20px}
 .kt-tile.yashil{background:#EBF7D8;color:#3E7C0A}
-.kt-tile.sariq{background:#FFF3D6;color:#B07C08}
+.kt-tile.sariq{background:#FFF6DE;color:#9A6E00}
 .kt-tile.binafsha{background:#F3EBFE;color:#8A4BD8}
-.kt-tile.qizil{background:#FDEBE7;color:#D14C34}
-.kt-band b{display:block;font-size:14.5px;font-weight:700;line-height:1.35}
+.kt-tile.qizil{background:#FDEEEC;color:#C43C31}
+.kt-band b{display:block;font-size:14.5px;font-weight:650;line-height:1.35}
 .kt-band .org{display:block;font-size:12.5px;color:var(--matn-3);margin-top:2px}
 .kt-band .meta{display:flex;align-items:center;margin-top:8px}
 .kt-band .vaqt{font-size:12px;color:var(--matn-4)}
-.jiddiylik{margin-left:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px}
-.jiddiylik.yuqori{background:#FDEBE7;color:#D14C34}
-.jiddiylik.orta{background:#FFF3D6;color:#B07C08}
+.jiddiylik{margin-left:auto;font-size:11.5px;font-weight:650;padding:3px 9px;border-radius:99px}
+.jiddiylik.yuqori{background:#FDEEEC;color:#C43C31}
+.jiddiylik.orta{background:#FFF6DE;color:#9A6E00}
 .jiddiylik.past{background:#E7F0FE;color:#2F6BCF}
 .barcha-band{display:flex;align-items:center;gap:8px;width:100%;margin-top:14px;padding:12px 6px 2px;font-size:14px;font-weight:650;color:#33383E;border-radius:8px}
 .barcha-band .ic{margin-left:auto;width:16px;height:16px}
@@ -78,7 +78,7 @@
 .shaxs-band .avatar{width:40px;height:40px}
 .shaxs-band .harf{width:40px;height:40px;border-radius:99px;background:#EEF0F3;display:grid;place-items:center;font-size:12.5px;font-weight:750;color:#5B6168;flex:none}
 .shaxs-band .rol{display:block;font-size:12px;color:var(--matn-4)}
-.shaxs-band b{display:block;font-size:14px;font-weight:700}
+.shaxs-band b{display:block;font-size:14px;font-weight:650}
 .shaxs-band .aloqa{margin-left:auto;display:flex;gap:8px}
 .shaxs-band .aloqa button{width:34px;height:34px;border:1px solid var(--kirish-chiziq);border-radius:10px;display:grid;place-items:center;color:#33383E}
 .shaxs-band .aloqa button:hover{background:#F6F7F8}
@@ -87,6 +87,7 @@
 .ft-band .nuqta{width:8px;height:8px;border-radius:99px;background:#8CD121;margin-top:5px;flex:none}
 .ft-band b{font-weight:650}
 .ft-band span{display:block;color:var(--matn-4);font-size:12px;margin-top:2px}
+.tt-grid > aside{display:flex;flex-direction:column;gap:18px}
 @media (max-width:1600px){.tt-grid{grid-template-columns:320px 1fr}.tt-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}}
 @media (max-width:1200px){.tt-grid{grid-template-columns:1fr}.tt-grid > aside{grid-template-columns:1fr}.td-korpus{grid-template-columns:1fr}}
 </style>
@@ -163,7 +164,7 @@
       </div>
 
       <!-- O'ng ustun -->
-      <aside style="display:flex;flex-direction:column;gap:18px">
+      <aside>
         <div class="karta blok-karta">
           <h3><svg class="ic"><use href="#i-kalendar"/></svg>Muddatlar</h3>
           <div class="m-band2"><span class="yorliq">So'rov sanasi</span><b>24-may, 2025 &nbsp;·&nbsp; 14:20</b></div>

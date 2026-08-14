@@ -62,7 +62,7 @@
 
 .hisobot-band{display:flex;align-items:center;gap:13px;padding:12px 4px;border-bottom:1px solid #F2F3F5}
 .hisobot-band:last-child{border-bottom:none}
-.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:9.5px;font-weight:800;color:#fff}
+.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:800;color:#fff}
 .fayl-ikon.pdf{background:#E8563F}
 .fayl-ikon.xlsx{background:#3E9B4F}
 .hisobot-band .matn{flex:1;min-width:0}
@@ -70,7 +70,7 @@
 .hisobot-band span{display:block;font-size:12.5px;color:var(--matn-4);margin-top:1px}
 @media (max-width:1500px){.m-qator{grid-template-columns:1fr 1fr}.m-qator .karta:first-child{grid-column:1/-1}}
 @media (max-width:1240px){.m-past{grid-template-columns:1fr}.sharh-korpus{grid-template-columns:1fr}}
-@media (max-width:900px){.m-qator{grid-template-columns:1fr}.metrika-grid{grid-template-columns:1fr}.metrika{border-right:none!important}}
+@media (max-width:900px){.m-qator{grid-template-columns:1fr}.metrika-grid{grid-template-columns:1fr}.metrika{border-right:none!important}.metrika:nth-child(3){border-bottom:1px solid var(--chiziq)}}
 </style>
 </head>
 <body data-sahifa="hisobotlar">
@@ -240,7 +240,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 /* Davr dropdown */
 const dt = document.getElementById("davr-tugma"), dm = document.getElementById("davr-menyu");
-dt.addEventListener("click", ()=>{
+dt.addEventListener("click", e=>{
+  e.stopPropagation();
   const ochiq = dm.classList.contains("ochiq");
   document.querySelectorAll(".menyu-popover.ochiq").forEach(x=>x.classList.remove("ochiq"));
   dm.classList.toggle("ochiq", !ochiq);
