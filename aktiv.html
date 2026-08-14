@@ -318,8 +318,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
 /* Obyekt ma'lumotlari (?id=) */
 const MALUMOT = {
   "green-tower":{nom:"Green Tower",tur:"Biznes markazi",holat:"Faol",rasm:"assets/hero_tower.png",
-    manzil:"Toshkent shahri, Shayxontohur tumani,<br>Navoiy ko'chasi, 15",
-    maydon:"18 560 m²",yer:"4 250 m²",qavat:"12",yil:"2021",
+    manzil:"Toshkent shahri, Shayxontohur tumani,<br>Amir Temur ko'chasi, 88",
+    maydon:"18 500 m²",yer:"4 250 m²",qavat:"12",yil:"2022",
     tavsif:"Green Tower – zamonaviy biznes markazi bo'lib, 12 qavatdan iborat. Bino ofis maydonlari, konferensiya zallari, yerosti avtoturargohi va to'liq infratuzilma bilan ta'minlangan."},
   "chorvoq-dacha":{nom:"Chorvoq dacha",tur:"Dacha",holat:"Faol",rasm:"assets/bino_dacha.png",
     manzil:"Toshkent viloyati, Bo'stonliq tumani,<br>Chorvoq qirg'og'i, 12",
@@ -340,7 +340,15 @@ const MALUMOT = {
   "humo-office":{nom:"Humo Office",tur:"Ofis",holat:"Faol",rasm:"assets/bino_humo.png",
     manzil:"Toshkent shahri, Yakkasaroy tumani,<br>Bobur ko'chasi, 40",
     maydon:"6 200 m²",yer:"1 800 m²",qavat:"7",yil:"2021",
-    tavsif:"Humo Office – kichik va o'rta biznes uchun qulay ofis binosi. Ochiq ish maydonlari, muzokara xonalari va kafeteriya mavjud."}
+    tavsif:"Humo Office – kichik va o'rta biznes uchun qulay ofis binosi. Ochiq ish maydonlari, muzokara xonalari va kafeteriya mavjud."},
+  "yakkasaroy-dm":{nom:"Yakkasaroy DM",tur:"Davlat muassasasi",holat:"Faol",rasm:"assets/thumb_dm.png",
+    manzil:"Toshkent shahri, Yakkasaroy tumani,<br>Mirzo Ulug'bek ko'chasi, 22",
+    maydon:"4 100 m²",yer:"2 600 m²",qavat:"4",yil:"2018",
+    tavsif:"Yakkasaroy davlat muassasasi binosi – hududiy boshqaruv organi joylashgan ma'muriy bino. Qabulxona, majlislar zali va arxiv xonalari bilan ta'minlangan."},
+  "nurafshon-ofis":{nom:"Nurafshon ofis",tur:"Turar-joy / Ofis",holat:"Faol",rasm:"assets/thumb_ofis.png",
+    manzil:"Toshkent viloyati, Nurafshon shahri,<br>Amir Temur shoh ko'chasi, 8",
+    maydon:"3 450 m²",yer:"1 200 m²",qavat:"5",yil:"2022",
+    tavsif:"Nurafshon ofis binosi – yangi ma'muriy markazda joylashgan zamonaviy ofis maydoni. Ochiq rejali qavatlar va yerosti avtoturargoh bilan ta'minlangan."}
 };
 const id = new URLSearchParams(location.search).get("id") || "green-tower";
 const o = MALUMOT[id] || MALUMOT["green-tower"];

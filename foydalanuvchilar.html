@@ -145,7 +145,7 @@
             <div class="mj-qator"><svg class="ic"><use href="#i-panel"/></svg><span class="yorliq">Bo'lim</span><b id="p-bolim">IT bo'limi</b></div>
             <div class="mj-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Lavozim</span><b id="p-lavozim">Tizim administratori</b></div>
             <div class="mj-qator"><svg class="ic"><use href="#i-kalendar"/></svg><span class="yorliq">Ishga kirish sanasi</span><b>15-yan, 2022</b></div>
-            <div class="mj-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b><span class="nuqta"></span>Faol</b></div>
+            <div class="mj-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b><span class="nuqta" id="p-holat-nuqta"></span><span id="p-holat">Faol</span></b></div>
           </div>
 
           <div class="ruxsatlar">
@@ -232,6 +232,8 @@ function profilChiz(){
   document.getElementById("p-email").textContent = f.email;
   document.getElementById("p-bolim").textContent = f.bolim;
   document.getElementById("p-lavozim").textContent = f.lavozim;
+  document.getElementById("p-holat").textContent = f.faol ? "Faol" : "Nofaol";
+  document.getElementById("p-holat-nuqta").style.background = f.faol ? "#22B14C" : "#9AA1A9";
 }
 document.getElementById("f-izlash").addEventListener("input", e=>{ izlash = e.target.value.toLowerCase(); royxatChiz(); });
 royxatChiz(); profilChiz();

@@ -176,8 +176,8 @@
         <div class="karta">
           <h3 style="font-size:16px;font-weight:750;margin-bottom:12px">Face ID natijasi</h3>
           <div class="faceid-qator">
-            <span class="doira"><svg class="ic"><use href="#i-belgi"/></svg></span>
-            <span><b>Yuz mos keldi</b><span>O'xshashlik darajasi: 98%</span></span>
+            <span class="doira" id="fid-doira"><svg class="ic"><use id="fid-ikon" href="#i-belgi"/></svg></span>
+            <span><b id="fid-matn">Yuz mos keldi</b><span>O'xshashlik darajasi: <span id="fid-foiz">98%</span></span></span>
           </div>
         </div>
 
@@ -260,6 +260,11 @@ function detalChiz(){
   document.getElementById("v-holat").textContent = "● "+v.pillM;
   document.getElementById("v-foiz").textContent = v.foiz;
   document.getElementById("v-iz").style.width = v.foiz;
+  document.getElementById("fid-matn").textContent = v.pillM;
+  document.getElementById("fid-foiz").textContent = v.foiz;
+  const fidRang = v.pill==="mos"||v.pill==="ruxsat" ? "#8CD121" : v.pill==="rad" ? "#F45E53" : "#F2994A";
+  document.getElementById("fid-doira").style.background = fidRang;
+  document.getElementById("fid-ikon").setAttribute("href", v.pill==="mos"||v.pill==="ruxsat" ? "#i-belgi" : v.pill==="rad" ? "#i-yopish" : "#i-ogoh");
 }
 royxatChiz(); detalChiz();
 document.getElementById("v-iz").style.width = "98%";

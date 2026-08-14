@@ -319,7 +319,7 @@ function kanbanChiz(){
   document.querySelectorAll(".kb-ustun").forEach(u=>{
     const t = u.dataset.ustun;
     const bandlar = HODISALAR.filter(h=>h.ustun===t);
-    u.querySelector(".son").textContent = t==="yopildi" ? bandlar.length+1 : (t==="yangi" ? bandlar.length+3 : bandlar.length+(t==="tekshirilmoqda"?0:0));
+    u.querySelector(".son").textContent = bandlar.length;
     u.querySelector(".kb-royxat").innerHTML = bandlar.map(h=>`
       <div class="kb-karta ${h.kod===faolKod?"faol":""}" draggable="true" data-kod="${h.kod}" tabindex="0" role="button">
         <span class="h-kod"><span class="nuqta" style="background:${h.rang}"></span>${h.kod}</span>

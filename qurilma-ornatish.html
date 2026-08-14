@@ -261,13 +261,24 @@ function korsat(){
     document.getElementById("x-ip").textContent = document.getElementById("f-ip").value;
   }
 }
+const FORMAT_TEKSHIR = {
+  ip: v => /^(\d{1,3}\.){3}\d{1,3}$/.test(v) && v.split(".").every(o => +o <= 255),
+  mac: v => /^([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}$/.test(v),
+  serial: v => v.trim().length >= 6
+};
 document.getElementById("oldinga").addEventListener("click", ()=>{
   if (qadam === 3){
-    // Oddiy unikallik demo tekshiruvi
+    let hammasiTogri = true;
     ["ip","mac","serial"].forEach(f=>{
-      document.getElementById(f+"-holat").innerHTML = '<svg class="ic"><use href="#i-belgi"/></svg>Unikal — mos keladigan dublikat topilmadi';
-      document.getElementById(f+"-holat").className = "tekshir-holat ok";
+      const qiymat = document.getElementById("f-"+f).value.trim();
+      const togri = FORMAT_TEKSHIR[f](qiymat);
+      if (!togri) hammasiTogri = false;
+      document.getElementById(f+"-holat").innerHTML = togri
+        ? '<svg class="ic"><use href="#i-belgi"/></svg>To\'g\'ri format — unikallik serverda tasdiqlanadi'
+        : '<svg class="ic"><use href="#i-ogoh"/></svg>Noto\'g\'ri format';
+      document.getElementById(f+"-holat").className = "tekshir-holat " + (togri ? "ok" : "xato");
     });
+    if (!hammasiTogri) return;
   }
   if (qadam < 4){ qadam++; korsat(); }
 });

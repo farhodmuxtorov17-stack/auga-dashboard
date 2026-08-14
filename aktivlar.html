@@ -49,7 +49,7 @@
 .insp-bosh{display:flex;align-items:flex-start;gap:10px}
 .insp-bosh h2{font-size:21px;font-weight:750;color:#17191C;line-height:1.2}
 .insp-bosh .kod{font-size:13.5px;color:var(--matn-4);margin-top:4px}
-.insp-yop{margin-left:auto;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;color:#5B6168;transition:background var(--tez)}
+.insp-yop{margin-left:auto;width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:#5B6168;transition:background var(--tez)}
 .insp-yop:hover{background:#F0F1F4;color:#17191C}
 .insp-tablar{display:flex;gap:2px;margin-top:16px;border-bottom:1px solid var(--chiziq)}
 .insp-tab{
@@ -335,10 +335,12 @@ if (p.get("tur")){
   const t = p.get("tur");
   const mos = {"Biznes markazi":"Biznes markazi","Savdo markazi":"Savdo markazi","Dacha":"Dacha","Bo'sh yer":"Yer maydoni","Turar-joy":"Turar-joy","Davlat muassasasi":"Barcha turlar","Ofis":"Ofis"};
   holatFiltri.tur = mos[t] || "Barcha turlar";
+  document.querySelector("#f-tur .t-yorliq").textContent = holatFiltri.tur;
 }
 if (p.get("holat")){
   const h = p.get("holat");
   holatFiltri.status = ["Faol","Rejalashtirilgan","Ta'mirda","Nofaol"].includes(h) ? h : "Barcha statuslar";
+  document.querySelector("#f-status .t-yorliq").textContent = holatFiltri.status;
 }
 
 /* Eksport dropdown */

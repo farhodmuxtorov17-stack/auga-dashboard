@@ -168,7 +168,7 @@ const BILDIRISHLAR = [
    matn:"Texnik ko'rik uchrashuvi rejalashtirilgan.", vaqt:"13:45", yangi:false, havola:"vazifalar.html"},
   {ikon:"i-daromad", t:"Moliya", sarlavha:"To'lov yaqinlashmoqda",
    matn:'"Nurafshon turar-joy majmuasi" uchun to\'lov 25-may sanasida yakunlanadi.', vaqt:"12:20", yangi:false, havola:"shartnomalar.html"},
-  {ikon:"i-foyd", t:"Tizim", sarlavha:"Yangi foydalanuvchi qo'shildi",
+  {ikon:"i-foyd", t:"Smart Access", sarlavha:"Yangi foydalanuvchi qo'shildi",
    matn:"Javlon Karimov Smart Access tizimiga qo'shildi.", vaqt:"11:30", yangi:false, havola:"foydalanuvchilar.html"},
   {ikon:"i-ogoh", t:"Hodisalar", sarlavha:"Qurilma ogohlantirishi",
    matn:"Turniket №2 offline holatida.", vaqt:"10:05", yangi:false, havola:"monitoring.html"}
@@ -215,7 +215,7 @@ document.getElementById("sozlama-ochish").addEventListener("click", ()=>{
 /* Faollik grafigi — soatlik ustunlar */
 const svg = document.getElementById("faollik-grafik");
 const NS = "http://www.w3.org/2000/svg";
-const SOATLIK = [0,0,0,1,0,1,2,1,3,2,5,8,12,9,6,4,3,4,2,3,1,2,1,0];
+const SOATLIK = [0,0,0,0,0,0,0,0,1,1,1,2,2,1,1,1,1,1,0,0,0,0,0,0];
 function chiz(){
   svg.innerHTML = "";
   const W = svg.clientWidth || 340, H = 150;

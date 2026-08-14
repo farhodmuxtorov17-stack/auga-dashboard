@@ -263,12 +263,12 @@ html.erta-rol-texnik #dash-texnik{display:block}
         <div class="karta-bosh"><h2>Aktivlar holati</h2></div>
         <div class="holat-korpus">
           <svg id="donut" width="150" height="150" viewBox="0 0 150 150" role="img"
-               aria-label="Aktivlar holati: Faol 1082 (86%), Ijarada 104 (8%), Ta'mirda 42 (3%), Nofaol 20 (3%)"></svg>
+               aria-label="Aktivlar holati: Faol 1082 (87%), Ijarada 104 (8%), Ta'mirda 42 (3%), Nofaol 20 (2%)"></svg>
           <div class="legend">
-            <a class="legend-qator" href="aktivlar.html?holat=Faol"><span class="nuqta" style="background:var(--h-faol)"></span><span class="nomi">Faol</span><b>1 082 (86%)</b></a>
+            <a class="legend-qator" href="aktivlar.html?holat=Faol"><span class="nuqta" style="background:var(--h-faol)"></span><span class="nomi">Faol</span><b>1 082 (87%)</b></a>
             <a class="legend-qator" href="aktivlar.html?holat=Ijarada"><span class="nuqta" style="background:var(--h-ijara)"></span><span class="nomi">Ijarada</span><b>104 (8%)</b></a>
             <a class="legend-qator" href="aktivlar.html?holat=Ta'mirda"><span class="nuqta" style="background:var(--h-tamir)"></span><span class="nomi">Ta'mirda</span><b>42 (3%)</b></a>
-            <a class="legend-qator" href="aktivlar.html?holat=Nofaol"><span class="nuqta" style="background:var(--h-nofaol)"></span><span class="nomi">Nofaol</span><b>20 (3%)</b></a>
+            <a class="legend-qator" href="aktivlar.html?holat=Nofaol"><span class="nuqta" style="background:var(--h-nofaol)"></span><span class="nomi">Nofaol</span><b>20 (2%)</b></a>
           </div>
         </div>
         <div class="jami-yakun"><span>Jami:</span><b>1 248</b></div>
@@ -502,17 +502,17 @@ html.erta-rol-texnik #dash-texnik{display:block}
 
         <div class="karta">
           <div class="karta-bosh"><h2>Qurilmalar holati</h2></div>
-          <div class="segment-mini" role="img" aria-label="Qurilmalar holati: onlayn 4812, degraded 214, oflayn 61, ta'mirda 21">
-            <i style="flex:4812;background:var(--h-faol)"></i>
-            <i style="flex:214;background:#F2C230"></i>
-            <i style="flex:61;background:var(--qizil)"></i>
-            <i style="flex:21;background:var(--rol-operator)"></i>
+          <div class="segment-mini" role="img" aria-label="Qurilmalar holati: onlayn 1248, degraded 226, oflayn 64, ta'mirda 22">
+            <i style="flex:1248;background:var(--h-faol)"></i>
+            <i style="flex:226;background:#F2C230"></i>
+            <i style="flex:64;background:var(--qizil)"></i>
+            <i style="flex:22;background:var(--rol-operator)"></i>
           </div>
           <div class="segment-legend">
-            <span><span class="nuqta" style="background:var(--h-faol)"></span>Onlayn <b>4 812</b></span>
-            <span><span class="nuqta" style="background:#F2C230"></span>Degraded <b>214</b></span>
-            <span><span class="nuqta" style="background:var(--qizil)"></span>Oflayn <b>61</b></span>
-            <span><span class="nuqta" style="background:var(--rol-operator)"></span>Ta'mirda <b>21</b></span>
+            <span><span class="nuqta" style="background:var(--h-faol)"></span>Onlayn <b>1 248</b></span>
+            <span><span class="nuqta" style="background:#F2C230"></span>Degraded <b>226</b></span>
+            <span><span class="nuqta" style="background:var(--qizil)"></span>Oflayn <b>64</b></span>
+            <span><span class="nuqta" style="background:var(--rol-operator)"></span>Ta'mirda <b>22</b></span>
           </div>
           <a class="karta-havola" href="qurilmalar.html" style="margin-top:14px">Qurilmalar ro'yxati<svg class="ic"><use href="#i-ong"/></svg></a>
         </div>
@@ -566,10 +566,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const cx=75, cy=75, r=61, w=26;
   const ranglar = getComputedStyle(document.documentElement);
   const data = [
-    [86, ranglar.getPropertyValue('--h-faol').trim()],
+    [87, ranglar.getPropertyValue('--h-faol').trim()],
     [8,  ranglar.getPropertyValue('--h-ijara').trim()],
     [3,  ranglar.getPropertyValue('--h-tamir').trim()],
-    [3,  ranglar.getPropertyValue('--h-nofaol').trim()]
+    [2,  ranglar.getPropertyValue('--h-nofaol').trim()]
   ];
   const C = 2*Math.PI*r, gapDeg = 2.6;
   let boshi = -90;

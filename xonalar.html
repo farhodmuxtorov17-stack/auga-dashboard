@@ -79,7 +79,7 @@
 .xp-bosh{display:flex;align-items:center;gap:10px}
 .xp-bosh h2{font-size:20px;font-weight:750}
 .xp-bosh .chip{margin-left:auto}
-.xp-yop{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;color:#5B6168;flex:none}
+.xp-yop{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;color:#5B6168;flex:none}
 .xp-yop:hover{background:#F0F1F4}
 .xp-blok{margin-top:14px}
 .xp-blok h4{font-size:15px;font-weight:750;margin-bottom:4px}
@@ -272,7 +272,7 @@ function panelChiz(){
       <div class="xp-qator"><svg class="ic"><use href="#i-kengay"/></svg><span class="yorliq">Maydon</span><b>${x.maydon}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-tashrif"/></svg><span class="yorliq">Sig'im</span><b>${x.sigim}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-qavat"/></svg><span class="yorliq">Qavat</span><b>${faolQavat}-qavat</b></div>
-      <div class="xp-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b><span class="nuqta"></span>Faol</b></div>
+      <div class="xp-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b><span class="nuqta" style="background:${x.holat==="Band"||x.holat==="Faol"?"#22B14C":"#2F6BCF"}"></span>${x.holat}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Egasi / Ijarachi</span><b>${x.egasi}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-shartnoma"/></svg><span class="yorliq">Shartnoma</span><b>${x.shartnoma}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Amal qilish muddati</span><b>${x.muddat}</b></div>
