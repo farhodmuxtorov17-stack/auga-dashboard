@@ -82,7 +82,7 @@ const IKONLAR = `
 const ROL_KALIT = {"Rahbar":"rahbar","Operator":"operator","Texnik xodim":"texnik","Administrator":"admin"};
 const ROL_RUXSAT = {
   admin: null, // barcha bo'limlar
-  rahbar: ["panel","aktivlar","mulk","shartnomalar","xaritalar","hisobotlar","hujjatlar","bildirishnomalar","vazifalar","yer","sotuv","arxiv","sozlamalar"],
+  rahbar: ["panel","aktivlar","mulk","shartnomalar","xaritalar","hisobotlar","hujjatlar","bildirishnomalar","monitoring","vazifalar","yer","sotuv","arxiv","sozlamalar"],
   operator: ["panel","aktivlar","mulk","shartnomalar","xaritalar","smart-access","hujjatlar","bildirishnomalar","monitoring","hodisalar","vazifalar","yer","sotuv","arxiv","sozlamalar"],
   texnik: ["panel","aktivlar","xaritalar","monitoring","hodisalar","xonalar","yer","bildirishnomalar","sozlamalar"]
 };

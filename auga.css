@@ -55,6 +55,7 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
+[hidden]{display:none!important} /* .tugma va sh.k. bir xil spetsifiklikdagi display'ni yengish uchun */
 html{-webkit-font-smoothing:antialiased}
 body{
   font-family:'Onest',system-ui,-apple-system,'Segoe UI',sans-serif;

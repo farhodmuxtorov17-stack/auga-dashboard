@@ -242,7 +242,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 let qadam = 1;
 const YARQIROQ = ["ping","api","stream"];
-let testHolati = {};
 
 function korsat(){
   document.querySelectorAll("[data-panel]").forEach(p=>p.hidden = p.dataset.panel != qadam);
@@ -274,6 +273,18 @@ document.getElementById("oldinga").addEventListener("click", ()=>{
 });
 document.getElementById("orqaga").addEventListener("click", ()=>{ if (qadam>1){ qadam--; korsat(); } });
 
+/* Yakuniy faollashtirish tugmasi — testlar qatoriga qo'shiladi, natija bilan bir vaqtda ochiladi */
+const yakunTugma = document.createElement("button");
+yakunTugma.className = "tugma tugma-yashil oldinga";
+yakunTugma.id = "yakunlash";
+yakunTugma.innerHTML = '<svg class="ic"><use href="#i-belgi-doira"/></svg>Qurilmani faollashtirish';
+yakunTugma.hidden = true;
+document.querySelector(".w-harakat").appendChild(yakunTugma);
+yakunTugma.addEventListener("click", ()=>{
+  AUGA.toast("Qurilma ro'yxatga qo'shildi — Admin, Rahbariyat va Operatorga ko'rinadi", "i-belgi-doira");
+  setTimeout(()=>location.href="qurilmalar.html", 1000);
+});
+
 /* Qurilma turi tanlash */
 document.querySelectorAll(".tur-karta").forEach(k=>{
   k.addEventListener("click", ()=>{
@@ -292,6 +303,7 @@ document.getElementById("test-boshlash").addEventListener("click", function(){
       this.innerHTML = '<svg class="ic"><use href="#i-belgi"/></svg>Barcha testlar muvaffaqiyatli';
       document.getElementById("faollashtirish-forma").hidden = false;
       document.getElementById("xulosa").hidden = false;
+      document.getElementById("yakunlash").hidden = false;
       AUGA.toast("Qurilma tarmoqqa muvaffaqiyatli ulandi", "i-belgi-doira");
       return;
     }
@@ -313,25 +325,7 @@ document.getElementById("test-boshlash").addEventListener("click", function(){
   keyingisi();
 });
 
-document.getElementById("oldinga").addEventListener("click", function(){}); // (asosiy handler yuqorida)
-
 korsat();
-
-/* Yakuniy faollashtirish uchun qadamlar tugmasi almashtiriladi */
-const wHarakat = document.querySelector(".w-harakat");
-const yakunTugma = document.createElement("button");
-yakunTugma.className = "tugma tugma-yashil oldinga";
-yakunTugma.id = "yakunlash";
-yakunTugma.innerHTML = '<svg class="ic"><use href="#i-belgi-doira"/></svg>Qurilmani faollashtirish';
-yakunTugma.hidden = true;
-wHarakat.appendChild(yakunTugma);
-document.getElementById("test-boshlash").addEventListener("click", ()=>{
-  setTimeout(()=>{ yakunTugma.hidden = false; }, 2600);
-});
-yakunTugma.addEventListener("click", ()=>{
-  AUGA.toast("Qurilma ro'yxatga qo'shildi — Admin, Rahbariyat va Operatorga ko'rinadi", "i-belgi-doira");
-  setTimeout(()=>location.href="qurilmalar.html", 1000);
-});
 });
 </script>
 </body>

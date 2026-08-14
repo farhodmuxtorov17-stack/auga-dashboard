@@ -29,13 +29,6 @@
 .legenda-qator{display:flex;align-items:center;gap:10px;font-size:14px;color:#3F454C;padding:5px 0}
 .legenda-qator .nuqta{width:10px;height:10px;border-radius:99px}
 
-.aralashma-karta{
-  position:absolute;z-index:4;left:12px;bottom:12px;width:470px;max-width:44%;
-  background:var(--karta);border-radius:18px;box-shadow:var(--soya);padding:20px 20px 8px;
-}
-.aralashma-karta h4{font-size:16.5px;font-weight:750;margin-bottom:10px}
-.aralashma-karta img{width:100%;border-radius:12px}
-
 .hudud-panel{
   position:absolute;z-index:4;right:0;top:0;bottom:0;width:370px;
   background:var(--karta);border-radius:18px;box-shadow:var(--soya);
@@ -69,14 +62,13 @@
 .h-karta svg.chizma{width:100%;height:38px;margin-top:10px}
 
 @media (max-width:1500px){
-  .aralashma-karta{display:none}
   .hudud-kartalar{grid-template-columns:repeat(2,1fr)}
   .legenda{right:390px;top:90px}
 }
 @media (max-width:1240px){
   .xarita-maydon{min-height:auto;display:flex;flex-direction:column;gap:16px}
   #leaflet-uzb{position:static;height:420px}
-  .legenda,.hudud-panel,.hudud-kartalar,.aralashma-karta{position:static;width:100%;max-width:none;right:auto}
+  .legenda,.hudud-panel,.hudud-kartalar{position:static;width:100%;max-width:none;right:auto}
   .hudud-kartalar{grid-template-columns:repeat(2,1fr)}
 }
 </style>
@@ -109,11 +101,6 @@
         <div class="legenda-qator"><span class="nuqta" style="background:#F2D664"></span>O'rtacha</div>
         <div class="legenda-qator"><span class="nuqta" style="background:#F0A868"></span>Past</div>
         <div class="legenda-qator"><span class="nuqta" style="background:#C7C7CD"></span>Faol emas</div>
-      </div>
-
-      <div class="aralashma-karta">
-        <h4>Aktivlar aralashmasi</h4>
-        <img src="assets/aralashma.png" alt="Aktiv turlari aralashmasi — 3D ko'rinish">
       </div>
 
       <aside class="hudud-panel">

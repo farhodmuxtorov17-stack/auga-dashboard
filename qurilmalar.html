@@ -317,27 +317,9 @@ document.getElementById("restart").addEventListener("click", ()=>{
     {okMatn:"Qayta ishga tushirish", ok(){ AUGA.toast("Qurilma qayta ishga tushirilmoqda…", "i-saralash"); }});
 });
 
-/* Qurilma qo'shish (provisioning) — texnik xodim obyektni tanlab, kamera joylashuvi va IP manzilini kiritadi */
+/* Qurilma qo'shish (provisioning) — to'liq 4-qadamli wizard: obyekt/joylashuv, qurilma turi, IP/MAC/seriya, ulanish testi */
 document.getElementById("qurilma-qoshish").addEventListener("click", ()=>{
-  AUGA.modal("Yangi qurilma qo'shish",
-    `<div style="display:grid;gap:13px;margin-top:6px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
-        <div><label class="maydon-yorliq">Obyekt / bino</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input value="Green Tower"></div></div>
-        <div><label class="maydon-yorliq">Joylashuv (qavat/xona)</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><input placeholder="1-qavat, Lobby"></div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
-        <div><label class="maydon-yorliq">Qurilma turi</label><div class="kirish"><svg class="ic"><use href="#i-kamera"/></svg><input placeholder="IP kamera / Face ID / Domofon"></div></div>
-        <div><label class="maydon-yorliq">Qurilma nomi</label><div class="kirish"><svg class="ic"><use href="#i-ekran"/></svg><input placeholder="Lobby Camera 2"></div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
-        <div><label class="maydon-yorliq">IP manzil</label><div class="kirish"><svg class="ic"><use href="#i-wifi"/></svg><input placeholder="192.168.1.__"></div></div>
-        <div><label class="maydon-yorliq">Seriya raqami</label><div class="kirish"><svg class="ic"><use href="#i-hujjat"/></svg><input placeholder="SN-2026-____"></div></div>
-      </div>
-      <div style="background:#F3F9E3;border-radius:11px;padding:10px 13px;font-size:12.5px;color:#4A524A">
-        Qo'shilgach qurilma avtomatik ping/stream testidan o'tadi va Admin, Rahbariyat hamda Operator panellarida ko'rinadi.
-      </div>
-    </div>`,
-    { okMatn:"Qo'shish va testdan o'tkazish", ok(){ AUGA.toast("Qurilma qo'shildi — ping/stream testi muvaffaqiyatli, monitoring boshlandi", "i-belgi-doira"); } });
+  location.href = "qurilma-ornatish.html";
 });
 
 /* Xizmat hisoboti dropdown */
