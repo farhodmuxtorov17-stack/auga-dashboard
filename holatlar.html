@@ -9,20 +9,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="auga.css">
 <style>
-/* ---- Xatolik va holatlar galereyasi (ekran 28) ---- */
-body{padding:40px 44px 48px}
-.h-bosh{display:grid;grid-template-columns:180px 1fr 320px;align-items:start;gap:20px}
-.h-logo{display:flex;align-items:center;gap:11px}
-.h-logo b{font-size:23px;font-weight:800;color:#141619}
-.h-markaz{text-align:center}
-.h-markaz h1{font-size:38px;font-weight:750;letter-spacing:-.02em}
-.h-markaz p{font-size:14.5px;color:var(--matn-3);margin-top:8px}
-.maqsad{background:var(--karta);border-radius:15px;box-shadow:var(--soya);padding:15px 17px;display:flex;gap:11px}
-.maqsad .ic{width:18px;height:18px;color:#5B6168;margin-top:2px;flex:none}
-.maqsad b{font-size:13.5px;font-weight:750}
-.maqsad p{font-size:12.5px;color:var(--matn-3);line-height:1.5;margin-top:3px}
+/* ---- Xatolik va ogohlantirish ekranlari (ekran 28) ---- */
+.h-markaz h1{font-size:28px;font-weight:750;letter-spacing:-.015em}
+.h-markaz p{font-size:14px;color:var(--matn-3);margin-top:4px}
 
-.holat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:34px}
+.holat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:8px}
 .holat-k{background:var(--karta);border-radius:18px;box-shadow:var(--soya);padding:16px;display:flex;flex-direction:column;text-align:center}
 .holat-teg{align-self:flex-start;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:99px}
 .teg-yashil{background:#EBF7D8;color:#3E7C0A}
@@ -50,31 +41,22 @@ body{padding:40px 44px 48px}
 .h-oxiri a{color:#3E9412;font-weight:650}
 .h-oxiri a:hover{text-decoration:underline}
 @media (max-width:1500px){.holat-grid{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:1100px){.holat-grid{grid-template-columns:repeat(2,1fr)}.h-bosh{grid-template-columns:1fr}.h-markaz{text-align:left}}
+@media (max-width:1100px){.holat-grid{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:700px){.holat-grid{grid-template-columns:1fr}}
 </style>
 </head>
-<body>
+<body data-sahifa="sozlamalar" data-topbar-sarlavha="Xatolik va ogohlantirish ekranlari" data-topbar-ikon="i-ogoh">
 
-<div class="h-bosh">
-  <a class="h-logo" href="index.html">
-    <svg width="38" height="38" viewBox="0 0 36 36" aria-hidden="true">
-      <path d="M18 3 31 10.2v.9L18 18.4 5 11.1v-.9z" fill="#9CDC3A"/>
-      <path d="M5 11.1 18 18.4V33L5 25.7z" fill="#5FA51B"/>
-      <path d="M31 11.1 18 18.4V33l13-7.3z" fill="#77C10E"/>
-      <path d="m11.6 6.5 13 7.2 3.2-1.8-13-7.2z" fill="#C4EC66"/>
-    </svg>
-    <b>AUGA</b>
-  </a>
-  <div class="h-markaz">
-    <h1>Xatolik va holatlar</h1>
-    <p>Tizimdagi muhim xatoliklar, ogohlantirishlar va bo'sh holatlar uchun standart ekran namunalari.</p>
-  </div>
-  <div class="maqsad">
-    <svg class="ic"><use href="#i-info"/></svg>
-    <span><b>Maqsad</b><p>Foydalanuvchiga aniq ma'lumot berish va keyingi qadamni ko'rsatish.</p></span>
-  </div>
-</div>
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+    <div class="h-markaz">
+      <p>Tizim turli holatlarda foydalanuvchiga ko'rsatadigan xabar va ogohlantirish ekranlari — qurilma va tarmoq nosozliklaridan tortib, kirish huquqi va hujjat holatigacha.</p>
+    </div>
 
 <div class="holat-grid">
   <div class="holat-k">
@@ -82,7 +64,7 @@ body{padding:40px 44px 48px}
     <a href="xato.html"><img src="assets/st_404.png" alt="404 illyustratsiyasi"></a>
     <h3>Sahifa topilmadi</h3>
     <p>Kechirasiz, siz izlayotgan sahifa mavjud emas yoki ko'chirib tashlangan.</p>
-    <a class="h-yashil" style="display:grid;place-items:center" href="xato.html">To'liq namunani ko'rish</a>
+    <a class="h-yashil" style="display:grid;place-items:center" href="xato.html">To'liq ekranni ko'rish</a>
     <a class="h-oq" href="index.html">Bosh sahifaga qaytish</a>
   </div>
 
@@ -166,10 +148,13 @@ body{padding:40px 44px 48px}
   </div>
 </div>
 
-<div class="h-oxiri">
-  <svg class="ic"><use href="#i-yordam"/></svg>
-  Yordam kerakmi? &nbsp;Biz bilan bog'laning:
-  <a href="#" data-toast="support@auga.uz manziliga xat oynasi">support@auga.uz</a>
+    <div class="h-oxiri">
+      <svg class="ic"><use href="#i-yordam"/></svg>
+      Yordam kerakmi? &nbsp;Biz bilan bog'laning:
+      <a href="#" data-toast="support@auga.uz manziliga xat oynasi">support@auga.uz</a>
+    </div>
+  </main>
+</div>
 </div>
 
 <script src="auga.js"></script>

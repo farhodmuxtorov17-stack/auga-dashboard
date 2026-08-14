@@ -76,6 +76,8 @@ const IKONLAR = `
   <symbol id="i-xatcho" viewBox="0 0 24 24"><path d="M17.5 21 12 17l-5.5 4V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2z"/></symbol>
   <symbol id="i-kengay" viewBox="0 0 24 24"><path d="M14.5 3.5h6v6M9.5 20.5h-6v-6M20.5 3.5 14 10M3.5 20.5 10 14"/></symbol>
   <symbol id="i-energiya" viewBox="0 0 24 24"><path d="M13 2.5 4.5 13.5h6L11 21.5l8.5-11h-6z"/></symbol>
+  <symbol id="i-servis" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></symbol>
+  <symbol id="i-topshiriq" viewBox="0 0 24 24"><path d="M8.5 6h12M8.5 12h12M8.5 18h12M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
 </svg>`;
 
 /* ---------- Rollar (RBAC) — texnik talablar §3 matritsasi asosida ---------- */
@@ -313,7 +315,10 @@ document.addEventListener("DOMContentLoaded", ()=>{
     location.replace("login.html");
     return;
   }
-  if (sb) sb.innerHTML = sidebarHTML(document.body.dataset.sahifa||"");
+  if (sb){
+    sb.innerHTML = sidebarHTML(document.body.dataset.sahifa||"");
+    sb.classList.add("rol-"+ROL_KALIT[joriyRol()]);
+  }
   const tb = document.querySelector("[data-shell-topbar]");
   if (tb) tb.innerHTML = topbarHTML();
 
