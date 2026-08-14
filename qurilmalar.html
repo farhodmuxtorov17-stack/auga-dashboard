@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Qurilma diagnostikasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+/* ---- Qurilma diagnostikasi (ekran 26, Texnik xodim) ---- */
+.orqa-tugma{width:48px;height:48px;border-radius:14px;background:var(--karta);box-shadow:var(--soya);display:grid;place-items:center;color:#23272C;flex:none}
+.orqa-tugma .ic{width:20px;height:20px}
+.iz-yol{font-size:12.5px;color:var(--matn-4);margin-top:3px}
+.iz-yol b{color:#5B6168;font-weight:600}
+
+.qd-grid{display:grid;grid-template-columns:345px 1fr 350px;gap:18px;align-items:start}
+.q-izlash{display:flex;gap:10px}
+.q-izlash .kirish{height:44px;flex:1}
+.q-izlash .filtr{width:44px;height:44px;border:1px solid var(--kirish-chiziq);border-radius:12px;display:grid;place-items:center;color:#43484E}
+.q-izlash .filtr:hover{background:#F6F7F8}
+.q-izlash .ic{width:17px;height:17px}
+.q-tablar{display:flex;gap:16px;border-bottom:1px solid var(--chiziq);margin-top:12px}
+.q-tab{padding:8px 2px 11px;font-size:13.5px;font-weight:650;color:#5F6169;border-bottom:2px solid transparent;margin-bottom:-1px}
+.q-tab .son{font-size:11.5px;color:#B4BAC2;margin-left:4px}
+.q-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
+.q-band{
+  width:100%;text-align:left;display:flex;align-items:center;gap:12px;
+  border:1px solid var(--chiziq);border-radius:13px;padding:11px 12px;margin-top:9px;
+  transition:border-color var(--tez),box-shadow var(--tez);
+}
+.q-band:hover{box-shadow:var(--soya)}
+.q-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
+.q-band .tile{width:40px;height:40px;border-radius:11px;background:#F0F1F4;display:grid;place-items:center;color:#43484E;flex:none;position:relative}
+.q-band .tile .ic{width:18px;height:18px}
+.q-band .tile.qizil{background:#FDEBE7;color:#D14C34}
+.q-band .tile .n{position:absolute;left:-3px;top:-3px;width:9px;height:9px;border-radius:99px;background:#22B14C;border:2px solid #fff}
+.q-band .tile .n.of{background:#C7C7CD}
+.q-band b{display:block;font-size:13.5px;font-weight:700}
+.q-band span{display:block;font-size:11.5px;color:var(--matn-4)}
+.signal{margin-left:auto;display:flex;align-items:flex-end;gap:2px;flex:none}
+.signal i{width:3.5px;border-radius:2px;background:#8CD121;display:block}
+.signal i:nth-child(1){height:6px}.signal i:nth-child(2){height:9px}.signal i:nth-child(3){height:12px}.signal i:nth-child(4){height:15px}
+
+/* Markaz */
+.qm-bosh{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
+.qm-bosh .tile{width:48px;height:48px;border-radius:13px;background:#F0F1F4;display:grid;place-items:center;color:#43484E}
+.qm-bosh .tile .ic{width:22px;height:22px}
+.qm-bosh h2{font-size:20px;font-weight:750;display:flex;align-items:center;gap:10px}
+.qm-bosh .sub{font-size:13px;color:var(--matn-3);margin-top:2px}
+.onlayn-chip{background:#EBF7D8;color:#3E7C0A;font-size:12px;font-weight:750;border-radius:99px;padding:4px 12px}
+.qm-statlar{margin-left:auto;display:flex;align-items:center;gap:20px;flex:none}
+.qm-stat .yorliq{font-size:11.5px;color:var(--matn-4)}
+.qm-stat b{display:block;font-size:15px;font-weight:750;margin-top:1px}
+.soglik{position:relative;width:52px;height:52px;display:grid;place-items:center}
+.soglik b{position:absolute;font-size:13px;font-weight:750;color:#17191C}
+.qm-tablar{display:flex;gap:22px;border-bottom:1px solid var(--chiziq);margin-top:16px}
+.qm-tab{padding:9px 2px 12px;font-size:14px;font-weight:650;color:#5F6169;border-bottom:2px solid transparent;margin-bottom:-1px}
+.qm-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
+.qm-korinish{margin-top:16px}
+.qm-korinish h4{font-size:15.5px;font-weight:750;margin-bottom:12px}
+.qm-korinish img{width:100%;border-radius:15px;outline:1px solid rgba(23,26,31,.07);outline-offset:-1px}
+.info-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:14px;border:1px solid var(--chiziq);border-radius:14px;padding:14px 16px}
+.info-strip .band{display:flex;gap:10px;align-items:center}
+.info-strip .ic{width:17px;height:17px;color:#5F6169;flex:none}
+.info-strip .yorliq{font-size:11.5px;color:var(--matn-4)}
+.info-strip b{display:block;font-size:13px;font-weight:700;margin-top:1px}
+.asosiy-k{margin-top:16px}
+.asosiy-k h4{font-size:15.5px;font-weight:750;margin-bottom:12px}
+.ak-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.ak-katak{border:1px solid var(--chiziq);border-radius:13px;padding:12px 14px;text-align:left;transition:background var(--tez)}
+.ak-katak:hover{background:#F8F9F7}
+.ak-katak .yorliq{font-size:11.5px;color:var(--matn-3);line-height:1.3}
+.ak-katak b{display:block;font-size:18px;font-weight:750;margin-top:5px}
+.ak-katak svg.chizma{width:100%;height:22px;margin-top:8px}
+.ak-katak .qulf{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:15px;font-weight:750;color:#B07C08}
+.ak-katak .qulf .ic{width:16px;height:16px}
+
+/* O'ng ustun */
+.qh-karta h3{font-size:16px;font-weight:750;margin-bottom:6px}
+.qh-qator{display:flex;align-items:center;gap:10px;padding:8.5px 0;border-bottom:1px solid #F2F3F5;font-size:13px}
+.qh-qator:last-child{border-bottom:none}
+.qh-qator .yorliq{color:var(--matn-3)}
+.qh-qator b{margin-left:auto;font-weight:650;text-align:right}
+.qh-qator b .nuqta{display:inline-block;width:7px;height:7px;border-radius:99px;background:#22B14C;margin-right:6px;vertical-align:1px}
+.xa-tugma{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  border:1px solid var(--kirish-chiziq);border-radius:12px;height:48px;padding:0 15px;margin-top:9px;
+  font-size:13.5px;font-weight:650;color:#23272C;transition:background var(--tez);
+}
+.xa-tugma:hover{background:#F6F7F8}
+.xa-tugma .ic{width:17px;height:17px;color:#5B6168}
+.log-band{display:flex;gap:10px;padding:8px 0;font-size:12.5px;border-bottom:1px solid #F2F3F5}
+.log-band:last-of-type{border-bottom:none}
+.log-band .n{width:8px;height:8px;border-radius:99px;background:#8CD121;margin-top:4px;flex:none}
+.log-band .vaqt{color:var(--matn-4);width:96px;flex:none}
+.log-band .matn{color:#33383E;font-weight:550}
+.log-tugma{width:100%;height:46px;margin-top:12px;border-radius:12px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:8px;font-size:13.5px;font-weight:700;transition:background var(--tez)}
+.log-tugma:hover{background:#F6F7F8}
+.log-tugma .ic{width:15px;height:15px}
+@media (max-width:1700px){.qd-grid{grid-template-columns:320px 1fr}.qd-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}}
+@media (max-width:1200px){.qd-grid{grid-template-columns:1fr}.qd-grid > aside{grid-template-columns:1fr}.ak-grid{grid-template-columns:repeat(2,1fr)}.info-strip{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-sahifa="monitoring">
+
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+    <div class="sahifa-qator">
+      <a class="orqa-tugma" href="monitoring.html" aria-label="Orqaga"><svg class="ic"><use href="#i-chap"/></svg></a>
+      <div>
+        <h1>Qurilma diagnostikasi</h1>
+        <div class="iz-yol">Qurilmalar &nbsp;›&nbsp; <b>Eshik kirish tizimi</b> &nbsp;›&nbsp; <b>Entry Door Main</b></div>
+      </div>
+      <div class="sahifa-harakat" style="position:relative">
+        <button class="tugma tugma-oq" id="qurilma-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Qurilma qo'shish</button>
+        <button class="tugma tugma-oq tugma-ikonli" style="width:48px;height:48px" data-toast="Diagnostika ma'lumotlari nusxalandi" aria-label="Nusxalash"><svg class="ic"><use href="#i-hujjat"/></svg></button>
+        <button class="tugma tugma-yashil" id="xizmat-tugma">
+          Xizmat hisobotini yaratish
+          <svg class="ic" style="width:16px;height:16px"><use href="#i-past"/></svg>
+        </button>
+        <div class="menyu-popover" id="xizmat-menyu" style="top:calc(100% + 8px);right:0">
+          <button type="button" data-f="Diagnostika hisoboti (PDF)"><svg class="ic"><use href="#i-hujjat"/></svg>Diagnostika hisoboti (PDF)</button>
+          <button type="button" data-f="Loglar eksporti (CSV)"><svg class="ic"><use href="#i-hisobot"/></svg>Loglar eksporti (CSV)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="qd-grid">
+
+      <!-- Qurilmalar ro'yxati -->
+      <div class="karta">
+        <div class="q-izlash">
+          <div class="kirish"><input placeholder="Qurilma yoki joylashuv..." aria-label="Qurilma qidirish" id="q-izlash-input"></div>
+          <button class="filtr" data-toast="Qurilma filtrlari" aria-label="Filtr"><svg class="ic"><use href="#i-slayder"/></svg></button>
+        </div>
+        <div class="q-tablar">
+          <button class="q-tab" data-t="Barcha">Barcha<span class="son">32</span></button>
+          <button class="q-tab aktiv" data-t="Onlayn">Onlayn<span class="son">28</span></button>
+          <button class="q-tab" data-t="Offline">Offline<span class="son">4</span></button>
+        </div>
+        <div id="q-royxat"></div>
+        <div class="sahifalash" style="padding:14px 0 0">
+          <span class="oraliq">Jami: <b>32</b></span>
+          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
+          <button class="s-tugma aktiv">1</button>
+          <button class="s-tugma" data-toast="2-sahifa">2</button>
+          <button class="s-tugma" data-toast="3-sahifa">3</button>
+          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Markaz -->
+      <div class="karta">
+        <div class="qm-bosh">
+          <span class="tile"><svg class="ic"><use href="#i-qulf"/></svg></span>
+          <div>
+            <h2>Entry Door Main<span class="onlayn-chip">Onlayn</span></h2>
+            <div class="sub">Eshik kirish tizimi &nbsp;·&nbsp; Green Tower, 1-qavat</div>
+          </div>
+          <div class="qm-statlar">
+            <div class="qm-stat"><span class="yorliq">Signal kuchi</span><b>-62 dBm</b></div>
+            <div class="qm-stat"><span class="yorliq">Sog'liq darajasi</span><b style="color:#3E9412">A'lo</b></div>
+            <span class="soglik">
+              <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="21" fill="none" stroke="#EAF3D4" stroke-width="5"/><circle cx="26" cy="26" r="21" fill="none" stroke="#78C802" stroke-width="5" stroke-linecap="round" stroke-dasharray="121.4 131.9" transform="rotate(-90 26 26)"/></svg>
+              <b>92</b>
+            </span>
+          </div>
+        </div>
+
+        <div class="qm-tablar" role="tablist">
+          <button class="qm-tab aktiv">Umumiy ma'lumot</button>
+          <button class="qm-tab" data-toast="Diagnostika testlari paneli">Diagnostika</button>
+          <button class="qm-tab" data-toast="Komponentlar ro'yxati">Komponentlar</button>
+          <button class="qm-tab" data-toast="Qurilma sozlamalari">Sozlamalar</button>
+          <button class="qm-tab" data-toast="Qurilma hujjatlari">Hujjatlar</button>
+        </div>
+
+        <div class="qm-korinish">
+          <h4>Qurilma ko'rinishi</h4>
+          <img src="assets/qurilma_eshik.png" alt="Entry Door Main — eshik, kontroller, kamera va Face ID qurilmasi joylashuvi">
+        </div>
+
+        <div class="info-strip">
+          <div class="band"><svg class="ic"><use href="#i-sozlama"/></svg><span><span class="yorliq">Firmware</span><b>v2.4.1</b></span></div>
+          <div class="band"><svg class="ic"><use href="#i-wifi"/></svg><span><span class="yorliq">IP manzil</span><b>192.168.1.45</b></span></div>
+          <div class="band"><svg class="ic"><use href="#i-ekran"/></svg><span><span class="yorliq">MAC manzil</span><b>20:4E:7F:12:9A:BC</b></span></div>
+          <div class="band"><svg class="ic"><use href="#i-soat"/></svg><span><span class="yorliq">Uptime</span><b>12 kun 4 soat</b></span></div>
+          <div class="band"><svg class="ic"><use href="#i-saralash"/></svg><span><span class="yorliq">Oxirgi sinx.</span><b>24-may, 14:28</b></span></div>
+        </div>
+
+        <div class="asosiy-k">
+          <h4>Asosiy ko'rsatkichlar</h4>
+          <div class="ak-grid">
+            <button class="ak-katak" data-toast="CPU tarixi grafigi"><span class="yorliq">CPU yuklanishi</span><b>18%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,14 12,12 24,15 36,10 48,13 60,9 72,12 84,8 100,11" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg></button>
+            <button class="ak-katak" data-toast="Xotira tarixi"><span class="yorliq">Xotira</span><b>42%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,16 14,13 28,14 42,11 56,13 70,10 84,12 100,9" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg></button>
+            <button class="ak-katak" data-toast="Tarmoq kechikishi tarixi"><span class="yorliq">Tarmoq kechikishi</span><b>12 ms</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,11 14,13 28,10 42,14 56,11 70,13 84,10 100,12" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg></button>
+            <button class="ak-katak" id="eshik-holati"><span class="yorliq">Eshik holati</span><span class="qulf"><svg class="ic"><use href="#i-qulf"/></svg><span data-holat>Yopiq</span></span></button>
+            <button class="ak-katak" data-toast="Bugungi o'tishlar jurnali"><span class="yorliq">O'tishlar soni (bugun)</span><b>128</b><svg class="chizma" viewBox="0 0 100 22"><rect x="4" y="12" width="5" height="10" rx="1.5" fill="#8CD121"/><rect x="14" y="8" width="5" height="14" rx="1.5" fill="#8CD121"/><rect x="24" y="14" width="5" height="8" rx="1.5" fill="#8CD121"/><rect x="34" y="6" width="5" height="16" rx="1.5" fill="#8CD121"/><rect x="44" y="10" width="5" height="12" rx="1.5" fill="#8CD121"/><rect x="54" y="4" width="5" height="18" rx="1.5" fill="#8CD121"/><rect x="64" y="9" width="5" height="13" rx="1.5" fill="#8CD121"/><rect x="74" y="12" width="5" height="10" rx="1.5" fill="#8CD121"/><rect x="84" y="7" width="5" height="15" rx="1.5" fill="#8CD121"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- O'ng ustun -->
+      <aside style="display:flex;flex-direction:column;gap:18px">
+        <div class="karta qh-karta">
+          <h3>Qurilma holati</h3>
+          <div class="qh-qator"><span class="yorliq">Holat</span><b><span class="nuqta"></span>Onlayn</b></div>
+          <div class="qh-qator"><span class="yorliq">Ishlash harorati</span><b>34°C</b></div>
+          <div class="qh-qator"><span class="yorliq">Tarmoq</span><b>Yaxshi</b></div>
+          <div class="qh-qator"><span class="yorliq">Quvvat manbai</span><b>Normal</b></div>
+          <div class="qh-qator"><span class="yorliq">So'nggi sinxronizatsiya</span><b>24-may, 14:28:12</b></div>
+          <div class="qh-qator"><span class="yorliq">Uptime</span><b>12 kun 4 soat 18 daqiqa</b></div>
+          <div class="qh-qator"><span class="yorliq">Joylashuv</span><b>Green Tower, 1-qavat</b></div>
+          <div class="qh-qator"><span class="yorliq">Qurilma turi</span><b>Eshik kirish tizimi</b></div>
+          <div class="qh-qator"><span class="yorliq">Seriya raqami</span><b>EDM-2024-00145</b></div>
+        </div>
+
+        <div class="karta qh-karta">
+          <h3>Xizmat amallari</h3>
+          <button class="xa-tugma" id="restart"><svg class="ic"><use href="#i-saralash"/></svg>Qurilmani qayta ishga tushirish</button>
+          <button class="xa-tugma" data-toast="Kalibrovka jarayoni boshlandi — 2 daqiqa davom etadi"><svg class="ic"><use href="#i-sozlama"/></svg>Kalibrovka qilish</button>
+          <button class="xa-tugma" data-toast="Sinov surati olindi — loglarga qo'shildi"><svg class="ic"><use href="#i-kamera"/></svg>Sinov surat olish</button>
+          <a class="xa-tugma" href="servis.html"><svg class="ic"><use href="#i-qalam"/></svg>Xizmat so'rovini yaratish</a>
+        </div>
+
+        <div class="karta qh-karta">
+          <div style="display:flex;align-items:center;margin-bottom:6px">
+            <h3 style="margin-bottom:0">Qurilma loglari</h3>
+            <button class="karta-havola" data-toast="Log filtrlari">Barchasi</button>
+          </div>
+          <div class="log-band"><span class="n"></span><span class="vaqt">24-may, 14:28:12</span><span class="matn">Sinxronizatsiya muvaffaqiyatli</span></div>
+          <div class="log-band"><span class="n"></span><span class="vaqt">24-may, 14:27:58</span><span class="matn">Face ID tasdiqlandi</span></div>
+          <div class="log-band"><span class="n"></span><span class="vaqt">24-may, 14:27:45</span><span class="matn">Eshik ochildi</span></div>
+          <div class="log-band"><span class="n"></span><span class="vaqt">24-may, 14:27:12</span><span class="matn">Interkom qo'ng'irog'i qabul qilindi</span></div>
+          <div class="log-band"><span class="n"></span><span class="vaqt">24-may, 14:26:55</span><span class="matn">Kamera aloqasi tiklandi</span></div>
+          <button class="log-tugma" data-toast="To'liq loglar jurnali">Barcha loglarni ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</div>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+const QURILMALAR = [
+  {nom:"Entry Door Main", joy:"Green Tower, 1-qavat", tur:"Eshik kirish tizimi", ikon:"i-qulf", onlayn:true},
+  {nom:"Entry Door Back", joy:"Green Tower, 1-qavat", tur:"Eshik kirish tizimi", ikon:"i-qulf", onlayn:true},
+  {nom:"Parking Barrier 1", joy:"Green Tower, Yer osti", tur:"Shlagbaum", ikon:"i-minus", onlayn:true},
+  {nom:"Lobby Camera 1", joy:"Green Tower, Lobby", tur:"IP Kamera", ikon:"i-kamera", onlayn:true},
+  {nom:"Elevator Panel 1", joy:"Green Tower, Lift bank 1", tur:"Lift paneli", ikon:"i-ekran", onlayn:true},
+  {nom:"Fire Detector 3F", joy:"Green Tower, 3-qavat", tur:"Yong'in detektori", ikon:"i-ogoh", onlayn:true, qizil:true},
+  {nom:"Power Supply 1", joy:"Green Tower, Texnik xona", tur:"Quvvat manbai", ikon:"i-energiya", onlayn:true},
+  {nom:"Network Switch 1", joy:"Green Tower, Texnik xona", tur:"Tarmoq uskunasi", ikon:"i-wifi", onlayn:false}
+];
+let faol = 0, izlash = "", tab = "Onlayn";
+
+function royxatChiz(){
+  const r = QURILMALAR.filter(q=>
+    (!izlash || (q.nom+" "+q.joy).toLowerCase().includes(izlash)) &&
+    (tab==="Barcha" || (tab==="Onlayn" ? q.onlayn : !q.onlayn))
+  );
+  document.getElementById("q-royxat").innerHTML = r.map(q=>{
+    const i = QURILMALAR.indexOf(q);
+    return `
+    <button class="q-band ${i===faol?"faol":""}" data-i="${i}">
+      <span class="tile ${q.qizil?"qizil":""}"><span class="n ${q.onlayn?"":"of"}"></span><svg class="ic"><use href="#${q.ikon}"/></svg></span>
+      <span style="min-width:0;flex:1"><b>${q.nom}</b><span>${q.joy}</span><span>${q.tur}</span></span>
+      <span class="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    </button>`;
+  }).join("");
+  document.querySelectorAll(".q-band").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      faol = +b.dataset.i; royxatChiz();
+      AUGA.toast(QURILMALAR[faol].nom+" diagnostikasi yuklandi");
+    });
+  });
+}
+document.getElementById("q-izlash-input").addEventListener("input", e=>{ izlash = e.target.value.toLowerCase(); royxatChiz(); });
+document.querySelectorAll(".q-tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".q-tab").forEach(x=>x.classList.remove("aktiv"));
+    t.classList.add("aktiv"); tab = t.dataset.t; royxatChiz();
+  });
+});
+royxatChiz();
+
+/* Markaz tablari */
+document.querySelectorAll(".qm-tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".qm-tab").forEach(x=>x.classList.remove("aktiv"));
+    t.classList.add("aktiv");
+  });
+});
+
+/* Eshik holati */
+document.getElementById("eshik-holati").addEventListener("click", function(){
+  const h = this.querySelector("[data-holat]");
+  const ochiq = h.textContent === "Ochiq";
+  h.textContent = ochiq ? "Yopiq" : "Ochiq";
+  AUGA.toast("Eshik masofadan "+(ochiq?"yopildi":"ochildi")+"", "i-qulf");
+});
+
+/* Restart tasdiq */
+document.getElementById("restart").addEventListener("click", ()=>{
+  AUGA.modal("Qurilmani qayta ishga tushirish",
+    "Entry Door Main qayta ishga tushiriladi. Eshik ~40 soniya davomida faqat mexanik kalit bilan ochiladi.",
+    {okMatn:"Qayta ishga tushirish", ok(){ AUGA.toast("Qurilma qayta ishga tushirilmoqda…", "i-saralash"); }});
+});
+
+/* Qurilma qo'shish (provisioning) — texnik xodim obyektni tanlab, kamera joylashuvi va IP manzilini kiritadi */
+document.getElementById("qurilma-qoshish").addEventListener("click", ()=>{
+  AUGA.modal("Yangi qurilma qo'shish",
+    `<div style="display:grid;gap:13px;margin-top:6px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+        <div><label class="maydon-yorliq">Obyekt / bino</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input value="Green Tower"></div></div>
+        <div><label class="maydon-yorliq">Joylashuv (qavat/xona)</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><input placeholder="1-qavat, Lobby"></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+        <div><label class="maydon-yorliq">Qurilma turi</label><div class="kirish"><svg class="ic"><use href="#i-kamera"/></svg><input placeholder="IP kamera / Face ID / Domofon"></div></div>
+        <div><label class="maydon-yorliq">Qurilma nomi</label><div class="kirish"><svg class="ic"><use href="#i-ekran"/></svg><input placeholder="Lobby Camera 2"></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+        <div><label class="maydon-yorliq">IP manzil</label><div class="kirish"><svg class="ic"><use href="#i-wifi"/></svg><input placeholder="192.168.1.__"></div></div>
+        <div><label class="maydon-yorliq">Seriya raqami</label><div class="kirish"><svg class="ic"><use href="#i-hujjat"/></svg><input placeholder="SN-2026-____"></div></div>
+      </div>
+      <div style="background:#F3F9E3;border-radius:11px;padding:10px 13px;font-size:12.5px;color:#4A524A">
+        Qo'shilgach qurilma avtomatik ping/stream testidan o'tadi va Admin, Rahbariyat hamda Operator panellarida ko'rinadi.
+      </div>
+    </div>`,
+    { okMatn:"Qo'shish va testdan o'tkazish", ok(){ AUGA.toast("Qurilma qo'shildi — ping/stream testi muvaffaqiyatli, monitoring boshlandi", "i-belgi-doira"); } });
+});
+
+/* Xizmat hisoboti dropdown */
+const xt = document.getElementById("xizmat-tugma"), xm = document.getElementById("xizmat-menyu");
+xt.addEventListener("click", ()=>{
+  const o = xm.classList.contains("ochiq");
+  document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
+  xm.classList.toggle("ochiq", !o);
+});
+xm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
+  e.stopPropagation(); xm.classList.remove("ochiq");
+  AUGA.toast(b.dataset.f+" shakllantirildi", "i-yuklab");
+}));
+});
+</script>
+</body>
+</html>

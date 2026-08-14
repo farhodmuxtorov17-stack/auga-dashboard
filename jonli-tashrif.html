@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Jonli tashrif nazorati</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+/* ---- Jonli tashrif nazorati (ekran 23, Operator) ---- */
+.jt-grid{display:grid;grid-template-columns:440px 1fr 400px;gap:18px;align-items:start}
+.jt-grid h3{font-size:16px;font-weight:750}
+.jonli-chip{display:inline-flex;align-items:center;gap:7px;background:#EBF7D8;color:#3E7C0A;font-size:13px;font-weight:750;border-radius:99px;padding:6px 14px;vertical-align:4px;margin-left:10px}
+.jonli-chip .nuqta{width:7px;height:7px;border-radius:99px;background:#22B14C;animation:pulsatsiya 1.6s infinite}
+@keyframes pulsatsiya{0%,100%{opacity:1}50%{opacity:.35}}
+
+.kamera-orash{position:relative;border-radius:15px;overflow:hidden;margin-top:12px}
+.kamera-orash img{width:100%;height:400px;object-fit:cover}
+.kamera-orash .jonli{position:absolute;left:12px;top:12px;display:flex;align-items:center;gap:7px;background:rgba(17,20,16,.62);backdrop-filter:blur(3px);color:#fff;font-size:12px;font-weight:650;padding:6px 12px;border-radius:99px}
+.kamera-orash .jonli .nuqta{width:7px;height:7px;border-radius:99px;background:#7DE24A;animation:pulsatsiya 1.6s infinite}
+.kamera-orash .kengay{position:absolute;right:12px;top:12px;width:36px;height:36px;background:#fff;border-radius:10px;box-shadow:var(--soya-pin);display:grid;place-items:center}
+.kamera-orash .kengay .ic{width:16px;height:16px}
+.nuqta-karta{display:flex;align-items:center;gap:13px;border:1px solid var(--chiziq);border-radius:14px;padding:14px 16px;margin-top:14px}
+.nuqta-karta .tile{width:44px;height:44px;border-radius:12px;background:#F0F1F4;display:grid;place-items:center;color:#43484E}
+.nuqta-karta .tile .ic{width:20px;height:20px}
+.nuqta-karta b{display:block;font-size:14.5px;font-weight:700}
+.nuqta-karta span{display:block;font-size:12.5px;color:var(--matn-4)}
+
+.eshik-orash{position:relative;border-radius:15px;overflow:hidden;margin-top:12px}
+.eshik-orash img{width:100%;height:640px;object-fit:cover}
+.eshik-orash .chip3d{position:absolute;left:12px;bottom:12px;height:36px;padding:0 14px;border-radius:10px;background:#fff;box-shadow:var(--soya-pin);font-size:13px;font-weight:750;display:grid;place-items:center}
+.eshik-orash .kengay{position:absolute;right:12px;bottom:12px;width:36px;height:36px;background:#fff;border-radius:10px;box-shadow:var(--soya-pin);display:grid;place-items:center}
+.eshik-orash .kengay .ic{width:16px;height:16px}
+
+/* O'ng ustun */
+.jt-blok h3{margin-bottom:10px}
+.tb-shaxs{display:flex;align-items:center;gap:13px}
+.tb-shaxs .avatar{width:52px;height:52px}
+.tb-shaxs b{display:block;font-size:15.5px;font-weight:750}
+.tb-shaxs span{display:block;font-size:12.5px;color:var(--matn-3);margin-top:1px}
+.tanish-qator{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:650;color:#23272C}
+.tanish-qator .ic{width:20px;height:20px;color:#22B14C}
+.tanish-qator .foiz{margin-left:auto;background:#EBF7D8;color:#3E7C0A;font-size:12.5px;font-weight:750;border-radius:99px;padding:4px 11px}
+.maqsad-band{display:flex;align-items:center;gap:12px}
+.maqsad-band .tile{width:42px;height:42px;border-radius:12px;background:#EAF6D3;color:#4F8F08;display:grid;place-items:center;flex:none}
+.maqsad-band .tile .ic{width:19px;height:19px}
+.maqsad-band b{display:block;font-size:14.5px;font-weight:700}
+.maqsad-band span{display:block;font-size:12.5px;color:var(--matn-4)}
+.ochish-tugma{
+  width:100%;height:56px;border-radius:14px;background:#B7E534;color:#20300A;
+  display:flex;align-items:center;justify-content:center;gap:11px;
+  font-size:15.5px;font-weight:750;transition:background var(--tez),transform 80ms ease;
+}
+.ochish-tugma:hover{background:#ABD92C}
+.ochish-tugma:active{transform:scale(.99)}
+.ochish-tugma .ic{width:20px;height:20px}
+.rad-tugma{
+  width:100%;height:50px;margin-top:10px;border-radius:13px;border:1px solid var(--kirish-chiziq);
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:14.5px;font-weight:700;color:#23272C;transition:background var(--tez);
+}
+.rad-tugma:hover{background:var(--qizil-fon);border-color:#F5C9C2;color:#C43C31}
+.rad-tugma .ic{width:18px;height:18px;color:#E0442B}
+.fa-band{display:flex;gap:11px;padding:9px 0;position:relative}
+.fa-band::before{content:"";position:absolute;left:4px;top:26px;bottom:-4px;width:2px;background:#E8EAE4}
+.fa-band:last-child::before{display:none}
+.fa-band .nuqta{width:10px;height:10px;border-radius:99px;margin-top:4px;flex:none;z-index:1}
+.fa-band .nuqta.yashil{background:#8CD121}
+.fa-band .nuqta.kul{background:#C7C7CD}
+.fa-band b{font-size:13.5px;font-weight:650}
+.fa-band .vaqt{margin-left:auto;font-size:12.5px;color:var(--matn-4);flex:none}
+@media (max-width:1600px){.jt-grid{grid-template-columns:400px 1fr}.jt-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}}
+@media (max-width:1200px){.jt-grid{grid-template-columns:1fr}.jt-grid > aside{grid-template-columns:1fr}.eshik-orash img{height:420px}}
+</style>
+</head>
+<body data-sahifa="smart-access">
+
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+    <div class="sahifa-qator">
+      <h1>Jonli tashrif nazorati<span class="jonli-chip"><span class="nuqta"></span>Jonli</span></h1>
+      <div class="sahifa-harakat">
+        <a class="tugma tugma-oq" href="smart-access.html"><svg class="ic"><use href="#i-qulf"/></svg>Smart Access panali</a>
+      </div>
+    </div>
+
+    <div class="jt-grid">
+
+      <!-- Jonli kamera -->
+      <div class="karta">
+        <h3>Jonli kamera</h3>
+        <div class="kamera-orash">
+          <img src="assets/jonli_kamera.png" alt="Jonli kamera tasviri — tashrif buyuruvchi">
+          <span class="jonli"><span class="nuqta"></span>Jonli</span>
+          <button class="kengay" data-toast="Kamera to'liq ekranda" aria-label="To'liq ekran"><svg class="ic"><use href="#i-kengay"/></svg></button>
+        </div>
+        <div class="nuqta-karta">
+          <span class="tile"><svg class="ic"><use href="#i-qulf"/></svg></span>
+          <span><b>Kirish nuqtasi</b><span>Bosh kirish eshigi</span></span>
+        </div>
+      </div>
+
+      <!-- Kirish nuqtasi 3D -->
+      <div class="karta">
+        <h3>Kirish nuqtasi (3D)</h3>
+        <div class="eshik-orash">
+          <img src="assets/kirish_eshigi.png" alt="Bosh kirish eshigi — Face ID qurilmasi bilan">
+          <button class="chip3d" data-toast="3D aylantirish rejimi">3D</button>
+          <button class="kengay" data-toast="To'liq ekran" aria-label="To'liq ekran"><svg class="ic"><use href="#i-kengay"/></svg></button>
+        </div>
+      </div>
+
+      <!-- O'ng ustun -->
+      <aside style="display:flex;flex-direction:column;gap:18px">
+        <div class="karta jt-blok">
+          <h3>Tashrif buyuruvchi</h3>
+          <div class="tb-shaxs">
+            <span class="avatar"><svg viewBox="0 0 34 34" style="width:40px;height:40px;display:block;margin:8px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
+            <span>
+              <b>Ilhom Abdukarimov</b>
+              <span>+998 90 123 45 67</span>
+              <span>ilhom.abdukarimov@mail.uz</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="karta jt-blok">
+          <h3>Yuzni tanish natijasi</h3>
+          <div class="tanish-qator">
+            <svg class="ic"><use href="#i-belgi-doira"/></svg>
+            Moslik aniqlandi
+            <span class="foiz">98%</span>
+          </div>
+        </div>
+
+        <div class="karta jt-blok">
+          <h3>Tashrif maqsadi</h3>
+          <div class="maqsad-band">
+            <span class="tile"><svg class="ic"><use href="#i-vazifa"/></svg></span>
+            <span><b>Biznes uchrashuv</b><span>Tech Solutions LLC</span></span>
+          </div>
+        </div>
+
+        <div class="karta jt-blok">
+          <h3>Amallar</h3>
+          <button class="ochish-tugma" id="eshik-ochish">
+            <svg class="ic"><use href="#i-qulf"/></svg>Eshikni ochish
+          </button>
+          <button class="rad-tugma" id="rad-etish">
+            <svg class="ic"><use href="#i-yopish"/></svg>Rad etish
+          </button>
+        </div>
+
+        <div class="karta jt-blok">
+          <h3>Faollik tarixi</h3>
+          <div id="faollik">
+            <div class="fa-band"><span class="nuqta yashil"></span><b>Tashrif buyuruvchi aniqlandi</b><span class="vaqt">14:32:10</span></div>
+            <div class="fa-band"><span class="nuqta yashil"></span><b>Yuz tanishuvi muvaffaqiyatli</b><span class="vaqt">14:32:12</span></div>
+            <div class="fa-band"><span class="nuqta kul"></span><b>Kirish kutmoqda</b><span class="vaqt">14:32:15</span></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</div>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+  document.getElementById("eshik-ochish").addEventListener("click", ()=>{
+    AUGA.toast("Eshik ochildi — kirish ruxsati berildi", "i-belgi-doira");
+    const f = document.getElementById("faollik");
+    const b = document.createElement("div");
+    b.className = "fa-band";
+    b.innerHTML = '<span class="nuqta yashil"></span><b>Eshik ochildi — operator ruxsati</b><span class="vaqt">14:32:41</span>';
+    f.appendChild(b);
+  });
+  document.getElementById("rad-etish").addEventListener("click", ()=>{
+    AUGA.modal("Kirishni rad etish",
+      "Ilhom Abdukarimov uchun kirish so'rovi rad etilsinmi? Tashrif jurnalga qayd etiladi.",
+      {xavf:true, okMatn:"Rad etish", ok(){
+        AUGA.toast("Kirish rad etildi va jurnalga yozildi");
+        const f = document.getElementById("faollik");
+        const b = document.createElement("div");
+        b.className = "fa-band";
+        b.innerHTML = '<span class="nuqta kul"></span><b>Kirish rad etildi — operator qarori</b><span class="vaqt">14:32:44</span>';
+        f.appendChild(b);
+      }});
+  });
+});
+</script>
+</body>
+</html>

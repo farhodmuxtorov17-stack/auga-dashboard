@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Servis topshirig'i va tekshiruv</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+/* ---- Servis topshirig'i va tekshiruv (ekran 27, Texnik xodim) ---- */
+.orqa-tugma{width:48px;height:48px;border-radius:14px;background:var(--karta);box-shadow:var(--soya);display:grid;place-items:center;color:#23272C;flex:none}
+.orqa-tugma .ic{width:20px;height:20px}
+.holat-tanlov{
+  display:flex;align-items:center;gap:10px;height:50px;padding:0 18px;
+  background:var(--karta);border-radius:14px;box-shadow:var(--soya);
+  font-size:14px;font-weight:650;color:#33383E;position:relative;
+}
+.holat-tanlov .nuqta{width:8px;height:8px;border-radius:99px;background:#F2C230}
+.holat-tanlov .ic{width:16px;height:16px;color:#5F6169}
+
+.sv-grid{display:grid;grid-template-columns:330px 1fr 400px;gap:18px;align-items:start}
+.sv-info h3{font-size:16px;font-weight:750;margin-bottom:6px}
+.sv-band{padding:11px 0;border-bottom:1px solid #F2F3F5}
+.sv-band:last-of-type{border-bottom:none}
+.sv-band .yorliq{font-size:12px;color:var(--matn-4)}
+.sv-band b{display:block;font-size:14px;font-weight:700;margin-top:3px}
+.sv-obyekt{display:flex;align-items:center;gap:11px;margin-top:5px}
+.sv-obyekt img{width:52px;height:44px;object-fit:cover;border-radius:10px;outline:1px solid rgba(23,26,31,.06);outline-offset:-1px}
+.sv-obyekt span{display:block;font-size:12px;color:var(--matn-4)}
+.sv-obyekt b{margin-top:0}
+.sv-xodim{display:flex;align-items:center;gap:10px;margin-top:5px}
+.sv-xodim .avatar{width:36px;height:36px}
+.sv-tur{display:flex;align-items:center;gap:9px;margin-top:5px;font-size:13.5px;font-weight:650}
+.sv-tur .ic{width:17px;height:17px;color:#5B6168}
+.prioritet{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:13.5px;font-weight:700;color:#B07C08}
+.prioritet .nuqta{width:8px;height:8px;border-radius:99px;background:#F2C230}
+.sv-tahrir{width:100%;height:50px;margin-top:16px;border-radius:13px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:10px;font-size:14.5px;font-weight:700;transition:background var(--tez)}
+.sv-tahrir:hover{background:#F6F7F8}
+.sv-tahrir .ic{width:17px;height:17px}
+
+/* Markaz */
+.xarita-bosh{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.xarita-bosh h3{font-size:16.5px;font-weight:750}
+.qavat-chip{background:#EAF6D3;color:#3E7C0A;font-size:12px;font-weight:750;border-radius:99px;padding:5px 13px}
+.xarita-bosh .rejim{margin-left:auto;display:flex;gap:6px}
+.xarita-bosh .rejim button{height:36px;min-width:46px;padding:0 12px;border-radius:10px;font-size:13px;font-weight:700;color:#5B6168;border:1px solid var(--kirish-chiziq);transition:all var(--tez)}
+.xarita-bosh .rejim button.aktiv{border-color:#8CD121;color:#3E7C0A;background:#FDFFF5}
+.sv-xarita{position:relative;border-radius:15px;overflow:hidden;background:#FBFBFA;border:1px solid var(--chiziq)}
+.sv-xarita img{width:100%;object-fit:contain}
+.sv-xarita .zoom{position:absolute;left:12px;bottom:12px;display:flex;flex-direction:column;gap:7px}
+.sv-xarita .zoom button{width:34px;height:34px;background:#fff;border-radius:10px;box-shadow:var(--soya-pin);display:grid;place-items:center;font-size:16px;font-weight:700}
+.sv-legend{display:flex;gap:16px;margin-top:12px;font-size:12.5px;color:#5B6168;flex-wrap:wrap}
+.sv-legend span{display:flex;align-items:center;gap:7px}
+.sv-legend .nuqta{width:9px;height:9px;border-radius:99px}
+
+.oldin-keyin{margin-top:16px}
+.oldin-keyin h4{font-size:15.5px;font-weight:750;margin-bottom:12px}
+.ok-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.ok-juft{position:relative;border-radius:13px;overflow:hidden}
+.ok-juft img{width:100%;height:120px;object-fit:cover;transition:transform var(--tez)}
+.ok-juft:hover img{transform:scale(1.03)}
+.ok-juft .teglar{position:absolute;left:8px;right:8px;bottom:8px;display:flex;justify-content:space-between}
+.ok-juft .teglar span{background:rgba(17,20,16,.65);color:#fff;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:99px}
+.ok-yuklash{
+  border:1.5px dashed #D3D7DC;border-radius:13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  font-size:12.5px;font-weight:650;color:#5B6168;transition:all var(--tez);min-height:120px;
+}
+.ok-yuklash:hover{border-color:#A9D65A;background:#FBFEF2;color:#3E7C0A}
+.ok-yuklash .ic{width:20px;height:20px}
+
+/* O'ng ustun */
+.vazifa-royxat h3{font-size:16.5px;font-weight:750;margin-bottom:10px}
+.tv-band{
+  width:100%;display:flex;align-items:flex-start;gap:12px;text-align:left;
+  border:1px solid var(--chiziq);border-radius:14px;padding:13px 14px;margin-top:10px;
+  transition:border-color var(--tez),box-shadow var(--tez);
+}
+.tv-band:hover{box-shadow:var(--soya)}
+.tv-belgi{width:28px;height:28px;border-radius:99px;display:grid;place-items:center;flex:none;margin-top:1px}
+.tv-band.bajarildi .tv-belgi{background:#8CD121;color:#fff}
+.tv-band.jarayonda .tv-belgi{background:#fff;border:2.5px solid #3B82F6}
+.tv-band.kutish .tv-belgi{background:#EEF0EA;color:#71767E}
+.tv-belgi .ic{width:14px;height:14px;stroke-width:2.6}
+.tv-band b{display:block;font-size:14px;font-weight:700;line-height:1.35}
+.tv-band p{font-size:12.5px;color:var(--matn-3);line-height:1.45;margin-top:3px}
+.tv-holat{margin-left:auto;flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700}
+.tv-band.bajarildi .tv-holat{color:#3E7C0A}
+.tv-band.jarayonda .tv-holat{color:#B07C08}
+.tv-band.kutish .tv-holat{color:#71767E}
+.tv-holat .n{width:7px;height:7px;border-radius:99px;background:currentColor}
+.tv-holat .ic{width:14px;height:14px;color:#B4BAC2}
+
+.izoh-karta{margin-top:0}
+.izoh-karta .bosh{display:flex;align-items:center;margin-bottom:10px}
+.izoh-karta h3{font-size:16.5px;font-weight:750}
+.saqlangan-chip{margin-left:auto;background:#EBF7D8;color:#3E7C0A;font-size:11.5px;font-weight:750;border-radius:99px;padding:4px 11px}
+.izoh-matn{
+  width:100%;border:1px solid var(--kirish-chiziq);border-radius:13px;padding:13px 15px;
+  font:inherit;font-size:13.5px;line-height:1.6;color:var(--matn);resize:vertical;min-height:120px;outline:none;
+  transition:border-color var(--tez),box-shadow var(--tez);
+}
+.izoh-matn:focus{border-color:var(--yashil);box-shadow:0 0 0 3px rgba(120,200,2,.13)}
+.izoh-past{display:flex;align-items:center;margin-top:10px}
+.izoh-past .hisob{font-size:12px;color:var(--matn-4)}
+.izoh-past .tugma{margin-left:auto}
+@media (max-width:1700px){.sv-grid{grid-template-columns:300px 1fr}.sv-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
+@media (max-width:1200px){.sv-grid{grid-template-columns:1fr}.sv-grid > aside{grid-template-columns:1fr}.ok-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-sahifa="monitoring">
+
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+    <div class="sahifa-qator">
+      <a class="orqa-tugma" href="qurilmalar.html" aria-label="Orqaga"><svg class="ic"><use href="#i-chap"/></svg></a>
+      <div>
+        <h1>Servis topshirig'i va tekshiruv</h1>
+        <div class="sahifa-izoh">Topshiriq tafsilotlari, obyekt xaritasi va tekshiruv vazifalari</div>
+      </div>
+      <div class="sahifa-harakat" style="position:relative">
+        <button class="holat-tanlov" id="holat-tugma">
+          Topshiriq holati
+          <span class="nuqta"></span><span id="holat-matn">Jarayonda</span>
+          <svg class="ic"><use href="#i-past"/></svg>
+        </button>
+        <div class="menyu-popover" id="holat-menyu" style="top:calc(100% + 8px);right:0">
+          <button type="button" data-h="Jarayonda">Jarayonda</button>
+          <button type="button" data-h="To'xtatilgan">To'xtatilgan</button>
+          <button type="button" data-h="Yakunlandi">Yakunlandi</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sv-grid">
+
+      <!-- Topshiriq ma'lumotlari -->
+      <div class="karta sv-info">
+        <h3>Topshiriq ma'lumotlari</h3>
+        <div class="sv-band"><span class="yorliq">Topshiriq raqami</span><b>WO-2024-05124</b></div>
+        <div class="sv-band"><span class="yorliq">Obyekt</span>
+          <a class="sv-obyekt" href="aktiv.html?id=green-tower">
+            <img src="assets/bino_tower.png" alt="">
+            <span><b style="font-size:14px;font-weight:700">Green Tower</b><span>GT-2024-001</span></span>
+          </a>
+        </div>
+        <div class="sv-band"><span class="yorliq">Manzil</span><b style="font-weight:550;line-height:1.5">Toshkent sh., Shayxontohur tumani,<br>Amir Temur ko'chasi, 88</b></div>
+        <div class="sv-band"><span class="yorliq">Sana va vaqt</span><b>24-may, 2024 &nbsp; 10:00 – 12:00</b></div>
+        <div class="sv-band"><span class="yorliq">Texnik xodim</span>
+          <span class="sv-xodim">
+            <span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
+            <span><b style="margin:0;font-size:14px">Akmalov Laziz</b><span style="display:block;font-size:12px;color:var(--matn-4)">Texnik xodim</span></span>
+          </span>
+        </div>
+        <div class="sv-band"><span class="yorliq">Topshiriq turi</span>
+          <span class="sv-tur"><svg class="ic"><use href="#i-servis"/></svg>Rejalashtirilgan texnik xizmat</span>
+        </div>
+        <div class="sv-band"><span class="yorliq">Prioritet</span>
+          <span class="prioritet"><span class="nuqta"></span>O'rta</span>
+        </div>
+        <div class="sv-band"><span class="yorliq">Tavsif</span><b style="font-weight:550;line-height:1.55">Xavfsizlik va yong'in signalizatsiyasi tizimlari bo'yicha profilaktik tekshiruv.</b></div>
+        <button class="sv-tahrir" id="sv-tahrir"><svg class="ic"><use href="#i-qalam"/></svg>Tahrirlash</button>
+      </div>
+
+      <!-- Obyekt xaritasi -->
+      <div class="karta">
+        <div class="xarita-bosh">
+          <h3>Obyekt xaritasi</h3>
+          <span class="qavat-chip">3-qavat</span>
+          <div class="rejim">
+            <button class="aktiv" id="s3d">3D</button>
+            <button id="s2d">2D</button>
+            <button data-toast="To'liq ekran" aria-label="To'liq ekran"><svg class="ic" style="width:15px;height:15px"><use href="#i-kengay"/></svg></button>
+          </div>
+        </div>
+        <div class="sv-xarita">
+          <img src="assets/servis_xarita.png" alt="3-qavat xaritasi — qurilmalar joylashuvi bilan">
+          <div class="zoom">
+            <button data-toast="Yaqinlashtirish">+</button>
+            <button data-toast="Uzoqlashtirish">−</button>
+          </div>
+        </div>
+        <div class="sv-legend">
+          <span><span class="nuqta" style="background:#22B14C"></span>Kamera</span>
+          <span><span class="nuqta" style="background:#3B82F6"></span>Interkom</span>
+          <span><span class="nuqta" style="background:#F2C230"></span>Eshik qulfi</span>
+          <span><span class="nuqta" style="background:#F45E53"></span>Yong'in detektori</span>
+          <span><span class="nuqta" style="background:#9B59F5"></span>Yong'in signalizatsiyasi</span>
+        </div>
+
+        <div class="oldin-keyin">
+          <h4>Tekshiruvdan oldin va keyin</h4>
+          <div class="ok-grid">
+            <button class="ok-juft" data-toast="Kameralar: oldin/keyin taqqoslash"><img src="assets/sx_kamera.png" alt="Kameralar oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
+            <button class="ok-juft" data-toast="Panellar: oldin/keyin taqqoslash"><img src="assets/sx_panel.png" alt="Panel oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
+            <button class="ok-juft" data-toast="Detektorlar: oldin/keyin taqqoslash"><img src="assets/sx_detektor.png" alt="Detektorlar oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
+            <button class="ok-yuklash" data-toast="Fayl yuklash oynasi"><svg class="ic"><use href="#i-qoshish"/></svg>Rasm yoki fayl yuklash</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tekshiruv vazifalari -->
+      <aside style="display:flex;flex-direction:column;gap:18px">
+        <div class="karta vazifa-royxat">
+          <h3>Tekshiruv vazifalari</h3>
+          <div id="tv-royxat"></div>
+        </div>
+
+        <div class="karta izoh-karta">
+          <div class="bosh">
+            <h3>Texnik izohlar</h3>
+            <span class="saqlangan-chip" id="saqlangan">Saqlangan</span>
+          </div>
+          <textarea class="izoh-matn" id="izoh" maxlength="1000">1-qavat kameralarida tasvir sifati yaxshi.
+Interkom tizimida ovoz biroz past, ammo ishlash holati normal.
+Face ID qurilmalari yangilanishi tavsiya etiladi.</textarea>
+          <div class="izoh-past">
+            <span class="hisob"><span id="hisob">0</span> / 1000</span>
+            <button class="tugma tugma-yashil tugma-kichik" id="saqlash">Saqlash</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</div>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+/* Tekshiruv vazifalari — interaktiv checklist */
+const VAZIFALAR = [
+  {nom:"1. Kamera tekshiruvi", izoh:"Barcha kameralar tasvir sifati va yozuvini tekshirish", holat:"bajarildi"},
+  {nom:"2. Face ID test", izoh:"Face ID qurilmalari aniqlik va javob vaqtini tekshirish", holat:"jarayonda"},
+  {nom:"3. Interkom audio testi", izoh:"Interkom qurilmalarining ovoz sifati va ulanishini tekshirish", holat:"kutish"},
+  {nom:"4. Eshik qulfi tekshiruvi", izoh:"Eshik qulflari va ochilish mexanizmlarini tekshirish", holat:"kutish"},
+  {nom:"5. Yong'in detektori tekshiruvi", izoh:"Yong'in detektorlari ishlash holatini tekshirish", holat:"kutish"},
+  {nom:"6. Yong'in signalizatsiyasi liniyasi", izoh:"Signalizatsiya liniyasi va markaziy panelni tekshirish", holat:"kutish"}
+];
+const HOLAT_MATN = {bajarildi:"Bajarildi", jarayonda:"Jarayonda", kutish:"Kutilmoqda"};
+
+function tvChiz(){
+  document.getElementById("tv-royxat").innerHTML = VAZIFALAR.map((v,i)=>`
+    <button class="tv-band ${v.holat}" data-i="${i}">
+      <span class="tv-belgi">${v.holat==="bajarildi"?'<svg class="ic"><use href="#i-belgi"/></svg>':""}</span>
+      <span style="flex:1;min-width:0"><b>${v.nom}</b><p>${v.izoh}</p></span>
+      <span class="tv-holat"><span class="n"></span>${HOLAT_MATN[v.holat]}<svg class="ic"><use href="#i-ong"/></svg></span>
+    </button>`).join("");
+  document.querySelectorAll(".tv-band").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      const v = VAZIFALAR[+b.dataset.i];
+      v.holat = v.holat==="bajarildi" ? "kutish" : v.holat==="jarayonda" ? "bajarildi" : "jarayonda";
+      tvChiz();
+      AUGA.toast(v.nom+" — "+HOLAT_MATN[v.holat]);
+    });
+  });
+}
+tvChiz();
+
+/* Izohlar */
+const izoh = document.getElementById("izoh");
+const hisob = document.getElementById("hisob");
+function hisobla(){ hisob.textContent = izoh.value.length; }
+izoh.addEventListener("input", ()=>{
+  hisobla();
+  document.getElementById("saqlangan").textContent = "Saqlanmagan";
+  document.getElementById("saqlangan").style.background = "#FFF3D6";
+  document.getElementById("saqlangan").style.color = "#B07C08";
+});
+hisobla();
+document.getElementById("saqlash").addEventListener("click", ()=>{
+  const s = document.getElementById("saqlangan");
+  s.textContent = "Saqlangan"; s.style.background = ""; s.style.color = "";
+  AUGA.toast("Texnik izohlar saqlandi", "i-belgi-doira");
+});
+
+/* Holat dropdown */
+const ht = document.getElementById("holat-tugma"), hm = document.getElementById("holat-menyu");
+ht.addEventListener("click", ()=>{
+  const o = hm.classList.contains("ochiq");
+  document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
+  hm.classList.toggle("ochiq", !o);
+});
+hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
+  e.stopPropagation(); hm.classList.remove("ochiq");
+  document.getElementById("holat-matn").textContent = b.dataset.h;
+  AUGA.toast("Topshiriq holati: "+b.dataset.h);
+}));
+
+/* 3D/2D */
+document.getElementById("s3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s2d").classList.remove("aktiv"); });
+document.getElementById("s2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s3d").classList.remove("aktiv"); AUGA.toast("2D reja"); });
+
+/* Tahrirlash */
+document.getElementById("sv-tahrir").addEventListener("click", ()=>{
+  AUGA.modal("Topshiriqni tahrirlash",
+    `<div style="display:grid;gap:13px;margin-top:6px">
+      <div><label class="maydon-yorliq">Sana va vaqt</label><div class="kirish"><svg class="ic"><use href="#i-kalendar"/></svg><input value="24-may, 2024 10:00–12:00"></div></div>
+      <div><label class="maydon-yorliq">Prioritet</label><div class="kirish"><input value="O'rta"></div></div>
+    </div>`,
+    { okMatn:"Saqlash", ok(){ AUGA.toast("Topshiriq yangilandi"); } });
+});
+});
+</script>
+</body>
+</html>

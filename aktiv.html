@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Obyekt kartasi 360°</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+/* ---- Obyekt kartasi 360° (ekran 4) ---- */
+.orqa-tugma{
+  width:48px;height:48px;border-radius:14px;background:var(--karta);box-shadow:var(--soya);
+  display:grid;place-items:center;color:#23272C;transition:box-shadow var(--tez);flex:none;
+}
+.orqa-tugma:hover{box-shadow:0 1px 2px rgba(23,26,31,.05),0 10px 28px rgba(23,26,31,.09)}
+.orqa-tugma .ic{width:20px;height:20px}
+
+/* Hero karta */
+.hero-karta{display:grid;grid-template-columns:400px 1fr;gap:20px;min-height:520px}
+.hero-info .holat-chip{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:#3E7C0A}
+.hero-info .holat-chip .nuqta{width:8px;height:8px;border-radius:99px;background:#22B14C}
+.hero-nom{display:flex;align-items:center;gap:12px;margin-top:8px}
+.hero-nom h2{font-size:30px;font-weight:750;letter-spacing:-.015em;color:#17191C}
+.xatcho{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;color:#5F6169;transition:background var(--tez),color var(--tez)}
+.xatcho:hover{background:#F0F1F4}
+.xatcho.faol{color:#78C802}
+.xatcho .ic{width:20px;height:20px}
+.hero-tur{font-size:15px;color:var(--matn-3);margin-top:4px}
+.hero-manzil{display:flex;gap:9px;margin-top:14px;font-size:14.5px;color:var(--matn-2);line-height:1.5}
+.hero-manzil .ic{width:18px;height:18px;color:#5F6169;margin-top:2px}
+.xus-royxat{margin-top:22px}
+.xus-qator{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #F2F3F5;font-size:14.5px}
+.xus-qator:last-child{border-bottom:none}
+.xus-qator .ic{width:19px;height:19px;color:#5F6169}
+.xus-qator .yorliq{color:var(--matn-3)}
+.xus-qator .qiymat{margin-left:auto;font-weight:700;color:#17191C}
+.xus-qator .qiymat.yashil{color:#3E7C0A;display:flex;align-items:center;gap:7px}
+.xus-qator .qiymat.yashil .nuqta{width:7px;height:7px;border-radius:99px;background:#22B14C}
+.tahrir-tugma{margin-top:22px}
+
+/* 3D sahna */
+.sahna{position:relative;border-radius:18px;overflow:hidden;min-height:480px;background:linear-gradient(180deg,#FDFDFC,#F4F5F2)}
+.sahna > img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:20px 40px 40px}
+.callout{
+  position:absolute;display:flex;align-items:center;gap:11px;
+  background:var(--karta);border-radius:14px;box-shadow:var(--soya-pin);
+  padding:11px 16px 11px 11px;z-index:3;transition:transform var(--tez);
+}
+.callout:hover{transform:translateY(-2px)}
+.callout .doira{width:38px;height:38px;border-radius:99px;background:#EAF6D3;display:grid;place-items:center;color:#4F8F08;flex:none}
+.callout .doira .ic{width:19px;height:19px}
+.callout .yorliq{font-size:12.5px;color:var(--matn-3);line-height:1.3}
+.callout b{display:block;font-size:15px;font-weight:750;color:#17191C;line-height:1.3}
+.sahna-nazorat{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:10px;z-index:3}
+.sahna-tugma{
+  height:42px;min-width:42px;padding:0 15px;border-radius:12px;background:var(--karta);
+  box-shadow:var(--soya-pin);display:grid;place-items:center;
+  font-size:13.5px;font-weight:750;color:#2B3036;transition:transform 80ms ease;
+}
+.sahna-tugma:active{transform:scale(.95)}
+.sahna-tugma.lime{background:#CDF162;color:#2A3A05}
+.sahna-tugma .ic{width:19px;height:19px}
+
+/* Tab + kontent */
+.tab-chiziq{display:flex;gap:26px;border-bottom:1px solid var(--chiziq);padding:0 2px}
+.tab-band{
+  padding:12px 2px 14px;font-size:15px;font-weight:600;color:#5F6169;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:color var(--tez);
+}
+.tab-band:hover{color:#33383E}
+.tab-band.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
+.past-grid{display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start}
+
+.galereya-bosh{display:flex;align-items:center;margin:4px 0 14px}
+.galereya-bosh h3{font-size:17px;font-weight:750}
+.gal-nazorat{margin-left:auto;display:flex;gap:8px}
+.gal-tugma{width:36px;height:36px;border-radius:10px;border:1px solid var(--kirish-chiziq);display:grid;place-items:center;color:#43484E;transition:background var(--tez)}
+.gal-tugma:hover{background:#F6F7F8}
+.gal-tugma .ic{width:16px;height:16px}
+.galereya{display:flex;gap:14px;overflow-x:auto;scroll-behavior:smooth;padding-bottom:4px;scrollbar-width:none}
+.galereya::-webkit-scrollbar{display:none}
+.gal-karta{flex:0 0 172px;border-radius:14px;text-align:left}
+.gal-karta img{width:172px;height:128px;object-fit:cover;border-radius:14px;outline:1px solid rgba(23,26,31,.07);outline-offset:-1px;transition:transform var(--tez)}
+.gal-karta:hover img{transform:scale(1.02)}
+.gal-karta b{display:block;font-size:14px;font-weight:650;color:#23272C;margin-top:9px}
+.gal-karta span{font-size:12.5px;color:var(--matn-4)}
+.tavsif h3{font-size:17px;font-weight:750;margin-bottom:10px}
+.tavsif p{font-size:14.5px;color:var(--matn-2);line-height:1.65;max-width:820px}
+
+/* Faoliyat tarixi */
+.faoliyat-bosh{display:flex;align-items:center;margin-bottom:14px}
+.faoliyat-bosh h3{font-size:17px;font-weight:750}
+.faoliyat-bosh .tanlov{width:auto;min-width:130px;height:40px;margin-left:auto}
+.f-band{display:flex;gap:13px;padding:13px 0;border-bottom:1px solid #F2F3F5}
+.f-band:last-of-type{border-bottom:none}
+.f-doira{width:38px;height:38px;border-radius:99px;display:grid;place-items:center;flex:none}
+.f-doira .ic{width:18px;height:18px}
+.f-doira.yashil{background:#E8F7DB;color:#3E9412}
+.f-doira.kok{background:#E7F0FE;color:#2F6BCF}
+.f-doira.sariq{background:#FFF3D6;color:#B07C08}
+.f-doira.binafsha{background:#F3EBFE;color:#8A4BD8}
+.f-matn{flex:1;min-width:0}
+.f-matn b{display:block;font-size:14.5px;font-weight:650;color:#1F2328;line-height:1.35}
+.f-matn span{display:block;font-size:13px;color:var(--matn-3);margin-top:2px;line-height:1.4}
+.f-vaqt{text-align:right;flex:none}
+.f-vaqt b{display:block;font-size:12.5px;font-weight:600;color:#5B6168}
+.f-vaqt span{display:block;font-size:12px;color:var(--matn-4);margin-top:2px}
+.faoliyat-tugma{
+  width:100%;height:50px;margin-top:14px;border-radius:13px;border:1px solid var(--kirish-chiziq);
+  display:flex;align-items:center;justify-content:center;gap:9px;
+  font-size:14.5px;font-weight:700;color:#23272C;transition:background var(--tez);
+}
+.faoliyat-tugma:hover{background:#F6F7F8}
+.faoliyat-tugma .ic{width:16px;height:16px}
+
+/* Monitoring kartalari */
+.mon-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.mon-karta{border:1px solid var(--chiziq);border-radius:16px;padding:18px;display:flex;align-items:center;gap:13px}
+
+@media (max-width:1400px){.hero-karta{grid-template-columns:340px 1fr}}
+@media (max-width:1240px){
+  .hero-karta{grid-template-columns:1fr}
+  .sahna{min-height:380px}
+  .past-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-sahifa="aktivlar">
+
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+
+    <div class="sahifa-qator">
+      <a class="orqa-tugma" href="aktivlar.html" aria-label="Ro'yxatga qaytish"><svg class="ic"><use href="#i-chap"/></svg></a>
+      <h1>Obyekt kartasi 360°</h1>
+      <div class="sahifa-harakat" style="position:relative">
+        <button class="tugma tugma-yashil" id="hisobot-tugma" aria-haspopup="menu" aria-expanded="false">
+          <svg class="ic"><use href="#i-yuklab"/></svg>
+          Hisobot yaratish
+          <svg class="ic" style="width:16px;height:16px"><use href="#i-past"/></svg>
+        </button>
+        <div class="menyu-popover" id="hisobot-menyu" role="menu" style="top:calc(100% + 8px);right:0">
+          <button type="button" data-f="PDF pasport"><svg class="ic"><use href="#i-hujjat"/></svg>PDF pasport</button>
+          <button type="button" data-f="Moliyaviy hisobot"><svg class="ic"><use href="#i-hisobot"/></svg>Moliyaviy hisobot</button>
+          <button type="button" data-f="Texnik hisobot"><svg class="ic"><use href="#i-daromad"/></svg>Texnik hisobot</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="karta hero-karta">
+      <div class="hero-info">
+        <div class="holat-chip"><span class="nuqta"></span><span id="h-holat">Faol</span></div>
+        <div class="hero-nom">
+          <h2 id="h-nom">Green Tower</h2>
+          <button class="xatcho" id="xatcho" aria-label="Xatcho'pga qo'shish" aria-pressed="false"><svg class="ic"><use href="#i-xatcho"/></svg></button>
+        </div>
+        <div class="hero-tur" id="h-tur">Biznes markazi</div>
+        <div class="hero-manzil"><svg class="ic"><use href="#i-pin"/></svg><span id="h-manzil">Toshkent shahri, Shayxontohur tumani,<br>Navoiy ko'chasi, 15</span></div>
+
+        <div class="xus-royxat">
+          <div class="xus-qator"><svg class="ic"><use href="#i-kengay"/></svg><span class="yorliq">Umumiy maydon</span><span class="qiymat" id="h-maydon">18 560 m²</span></div>
+          <div class="xus-qator"><svg class="ic"><use href="#i-yer"/></svg><span class="yorliq">Yer maydoni</span><span class="qiymat" id="h-yer">4 250 m²</span></div>
+          <div class="xus-qator"><svg class="ic"><use href="#i-qavat"/></svg><span class="yorliq">Qavatlar soni</span><span class="qiymat" id="h-qavat">12</span></div>
+          <div class="xus-qator"><svg class="ic"><use href="#i-kalendar"/></svg><span class="yorliq">Qurilgan yili</span><span class="qiymat" id="h-yil">2021</span></div>
+          <div class="xus-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holati</span><span class="qiymat yashil"><span class="nuqta"></span><span id="h-holat2">Faol</span></span></div>
+        </div>
+
+        <button class="tugma tugma-chiziqli tahrir-tugma" id="tahrir">
+          <svg class="ic"><use href="#i-qalam"/></svg>
+          Tahrirlash
+        </button>
+      </div>
+
+      <div class="sahna">
+        <img id="h-rasm" src="assets/hero_tower.png" alt="Obyektning 3D ko'rinishi">
+        <div class="callout" style="left:4%;top:9%">
+          <span class="doira"><svg class="ic"><use href="#i-energiya"/></svg></span>
+          <span><span class="yorliq">Energiya samaradorligi</span><b>A+ sinf</b></span>
+        </div>
+        <div class="callout" style="right:3%;top:14%">
+          <span class="doira"><svg class="ic"><use href="#i-foyd"/></svg></span>
+          <span><span class="yorliq">Bandlik darajasi</span><b>92%</b></span>
+        </div>
+        <div class="callout" style="left:2%;top:52%">
+          <span class="doira"><svg class="ic"><use href="#i-qalqon"/></svg></span>
+          <span><span class="yorliq">Xavfsizlik tizimi</span><b>Faol</b></span>
+        </div>
+        <div class="callout" style="right:2%;top:56%">
+          <span class="doira"><svg class="ic"><use href="#i-belgi-doira"/></svg></span>
+          <span><span class="yorliq">Texnik holat</span><b>Yaxshi</b></span>
+        </div>
+        <div class="sahna-nazorat">
+          <button class="sahna-tugma lime" id="s-3d" aria-pressed="true">3D</button>
+          <button class="sahna-tugma" data-toast="Model ko'rinishi almashtirildi" aria-label="Model rejimi"><svg class="ic"><use href="#i-kvadrat3d"/></svg></button>
+          <button class="sahna-tugma" id="s-toliq" aria-label="To'liq ekran"><svg class="ic"><use href="#i-kengay"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tablar -->
+    <div class="tab-chiziq" role="tablist">
+      <button class="tab-band aktiv" data-tab="umumiy">Umumiy ma'lumot</button>
+      <button class="tab-band" data-tab="xonalar">Xonalar</button>
+      <button class="tab-band" data-tab="hujjatlar">Hujjatlar</button>
+      <button class="tab-band" data-tab="monitoring">Monitoring</button>
+      <button class="tab-band" data-tab="tarix">Tarix</button>
+    </div>
+
+    <div class="past-grid">
+      <div>
+        <!-- UMUMIY -->
+        <div class="karta" data-panel="umumiy">
+          <div class="galereya-bosh">
+            <h3>Galereya</h3>
+            <div class="gal-nazorat">
+              <button class="gal-tugma" id="gal-chap" aria-label="Oldingi"><svg class="ic"><use href="#i-chap"/></svg></button>
+              <button class="gal-tugma" id="gal-ong" aria-label="Keyingi"><svg class="ic"><use href="#i-ong"/></svg></button>
+            </div>
+          </div>
+          <div class="galereya" id="galereya">
+            <button class="gal-karta" data-toast="Ofis qavat 5 — kattalashtirilgan ko'rinish"><img src="assets/gal_ofis.png" alt="Ofis qavat 5"><b>Ofis qavat 5</b><span>1200 m²</span></button>
+            <button class="gal-karta" data-toast="Konferensiya zali — kattalashtirilgan ko'rinish"><img src="assets/gal_konf.png" alt="Konferensiya zali"><b>Konferensiya zali</b><span>150 m²</span></button>
+            <button class="gal-karta" data-toast="Yer maydoni — kattalashtirilgan ko'rinish"><img src="assets/gal_yer.png" alt="Yer maydoni"><b>Yer maydoni</b><span>4 250 m²</span></button>
+            <button class="gal-karta" data-toast="Yaqin atrofdagi uy — kattalashtirilgan ko'rinish"><img src="assets/gal_uy.png" alt="Yaqin atrofdagi uy"><b>Yaqin atrofdagi uy</b><span>850 m</span></button>
+            <button class="gal-karta" data-toast="Zaxira generator — kattalashtirilgan ko'rinish"><img src="assets/gal_gen.png" alt="Zaxira generator"><b>Zaxira generator</b><span>250 kVA</span></button>
+          </div>
+          <div class="tavsif" style="margin-top:22px">
+            <h3>Tavsif</h3>
+            <p id="h-tavsif">Green Tower – zamonaviy biznes markazi bo'lib, 12 qavatdan iborat. Bino ofis maydonlari, konferensiya zallari, yerosti avtoturargohi va to'liq infratuzilma bilan ta'minlangan.</p>
+          </div>
+        </div>
+
+        <!-- XONALAR -->
+        <div class="karta jadval-korpus" data-panel="xonalar" hidden>
+          <div class="jadval-orash">
+            <table class="jadval">
+              <thead><tr><th>Xona</th><th>Qavat</th><th>Maydon</th><th>Ijarachi</th><th>Holat</th></tr></thead>
+              <tbody>
+                <tr data-toast="Xona 501 kartasi"><td><b>Ofis 501</b></td><td>5</td><td>1 200 m²</td><td>CRC Group</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Band</span></td></tr>
+                <tr data-toast="Xona 302 kartasi"><td><b>Ofis 302</b></td><td>3</td><td>800 m²</td><td>CRC Group</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Band</span></td></tr>
+                <tr data-toast="Xona 204 kartasi"><td><b>Ofis 204</b></td><td>2</td><td>450 m²</td><td>—</td><td><span class="chip chip-kul"><span class="nuqta"></span>Bo'sh</span></td></tr>
+                <tr data-toast="Konferensiya zali kartasi"><td><b>Konferensiya zali</b></td><td>1</td><td>150 m²</td><td>Umumiy</td><td><span class="chip chip-kok"><span class="nuqta"></span>Bron qilinadi</span></td></tr>
+                <tr data-toast="Avtoturargoh kartasi"><td><b>Yerosti avtoturargoh</b></td><td>-1</td><td>2 400 m²</td><td>Umumiy</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Faol</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- HUJJATLAR -->
+        <div class="karta" data-panel="hujjatlar" hidden>
+          <div class="tafsilot">
+            <div class="xus-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Texnik pasport.pdf · 2,4 MB · 24-may 2024</span>
+              <span class="qiymat"><button class="amal-tugma" data-toast="Texnik pasport.pdf yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>
+            <div class="xus-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Kadastr hujjati.pdf · 1,1 MB · 12-yan 2024</span>
+              <span class="qiymat"><button class="amal-tugma" data-toast="Kadastr hujjati.pdf yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>
+            <div class="xus-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Ijara shartnomasi (CRC Group).pdf · 860 KB</span>
+              <span class="qiymat"><button class="amal-tugma" data-toast="Ijara shartnomasi yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>
+            <div class="xus-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Sug'urta polisi.pdf · 640 KB</span>
+              <span class="qiymat"><button class="amal-tugma" data-toast="Sug'urta polisi yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>
+          </div>
+          <button class="tugma tugma-chiziqli" style="margin-top:16px" data-toast="Hujjat yuklash oynasi">
+            <svg class="ic"><use href="#i-yuklash"/></svg>Hujjat yuklash
+          </button>
+        </div>
+
+        <!-- MONITORING -->
+        <div class="karta" data-panel="monitoring" hidden>
+          <div class="mon-grid">
+            <div class="mon-karta"><span class="f-doira yashil"><svg class="ic"><use href="#i-energiya"/></svg></span><span><span class="kpi-yorliq">Energiya samaradorligi</span><br><b style="font-size:19px">A+ sinf</b></span></div>
+            <div class="mon-karta"><span class="f-doira yashil"><svg class="ic"><use href="#i-foyd"/></svg></span><span><span class="kpi-yorliq">Bandlik darajasi</span><br><b style="font-size:19px">92%</b></span></div>
+            <div class="mon-karta"><span class="f-doira yashil"><svg class="ic"><use href="#i-qalqon"/></svg></span><span><span class="kpi-yorliq">Xavfsizlik tizimi</span><br><b style="font-size:19px">Faol</b></span></div>
+            <div class="mon-karta"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi-doira"/></svg></span><span><span class="kpi-yorliq">Texnik holat</span><br><b style="font-size:19px">Yaxshi</b></span></div>
+          </div>
+        </div>
+
+        <!-- TARIX -->
+        <div class="karta" data-panel="tarix" hidden>
+          <div class="f-band"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>Obyekt yangilandi</b><span>Texnik holat ma'lumotlari yangilandi</span></span><span class="f-vaqt"><b>Bugun, 11:42</b><span>Akmalov L.</span></span></div>
+          <div class="f-band"><span class="f-doira kok"><svg class="ic"><use href="#i-hujjat"/></svg></span><span class="f-matn"><b>Yangi hujjat yuklandi</b><span>Texnik pasport.pdf</span></span><span class="f-vaqt"><b>Bugun, 09:15</b><span>Rahimov S.</span></span></div>
+          <div class="f-band"><span class="f-doira sariq"><svg class="ic"><use href="#i-muddat"/></svg></span><span class="f-matn"><b>Xizmat ko'rsatilishi rejalashtirildi</b><span>HVAC tizimi uchun profilaktika ishlari</span></span><span class="f-vaqt"><b>23-may, 16:30</b><span>Karimov I.</span></span></div>
+          <div class="f-band"><span class="f-doira binafsha"><svg class="ic"><use href="#i-foyd"/></svg></span><span class="f-matn"><b>Yangi ijara shartnomasi imzolandi</b><span>CRC Group – 800 m², 3-qavat</span></span><span class="f-vaqt"><b>22-may, 14:20</b><span>Akmalov L.</span></span></div>
+          <div class="f-band"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>To'lov qabul qilindi</b><span>Ijara to'lovi – may, 2024</span></span><span class="f-vaqt"><b>22-may, 10:05</b><span>Soliev B.</span></span></div>
+          <div class="f-band"><span class="f-doira kok"><svg class="ic"><use href="#i-hujjat"/></svg></span><span class="f-matn"><b>Baholash hisoboti yangilandi</b><span>Yillik qayta baholash</span></span><span class="f-vaqt"><b>18-may, 12:00</b><span>Yusupova M.</span></span></div>
+        </div>
+      </div>
+
+      <!-- Faoliyat tarixi (o'ng ustun) -->
+      <aside class="karta">
+        <div class="faoliyat-bosh">
+          <h3>Faoliyat tarixi</h3>
+          <button class="tanlov" data-variantlar='["Barchasi","Hujjatlar","To&#39;lovlar","Texnik"]'><span class="t-yorliq">Barchasi</span><svg class="ic"><use href="#i-past"/></svg></button>
+        </div>
+        <div class="f-band"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>Obyekt yangilandi</b><span>Texnik holat ma'lumotlari yangilandi</span></span><span class="f-vaqt"><b>Bugun, 11:42</b><span>Akmalov L.</span></span></div>
+        <div class="f-band"><span class="f-doira kok"><svg class="ic"><use href="#i-hujjat"/></svg></span><span class="f-matn"><b>Yangi hujjat yuklandi</b><span>Texnik pasport.pdf</span></span><span class="f-vaqt"><b>Bugun, 09:15</b><span>Rahimov S.</span></span></div>
+        <div class="f-band"><span class="f-doira sariq"><svg class="ic"><use href="#i-muddat"/></svg></span><span class="f-matn"><b>Xizmat ko'rsatilishi rejalashtirildi</b><span>HVAC tizimi uchun profilaktika ishlari</span></span><span class="f-vaqt"><b>23-may, 16:30</b><span>Karimov I.</span></span></div>
+        <div class="f-band"><span class="f-doira binafsha"><svg class="ic"><use href="#i-foyd"/></svg></span><span class="f-matn"><b>Yangi ijara shartnomasi imzolandi</b><span>CRC Group – 800 m², 3-qavat</span></span><span class="f-vaqt"><b>22-may, 14:20</b><span>Akmalov L.</span></span></div>
+        <div class="f-band"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>To'lov qabul qilindi</b><span>Ijara to'lovi – may, 2024</span></span><span class="f-vaqt"><b>22-may, 10:05</b><span>Soliev B.</span></span></div>
+        <button class="faoliyat-tugma" id="barcha-faoliyat">Barcha faoliyatni ko'rish<svg class="ic"><use href="#i-ong"/></svg></button>
+      </aside>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+/* Obyekt ma'lumotlari (?id=) */
+const MALUMOT = {
+  "green-tower":{nom:"Green Tower",tur:"Biznes markazi",holat:"Faol",rasm:"assets/hero_tower.png",
+    manzil:"Toshkent shahri, Shayxontohur tumani,<br>Navoiy ko'chasi, 15",
+    maydon:"18 560 m²",yer:"4 250 m²",qavat:"12",yil:"2021",
+    tavsif:"Green Tower – zamonaviy biznes markazi bo'lib, 12 qavatdan iborat. Bino ofis maydonlari, konferensiya zallari, yerosti avtoturargohi va to'liq infratuzilma bilan ta'minlangan."},
+  "chorvoq-dacha":{nom:"Chorvoq dacha",tur:"Dacha",holat:"Faol",rasm:"assets/bino_dacha.png",
+    manzil:"Toshkent viloyati, Bo'stonliq tumani,<br>Chorvoq qirg'og'i, 12",
+    maydon:"850 m²",yer:"2 400 m²",qavat:"2",yil:"2019",
+    tavsif:"Chorvoq dacha – Chorvoq suv ombori qirg'og'ida joylashgan zamonaviy dam olish maskani. Hovli, ayvon va to'liq kommunikatsiyalar bilan ta'minlangan."},
+  "yashnobod-yer":{nom:"Yashnobod yer maydoni",tur:"Yer maydoni",holat:"Rejalashtirilgan",rasm:"assets/bino_yer.png",
+    manzil:"Toshkent shahri, Yashnobod tumani,<br>7-mavze",
+    maydon:"—",yer:"12 000 m²",qavat:"—",yil:"—",
+    tavsif:"Yashnobod tumanidagi istiqbolli yer maydoni. Qurilish loyihasi rejalashtirish bosqichida, barcha kommunikatsiyalar chegarada mavjud."},
+  "mega-mall":{nom:"Mega Mall",tur:"Savdo markazi",holat:"Faol",rasm:"assets/bino_mall.png",
+    manzil:"Toshkent shahri, Chilonzor tumani,<br>Qatortol ko'chasi, 4",
+    maydon:"32 400 m²",yer:"18 000 m²",qavat:"3",yil:"2020",
+    tavsif:"Mega Mall – yirik savdo-ko'ngilochar markazi. 200 dan ortiq do'kon, food-court, kinoteatr va 800 o'rinli avtoturargoh mavjud."},
+  "nurafshon-turar":{nom:"Nurafshon turar-joy majmuasi",tur:"Turar-joy",holat:"Faol",rasm:"assets/bino_turar.png",
+    manzil:"Toshkent viloyati, Nurafshon shahri,<br>Istiqlol ko'chasi, 21",
+    maydon:"14 800 m²",yer:"6 200 m²",qavat:"9",yil:"2023",
+    tavsif:"Nurafshon turar-joy majmuasi – 9 qavatli, 120 xonadonli zamonaviy majmua. Bolalar maydonchasi, yashil hudud va yerosti garaj bilan."},
+  "humo-office":{nom:"Humo Office",tur:"Ofis",holat:"Faol",rasm:"assets/bino_humo.png",
+    manzil:"Toshkent shahri, Yakkasaroy tumani,<br>Bobur ko'chasi, 40",
+    maydon:"6 200 m²",yer:"1 800 m²",qavat:"7",yil:"2021",
+    tavsif:"Humo Office – kichik va o'rta biznes uchun qulay ofis binosi. Ochiq ish maydonlari, muzokara xonalari va kafeteriya mavjud."}
+};
+const id = new URLSearchParams(location.search).get("id") || "green-tower";
+const o = MALUMOT[id] || MALUMOT["green-tower"];
+document.title = "AUGA — " + o.nom;
+document.getElementById("h-nom").textContent = o.nom;
+document.getElementById("h-tur").textContent = o.tur;
+document.getElementById("h-holat").textContent = o.holat;
+document.getElementById("h-holat2").textContent = o.holat;
+document.getElementById("h-manzil").innerHTML = o.manzil;
+document.getElementById("h-maydon").textContent = o.maydon;
+document.getElementById("h-yer").textContent = o.yer;
+document.getElementById("h-qavat").textContent = o.qavat;
+document.getElementById("h-yil").textContent = o.yil;
+document.getElementById("h-tavsif").textContent = o.tavsif;
+document.getElementById("h-rasm").src = o.rasm;
+
+/* Xatcho'p */
+const x = document.getElementById("xatcho");
+x.addEventListener("click", ()=>{
+  const faol = x.classList.toggle("faol");
+  x.setAttribute("aria-pressed", String(faol));
+  AUGA.toast(faol ? "Xatcho'pga qo'shildi" : "Xatcho'pdan olib tashlandi", "i-xatcho");
+});
+
+/* Tahrirlash */
+document.getElementById("tahrir").addEventListener("click", ()=>{
+  AUGA.modal("Obyektni tahrirlash",
+    `<div style="display:grid;gap:14px;margin-top:6px">
+      <div><label class="maydon-yorliq">Nomi</label><div class="kirish"><input value="${o.nom}"></div></div>
+      <div><label class="maydon-yorliq">Holati</label><div class="kirish"><input value="${o.holat}"></div></div>
+    </div>`,
+    { okMatn:"Saqlash", ok(){ AUGA.toast("O'zgarishlar saqlandi"); } });
+});
+
+/* Hisobot dropdown */
+const ht = document.getElementById("hisobot-tugma"), hm = document.getElementById("hisobot-menyu");
+ht.addEventListener("click", ()=>{
+  const ochiq = hm.classList.contains("ochiq");
+  document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
+  hm.classList.toggle("ochiq", !ochiq);
+});
+hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
+  e.stopPropagation(); hm.classList.remove("ochiq");
+  AUGA.toast(b.dataset.f+" shakllantirildi", "i-yuklab");
+}));
+
+/* Sahna tugmalari */
+document.getElementById("s-3d").addEventListener("click", function(){
+  const yoq = this.classList.toggle("lime");
+  this.setAttribute("aria-pressed", String(yoq));
+  AUGA.toast(yoq ? "3D rejim yoqildi" : "2D rejim", "i-kvadrat3d");
+});
+document.getElementById("s-toliq").addEventListener("click", ()=>{
+  const s = document.querySelector(".sahna");
+  if (document.fullscreenElement) document.exitFullscreen();
+  else s.requestFullscreen ? s.requestFullscreen() : AUGA.toast("To'liq ekran");
+});
+
+/* Tablar */
+document.querySelectorAll(".tab-band").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab-band").forEach(x=>x.classList.remove("aktiv"));
+    t.classList.add("aktiv");
+    document.querySelectorAll("[data-panel]").forEach(p=>p.hidden = p.dataset.panel !== t.dataset.tab);
+  });
+});
+document.getElementById("barcha-faoliyat").addEventListener("click", ()=>{
+  document.querySelector('[data-tab="tarix"]').click();
+  window.scrollTo({top:document.querySelector(".tab-chiziq").offsetTop - 20, behavior:"smooth"});
+});
+
+/* Galereya aylantirish */
+const gal = document.getElementById("galereya");
+document.getElementById("gal-chap").addEventListener("click", ()=>gal.scrollBy({left:-380}));
+document.getElementById("gal-ong").addEventListener("click", ()=>gal.scrollBy({left:380}));
+
+/* Jadval qatorlari toast */
+document.querySelectorAll("tr[data-toast]").forEach(tr=>{
+  tr.addEventListener("click", ()=>AUGA.toast(tr.dataset.toast));
+});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Tizimga kirish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+body{background:#F8F8F8;min-height:100vh;overflow-x:hidden}
+/* Fon shakllari (referencedagi yumshoq to'lqinlar) */
+.fon-shakl{position:fixed;z-index:0;pointer-events:none;background:#EFEFF1;border-radius:48% 52% 46% 54%/58% 44% 56% 42%}
+.fon-shakl.chap{width:620px;height:620px;left:-260px;bottom:-280px;transform:rotate(18deg)}
+.fon-shakl.ong{width:760px;height:760px;right:-300px;top:180px;transform:rotate(-14deg);background:#F0F0F2}
+
+.orash{position:relative;z-index:1;max-width:660px;margin:0 auto;padding:64px 24px 60px;display:flex;flex-direction:column;align-items:center}
+.l-logo{display:flex;align-items:center;gap:13px}
+.l-logo b{font-size:30px;font-weight:800;letter-spacing:.01em;color:#141619}
+.l-sarlavha{font-size:46px;font-weight:750;letter-spacing:-.02em;color:#17191C;margin-top:46px;text-align:center}
+.l-izoh{font-size:16.5px;color:#71767E;margin-top:12px;text-align:center}
+
+.l-karta{
+  width:100%;background:var(--karta);border-radius:20px;box-shadow:var(--soya);
+  padding:34px;margin-top:34px;
+}
+.l-karta .maydon-yorliq{font-size:15px}
+.l-guruh + .l-guruh{margin-top:22px}
+.l-qator{display:flex;align-items:center;margin-top:20px;gap:12px;flex-wrap:wrap}
+.unutdim{margin-left:auto;font-size:14.5px;font-weight:650;color:#69B000;border-radius:6px}
+.unutdim:hover{text-decoration:underline}
+.koz-tugma{width:36px;height:36px;margin-right:-8px;border-radius:9px;display:grid;place-items:center;color:#5F6169;transition:background var(--tez),color var(--tez)}
+.koz-tugma:hover{background:#F0F1F4;color:#43484E}
+.kirish-tugma{
+  width:100%;height:58px;margin-top:24px;border-radius:14px;
+  background:var(--yashil);color:#182106;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  font-size:17px;font-weight:700;
+  transition:background var(--tez),transform 80ms ease;
+}
+.kirish-tugma:hover{background:#70BB02}
+.kirish-tugma:active{transform:scale(.99)}
+.kirish-tugma .ic{width:21px;height:21px;stroke-width:2}
+.kirish-tugma[disabled]{opacity:.75;cursor:progress}
+
+.rol-blok{width:100%;margin-top:26px}
+.rol-yorliq{font-size:15px;font-weight:600;color:#33383E;margin:0 0 10px 2px}
+.rol-segment{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--karta);border-radius:16px;box-shadow:var(--soya);
+  padding:6px;gap:0;position:relative;
+}
+.rol-tugma{
+  height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:10px;
+  font-size:15px;font-weight:600;color:#5B6168;position:relative;
+  transition:background var(--tez),color var(--tez);
+}
+.rol-tugma .ic{width:19px;height:19px;color:#5F6169;transition:color var(--tez)}
+.rol-tugma:hover{color:#23272C}
+.rol-tugma[aria-pressed="true"]{background:#EAF6D3;color:#3E7C0A}
+.rol-tugma[aria-pressed="true"] .ic{color:#5EA000}
+.rol-tugma + .rol-tugma::before{
+  content:"";position:absolute;left:0;top:14px;bottom:14px;width:1px;background:var(--chiziq);
+}
+.rol-tugma[aria-pressed="true"]::before,
+.rol-tugma[aria-pressed="true"] + .rol-tugma::before{opacity:0}
+
+.xato-yozuv{
+  display:none;align-items:center;gap:9px;margin-top:14px;
+  background:var(--qizil-fon);color:#C43C31;border-radius:12px;padding:12px 14px;
+  font-size:14px;font-weight:550;
+}
+.xato-yozuv.korinadi{display:flex}
+.xato-yozuv .ic{width:18px;height:18px}
+@media (max-width:640px){
+  .l-sarlavha{font-size:34px}
+  .l-karta{padding:24px}
+  .rol-tugma{font-size:13.5px;gap:7px}
+}
+</style>
+</head>
+<body>
+
+<div class="fon-shakl chap" aria-hidden="true"></div>
+<div class="fon-shakl ong" aria-hidden="true"></div>
+
+<main class="orash">
+  <div class="l-logo">
+    <svg width="44" height="44" viewBox="0 0 36 36" aria-hidden="true">
+      <path d="M18 3 31 10.2v.9L18 18.4 5 11.1v-.9z" fill="#9CDC3A"/>
+      <path d="M5 11.1 18 18.4V33L5 25.7z" fill="#5FA51B"/>
+      <path d="M31 11.1 18 18.4V33l13-7.3z" fill="#77C10E"/>
+      <path d="m11.6 6.5 13 7.2 3.2-1.8-13-7.2z" fill="#C4EC66"/>
+    </svg>
+    <b>AUGA</b>
+  </div>
+
+  <h1 class="l-sarlavha">Tizimga kirish</h1>
+  <p class="l-izoh">Hisobingizga kirish uchun ma'lumotlaringizni kiriting</p>
+
+  <form class="l-karta" id="login-forma" novalidate>
+    <div class="l-guruh">
+      <label class="maydon-yorliq" for="foyd-nomi">Foydalanuvchi nomi yoki email</label>
+      <div class="kirish">
+        <svg class="ic"><use href="#i-foyd"/></svg>
+        <input id="foyd-nomi" type="text" placeholder="Foydalanuvchi nomi yoki email" autocomplete="username">
+      </div>
+    </div>
+    <div class="l-guruh">
+      <label class="maydon-yorliq" for="parol">Parol</label>
+      <div class="kirish">
+        <svg class="ic"><use href="#i-qulf"/></svg>
+        <input id="parol" type="password" placeholder="Parolni kiriting" autocomplete="current-password">
+        <button type="button" class="koz-tugma" id="koz" aria-label="Parolni ko'rsatish" aria-pressed="false">
+          <svg class="ic" id="koz-ikon"><use href="#i-koz-yopiq"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="xato-yozuv" id="xato" role="alert">
+      <svg class="ic"><use href="#i-ogoh"/></svg>
+      <span>Foydalanuvchi nomi va parolni kiriting</span>
+    </div>
+
+    <div class="l-qator">
+      <label class="katakcha">
+        <input type="checkbox" id="eslab" checked>
+        <span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+        Meni eslab qolish
+      </label>
+      <button type="button" class="unutdim" id="unutdim">Parolni unutdingizmi?</button>
+    </div>
+
+    <button class="kirish-tugma" id="kirish" type="submit">
+      Kirish
+      <svg class="ic"><use href="#i-strelka"/></svg>
+    </button>
+  </form>
+
+  <div class="rol-blok">
+    <div class="rol-yorliq">Rol</div>
+    <div class="rol-segment" role="group" aria-label="Rol tanlash">
+      <button type="button" class="rol-tugma" data-rol="Rahbar" aria-pressed="true">
+        <svg class="ic"><use href="#i-foyd"/></svg>Rahbar
+      </button>
+      <button type="button" class="rol-tugma" data-rol="Operator" aria-pressed="false">
+        <svg class="ic"><use href="#i-foyd"/></svg>Operator
+      </button>
+      <button type="button" class="rol-tugma" data-rol="Texnik xodim" aria-pressed="false">
+        <svg class="ic"><use href="#i-foyd"/></svg>Texnik xodim
+      </button>
+    </div>
+    <button type="button" class="unutdim" id="admin-kirish" style="display:block;margin:16px auto 0">
+      Administrator sifatida kirish →
+    </button>
+  </div>
+</main>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+  /* Parol ko'rsatish/yashirish */
+  const koz = document.getElementById("koz");
+  const parol = document.getElementById("parol");
+  koz.addEventListener("click", ()=>{
+    const ochiq = parol.type === "text";
+    parol.type = ochiq ? "password" : "text";
+    koz.setAttribute("aria-pressed", String(!ochiq));
+    koz.setAttribute("aria-label", ochiq ? "Parolni ko'rsatish" : "Parolni yashirish");
+    document.getElementById("koz-ikon").innerHTML =
+      `<use href="#${ochiq ? "i-koz-yopiq" : "i-koz"}"/>`;
+  });
+
+  /* Rol tanlash */
+  document.querySelectorAll(".rol-tugma").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      document.querySelectorAll(".rol-tugma").forEach(x=>x.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed","true");
+      localStorage.setItem("auga-rol", b.dataset.rol);
+    });
+  });
+
+  /* Parolni unutdim — modal */
+  document.getElementById("unutdim").addEventListener("click", ()=>{
+    AUGA.modal(
+      "Parolni tiklash",
+      "Email manzilingizga tiklash havolasi yuboriladi:<div class='kirish' style='margin-top:14px'><svg class='ic'><use href='#i-mail'/></svg><input id='tiklash-email' type='email' placeholder='email@auga.uz'></div>",
+      { okMatn:"Havola yuborish", ok(){ AUGA.toast("Tiklash havolasi emailga yuborildi", "i-mail"); } }
+    );
+  });
+
+  /* Kirish */
+  document.getElementById("login-forma").addEventListener("submit", e=>{
+    e.preventDefault();
+    const nom = document.getElementById("foyd-nomi").value.trim();
+    const par = parol.value.trim();
+    const xato = document.getElementById("xato");
+    if (!nom || !par){ xato.classList.add("korinadi"); return; }
+    xato.classList.remove("korinadi");
+    const tanlangan = document.querySelector('.rol-tugma[aria-pressed="true"]');
+    const rol = tanlangan ? tanlangan.dataset.rol : "Rahbar";
+    localStorage.setItem("auga-rol", rol);
+    localStorage.setItem("auga-asil-rol", rol);
+    const t = document.getElementById("kirish");
+    t.disabled = true;
+    t.innerHTML = "Kirilmoqda…";
+    setTimeout(()=>{ location.href = "index.html"; }, 600);
+  });
+
+  /* Administrator alohida kirishi (texnik talablar §3) */
+  document.getElementById("admin-kirish").addEventListener("click", ()=>{
+    AUGA.modal("Administrator kirishi",
+      `<div style="display:grid;gap:14px;margin-top:6px">
+        <div><label class="maydon-yorliq">Administrator login</label><div class="kirish"><svg class="ic"><use href="#i-qalqon"/></svg><input placeholder="admin"></div></div>
+        <div><label class="maydon-yorliq">Parol</label><div class="kirish"><svg class="ic"><use href="#i-qulf"/></svg><input type="password" placeholder="••••••••"></div></div>
+      </div>`,
+      { okMatn:"Kirish", ok(){
+        localStorage.setItem("auga-rol", "Administrator");
+        localStorage.setItem("auga-asil-rol", "Administrator");
+        location.href = "index.html";
+      }});
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Hodisalar markazi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+/* ---- Hodisalar markazi (ekran 7) ---- */
+.hodisa-grid{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
+
+.kanban-karta{padding:0}
+.kanban-bosh{display:flex;align-items:center;padding:6px 20px 0;border-bottom:1px solid var(--chiziq)}
+.kb-tab{
+  padding:14px 4px 15px;margin-right:26px;font-size:15px;font-weight:600;color:#5F6169;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:color var(--tez);
+}
+.kb-tab:hover{color:#33383E}
+.kb-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
+.kanban-bosh .tanlov{width:auto;min-width:180px;height:44px;margin-left:auto;margin-bottom:8px}
+
+.kanban-korpus{display:grid;grid-template-columns:250px repeat(4,1fr);gap:0;min-height:520px}
+.royxat-panel{border-right:1px solid var(--chiziq);padding:18px 14px}
+.royxat-panel .bosh{display:flex;align-items:center;margin-bottom:12px;padding:0 4px}
+.royxat-panel .bosh h4{font-size:15px;font-weight:750}
+.royxat-panel .bosh button{margin-left:auto;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;color:#5B6168}
+.royxat-panel .bosh button:hover{background:#F0F1F4}
+.royxat-band{
+  width:100%;text-align:left;background:#F7F8F6;border-radius:12px;padding:12px 13px;margin-bottom:10px;
+  transition:background var(--tez),box-shadow var(--tez);
+}
+.royxat-band:hover{background:#F1F3EE}
+.royxat-band.faol{background:#fff;box-shadow:0 0 0 1.5px #F0B1A6, var(--soya)}
+.h-kod{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#6A7078}
+.h-kod .nuqta{width:7px;height:7px;border-radius:99px;flex:none}
+.royxat-band .sarlavha{font-size:13.5px;font-weight:600;color:#1F2328;line-height:1.4;margin-top:6px}
+.royxat-band .meta{display:flex;align-items:center;margin-top:8px}
+.royxat-band .vaqt{font-size:12px;color:var(--matn-4)}
+.jiddiylik{margin-left:auto;font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px}
+.jiddiylik.yuqori{background:#FDEBE7;color:#D14C34}
+.jiddiylik.orta{background:#FFF3D6;color:#B07C08}
+.jiddiylik.past{background:#EBF7D8;color:#3E7C0A}
+.royxat-hamma{display:flex;align-items:center;gap:8px;width:100%;padding:11px 6px;font-size:13.5px;font-weight:650;color:#33383E;border-radius:10px}
+.royxat-hamma:hover{background:#F0F1F4}
+.royxat-hamma .ic{margin-left:auto;width:16px;height:16px}
+
+.kb-ustun{padding:18px 12px;border-right:1px solid var(--chiziq)}
+.kb-ustun:last-child{border-right:none}
+.kb-ustun.tortish{background:#F8FBF0}
+.kb-ustun-bosh{display:flex;align-items:center;gap:9px;padding:0 4px 12px}
+.kb-ustun-bosh h4{font-size:14.5px;font-weight:750}
+.kb-ustun-bosh .son{margin-left:auto;font-size:12px;font-weight:700;background:#F0F1F4;border-radius:99px;padding:2px 9px;color:#5B6168}
+.kb-karta{
+  width:100%;text-align:left;background:var(--karta);border:1px solid var(--chiziq);border-radius:13px;
+  padding:13px;margin-bottom:10px;cursor:grab;
+  transition:box-shadow var(--tez),transform var(--tez);
+}
+.kb-karta:hover{box-shadow:var(--soya);transform:translateY(-1px)}
+.kb-karta.faol{border-color:#F0B1A6;box-shadow:0 0 0 1px #F0B1A6}
+.kb-karta.surilmoqda{opacity:.45}
+.kb-karta .sarlavha{font-size:13.5px;font-weight:600;color:#1F2328;line-height:1.4;margin-top:7px}
+.kb-karta .meta{display:flex;align-items:center;margin-top:9px}
+.kb-karta .vaqt{font-size:12px;color:var(--matn-4)}
+.kb-qoshish{
+  display:flex;align-items:center;gap:8px;width:100%;padding:10px 8px;border-radius:10px;
+  font-size:13.5px;font-weight:600;color:#6A7078;transition:background var(--tez);
+}
+.kb-qoshish:hover{background:#F0F1F4;color:#33383E}
+.kb-qoshish .ic{width:16px;height:16px}
+
+/* Detal paneli */
+.detal-bosh{display:flex;align-items:center;gap:9px}
+.detal-bosh .nuqta{width:8px;height:8px;border-radius:99px}
+.detal-bosh .kod{font-size:14px;font-weight:650;color:#33383E}
+.detal-bosh .jiddiylik{margin-left:auto}
+.detal-sarlavha{font-size:19px;font-weight:750;line-height:1.35;margin-top:12px;letter-spacing:-.01em}
+.detal-jadval{display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:18px}
+.detal-jadval .yorliq{font-size:12.5px;color:var(--matn-4)}
+.detal-jadval .qiymat{font-size:14px;font-weight:650;color:#1F2328;margin-top:3px}
+.detal-blok{margin-top:16px}
+.detal-blok .yorliq{font-size:12.5px;color:var(--matn-4)}
+.detal-blok .qiymat{font-size:14px;font-weight:600;color:#1F2328;margin-top:4px;line-height:1.55}
+.masul{display:flex;align-items:center;gap:11px;margin-top:8px}
+.masul .avatar{width:38px;height:38px}
+.masul b{display:block;font-size:14px;font-weight:650}
+.masul span{display:block;font-size:12.5px;color:var(--matn-4)}
+.ilova{
+  display:flex;align-items:center;gap:10px;margin-top:8px;width:100%;
+  border:1px solid var(--chiziq);border-radius:12px;padding:11px 13px;text-align:left;
+  transition:background var(--tez);
+}
+.ilova:hover{background:#F8F9FA}
+.ilova .ic{width:18px;height:18px;color:#6A7078}
+.ilova b{font-size:13.5px;font-weight:600}
+.ilova span{display:block;font-size:12px;color:var(--matn-4)}
+.detal-harakat{display:flex;gap:10px;margin-top:20px}
+.detal-harakat .tugma-yashil{flex:1;background:#B7E534;color:#20300A}
+.detal-harakat .tugma-yashil:hover{background:#ABD92C}
+.nuqtalar-tugma{width:48px;height:48px;border-radius:13px;border:1px solid var(--kirish-chiziq);display:grid;place-items:center;color:#43484E;position:relative}
+.nuqtalar-tugma:hover{background:#F6F7F8}
+
+/* Pastki qator */
+.hodisa-past{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}
+.hodisa-past h3{font-size:16px;font-weight:750;margin-bottom:12px}
+.xarita-blok{position:relative;border-radius:14px;overflow:hidden}
+.xarita-blok img{width:100%;height:210px;object-fit:cover}
+.xarita-blok .nazorat{position:absolute;left:10px;bottom:10px;display:flex;flex-direction:column;gap:6px}
+.xarita-blok .nazorat button{width:32px;height:32px;background:#fff;border-radius:9px;box-shadow:var(--soya-pin);display:grid;place-items:center;font-weight:700}
+.dinamika-bosh{display:flex;align-items:center;margin-bottom:8px}
+.dinamika-bosh h3{margin-bottom:0}
+.dinamika-bosh .tanlov{width:auto;min-width:110px;height:40px;margin-left:auto}
+.din-legend{display:flex;gap:16px;margin-bottom:6px}
+.din-legend span{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#5B6168}
+.din-legend .nuqta{width:8px;height:8px;border-radius:99px}
+
+/* Umumiy ko'rsatkichlar */
+.umumiy-bosh{display:flex;align-items:center;margin-bottom:14px}
+.umumiy-bosh h3{font-size:16px;font-weight:750}
+.umumiy-bosh .tanlov{width:auto;min-width:110px;height:40px;margin-left:auto}
+.stat-uch{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.stat-katak{border:1px solid var(--chiziq);border-radius:13px;padding:13px 14px}
+.stat-katak .yorliq{font-size:12px;color:var(--matn-3);line-height:1.35}
+.stat-katak .qiymat{display:flex;align-items:baseline;gap:8px;margin-top:6px}
+.stat-katak .qiymat b{font-size:23px;font-weight:750}
+.stat-katak .delta{font-size:12.5px}
+.ortacha{border:1px solid var(--chiziq);border-radius:13px;padding:14px;margin-top:12px}
+.ortacha .yorliq{font-size:12.5px;color:var(--matn-3)}
+.ortacha .qiymat{display:flex;align-items:baseline;gap:10px;margin-top:5px}
+.ortacha .qiymat b{font-size:21px;font-weight:750}
+@media (max-width:1560px){
+  .hodisa-grid{grid-template-columns:1fr}
+  .kanban-korpus{grid-template-columns:230px repeat(2,1fr);grid-auto-rows:auto}
+  .kb-ustun{border-bottom:1px solid var(--chiziq)}
+}
+@media (max-width:1100px){
+  .kanban-korpus{grid-template-columns:1fr}
+  .royxat-panel{border-right:none;border-bottom:1px solid var(--chiziq)}
+  .hodisa-past{grid-template-columns:1fr}
+  .stat-uch{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body data-sahifa="hodisalar">
+
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+
+    <div class="sahifa-qator"><h1>Hodisalar markazi</h1></div>
+
+    <div class="hodisa-grid">
+      <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+
+        <!-- Kanban -->
+        <div class="karta kanban-karta">
+          <div class="kanban-bosh">
+            <button class="kb-tab aktiv" data-korinish="kanban">Kanban</button>
+            <button class="kb-tab" data-korinish="royxat">Ro'yxat</button>
+            <button class="kb-tab" data-korinish="xarita">Xarita</button>
+            <button class="tanlov" data-variantlar='["Barcha hodisalar","Yuqori","O&#39;rta","Past"]'>
+              <span class="t-yorliq">Barcha hodisalar</span><svg class="ic"><use href="#i-past"/></svg>
+            </button>
+          </div>
+
+          <div class="kanban-korpus" id="kanban-korpus">
+            <div class="royxat-panel">
+              <div class="bosh">
+                <h4>Hodisalar ro'yxati</h4>
+                <button data-toast="Saralash: yangi birinchi" aria-label="Saralash"><svg class="ic" style="width:17px;height:17px"><use href="#i-saralash"/></svg></button>
+              </div>
+              <div id="royxat-panel-royxat"></div>
+              <button class="royxat-hamma" data-toast="Barcha 14 ta hodisa ro'yxati">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
+            </div>
+            <div class="kb-ustun" data-ustun="yangi">
+              <div class="kb-ustun-bosh"><h4>Yangi</h4><span class="son"></span></div>
+              <div class="kb-royxat"></div>
+              <button class="kb-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hodisa qo'shish</button>
+            </div>
+            <div class="kb-ustun" data-ustun="tekshirilmoqda">
+              <div class="kb-ustun-bosh"><h4>Tekshirilmoqda</h4><span class="son"></span></div>
+              <div class="kb-royxat"></div>
+              <button class="kb-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hodisa qo'shish</button>
+            </div>
+            <div class="kb-ustun" data-ustun="bartaraf">
+              <div class="kb-ustun-bosh"><h4>Bartaraf etilmoqda</h4><span class="son"></span></div>
+              <div class="kb-royxat"></div>
+              <button class="kb-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hodisa qo'shish</button>
+            </div>
+            <div class="kb-ustun" data-ustun="yopildi">
+              <div class="kb-ustun-bosh"><h4>Yopildi</h4><span class="son"></span></div>
+              <div class="kb-royxat"></div>
+              <button class="kb-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hodisa qo'shish</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pastki qator -->
+        <div class="hodisa-past">
+          <div class="karta">
+            <h3>Hodisalar xaritasi (O'zbekiston)</h3>
+            <div class="xarita-blok">
+              <img src="assets/hodisa_xarita.png" alt="Hodisalar issiqlik xaritasi">
+              <div class="nazorat">
+                <button data-toast="Yaqinlashtirish">+</button>
+                <button data-toast="Uzoqlashtirish">−</button>
+              </div>
+            </div>
+          </div>
+          <div class="karta">
+            <div class="dinamika-bosh">
+              <h3>Hodisalar dinamikasi</h3>
+              <button class="tanlov" data-variantlar='["7 kun","30 kun","Chorak"]'><span class="t-yorliq">7 kun</span><svg class="ic"><use href="#i-past"/></svg></button>
+            </div>
+            <div class="din-legend">
+              <span><span class="nuqta" style="background:#3B82F6"></span>Yangi</span>
+              <span><span class="nuqta" style="background:#F2994A"></span>Bartaraf etilmoqda</span>
+              <span><span class="nuqta" style="background:#78C802"></span>Yopildi</span>
+            </div>
+            <svg id="din-grafik" width="100%" height="190" role="img"
+                 aria-label="Hodisalar dinamikasi, 18-maydan 24-maygacha, uch seriya: yangi, bartaraf etilmoqda va yopildi"></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- O'ng ustun -->
+      <div style="display:flex;flex-direction:column;gap:18px">
+        <div class="karta" id="detal-karta"></div>
+
+        <div class="karta">
+          <div class="umumiy-bosh">
+            <h3>Hodisalar bo'yicha umumiy ko'rsatkichlar</h3>
+            <button class="tanlov" data-variantlar='["Bugun","Hafta","Oy"]'><span class="t-yorliq">Bugun</span><svg class="ic"><use href="#i-past"/></svg></button>
+          </div>
+          <div class="stat-uch">
+            <div class="stat-katak"><div class="yorliq">Yangi hodisalar</div><div class="qiymat"><b>12</b><span class="delta">↑ 20%</span></div></div>
+            <div class="stat-katak"><div class="yorliq">Bartaraf etilmoqda</div><div class="qiymat"><b>5</b><span class="delta salbiy">↓ 16%</span></div></div>
+            <div class="stat-katak"><div class="yorliq">Yopildi</div><div class="qiymat"><b>8</b><span class="delta">↑ 14%</span></div></div>
+          </div>
+          <div class="ortacha">
+            <div class="yorliq">O'rtacha bartaraf etish vaqti</div>
+            <div class="qiymat"><b>2 soat 18 daqiqa</b><span class="delta salbiy">↓ 8%</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+const RANG = {yuqori:"#E0442B", orta:"#F2994A", past:"#78C802", kok:"#3B82F6", binafsha:"#9B59F5", sariq:"#F2C230", yashil:"#22B14C"};
+const HODISALAR = [
+  {kod:"#INC-2024-00128", rang:"#E0442B", sarlavha:"Toshkent City Mall — yong'in signalizatsiyasi", vaqt:"Bugun, 14:12", jiddiylik:"yuqori", ustun:"yangi",
+   holat:"Yangi", joy:"Toshkent sh., Shayxontohur tumani", bino:"Toshkent City Mall",
+   tavsif:"3-qavatda yong'in signalizatsiyasi ishga tushdi. Xodimlar evakuatsiya qilindi. Holat tekshirilmoqda.",
+   masul:"Rustam Q.", bolim:"Texnik xizmat bo'limi", fayl:"signalizatsiya_log.pdf", hajm:"1.2 MB"},
+  {kod:"#INC-2024-00125", rang:"#3B82F6", sarlavha:"Nurafshon ofis — elektr ta'minotida uzilish", vaqt:"Bugun, 12:52", jiddiylik:"past", ustun:"yangi",
+   holat:"Yangi", joy:"Nurafshon sh.", bino:"Nurafshon ofis",
+   tavsif:"B blokda qisqa muddatli elektr uzilishi kuzatildi. Zaxira generator avtomatik ishga tushdi.",
+   masul:"Bekzod T.", bolim:"Energetika bo'limi", fayl:"elektr_jurnal.pdf", hajm:"640 KB"},
+  {kod:"#INC-2024-00127", rang:"#F2994A", sarlavha:"Green Tower — lift ishlamayapti", vaqt:"Bugun, 13:48", jiddiylik:"orta", ustun:"tekshirilmoqda",
+   holat:"Tekshirilmoqda", joy:"Toshkent sh., Shayxontohur tumani", bino:"Green Tower",
+   tavsif:"2-lift 8-qavatda to'xtab qoldi. Texnik guruh joyga yetib bordi, diagnostika o'tkazilmoqda.",
+   masul:"Karimov I.", bolim:"Texnik xizmat bo'limi", fayl:"lift_diagnostika.pdf", hajm:"920 KB"},
+  {kod:"#INC-2024-00124", rang:"#9B59F5", sarlavha:"Chirchiq dacha — suv bosishi", vaqt:"Bugun, 12:33", jiddiylik:"past", ustun:"tekshirilmoqda",
+   holat:"Tekshirilmoqda", joy:"Toshkent vil., Chirchiq", bino:"Chirchiq dacha",
+   tavsif:"Yerto'lada suv sathi ko'tarilgani aniqlandi. Nasos tizimi ishga tushirildi.",
+   masul:"Oybek R.", bolim:"Ekspluatatsiya bo'limi", fayl:"suv_hisobot.pdf", hajm:"480 KB"},
+  {kod:"#INC-2024-00120", rang:"#F2C230", sarlavha:"Savdo markazi — yoritish tizimi ishlamayapti", vaqt:"Bugun, 11:05", jiddiylik:"orta", ustun:"tekshirilmoqda",
+   holat:"Tekshirilmoqda", joy:"Toshkent sh., Chilonzor", bino:"Mega Mall",
+   tavsif:"2-qavat g'arbiy qanotida yoritish paneli ishdan chiqqan. Elektrik chaqirildi.",
+   masul:"Sardor M.", bolim:"Energetika bo'limi", fayl:"yoritish_akt.pdf", hajm:"350 KB"},
+  {kod:"#INC-2024-00126", rang:"#F2C230", sarlavha:"Mega Mall — sovutish tizimida nosozlik", vaqt:"Bugun, 13:17", jiddiylik:"orta", ustun:"bartaraf",
+   holat:"Bartaraf etilmoqda", joy:"Toshkent sh., Chilonzor", bino:"Mega Mall",
+   tavsif:"Markaziy konditsioner bloki past bosim bilan ishlayapti. Freon qo'shilmoqda.",
+   masul:"Rustam Q.", bolim:"HVAC guruhi", fayl:"hvac_hisobot.pdf", hajm:"1.1 MB"},
+  {kod:"#INC-2024-00118", rang:"#3B82F6", sarlavha:"Daacha — eshik qulfi shikastlangan", vaqt:"Bugun, 10:11", jiddiylik:"past", ustun:"bartaraf",
+   holat:"Bartaraf etilmoqda", joy:"Toshkent vil., Bo'stonliq", bino:"Chorvoq dacha",
+   tavsif:"Asosiy kirish eshigining elektron qulfi almashtirilmoqda.",
+   masul:"Jasur A.", bolim:"Xavfsizlik bo'limi", fayl:"qulf_akt.pdf", hajm:"210 KB"},
+  {kod:"#INC-2024-00117", rang:"#22B14C", sarlavha:"Turar-joy majmuasi — xlorlash tizimi", vaqt:"Kecha, 18:23", jiddiylik:"past", ustun:"yopildi",
+   holat:"Yopildi", joy:"Nurafshon sh.", bino:"Nurafshon turar-joy majmuasi",
+   tavsif:"Suv tozalash tizimida rejali xlorlash yakunlandi. Ko'rsatkichlar normada.",
+   masul:"Dilshod N.", bolim:"Ekspluatatsiya bo'limi", fayl:"suv_tahlil.pdf", hajm:"380 KB"},
+  {kod:"#INC-2024-00116", rang:"#22B14C", sarlavha:"Biznes markazi — HVAC filtri almashtirildi", vaqt:"Kecha, 17:42", jiddiylik:"past", ustun:"yopildi",
+   holat:"Yopildi", joy:"Toshkent sh., Shayxontohur", bino:"Green Tower",
+   tavsif:"Rejali texnik xizmat: barcha HVAC filtrlari yangilandi.",
+   masul:"Karimov I.", bolim:"HVAC guruhi", fayl:"filtr_akt.pdf", hajm:"290 KB"},
+  {kod:"#INC-2024-00115", rang:"#22B14C", sarlavha:"Ofis binosi — kirish nazorati tiklandi", vaqt:"Kecha, 16:08", jiddiylik:"past", ustun:"yopildi",
+   holat:"Yopildi", joy:"Toshkent sh., Yakkasaroy", bino:"Humo Office",
+   tavsif:"Turniket kontrollerining dasturiy ta'minoti yangilandi, tizim to'liq tiklandi.",
+   masul:"Jasur A.", bolim:"Xavfsizlik bo'limi", fayl:"kirish_log.pdf", hajm:"175 KB"}
+];
+let faolKod = "#INC-2024-00128";
+
+/* Chap ro'yxat paneli (birinchi 5 ta) */
+function royxatChiz(){
+  document.getElementById("royxat-panel-royxat").innerHTML = HODISALAR.slice(0,5).map(h=>`
+    <button class="royxat-band ${h.kod===faolKod?"faol":""}" data-kod="${h.kod}">
+      <span class="h-kod"><span class="nuqta" style="background:${h.rang}"></span>${h.kod}</span>
+      <div class="sarlavha">${h.sarlavha}</div>
+      <div class="meta"><span class="vaqt">${h.vaqt}</span><span class="jiddiylik ${h.jiddiylik}">${{yuqori:"Yuqori",orta:"O'rta",past:"Past"}[h.jiddiylik]}</span></div>
+    </button>`).join("");
+}
+
+/* Kanban ustunlari */
+function kanbanChiz(){
+  document.querySelectorAll(".kb-ustun").forEach(u=>{
+    const t = u.dataset.ustun;
+    const bandlar = HODISALAR.filter(h=>h.ustun===t);
+    u.querySelector(".son").textContent = t==="yopildi" ? bandlar.length+1 : (t==="yangi" ? bandlar.length+3 : bandlar.length+(t==="tekshirilmoqda"?0:0));
+    u.querySelector(".kb-royxat").innerHTML = bandlar.map(h=>`
+      <div class="kb-karta ${h.kod===faolKod?"faol":""}" draggable="true" data-kod="${h.kod}" tabindex="0" role="button">
+        <span class="h-kod"><span class="nuqta" style="background:${h.rang}"></span>${h.kod}</span>
+        <div class="sarlavha">${h.sarlavha}</div>
+        <div class="meta"><span class="vaqt">${h.vaqt}</span><span class="jiddiylik ${h.jiddiylik}">${{yuqori:"Yuqori",orta:"O'rta",past:"Past"}[h.jiddiylik]}</span></div>
+      </div>`).join("");
+  });
+  ulash();
+}
+
+/* Detal paneli */
+function detalChiz(h){
+  document.getElementById("detal-karta").innerHTML = `
+    <div class="detal-bosh">
+      <span class="nuqta" style="background:${h.rang}"></span>
+      <span class="kod">${h.kod}</span>
+      <span class="jiddiylik ${h.jiddiylik}">${{yuqori:"Yuqori",orta:"O'rta",past:"Past"}[h.jiddiylik]}</span>
+    </div>
+    <div class="detal-sarlavha">${h.sarlavha}</div>
+    <div class="detal-jadval">
+      <div><div class="yorliq">Yaratilgan vaqti</div><div class="qiymat">${h.vaqt}</div></div>
+      <div><div class="yorliq">Holat</div><div class="qiymat"><span class="chip ${h.ustun==="yopildi"?"chip-yashil":h.ustun==="yangi"?"chip-yashil":"chip-sariq"}" style="height:24px">${h.holat}</span></div></div>
+    </div>
+    <div class="detal-blok"><div class="yorliq">Joylashuv</div><div class="qiymat">${h.joy}</div></div>
+    <div class="detal-blok"><div class="yorliq">Bino / obyekt</div><div class="qiymat">${h.bino}</div></div>
+    <div class="detal-blok"><div class="yorliq">Tavsif</div><div class="qiymat" style="font-weight:500">${h.tavsif}</div></div>
+    <div class="detal-blok"><div class="yorliq">Mas'ul shaxs</div>
+      <div class="masul">
+        <span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:5px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
+        <span><b>${h.masul}</b><span>${h.bolim}</span></span>
+      </div>
+    </div>
+    <div class="detal-blok"><div class="yorliq">Ilova fayllar</div>
+      <button class="ilova" data-toast="${h.fayl} yuklab olinmoqda">
+        <svg class="ic"><use href="#i-hujjat"/></svg>
+        <span><b>${h.fayl}</b><span>${h.hajm}</span></span>
+      </button>
+    </div>
+    <div class="detal-harakat">
+      <button class="tugma tugma-yashil" id="detal-tahrir">Tahrirlash</button>
+      <button class="nuqtalar-tugma" id="detal-menyu-tugma" aria-haspopup="menu">
+        <svg class="ic" style="width:18px;height:18px"><use href="#i-nuqtalar"/></svg>
+        <div class="menyu-popover" id="detal-menyu" style="bottom:calc(100% + 8px);top:auto;right:0">
+          <button type="button" data-amal="yopish"><svg class="ic"><use href="#i-belgi-doira"/></svg>Hodisani yopish</button>
+          <button type="button" data-amal="biriktirish"><svg class="ic"><use href="#i-foyd"/></svg>Mas'ul biriktirish</button>
+          <div class="ajrat"></div>
+          <button type="button" class="xavf" data-amal="ochirish"><svg class="ic"><use href="#i-savat"/></svg>O'chirish</button>
+        </div>
+      </button>
+    </div>`;
+
+  document.getElementById("detal-tahrir").addEventListener("click", ()=>{
+    AUGA.modal("Hodisani tahrirlash",
+      `<div style="display:grid;gap:14px;margin-top:6px">
+        <div><label class="maydon-yorliq">Sarlavha</label><div class="kirish"><input value="${h.sarlavha.replace(/"/g,"&quot;")}"></div></div>
+        <div><label class="maydon-yorliq">Mas'ul</label><div class="kirish"><input value="${h.masul}"></div></div>
+      </div>`,
+      { okMatn:"Saqlash", ok(){ AUGA.toast("Hodisa yangilandi"); } });
+  });
+  const mt = document.getElementById("detal-menyu-tugma"), mm = document.getElementById("detal-menyu");
+  mt.addEventListener("click", e=>{
+    if (e.target.closest(".menyu-popover")) return;
+    const ochiq = mm.classList.contains("ochiq");
+    document.querySelectorAll(".menyu-popover.ochiq").forEach(x=>x.classList.remove("ochiq"));
+    mm.classList.toggle("ochiq", !ochiq);
+  });
+  mm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
+    e.stopPropagation(); mm.classList.remove("ochiq");
+    if (b.dataset.amal==="ochirish"){
+      AUGA.modal("Hodisani o'chirish", `${h.kod} hodisasini o'chirmoqchimisiz? Bu amalni bekor qilib bo'lmaydi.`,
+        {xavf:true, okMatn:"O'chirish", ok(){ AUGA.toast("Hodisa o'chirildi"); }});
+    } else if (b.dataset.amal==="yopish"){
+      AUGA.toast("Hodisa yopildi deb belgilandi", "i-belgi-doira");
+    } else {
+      AUGA.toast("Mas'ul biriktirish oynasi", "i-foyd");
+    }
+  }));
+}
+
+/* Tanlash + drag-drop */
+function ulash(){
+  document.querySelectorAll("[data-kod]").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      faolKod = el.dataset.kod;
+      const h = HODISALAR.find(x=>x.kod===faolKod);
+      royxatChiz(); kanbanChiz(); detalChiz(h);
+    });
+  });
+  document.querySelectorAll(".kb-karta").forEach(k=>{
+    k.addEventListener("dragstart", e=>{
+      k.classList.add("surilmoqda");
+      e.dataTransfer.setData("text/plain", k.dataset.kod);
+    });
+    k.addEventListener("dragend", ()=>k.classList.remove("surilmoqda"));
+  });
+  document.querySelectorAll(".kb-ustun").forEach(u=>{
+    u.addEventListener("dragover", e=>{ e.preventDefault(); u.classList.add("tortish"); });
+    u.addEventListener("dragleave", ()=>u.classList.remove("tortish"));
+    u.addEventListener("drop", e=>{
+      e.preventDefault(); u.classList.remove("tortish");
+      const kod = e.dataTransfer.getData("text/plain");
+      const h = HODISALAR.find(x=>x.kod===kod);
+      if (h && h.ustun !== u.dataset.ustun){
+        h.ustun = u.dataset.ustun;
+        h.holat = {yangi:"Yangi",tekshirilmoqda:"Tekshirilmoqda",bartaraf:"Bartaraf etilmoqda",yopildi:"Yopildi"}[h.ustun];
+        kanbanChiz();
+        if (kod===faolKod) detalChiz(h);
+        AUGA.toast(`${kod} → "${h.holat}" ustuniga ko'chirildi`);
+      }
+    });
+  });
+  document.querySelectorAll(".kb-qoshish").forEach(b=>{
+    if (b.dataset.ulandi) return; b.dataset.ulandi="1";
+    b.addEventListener("click", ()=>{
+      AUGA.modal("Yangi hodisa qo'shish",
+        `<div style="display:grid;gap:14px;margin-top:6px">
+          <div><label class="maydon-yorliq">Sarlavha</label><div class="kirish"><input placeholder="Hodisa tavsifi"></div></div>
+          <div><label class="maydon-yorliq">Obyekt</label><div class="kirish"><input placeholder="Green Tower"></div></div>
+        </div>`,
+        { okMatn:"Qo'shish", ok(){ AUGA.toast("Yangi hodisa yaratildi"); } });
+    });
+  });
+}
+
+/* Ko'rinish tablari */
+document.querySelectorAll(".kb-tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".kb-tab").forEach(x=>x.classList.remove("aktiv"));
+    t.classList.add("aktiv");
+    if (t.dataset.korinish!=="kanban") AUGA.toast(`"${t.textContent}" ko'rinishi`);
+  });
+});
+
+/* Dinamika grafigi */
+const svg = document.getElementById("din-grafik");
+const NS = "http://www.w3.org/2000/svg";
+function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);svg.appendChild(n);return n;}
+const KUNLAR = ["18-may","19-may","20-may","21-may","22-may","23-may","24-may"];
+const SERIYALAR = [
+  {rang:"#3B82F6", q:[30,38,62,45,85,92,25]},
+  {rang:"#F2994A", q:[42,60,38,35,32,52,32]},
+  {rang:"#78C802", q:[12,35,32,58,35,30,65]}
+];
+function dinChiz(){
+  svg.innerHTML = "";
+  const W = svg.clientWidth || 560, H = 190;
+  const chap = 30, ong = 8, tepa = 10, past = 26;
+  const pw = W - chap - ong, ph = H - tepa - past;
+  const x = i => chap + i/(KUNLAR.length-1)*pw;
+  const y = v => tepa + ph - v/100*ph;
+  [0,20,40,60,80,100].forEach(t=>{
+    el("line",{x1:chap,y1:y(t),x2:W-ong,y2:y(t),stroke:"#EDEEE9","stroke-width":1});
+    const tx = el("text",{x:chap-7,y:y(t)+3.5,"text-anchor":"end","font-size":10,fill:"#71767E","font-family":"'Onest',sans-serif"});
+    tx.textContent = t;
+  });
+  KUNLAR.forEach((k,i)=>{
+    const t = el("text",{x:x(i),y:H-7,"text-anchor":"middle","font-size":10,fill:"#71767E","font-family":"'Onest',sans-serif"});
+    t.textContent = k;
+  });
+  SERIYALAR.forEach(s=>{
+    el("polyline",{points:s.q.map((v,i)=>`${x(i)},${y(v)}`).join(" "),fill:"none",stroke:s.rang,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"});
+    s.q.forEach((v,i)=>el("circle",{cx:x(i),cy:y(v),r:3.6,fill:s.rang,stroke:"#fff","stroke-width":2}));
+  });
+}
+dinChiz();
+let rz; window.addEventListener("resize", ()=>{clearTimeout(rz); rz=setTimeout(dinChiz,120);});
+
+/* Boshlash */
+royxatChiz(); kanbanChiz(); detalChiz(HODISALAR[0]);
+});
+</script>
+</body>
+</html>

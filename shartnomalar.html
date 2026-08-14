@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AUGA — Shartnomalar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="auga.css">
+<style>
+/* ---- Shartnomalar (ekran 13) ---- */
+.sh-kpi{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.sh-kpi .karta{display:flex;align-items:center;gap:13px;padding:18px 20px}
+.sh-kpi .tile{width:44px;height:44px;border-radius:12px;background:#EAF6D3;color:#4F8F08;display:grid;place-items:center;flex:none}
+.sh-kpi .tile .ic{width:21px;height:21px}
+.sh-kpi .nuqta{width:10px;height:10px;border-radius:99px;flex:none}
+.sh-kpi .yorliq{font-size:13.5px;color:var(--matn-3);line-height:1.3}
+.sh-kpi b{display:block;font-size:24px;font-weight:750;letter-spacing:-.01em;line-height:1.2}
+.sh-kpi .sub{font-size:11.5px;color:var(--matn-4)}
+
+.filtr-qator{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.f-izlash{display:flex;align-items:center;gap:10px;flex:1;min-width:180px;max-width:340px;background:var(--karta);border-radius:14px;height:48px;padding:0 18px;box-shadow:var(--soya)}
+.f-izlash input{flex:1;border:none;outline:none;background:none;font:inherit;font-size:14.5px;min-width:0}
+.f-izlash .ic{width:19px;height:19px;color:#5F6169}
+.filtr-qator .tanlov{width:auto;min-width:150px;background:var(--karta);border:none;box-shadow:var(--soya)}
+.f-tugma{margin-left:auto;display:flex;align-items:center;gap:9px;height:48px;padding:0 18px;background:var(--karta);border-radius:14px;box-shadow:var(--soya);font-size:14.5px;font-weight:650;color:#23272C}
+.f-tugma .ic{width:18px;height:18px;color:#43484E}
+
+.sh-grid{display:grid;grid-template-columns:400px 1fr 250px;gap:18px;align-items:start}
+
+/* Chap ro'yxat */
+.sh-tablar{display:flex;gap:20px;border-bottom:1px solid var(--chiziq);margin-bottom:8px}
+.sh-tab{padding:8px 2px 12px;font-size:14px;font-weight:650;color:#5F6169;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.sh-tab .son{font-size:12px;color:#B4BAC2;margin-left:4px}
+.sh-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
+.sh-tab.aktiv .son{color:#3E7C0A}
+.sh-band{
+  width:100%;text-align:left;display:flex;gap:12px;border:1px solid var(--chiziq);border-radius:14px;
+  padding:12px;margin-top:10px;transition:border-color var(--tez),box-shadow var(--tez);
+}
+.sh-band:hover{box-shadow:var(--soya)}
+.sh-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
+.sh-band img{width:74px;height:64px;object-fit:cover;border-radius:11px;outline:1px solid rgba(23,26,31,.06);outline-offset:-1px;flex:none}
+.sh-band .kod{display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:650;color:#33383E}
+.sh-band .kod .nuqta{width:7px;height:7px;border-radius:99px;background:#22B14C}
+.sh-band b{display:block;font-size:14px;font-weight:700;margin-top:2px}
+.sh-band .firma{display:block;font-size:12.5px;color:var(--matn-3)}
+.sh-band .sana{display:block;font-size:12px;color:var(--matn-4);margin-top:3px}
+.sh-band .summa{display:block;font-size:13px;font-weight:700;margin-top:2px}
+.sh-teg{margin-left:auto;flex:none;align-self:flex-start;font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:99px}
+.sh-teg.faol{background:#EBF7D8;color:#3E7C0A}
+.sh-teg.kun30{background:#FFF3D6;color:#B07C08}
+.sh-teg.otgan{background:#FDEBE7;color:#D14C34}
+
+/* Markaz */
+.tafsilot-bosh{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.tafsilot-bosh h3{font-size:17px;font-weight:750;display:flex;align-items:center;gap:10px}
+.tafsilot-bosh h3 .ic{width:20px;height:20px}
+.tafsilot-bosh .yangilanish{margin-left:auto;font-size:12.5px;color:var(--matn-4)}
+.sh-tafsilot{display:grid;grid-template-columns:1fr 1fr 340px;gap:14px 18px;margin-top:16px}
+.sh-maydon{display:flex;gap:11px;padding:8px 0}
+.sh-maydon .ic{width:18px;height:18px;color:#5F6169;margin-top:2px}
+.sh-maydon .yorliq{font-size:12.5px;color:var(--matn-4)}
+.sh-maydon b{display:block;font-size:14px;font-weight:650;margin-top:2px;line-height:1.4}
+.sh-maydon .sub{display:block;font-size:12px;color:var(--matn-4)}
+.sh-rasm{grid-row:1/6;grid-column:3;position:relative;border-radius:14px;overflow:hidden;background:#FAFAF8;min-height:280px}
+.sh-rasm img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:10px}
+.sh-rasm .chip3d{position:absolute;left:12px;bottom:12px;height:34px;padding:0 13px;border-radius:10px;background:#fff;box-shadow:var(--soya-pin);font-size:12.5px;font-weight:750}
+.sh-rasm .kengay{position:absolute;right:12px;bottom:12px;width:34px;height:34px;border-radius:10px;background:#fff;box-shadow:var(--soya-pin);display:grid;place-items:center}
+.sh-rasm .kengay .ic{width:16px;height:16px}
+
+.tolov-blok{margin-top:20px;padding-top:18px;border-top:1px solid var(--chiziq)}
+.tolov-blok h4{font-size:15.5px;font-weight:750;margin-bottom:20px}
+.tolovlar{display:flex;align-items:flex-start;position:relative}
+.tolov{flex:1;text-align:center;position:relative}
+.tolov::before{content:"";position:absolute;top:14px;left:calc(-50% + 15px);right:calc(50% + 15px);height:2px;background:#D9E8B8}
+.tolov:first-child::before{display:none}
+.tolov.kutish::before,.tolov.reja::before{background:#E8EAE4}
+.tolov-belgi{width:30px;height:30px;border-radius:99px;margin:0 auto;display:grid;place-items:center;position:relative;z-index:1}
+.tolov.tolandi .tolov-belgi{background:#8CD121;color:#fff}
+.tolov.kutish .tolov-belgi{background:#EEF0EA;color:#71767E;font-size:12px;font-weight:750}
+.tolov.reja .tolov-belgi{background:#F5F6F2;color:#B4BAC2;font-size:12px;font-weight:750}
+.tolov-belgi .ic{width:14px;height:14px;stroke-width:2.6}
+.tolov b{display:block;font-size:13px;font-weight:700;margin-top:9px}
+.tolov .sana{display:block;font-size:11.5px;color:var(--matn-4);margin-top:2px}
+.tolov .summa{display:block;font-size:11.5px;color:var(--matn-3);margin-top:2px}
+.tolov .holat{display:inline-block;font-size:11px;font-weight:700;margin-top:5px}
+.tolov.tolandi .holat{color:#3E7C0A}
+.tolov.kutish .holat{color:#B07C08}
+.tolov.reja .holat{color:#71767E}
+
+.uzaytirish{margin-top:20px;padding-top:18px;border-top:1px solid var(--chiziq)}
+.uzaytirish h4{font-size:15.5px;font-weight:750;margin-bottom:18px}
+.uz-qadamlar{display:flex;align-items:flex-start}
+.uz-qadam{flex:1;text-align:center;position:relative}
+.uz-qadam::before{content:"";position:absolute;top:15px;left:calc(-50% + 16px);right:calc(50% + 16px);height:2px;background:#D9E8B8}
+.uz-qadam:first-child::before{display:none}
+.uz-qadam.kutish::before{background:#E8EAE4}
+.uz-belgi{width:32px;height:32px;border-radius:99px;margin:0 auto;display:grid;place-items:center;font-size:13px;font-weight:750;position:relative;z-index:1}
+.uz-qadam.bajarildi .uz-belgi{background:#8CD121;color:#fff}
+.uz-qadam.joriy .uz-belgi{background:#DFF3B2;color:#3E7C0A;box-shadow:0 0 0 4px #F0F9DC}
+.uz-qadam.kutish .uz-belgi{background:#EEF0EA;color:#71767E}
+.uz-belgi .ic{width:15px;height:15px;stroke-width:2.6}
+.uz-qadam b{display:block;font-size:13px;font-weight:700;margin-top:9px}
+.uz-qadam span{display:block;font-size:11.5px;color:var(--matn-4);margin-top:2px}
+
+/* O'ng ustun */
+.amal-karta h3{font-size:16.5px;font-weight:750;margin-bottom:12px}
+.amal-band{
+  display:flex;align-items:center;gap:11px;width:100%;text-align:left;
+  border:1px solid var(--kirish-chiziq);border-radius:13px;height:52px;padding:0 16px;margin-top:10px;
+  font-size:14px;font-weight:650;color:#23272C;transition:background var(--tez),border-color var(--tez);
+}
+.amal-band:hover{background:#F8F9F7}
+.amal-band .ic{width:18px;height:18px;color:#5B6168}
+.amal-band.asosiy{background:#F3FBE2;border-color:#CBE99B;color:#3E7C0A}
+.amal-band.asosiy:hover{background:#EDF8D5}
+.amal-band.xavfli{color:#E0442B}
+.amal-band.xavfli .ic{color:#E0442B}
+.amal-band.xavfli:hover{background:var(--qizil-fon);border-color:#F5C9C2}
+.menejer-karta{margin-top:0}
+.menejer-karta h3{font-size:16.5px;font-weight:750;margin-bottom:14px}
+.menejer{display:flex;align-items:center;gap:12px}
+.menejer .avatar{width:46px;height:46px}
+.menejer b{display:block;font-size:15px;font-weight:700}
+.menejer span{display:block;font-size:13px;color:var(--matn-3)}
+.menejer-aloqa{display:flex;gap:10px;margin-top:14px}
+.menejer-aloqa button{flex:1;height:44px;border:1px solid var(--kirish-chiziq);border-radius:12px;display:grid;place-items:center;color:#33383E;transition:background var(--tez)}
+.menejer-aloqa button:hover{background:#F6F7F8}
+.menejer-aloqa .ic{width:18px;height:18px}
+@media (max-width:1600px){.sh-grid{grid-template-columns:360px 1fr}.sh-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px}}
+@media (max-width:1500px){.sh-kpi{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:1200px){.sh-grid{grid-template-columns:1fr}.sh-grid > aside{grid-template-columns:1fr}.sh-tafsilot{grid-template-columns:1fr 1fr}.sh-rasm{grid-row:auto;grid-column:1/-1}}
+@media (max-width:900px){.sh-kpi{grid-template-columns:1fr 1fr}.tolovlar{flex-wrap:wrap;gap:14px}.tolov{flex:0 0 30%}.tolov::before{display:none}}
+</style>
+</head>
+<body data-sahifa="shartnomalar">
+
+<div class="app">
+<aside class="sidebar" data-shell-sidebar></aside>
+
+<div class="asosiy">
+  <header class="topbar" data-shell-topbar></header>
+
+  <main class="kontent">
+    <div class="sahifa-qator"><h1>Shartnomalar</h1></div>
+
+    <!-- KPI -->
+    <section class="sh-kpi" aria-label="Shartnoma ko'rsatkichlari">
+      <button class="karta" data-toast="Barcha shartnomalar">
+        <span class="tile"><svg class="ic"><use href="#i-shartnoma"/></svg></span>
+        <span><span class="yorliq">Jami shartnomalar</span><b>128</b></span>
+      </button>
+      <button class="karta" data-toast="Faol shartnomalar">
+        <span class="nuqta" style="background:#22B14C"></span>
+        <span><span class="yorliq">Faol</span><b>96</b></span>
+      </button>
+      <button class="karta" data-toast="Muddati yaqinlashganlar">
+        <span class="nuqta" style="background:#F2C230"></span>
+        <span><span class="yorliq">Muddati yaqinlashgan</span><b>14</b><span class="sub">30 kun ichida</span></span>
+      </button>
+      <button class="karta" data-toast="Muddati o'tganlar">
+        <span class="nuqta" style="background:#F45E53"></span>
+        <span><span class="yorliq">Muddati o'tgan</span><b>3</b></span>
+      </button>
+      <button class="karta" data-toast="Tuzilish jarayonidagilar">
+        <span class="nuqta" style="background:#4A90F2"></span>
+        <span><span class="yorliq">Tuzilish jarayonida</span><b>15</b></span>
+      </button>
+    </section>
+
+    <div class="filtr-qator">
+      <div class="f-izlash" onclick="this.querySelector('input').focus()">
+        <input type="search" placeholder="Qidirish..." aria-label="Shartnomalarni qidirish">
+        <svg class="ic"><use href="#i-izlash"/></svg>
+      </div>
+      <button class="tanlov" data-variantlar='["Barcha aktivlar","Green Tower","Mega Mall","Humo Office","Nurafshon majmuasi","Yashnobod yer"]'><span class="t-yorliq">Barcha aktivlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" data-variantlar='["Barcha turlar","Ijara","Xizmat ko&#39;rsatish","Qurilish","Sotish"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" data-variantlar='["Barcha statuslar","Faol","Muddati yaqinlashgan","Muddati o&#39;tgan","Jarayonda"]'><span class="t-yorliq">Barcha statuslar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" data-toast="Sana oralig'ini tanlash" style="width:auto;min-width:140px;background:var(--karta);border:none;box-shadow:var(--soya)"><span class="t-yorliq">Sana oralig'i</span><svg class="ic"><use href="#i-kalendar"/></svg></button>
+      <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
+    </div>
+
+    <div class="sh-grid">
+
+      <!-- Chap ro'yxat -->
+      <div class="karta">
+        <div class="sh-tablar">
+          <button class="sh-tab aktiv">Barchasi<span class="son">128</span></button>
+          <button class="sh-tab">Faol<span class="son">96</span></button>
+          <button class="sh-tab">Muddati yaqinlashgan<span class="son">14</span></button>
+        </div>
+        <div id="sh-royxat"></div>
+        <div class="sahifalash" style="padding:14px 0 0">
+          <span class="oraliq">Jami: <b>96</b></span>
+          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
+          <button class="s-tugma aktiv">1</button>
+          <button class="s-tugma" data-toast="2-sahifa">2</button>
+          <button class="s-tugma" data-toast="3-sahifa">3</button>
+          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Markaz -->
+      <div class="karta">
+        <div class="tafsilot-bosh">
+          <h3><svg class="ic"><use href="#i-slayder"/></svg>Shartnoma tafsilotlari</h3>
+          <span class="chip chip-yashil" id="t-holat">Faol</span>
+          <span class="yangilanish">Oxirgi yangilanish: 24-may, 14:20</span>
+        </div>
+
+        <div class="sh-tafsilot">
+          <div class="sh-maydon"><svg class="ic"><use href="#i-shartnoma"/></svg><span><span class="yorliq">Shartnoma raqami</span><b id="t-raqam">Sh-2024-00125</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-kalendar"/></svg><span><span class="yorliq">Boshlanish sanasi</span><b id="t-boshi">01.01.2024</b></span></div>
+          <div class="sh-rasm">
+            <img id="t-rasm" src="assets/bino_tower.png" alt="Shartnoma obyekti">
+            <button class="chip3d" data-toast="3D aylantirish">3D</button>
+            <a class="kengay" id="t-havola" href="aktiv.html?id=green-tower" aria-label="Obyektni ochish"><svg class="ic"><use href="#i-kengay"/></svg></a>
+          </div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-foyd"/></svg><span><span class="yorliq">Ijara oluvchi (Tenant)</span><b id="t-tenant">Tech Solutions LLC <span style="color:#22B14C">✓</span></b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-kalendar"/></svg><span><span class="yorliq">Tugash sanasi</span><b id="t-tugashi">31.12.2026</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-bino"/></svg><span><span class="yorliq">Aktiv / obyekt</span><b id="t-obyekt">Green Tower</b><span class="sub" id="t-kod">GT-2024-001</span></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-soat"/></svg><span><span class="yorliq">Shartnoma muddati</span><b id="t-muddat">3 yil</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-pin"/></svg><span><span class="yorliq">Manzil</span><b style="font-weight:550">Toshkent sh., Shayxontohur tumani,<br>Navoiy ko'chasi, 15</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-daromad"/></svg><span><span class="yorliq">To'lov summasi</span><b id="t-summa">12 450 000 000 so'm</b><span class="sub">Yillik to'lov</span></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-hujjat"/></svg><span><span class="yorliq">Shartnoma turi</span><b>Ijara shartnomasi</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-belgi-doira"/></svg><span><span class="yorliq">To'lov sharti</span><b>Har chorakda</b></span></div>
+        </div>
+
+        <div class="tolov-blok">
+          <h4>To'lov jadvali</h4>
+          <div class="tolovlar">
+            <button class="tolov tolandi" data-toast="1-to'lov: to'langan, kvitansiya №88123"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>1-to'lov</b><span class="sana">01.01.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
+            <button class="tolov tolandi" data-toast="2-to'lov: to'langan"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>2-to'lov</b><span class="sana">01.04.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
+            <button class="tolov tolandi" data-toast="3-to'lov: to'langan"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>3-to'lov</b><span class="sana">01.07.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
+            <button class="tolov tolandi" data-toast="4-to'lov: to'langan"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>4-to'lov</b><span class="sana">01.10.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
+            <button class="tolov kutish" data-toast="5-to'lov: hisob-faktura yuborilgan, kutilmoqda"><span class="tolov-belgi">5</span><b>5-to'lov</b><span class="sana">01.01.2025</span><span class="summa">3 112 500 000 so'm</span><span class="holat">Kutilmoqda</span></button>
+            <button class="tolov reja" data-toast="6-to'lov: reja bo'yicha"><span class="tolov-belgi">6</span><b>6-to'lov</b><span class="sana">01.04.2025</span><span class="summa">3 112 500 000 so'm</span><span class="holat">Reja</span></button>
+          </div>
+        </div>
+
+        <div class="uzaytirish">
+          <h4>Uzaytirish jarayoni</h4>
+          <div class="uz-qadamlar">
+            <div class="uz-qadam bajarildi"><span class="uz-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>Bildirishnoma yuborildi</b><span>20-may, 10:15</span></div>
+            <div class="uz-qadam bajarildi"><span class="uz-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>Muzokaralar</b><span>22-may, 09:30</span></div>
+            <div class="uz-qadam joriy"><span class="uz-belgi">3</span><b>Shartnoma loyihasi</b><span>24-may, 14:20</span></div>
+            <div class="uz-qadam kutish"><span class="uz-belgi">4</span><b>Tasdiqlash</b><span>Kutilmoqda</span></div>
+            <div class="uz-qadam kutish"><span class="uz-belgi">5</span><b>Imzolash</b><span>Kutilmoqda</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- O'ng ustun -->
+      <aside style="display:flex;flex-direction:column;gap:18px">
+        <div class="karta amal-karta">
+          <h3>Tezkor amallar</h3>
+          <button class="amal-band asosiy" data-toast="Shartnoma tasdiqlandi"><svg class="ic" style="color:#3E7C0A"><use href="#i-belgi-doira"/></svg>Tasdiqlash</button>
+          <button class="amal-band" data-toast="Uzaytirish jarayoni boshlandi"><svg class="ic"><use href="#i-kalendar"/></svg>Uzaytirish</button>
+          <button class="amal-band" data-toast="Shartnoma PDF yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>Shartnomani yuklab olish</button>
+          <button class="amal-band" data-toast="To'lov jadvali XLSX yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>To'lov jadvalini yuklab olish</button>
+          <button class="amal-band xavfli" id="bekor-qilish"><svg class="ic"><use href="#i-savat"/></svg>Shartnomani bekor qilish</button>
+        </div>
+
+        <div class="karta menejer-karta">
+          <h3>Mas'ul menejer</h3>
+          <div class="menejer">
+            <span class="avatar"><svg viewBox="0 0 34 34" style="width:36px;height:36px;display:block;margin:6px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
+            <span><b>Javlon Karimov</b><span>Menejer</span></span>
+          </div>
+          <div class="menejer-aloqa">
+            <button data-toast="Qo'ng'iroq: +998 90 123-45-67" aria-label="Qo'ng'iroq qilish"><svg class="ic"><use href="#i-tel"/></svg></button>
+            <button data-toast="Email: j.karimov@auga.uz" aria-label="Email yozish"><svg class="ic"><use href="#i-mail"/></svg></button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+</div>
+</div>
+
+<script src="auga.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", ()=>{
+
+const SHARTNOMALAR = [
+  {raqam:"Sh-2024-00125", obyekt:"Green Tower", kod:"GT-2024-001", firma:"Tech Solutions LLC", boshi:"01.01.2024", tugashi:"31.12.2026",
+   summa:"12 450 000 000 so'm", teg:"faol", tegMatn:"Faol", rasm:"assets/bino_tower.png", id:"green-tower", muddat:"3 yil", holat:"Faol"},
+  {raqam:"Sh-2024-00118", obyekt:"Mega Mall", kod:"MM-2022-013", firma:"Retail Group", boshi:"15.06.2023", tugashi:"14.06.2025",
+   summa:"25 600 000 000 so'm", teg:"kun30", tegMatn:"30 kun", rasm:"assets/bino_mall.png", id:"mega-mall", muddat:"2 yil", holat:"Muddati yaqinlashgan"},
+  {raqam:"Sh-2024-00098", obyekt:"Humo Office", kod:"HO-2023-021", firma:"Business Pro Ltd", boshi:"01.09.2023", tugashi:"31.08.2025",
+   summa:"6 750 000 000 so'm", teg:"kun30", tegMatn:"15 kun", rasm:"assets/bino_humo.png", id:"humo-office", muddat:"2 yil", holat:"Muddati yaqinlashgan"},
+  {raqam:"Sh-2024-00077", obyekt:"Nurafshon turar-joy majmuasi", kod:"NT-2023-067", firma:"Comfort Living", boshi:"01.03.2023", tugashi:"28.02.2025",
+   summa:"18 900 000 000 so'm", teg:"otgan", tegMatn:"Muddati o'tgan", rasm:"assets/bino_turar.png", id:"nurafshon-turar", muddat:"2 yil", holat:"Muddati o'tgan"},
+  {raqam:"Sh-2024-00065", obyekt:"Yashnobod yer maydoni", kod:"YM-2024-078", firma:"Agro Invest", boshi:"01.11.2023", tugashi:"31.10.2024",
+   summa:"3 200 000 000 so'm", teg:"otgan", tegMatn:"Muddati o'tgan", rasm:"assets/bino_yer.png", id:"yashnobod-yer", muddat:"1 yil", holat:"Muddati o'tgan"}
+];
+let faolIdx = 0;
+
+function royxatChiz(){
+  document.getElementById("sh-royxat").innerHTML = SHARTNOMALAR.map((s,i)=>`
+    <button class="sh-band ${i===faolIdx?"faol":""}" data-i="${i}">
+      <img src="${s.rasm}" alt="">
+      <span style="flex:1;min-width:0">
+        <span class="kod"><span class="nuqta"></span>${s.raqam}</span>
+        <b>${s.obyekt}</b>
+        <span class="firma">${s.firma}</span>
+        <span class="sana">${s.boshi} – ${s.tugashi}</span>
+        <span class="summa">${s.summa}</span>
+      </span>
+      <span class="sh-teg ${s.teg}">${s.tegMatn}</span>
+    </button>`).join("");
+  document.querySelectorAll(".sh-band").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      faolIdx = +b.dataset.i;
+      royxatChiz(); tafsilotChiz();
+    });
+  });
+}
+
+function tafsilotChiz(){
+  const s = SHARTNOMALAR[faolIdx];
+  document.getElementById("t-raqam").textContent = s.raqam;
+  document.getElementById("t-boshi").textContent = s.boshi;
+  document.getElementById("t-tugashi").textContent = s.tugashi;
+  document.getElementById("t-tenant").innerHTML = s.firma+' <span style="color:#22B14C">✓</span>';
+  document.getElementById("t-obyekt").textContent = s.obyekt;
+  document.getElementById("t-kod").textContent = s.kod;
+  document.getElementById("t-muddat").textContent = s.muddat;
+  document.getElementById("t-summa").textContent = s.summa;
+  document.getElementById("t-rasm").src = s.rasm;
+  document.getElementById("t-havola").href = "aktiv.html?id="+s.id;
+  const h = document.getElementById("t-holat");
+  h.textContent = s.holat;
+  h.className = "chip " + (s.teg==="faol" ? "chip-yashil" : s.teg==="kun30" ? "chip-sariq" : "chip-qizil");
+}
+
+document.querySelectorAll(".sh-tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".sh-tab").forEach(x=>x.classList.remove("aktiv"));
+    t.classList.add("aktiv");
+    AUGA.toast(t.textContent.replace(/\d+$/,"").trim()+" ro'yxati");
+  });
+});
+
+document.getElementById("bekor-qilish").addEventListener("click", ()=>{
+  const s = SHARTNOMALAR[faolIdx];
+  AUGA.modal("Shartnomani bekor qilish",
+    `${s.raqam} (${s.obyekt}) shartnomasini bekor qilmoqchimisiz? Bu amal yuridik oqibatlarga ega.`,
+    {xavf:true, okMatn:"Bekor qilish", ok(){ AUGA.toast("Shartnoma bekor qilish jarayoni boshlandi"); }});
+});
+
+royxatChiz(); tafsilotChiz();
+});
+</script>
+</body>
+</html>
