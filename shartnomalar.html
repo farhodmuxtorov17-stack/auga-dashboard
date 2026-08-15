@@ -208,7 +208,7 @@
         <div class="tafsilot-bosh">
           <h3><svg class="ic"><use href="#i-slayder"/></svg>Shartnoma tafsilotlari</h3>
           <span class="chip chip-yashil" id="t-holat">Faol</span>
-          <span class="yangilanish">Oxirgi yangilanish: 24-may, 14:20</span>
+          <span class="yangilanish">Oxirgi yangilanish: <span id="t-yangilanish">24-may, 14:20</span></span>
         </div>
 
         <div class="sh-tafsilot">
@@ -223,33 +223,20 @@
           <div class="sh-maydon"><svg class="ic"><use href="#i-kalendar"/></svg><span><span class="yorliq">Tugash sanasi</span><b id="t-tugashi">31.12.2026</b></span></div>
           <div class="sh-maydon"><svg class="ic"><use href="#i-bino"/></svg><span><span class="yorliq">Aktiv / obyekt</span><b id="t-obyekt">Green Tower</b><span class="sub" id="t-kod">GT-2024-001</span></span></div>
           <div class="sh-maydon"><svg class="ic"><use href="#i-soat"/></svg><span><span class="yorliq">Shartnoma muddati</span><b id="t-muddat">3 yil</b></span></div>
-          <div class="sh-maydon"><svg class="ic"><use href="#i-pin"/></svg><span><span class="yorliq">Manzil</span><b style="font-weight:550">Toshkent sh., Shayxontohur tumani,<br>Navoiy ko'chasi, 15</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-pin"/></svg><span><span class="yorliq">Manzil</span><b style="font-weight:550" id="t-manzil">Toshkent sh., Shayxontohur tumani,<br>Navoiy ko'chasi, 15</b></span></div>
           <div class="sh-maydon"><svg class="ic"><use href="#i-daromad"/></svg><span><span class="yorliq">To'lov summasi</span><b id="t-summa">12 450 000 000 so'm</b><span class="sub">Yillik to'lov</span></span></div>
-          <div class="sh-maydon"><svg class="ic"><use href="#i-hujjat"/></svg><span><span class="yorliq">Shartnoma turi</span><b>Ijara shartnomasi</b></span></div>
-          <div class="sh-maydon"><svg class="ic"><use href="#i-belgi-doira"/></svg><span><span class="yorliq">To'lov sharti</span><b>Har chorakda</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-hujjat"/></svg><span><span class="yorliq">Shartnoma turi</span><b id="t-turi">Ijara shartnomasi</b></span></div>
+          <div class="sh-maydon"><svg class="ic"><use href="#i-belgi-doira"/></svg><span><span class="yorliq">To'lov sharti</span><b id="t-shart">Har chorakda</b></span></div>
         </div>
 
         <div class="tolov-blok">
           <h4>To'lov jadvali</h4>
-          <div class="tolovlar">
-            <button class="tolov tolandi" data-toast="1-to'lov: to'langan, kvitansiya №88123"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>1-to'lov</b><span class="sana">01.01.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
-            <button class="tolov tolandi" data-toast="2-to'lov: to'langan"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>2-to'lov</b><span class="sana">01.04.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
-            <button class="tolov tolandi" data-toast="3-to'lov: to'langan"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>3-to'lov</b><span class="sana">01.07.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
-            <button class="tolov tolandi" data-toast="4-to'lov: to'langan"><span class="tolov-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>4-to'lov</b><span class="sana">01.10.2024</span><span class="summa">3 112 500 000 so'm</span><span class="holat">To'langan</span></button>
-            <button class="tolov kutish" data-toast="5-to'lov: hisob-faktura yuborilgan, kutilmoqda"><span class="tolov-belgi">5</span><b>5-to'lov</b><span class="sana">01.01.2025</span><span class="summa">3 112 500 000 so'm</span><span class="holat">Kutilmoqda</span></button>
-            <button class="tolov reja" data-toast="6-to'lov: reja bo'yicha"><span class="tolov-belgi">6</span><b>6-to'lov</b><span class="sana">01.04.2025</span><span class="summa">3 112 500 000 so'm</span><span class="holat">Reja</span></button>
-          </div>
+          <div class="tolovlar" id="tolov-royxat"></div>
         </div>
 
         <div class="uzaytirish">
           <h4>Uzaytirish jarayoni</h4>
-          <div class="uz-qadamlar">
-            <div class="uz-qadam bajarildi"><span class="uz-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>Bildirishnoma yuborildi</b><span>20-may, 10:15</span></div>
-            <div class="uz-qadam bajarildi"><span class="uz-belgi"><svg class="ic"><use href="#i-belgi"/></svg></span><b>Muzokaralar</b><span>22-may, 09:30</span></div>
-            <div class="uz-qadam joriy"><span class="uz-belgi">3</span><b>Shartnoma loyihasi</b><span>24-may, 14:20</span></div>
-            <div class="uz-qadam kutish"><span class="uz-belgi">4</span><b>Tasdiqlash</b><span>Kutilmoqda</span></div>
-            <div class="uz-qadam kutish"><span class="uz-belgi">5</span><b>Imzolash</b><span>Kutilmoqda</span></div>
-          </div>
+          <div class="uz-qadamlar" id="uzaytirish-royxat"></div>
         </div>
       </div>
 
@@ -268,11 +255,11 @@
           <h3>Mas'ul menejer</h3>
           <div class="menejer">
             <span class="avatar"><svg viewBox="0 0 34 34" style="width:36px;height:36px;display:block;margin:6px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
-            <span><b>Javlon Karimov</b><span>Menejer</span></span>
+            <span><b id="mj-ism">Javlon Karimov</b><span>Menejer</span></span>
           </div>
           <div class="menejer-aloqa">
-            <button data-toast="Qo'ng'iroq: +998 90 123-45-67" aria-label="Qo'ng'iroq qilish"><svg class="ic"><use href="#i-tel"/></svg></button>
-            <button data-toast="Email: j.karimov@auga.uz" aria-label="Email yozish"><svg class="ic"><use href="#i-mail"/></svg></button>
+            <button id="mj-tel" data-toast="Qo'ng'iroq: +998 90 123-45-67" aria-label="Qo'ng'iroq qilish"><svg class="ic"><use href="#i-tel"/></svg></button>
+            <button id="mj-email" data-toast="Email: j.karimov@auga.uz" aria-label="Email yozish"><svg class="ic"><use href="#i-mail"/></svg></button>
           </div>
         </div>
       </aside>
@@ -287,15 +274,94 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 const SHARTNOMALAR = [
   {raqam:"Sh-2024-00125", obyekt:"Green Tower", kod:"GT-2024-001", firma:"Tech Solutions LLC", boshi:"01.01.2024", tugashi:"31.12.2026",
-   summa:"12 450 000 000 so'm", teg:"faol", tegMatn:"Faol", rasm:"assets/bino_tower.png", id:"green-tower", muddat:"3 yil", holat:"Faol"},
+   summa:"12 450 000 000 so'm", teg:"faol", tegMatn:"Faol", rasm:"assets/bino_tower.png", id:"green-tower", muddat:"3 yil", holat:"Faol",
+   manzil:"Toshkent sh., Shayxontohur tumani,<br>Navoiy ko'chasi, 15", turi:"Ijara shartnomasi", shart:"Har chorakda", yangilanish:"24-may, 14:20",
+   tolovlar:[
+     ["1-to'lov","01.01.2024","3 112 500 000 so'm","tolandi","To'langan"],
+     ["2-to'lov","01.04.2024","3 112 500 000 so'm","tolandi","To'langan"],
+     ["3-to'lov","01.07.2024","3 112 500 000 so'm","tolandi","To'langan"],
+     ["4-to'lov","01.10.2024","3 112 500 000 so'm","tolandi","To'langan"],
+     ["5-to'lov","01.01.2025","3 112 500 000 so'm","kutish","Kutilmoqda"],
+     ["6-to'lov","01.04.2025","3 112 500 000 so'm","reja","Reja"]],
+   uzaytirish:[
+     ["bajarildi","Bildirishnoma yuborildi","20-may, 10:15"],
+     ["bajarildi","Muzokaralar","22-may, 09:30"],
+     ["joriy","Shartnoma loyihasi","24-may, 14:20"],
+     ["kutish","Tasdiqlash","Kutilmoqda"],
+     ["kutish","Imzolash","Kutilmoqda"]],
+   menejer:{ism:"Javlon Karimov", tel:"+998 90 123-45-67", email:"j.karimov@auga.uz"}},
+
   {raqam:"Sh-2024-00118", obyekt:"Mega Mall", kod:"MM-2022-013", firma:"Retail Group", boshi:"15.06.2023", tugashi:"14.06.2025",
-   summa:"25 600 000 000 so'm", teg:"kun30", tegMatn:"15 kun", rasm:"assets/bino_mall.png", id:"mega-mall", muddat:"2 yil", holat:"Muddati yaqinlashgan"},
+   summa:"25 600 000 000 so'm", teg:"kun30", tegMatn:"15 kun", rasm:"assets/bino_mall.png", id:"mega-mall", muddat:"2 yil", holat:"Muddati yaqinlashgan",
+   manzil:"Toshkent sh., Chilonzor tumani,<br>Qatortol ko'chasi, 4", turi:"Ijara shartnomasi", shart:"Har oyda", yangilanish:"19-may, 09:40",
+   tolovlar:[
+     ["1-to'lov","15.01.2025","4 265 000 000 so'm","tolandi","To'langan"],
+     ["2-to'lov","15.02.2025","4 265 000 000 so'm","tolandi","To'langan"],
+     ["3-to'lov","15.03.2025","4 265 000 000 so'm","tolandi","To'langan"],
+     ["4-to'lov","15.04.2025","4 265 000 000 so'm","tolandi","To'langan"],
+     ["5-to'lov","15.05.2025","4 265 000 000 so'm","kutish","Kutilmoqda"],
+     ["6-to'lov","14.06.2025","4 265 000 000 so'm","reja","Reja"]],
+   uzaytirish:[
+     ["bajarildi","Bildirishnoma yuborildi","28-apr, 09:00"],
+     ["bajarildi","Muzokaralar","05-may, 11:20"],
+     ["bajarildi","Shartnoma loyihasi","12-may, 15:45"],
+     ["joriy","Tasdiqlash","19-may, 09:40"],
+     ["kutish","Imzolash","Kutilmoqda"]],
+   menejer:{ism:"Nilufar Ismoilova", tel:"+998 91 234-56-78", email:"n.ismoilova@auga.uz"}},
+
   {raqam:"Sh-2024-00098", obyekt:"Humo Office", kod:"HO-2023-021", firma:"Business Pro Ltd", boshi:"01.09.2023", tugashi:"31.08.2025",
-   summa:"6 750 000 000 so'm", teg:"kun30", tegMatn:"30 kun", rasm:"assets/bino_humo.png", id:"humo-office", muddat:"2 yil", holat:"Muddati yaqinlashgan"},
+   summa:"6 750 000 000 so'm", teg:"kun30", tegMatn:"30 kun", rasm:"assets/bino_humo.png", id:"humo-office", muddat:"2 yil", holat:"Muddati yaqinlashgan",
+   manzil:"Toshkent sh., Yakkasaroy tumani,<br>Bobur ko'chasi, 40", turi:"Xizmat ko'rsatish shartnomasi", shart:"Har oyda", yangilanish:"17-may, 10:00",
+   tolovlar:[
+     ["1-to'lov","01.02.2025","1 125 000 000 so'm","tolandi","To'langan"],
+     ["2-to'lov","01.03.2025","1 125 000 000 so'm","tolandi","To'langan"],
+     ["3-to'lov","01.04.2025","1 125 000 000 so'm","tolandi","To'langan"],
+     ["4-to'lov","01.05.2025","1 125 000 000 so'm","tolandi","To'langan"],
+     ["5-to'lov","01.06.2025","1 125 000 000 so'm","kutish","Kutilmoqda"],
+     ["6-to'lov","01.07.2025","1 125 000 000 so'm","reja","Reja"]],
+   uzaytirish:[
+     ["bajarildi","Bildirishnoma yuborildi","10-may, 13:10"],
+     ["joriy","Muzokaralar","17-may, 10:00"],
+     ["kutish","Shartnoma loyihasi","Kutilmoqda"],
+     ["kutish","Tasdiqlash","Kutilmoqda"],
+     ["kutish","Imzolash","Kutilmoqda"]],
+   menejer:{ism:"Bekzod Yusupov", tel:"+998 93 345-67-89", email:"b.yusupov@auga.uz"}},
+
   {raqam:"Sh-2024-00077", obyekt:"Nurafshon turar-joy majmuasi", kod:"NT-2023-067", firma:"Comfort Living", boshi:"01.03.2023", tugashi:"28.02.2025",
-   summa:"18 900 000 000 so'm", teg:"otgan", tegMatn:"Muddati o'tgan", rasm:"assets/bino_turar.png", id:"nurafshon-turar", muddat:"2 yil", holat:"Muddati o'tgan"},
+   summa:"18 900 000 000 so'm", teg:"otgan", tegMatn:"Muddati o'tgan", rasm:"assets/bino_turar.png", id:"nurafshon-turar", muddat:"2 yil", holat:"Muddati o'tgan",
+   manzil:"Toshkent vil., Nurafshon sh.,<br>Istiqlol ko'chasi, 21", turi:"Ijara shartnomasi", shart:"Har chorakda", yangilanish:"15-yan, 2025  09:00",
+   tolovlar:[
+     ["1-to'lov","01.03.2023","3 150 000 000 so'm","tolandi","To'langan"],
+     ["2-to'lov","01.09.2023","3 150 000 000 so'm","tolandi","To'langan"],
+     ["3-to'lov","01.03.2024","3 150 000 000 so'm","tolandi","To'langan"],
+     ["4-to'lov","01.09.2024","3 150 000 000 so'm","tolandi","To'langan"],
+     ["5-to'lov","01.12.2024","3 150 000 000 so'm","tolandi","To'langan"],
+     ["6-to'lov","28.02.2025","3 150 000 000 so'm","tolandi","To'langan"]],
+   uzaytirish:[
+     ["bajarildi","Bildirishnoma yuborildi","15-yan, 09:00"],
+     ["kutish","Muzokaralar","Boshlanmagan"],
+     ["kutish","Shartnoma loyihasi","Kutilmoqda"],
+     ["kutish","Tasdiqlash","Kutilmoqda"],
+     ["kutish","Imzolash","Kutilmoqda"]],
+   menejer:{ism:"Madina Tursunova", tel:"+998 94 456-78-90", email:"m.tursunova@auga.uz"}},
+
   {raqam:"Sh-2024-00065", obyekt:"Yashnobod yer maydoni", kod:"YM-2024-078", firma:"Agro Invest", boshi:"01.11.2023", tugashi:"31.10.2024",
-   summa:"3 200 000 000 so'm", teg:"otgan", tegMatn:"Muddati o'tgan", rasm:"assets/bino_yer.png", id:"yashnobod-yer", muddat:"1 yil", holat:"Muddati o'tgan"}
+   summa:"3 200 000 000 so'm", teg:"otgan", tegMatn:"Muddati o'tgan", rasm:"assets/bino_yer.png", id:"yashnobod-yer", muddat:"1 yil", holat:"Muddati o'tgan",
+   manzil:"Toshkent sh., Yashnobod tumani,<br>7-mavze", turi:"Ijara shartnomasi", shart:"Har oyda", yangilanish:"31-okt, 2024  16:00",
+   tolovlar:[
+     ["1-to'lov","01.11.2023","535 000 000 so'm","tolandi","To'langan"],
+     ["2-to'lov","01.01.2024","535 000 000 so'm","tolandi","To'langan"],
+     ["3-to'lov","01.03.2024","535 000 000 so'm","tolandi","To'langan"],
+     ["4-to'lov","01.05.2024","535 000 000 so'm","tolandi","To'langan"],
+     ["5-to'lov","01.07.2024","535 000 000 so'm","tolandi","To'langan"],
+     ["6-to'lov","31.10.2024","535 000 000 so'm","tolandi","To'langan"]],
+   uzaytirish:[
+     ["kutish","Bildirishnoma yuborildi","Boshlanmagan"],
+     ["kutish","Muzokaralar","Boshlanmagan"],
+     ["kutish","Shartnoma loyihasi","Boshlanmagan"],
+     ["kutish","Tasdiqlash","Boshlanmagan"],
+     ["kutish","Imzolash","Boshlanmagan"]],
+   menejer:{ism:"Shahzod Abdullaev", tel:"+998 97 567-89-01", email:"sh.abdullaev@auga.uz"}}
 ];
 let faolIdx = 0;
 
@@ -332,9 +398,31 @@ function tafsilotChiz(){
   document.getElementById("t-summa").textContent = s.summa;
   document.getElementById("t-rasm").src = s.rasm;
   document.getElementById("t-havola").href = "aktiv.html?id="+s.id;
+  document.getElementById("t-manzil").innerHTML = s.manzil;
+  document.getElementById("t-turi").textContent = s.turi;
+  document.getElementById("t-shart").textContent = s.shart;
+  document.getElementById("t-yangilanish").textContent = s.yangilanish;
   const h = document.getElementById("t-holat");
   h.textContent = s.holat;
   h.className = "chip " + (s.teg==="faol" ? "chip-yashil" : s.teg==="kun30" ? "chip-sariq" : "chip-qizil");
+
+  document.getElementById("tolov-royxat").innerHTML = s.tolovlar.map(([nom,sana,summa,holat,holatMatn],i)=>`
+    <button class="tolov ${holat}" data-toast="${nom}: ${holat==="tolandi"?"to'langan":holat==="kutish"?"hisob-faktura yuborilgan, kutilmoqda":"reja bo'yicha"}">
+      <span class="tolov-belgi">${holat==="tolandi" ? '<svg class="ic"><use href="#i-belgi"/></svg>' : i+1}</span>
+      <b>${nom}</b><span class="sana">${sana}</span><span class="summa">${summa}</span><span class="holat">${holatMatn}</span>
+    </button>`).join("");
+
+  document.getElementById("uzaytirish-royxat").innerHTML = s.uzaytirish.map(([holat,matn,sana],i)=>`
+    <div class="uz-qadam ${holat}">
+      <span class="uz-belgi">${holat==="bajarildi" ? '<svg class="ic"><use href="#i-belgi"/></svg>' : i+1}</span>
+      <b>${matn}</b><span>${sana}</span>
+    </div>`).join("");
+
+  document.getElementById("mj-ism").textContent = s.menejer.ism;
+  const mjTel = document.getElementById("mj-tel");
+  mjTel.dataset.toast = "Qo'ng'iroq: "+s.menejer.tel;
+  const mjEmail = document.getElementById("mj-email");
+  mjEmail.dataset.toast = "Email: "+s.menejer.email;
 }
 
 document.querySelectorAll(".sh-tab").forEach(t=>{

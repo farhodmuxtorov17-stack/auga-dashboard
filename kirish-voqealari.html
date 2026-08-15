@@ -153,17 +153,17 @@
           <div class="vt-qator"><svg class="ic"><use href="#i-qulf"/></svg><span class="yorliq">Eshik</span><b id="v-eshik">Bosh kirish eshigi</b></div>
           <div class="vt-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Vaqt</span><b id="v-vaqt">24-may, 2024 14:32:18</b></div>
           <div class="vt-qator"><svg class="ic"><use href="#i-kamera"/></svg><span class="yorliq">Qurilma</span><b>Kirish kamerasi 1</b></div>
-          <div class="vt-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Voqea turi</span><b>Yuz orqali kirish</b></div>
+          <div class="vt-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Voqea turi</span><b id="v-turi">Yuz orqali kirish</b></div>
           <div class="vt-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b class="yashil" id="v-holat">● Yuz mos keldi</b></div>
-          <div class="vt-qator"><svg class="ic"><use href="#i-qalqon"/></svg><span class="yorliq">Tekshirish usuli</span><b>Face ID</b></div>
-          <div class="vt-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Ish davomiyligi</span><b>1.2 soniya</b></div>
+          <div class="vt-qator"><svg class="ic"><use href="#i-qalqon"/></svg><span class="yorliq">Tekshirish usuli</span><b id="v-usul">Face ID</b></div>
+          <div class="vt-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Ish davomiyligi</span><b id="v-davomiylik">1.2 soniya</b></div>
         </div>
 
         <div class="kv-blok">
           <h4>Yuz solishtirish natijasi</h4>
           <div class="oxshash"><span class="yorliq">O'xshashlik darajasi</span><b id="v-foiz">98%</b><span class="iz"><span id="v-iz"></span></span></div>
           <div class="vt-qator"><span class="yorliq">Algoritm</span><b>AUGA Face Match v2.1</b></div>
-          <div class="vt-qator"><span class="yorliq">Tekshirildi</span><b>24-may, 2024 14:32:16</b></div>
+          <div class="vt-qator"><span class="yorliq">Tekshirildi</span><b id="v-tekshirildi">24-may, 2024 14:32:16</b></div>
         </div>
       </div>
 
@@ -216,19 +216,26 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 const AVATAR = `<span class="avatar" style="border-radius:12px"><svg viewBox="0 0 34 34" style="width:32px;height:32px;display:block;margin:6px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;
+const SILUET = "data:image/svg+xml;utf8,"+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 132 150'><rect width='132' height='150' rx='16' fill='#EEF0EA'/><circle cx='66' cy='56' r='27' fill='#AFB6BE'/><path d='M15 150c4.5-36 25-55 51-55s46.5 19 51 55z' fill='#AFB6BE'/></svg>`);
 const VOQEALAR = [
   {nom:"Akmal Rustamov", eshik:"Bosh kirish eshigi", vaqt:"14:32:18", pill:"mos", pillM:"Yuz mos keldi", chiziq:"#8CD121",
-   id:"EMP-0247", bolim:"IT bo'limi", lavozim:"Dasturchi", karta:"CARD-8891", foiz:"98%"},
+   id:"EMP-0247", bolim:"IT bo'limi", lavozim:"Dasturchi", karta:"CARD-8891", foiz:"98%", rasm:"assets/kv_shaxs.png",
+   turi:"Yuz orqali kirish", usul:"Face ID", davomiylik:"1.2 soniya"},
   {nom:"Sevara Mirzayeva", eshik:"Ofis qavati eshigi", vaqt:"14:31:47", pill:"qolda", pillM:"Qo'lda tekshirish", chiziq:"#F2994A",
-   id:"EMP-0311", bolim:"Moliya bo'limi", lavozim:"Buxgalter", karta:"CARD-8674", foiz:"71%"},
+   id:"EMP-0311", bolim:"Moliya bo'limi", lavozim:"Buxgalter", karta:"CARD-8674", foiz:"71%", rasm:SILUET,
+   turi:"Qo'lda tekshirish", usul:"Xodim tomonidan vizual tekshiruv", davomiylik:"4.6 soniya"},
   {nom:"Javlon Karimov", eshik:"Texnik xona eshigi", vaqt:"14:31:12", pill:"ruxsat", pillM:"Ruxsat berildi", chiziq:"#8CD121",
-   id:"EMP-0102", bolim:"Boshqaruv", lavozim:"Aktivlar direktori", karta:"CARD-8001", foiz:"97%"},
+   id:"EMP-0102", bolim:"Boshqaruv", lavozim:"Aktivlar direktori", karta:"CARD-8001", foiz:"97%", rasm:"assets/kv_shaxs.png",
+   turi:"Yuz orqali kirish", usul:"Face ID", davomiylik:"1.1 soniya"},
   {nom:"Nodirbek Yusupov", eshik:"Orqa kirish eshigi", vaqt:"14:30:45", pill:"rad", pillM:"Rad etildi", chiziq:"#F45E53",
-   id:"—", bolim:"—", lavozim:"Noma'lum shaxs", karta:"—", foiz:"38%"},
+   id:"—", bolim:"—", lavozim:"Noma'lum shaxs", karta:"—", foiz:"38%", rasm:SILUET,
+   turi:"Kirish urinishi (aniqlanmadi)", usul:"Face ID (mos kelmadi)", davomiylik:"2.4 soniya"},
   {nom:"Madina Tukhtayeva", eshik:"Ofis qavati eshigi", vaqt:"14:30:21", pill:"mos", pillM:"Yuz mos keldi", chiziq:"#8CD121",
-   id:"EMP-0450", bolim:"HR bo'limi", lavozim:"Menejer", karta:"CARD-8712", foiz:"96%"},
+   id:"EMP-0450", bolim:"HR bo'limi", lavozim:"Menejer", karta:"CARD-8712", foiz:"96%", rasm:SILUET,
+   turi:"Yuz orqali kirish", usul:"Face ID", davomiylik:"1.0 soniya"},
   {nom:"Sanjar Abdullaev", eshik:"Bosh kirish eshigi", vaqt:"14:29:58", pill:"qolda", pillM:"Qo'lda tekshirish", chiziq:"#F2994A",
-   id:"EMP-0523", bolim:"Xavfsizlik", lavozim:"Qorovul", karta:"CARD-8330", foiz:"69%"}
+   id:"EMP-0523", bolim:"Xavfsizlik", lavozim:"Qorovul", karta:"CARD-8330", foiz:"69%", rasm:"assets/kv_shaxs.png",
+   turi:"Qo'lda tekshirish", usul:"Xodim tomonidan vizual tekshiruv", davomiylik:"5.1 soniya"}
 ];
 let faol = 0;
 
@@ -256,11 +263,16 @@ function detalChiz(){
   document.getElementById("v-bolim").textContent = v.bolim;
   document.getElementById("v-lavozim").textContent = v.lavozim;
   document.getElementById("v-karta").textContent = v.karta;
+  document.getElementById("v-rasm").src = v.rasm;
   document.getElementById("v-eshik").textContent = v.eshik;
   document.getElementById("v-vaqt").textContent = "24-may, 2024 "+v.vaqt;
+  document.getElementById("v-turi").textContent = v.turi;
   document.getElementById("v-holat").textContent = "● "+v.pillM;
+  document.getElementById("v-usul").textContent = v.usul;
+  document.getElementById("v-davomiylik").textContent = v.davomiylik;
   document.getElementById("v-foiz").textContent = v.foiz;
   document.getElementById("v-iz").style.width = v.foiz;
+  document.getElementById("v-tekshirildi").textContent = "24-may, 2024 "+v.vaqt;
   document.getElementById("fid-matn").textContent = v.pillM;
   document.getElementById("fid-foiz").textContent = v.foiz;
   const fidRang = v.pill==="mos"||v.pill==="ruxsat" ? "#8CD121" : v.pill==="rad" ? "#F45E53" : "#F2994A";
@@ -269,6 +281,13 @@ function detalChiz(){
 }
 royxatChiz(); detalChiz();
 document.getElementById("v-iz").style.width = "98%";
+
+document.querySelectorAll(".kv-tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".kv-tab").forEach(x=>x.classList.remove("aktiv"));
+    t.classList.add("aktiv");
+  });
+});
 
 document.getElementById("ruxsat").addEventListener("click", ()=>{
   AUGA.toast(VOQEALAR[faol].nom+" uchun eshik ochildi — jurnalga yozildi", "i-belgi-doira");

@@ -164,16 +164,16 @@
             <div class="hd-maydon"><span class="yorliq">Hisobot turi</span><b id="d-tur">Faoliyat tahlili</b></div>
             <div class="hd-maydon"><span class="yorliq">Format</span><b id="d-format">PDF</b></div>
             <div class="hd-maydon"><span class="yorliq">Fayl hajmi</span><b id="d-hajm">2.4 MB</b></div>
-            <div class="hd-maydon"><span class="yorliq">Yaratilgan</span><b>31-may, 2024&nbsp; 14:30</b></div>
+            <div class="hd-maydon"><span class="yorliq">Yaratilgan</span><b id="d-yaratilgan">31-may, 2024&nbsp; 14:30</b></div>
             <div class="hd-maydon"><span class="yorliq">Yaratgan</span><b>Akmalov Laziz</b></div>
           </div>
           <div class="hd-rasm"><img src="assets/hisobot_3d.png" alt="Hisobot 3D illyustratsiyasi"></div>
           <div class="korsatkichlar">
             <h4>Asosiy ko'rsatkichlar</h4>
-            <div class="k-qator"><span class="nomi">Jami daromad</span><b>12 450 000 000 so'm</b><span class="delta">+12,4%</span></div>
-            <div class="k-qator"><span class="nomi">Operatsion xarajatlar</span><b>4 250 000 000 so'm</b><span class="delta salbiy">-5,3%</span></div>
-            <div class="k-qator"><span class="nomi">Sof foyda</span><b>8 200 000 000 so'm</b><span class="delta">+18,7%</span></div>
-            <div class="k-qator"><span class="nomi">Faollik indeksi</span><b>92 / 100</b><span class="delta">+6</span></div>
+            <div class="k-qator"><span class="nomi">Jami daromad</span><b id="d-daromad">12 450 000 000 so'm</b><span class="delta" id="d-daromad-d">+12,4%</span></div>
+            <div class="k-qator"><span class="nomi">Operatsion xarajatlar</span><b id="d-xarajat">4 250 000 000 so'm</b><span class="delta salbiy" id="d-xarajat-d">-5,3%</span></div>
+            <div class="k-qator"><span class="nomi">Sof foyda</span><b id="d-foyda">8 200 000 000 so'm</b><span class="delta" id="d-foyda-d">+18,7%</span></div>
+            <div class="k-qator"><span class="nomi">Faollik indeksi</span><b id="d-indeks">92 / 100</b><span class="delta" id="d-indeks-d">+6</span></div>
             <h4 style="margin-top:12px">Daromad dinamikasi (so'm)</h4>
             <svg id="mini-bar" width="100%" height="110" role="img" aria-label="Yanvardan maygacha daromad ustunlari, may eng yuqori"></svg>
           </div>
@@ -222,12 +222,18 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 const HISOBOTLAR = [
-  {nom:"Oylik faoliyat hisoboti", sub:"Faoliyat tahlili va ko'rsatkichlar", format:"pdf", sana:"31-may, 2024", soat:"14:30", tur:"Faoliyat tahlili", hajm:"2.4 MB"},
-  {nom:"Aktivlar holati hisoboti", sub:"Aktivlar ro'yxati va holati", format:"xlsx", sana:"31-may, 2024", soat:"14:15", tur:"Aktivlar tahlili", hajm:"1.8 MB"},
-  {nom:"Ijara va to'lovlar hisoboti", sub:"Ijara tushumlari va to'lov jadvallari", format:"pdf", sana:"31-may, 2024", soat:"13:40", tur:"Moliyaviy", hajm:"2.1 MB"},
-  {nom:"Moliyaviy tahlil hisoboti", sub:"Daromad va xarajatlar tahlili", format:"xlsx", sana:"30-may, 2024", soat:"18:20", tur:"Moliyaviy", hajm:"1.5 MB"},
-  {nom:"Boshqaruv taqdimoti", sub:"Asosiy KPI va tahlillar", format:"pptx", sana:"30-may, 2024", soat:"17:05", tur:"Taqdimot", hajm:"6.2 MB"},
-  {nom:"Xavfsizlik va kirish hisoboti", sub:"Smart Access faoliyati tahlili", format:"pdf", sana:"30-may, 2024", soat:"16:45", tur:"Xavfsizlik", hajm:"1.1 MB"}
+  {nom:"Oylik faoliyat hisoboti", sub:"Faoliyat tahlili va ko'rsatkichlar", format:"pdf", sana:"31-may, 2024", soat:"14:30", tur:"Faoliyat tahlili", hajm:"2.4 MB",
+   daromad:"12 450 000 000 so'm", daromadD:"+12,4%", xarajat:"4 250 000 000 so'm", xarajatD:"-5,3%", foyda:"8 200 000 000 so'm", foydaD:"+18,7%", indeks:"92 / 100", indeksD:"+6", grafik:[6.1,7.2,6.8,9.4,12.45]},
+  {nom:"Aktivlar holati hisoboti", sub:"Aktivlar ro'yxati va holati", format:"xlsx", sana:"31-may, 2024", soat:"14:15", tur:"Aktivlar tahlili", hajm:"1.8 MB",
+   daromad:"9 800 000 000 so'm", daromadD:"+4,1%", xarajat:"3 100 000 000 so'm", xarajatD:"-2,8%", foyda:"6 700 000 000 so'm", foydaD:"+7,9%", indeks:"88 / 100", indeksD:"+3", grafik:[5.4,6.0,6.6,8.1,9.8]},
+  {nom:"Ijara va to'lovlar hisoboti", sub:"Ijara tushumlari va to'lov jadvallari", format:"pdf", sana:"31-may, 2024", soat:"13:40", tur:"Moliyaviy", hajm:"2.1 MB",
+   daromad:"15 200 000 000 so'm", daromadD:"+9,6%", xarajat:"2 400 000 000 so'm", xarajatD:"-1,2%", foyda:"12 800 000 000 so'm", foydaD:"+11,4%", indeks:"95 / 100", indeksD:"+4", grafik:[9.7,10.5,11.9,13.6,15.2]},
+  {nom:"Moliyaviy tahlil hisoboti", sub:"Daromad va xarajatlar tahlili", format:"xlsx", sana:"30-may, 2024", soat:"18:20", tur:"Moliyaviy", hajm:"1.5 MB",
+   daromad:"18 900 000 000 so'm", daromadD:"+15,8%", xarajat:"6 750 000 000 so'm", xarajatD:"-8,9%", foyda:"12 150 000 000 so'm", foydaD:"+21,3%", indeks:"90 / 100", indeksD:"+8", grafik:[11.2,13.0,14.8,16.5,18.9]},
+  {nom:"Boshqaruv taqdimoti", sub:"Asosiy KPI va tahlillar", format:"pptx", sana:"30-may, 2024", soat:"17:05", tur:"Taqdimot", hajm:"6.2 MB",
+   daromad:"14 600 000 000 so'm", daromadD:"+10,2%", xarajat:"4 900 000 000 so'm", xarajatD:"-4,5%", foyda:"9 700 000 000 so'm", foydaD:"+16,1%", indeks:"91 / 100", indeksD:"+5", grafik:[8.3,9.6,10.8,12.9,14.6]},
+  {nom:"Xavfsizlik va kirish hisoboti", sub:"Smart Access faoliyati tahlili", format:"pdf", sana:"30-may, 2024", soat:"16:45", tur:"Xavfsizlik", hajm:"1.1 MB",
+   daromad:"7 300 000 000 so'm", daromadD:"+3,4%", xarajat:"1 900 000 000 so'm", xarajatD:"-6,1%", foyda:"5 400 000 000 so'm", foydaD:"+9,8%", indeks:"97 / 100", indeksD:"+2", grafik:[4.8,5.5,6.1,6.8,7.3]}
 ];
 let faol = 0;
 
@@ -246,24 +252,42 @@ function kutubxonaChiz(){
       if (e.target.closest(".uch-nuqta-mini")) return;
       faol = +b.dataset.i;
       kutubxonaChiz();
-      const h = HISOBOTLAR[faol];
-      document.getElementById("d-nom").textContent = h.nom;
-      document.getElementById("d-tur").textContent = h.tur;
-      document.getElementById("d-format").textContent = h.format.toUpperCase();
-      document.getElementById("d-hajm").textContent = h.hajm;
+      detalYangila();
     });
   });
+}
+
+function detalYangila(){
+  const h = HISOBOTLAR[faol];
+  document.getElementById("d-nom").textContent = h.nom;
+  document.getElementById("d-tur").textContent = h.tur;
+  document.getElementById("d-format").textContent = h.format.toUpperCase();
+  document.getElementById("d-hajm").textContent = h.hajm;
+  document.getElementById("d-yaratilgan").innerHTML = `${h.sana}&nbsp; ${h.soat}`;
+  document.getElementById("d-daromad").textContent = h.daromad;
+  document.getElementById("d-daromad-d").textContent = h.daromadD;
+  document.getElementById("d-daromad-d").className = "delta"+(h.daromadD.startsWith("-")?" salbiy":"");
+  document.getElementById("d-xarajat").textContent = h.xarajat;
+  document.getElementById("d-xarajat-d").textContent = h.xarajatD;
+  document.getElementById("d-xarajat-d").className = "delta"+(h.xarajatD.startsWith("-")?" salbiy":"");
+  document.getElementById("d-foyda").textContent = h.foyda;
+  document.getElementById("d-foyda-d").textContent = h.foydaD;
+  document.getElementById("d-foyda-d").className = "delta"+(h.foydaD.startsWith("-")?" salbiy":"");
+  document.getElementById("d-indeks").textContent = h.indeks;
+  document.getElementById("d-indeks-d").textContent = h.indeksD;
+  document.getElementById("d-indeks-d").className = "delta"+(h.indeksD.startsWith("-")?" salbiy":"");
+  miniBarChiz(h.grafik);
 }
 kutubxonaChiz();
 
 /* Mini bar chart */
-(function(){
+const OY = ["Yan","Fev","Mar","Apr","May"];
+function miniBarChiz(Q){
   const svg = document.getElementById("mini-bar");
   const NS = "http://www.w3.org/2000/svg";
+  svg.innerHTML = "";
   const W = svg.clientWidth || 300, H = 110, past = 20, tepa = 6;
-  const OY = ["Yan","Fev","Mar","Apr","May"];
-  const Q = [6.1, 7.2, 6.8, 9.4, 12.45];
-  const max = 13, band = (W-10)/5;
+  const max = Math.max(...Q)*1.1, band = (W-10)/5;
   Q.forEach((v,i)=>{
     const h = (v/max)*(H-tepa-past);
     const r = document.createElementNS(NS,"rect");
@@ -284,7 +308,8 @@ kutubxonaChiz();
     t.textContent = OY[i];
     svg.appendChild(t);
   });
-})();
+}
+detalYangila();
 
 /* Avtomatik hisobotlar jadvali */
 const AVATAR = `<span class="a"><svg viewBox="0 0 34 34"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;
@@ -299,11 +324,17 @@ document.getElementById("avto-jadval").innerHTML = AVTO.map((a,i)=>`
     <td>${a[1]}</td>
     <td><b>${a[2]}</b> &nbsp;<span style="color:var(--matn-4)">${a[3]}</span></td>
     <td><span class="avatar-yigin">${AVATAR}${AVATAR}${AVATAR}<span class="plus">${a[4]}</span></span></td>
-    <td><span class="status-katak" style="display:flex;align-items:center;gap:8px;font-size:13.5px"><span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol</span></td>
-    <td><label class="ulagich"><input type="checkbox" checked data-nom="${a[0]}"><span class="yoq"></span></label></td>
+    <td><span class="status-katak" id="avto-status-${i}" style="display:flex;align-items:center;gap:8px;font-size:13.5px"><span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol</span></td>
+    <td><label class="ulagich"><input type="checkbox" checked data-nom="${a[0]}" data-i="${i}"><span class="yoq"></span></label></td>
   </tr>`).join("");
 document.querySelectorAll('#avto-jadval input[type="checkbox"]').forEach(c=>{
-  c.addEventListener("change", ()=>AUGA.toast(c.dataset.nom+" "+(c.checked?"yoqildi":"to'xtatildi")+""));
+  c.addEventListener("change", ()=>{
+    AUGA.toast(c.dataset.nom+" "+(c.checked?"yoqildi":"to'xtatildi"));
+    const badge = document.getElementById("avto-status-"+c.dataset.i);
+    badge.innerHTML = c.checked
+      ? `<span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol`
+      : `<span style="width:7px;height:7px;border-radius:99px;background:var(--h-nofaol)"></span>To'xtatilgan`;
+  });
 });
 
 /* Tugmalar */

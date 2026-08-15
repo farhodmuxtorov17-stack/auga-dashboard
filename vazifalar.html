@@ -158,29 +158,7 @@
 
         <div data-jp="jarayon">
           <div class="jarayon-blok">
-            <div>
-              <h4>Tasdiqlash jarayoni</h4>
-              <div class="qadam">
-                <span class="qadam-belgi bajarildi"><svg class="ic"><use href="#i-belgi"/></svg></span>
-                <span class="qadam-matn"><b>Boshlang'ich so'rov</b><span>Shohruh Umurzakov</span></span>
-                <span class="qadam-ong"><span class="vaqt">24-may, 09:15</span><span class="holat tasdiq">Tasdiqlandi</span></span>
-              </div>
-              <div class="qadam">
-                <span class="qadam-belgi joriy">2</span>
-                <span class="qadam-matn"><b>Moliyaviy nazorat</b><span>Malika Saidova</span></span>
-                <span class="qadam-ong"><span class="holat kutilmoqda">Kutilmoqda</span></span>
-              </div>
-              <div class="qadam">
-                <span class="qadam-belgi kutish">3</span>
-                <span class="qadam-matn"><b>Yuridik ko'rib chiqish</b><span>Javlonbek Karimov</span></span>
-                <span class="qadam-ong"><span class="holat kutilmoqda">Kutilmoqda</span></span>
-              </div>
-              <div class="qadam">
-                <span class="qadam-belgi kutish">4</span>
-                <span class="qadam-matn"><b>Yakuniy tasdiq</b><span>Akmalov Laziz</span></span>
-                <span class="qadam-ong"><span class="holat kutilmoqda">Kutilmoqda</span></span>
-              </div>
-            </div>
+            <div id="qadam-royxat"></div>
             <div class="jarayon-rasm">
               <img src="assets/tasdiq_illyustratsiya.png" alt="Tasdiqlash jarayoni illyustratsiyasi">
             </div>
@@ -188,7 +166,7 @@
 
           <div class="izoh-quti">
             <b>Izoh</b>
-            <span>Moliyaviy limit doirasida. Tasdiqlash uchun yuborildi.</span>
+            <span id="j-izoh">Moliyaviy limit doirasida. Tasdiqlash uchun yuborildi.</span>
           </div>
 
           <div style="display:flex;gap:10px;margin-top:18px">
@@ -200,20 +178,12 @@
 
           <div class="faoliyat-jadval">
             <h4>Faoliyat tarixi</h4>
-            <div class="fj-qator"><span class="vaqt">24-may, 09:15</span><span class="kim">Shohruh Umurzakov</span><span class="nima">Boshlang'ich so'rov yopildi va tasdiqlash jarayoniga yuborildi.</span></div>
-            <div class="fj-qator"><span class="vaqt">24-may, 10:02</span><span class="kim">Tizim</span><span class="nima">Keyingi bosqich: Moliyaviy nazorat (Malika Saidova)</span></div>
+            <div id="faoliyat-royxat"></div>
           </div>
         </div>
 
         <div data-jp="malumot" hidden>
-          <div class="detal-jadval" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:18px">
-            <div><div style="font-size:12.5px;color:var(--matn-4)">So'rov turi</div><div style="font-size:14px;font-weight:650;margin-top:3px">Xarid so'rovnomasi</div></div>
-            <div><div style="font-size:12.5px;color:var(--matn-4)">Byudjet moddasi</div><div style="font-size:14px;font-weight:650;margin-top:3px">Kapital xarajatlar</div></div>
-            <div><div style="font-size:12.5px;color:var(--matn-4)">Obyekt</div><div style="font-size:14px;font-weight:650;margin-top:3px">"Green Tower" MCHJ</div></div>
-            <div><div style="font-size:12.5px;color:var(--matn-4)">Yetkazib beruvchi</div><div style="font-size:14px;font-weight:650;margin-top:3px">Climate Pro MCHJ</div></div>
-            <div><div style="font-size:12.5px;color:var(--matn-4)">Summa</div><div style="font-size:14px;font-weight:650;margin-top:3px">125 000 000 so'm</div></div>
-            <div><div style="font-size:12.5px;color:var(--matn-4)">Muddat</div><div style="font-size:14px;font-weight:650;margin-top:3px">10 ish kuni</div></div>
-          </div>
+          <div class="detal-jadval" id="malumot-royxat" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:18px"></div>
         </div>
       </div>
 
@@ -270,11 +240,64 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 /* Tasdiqlash navbati */
 const NAVBAT = [
-  {nom:"Xarid so'rovnomasi", kod:"№ PR-2024-0568", summa:"125 000 000 so'm", firma:'"Green Tower" MCHJ', muddat:"Bugun", soat:"14:30", shosh:true, faol:true},
-  {nom:"Shartnoma tasdig'i", kod:"№ CT-2024-1187", summa:"85 400 000 so'm", firma:'"Mega Mall" MCHJ', muddat:"Bugun", soat:"16:00", shosh:true},
-  {nom:"To'lov topshirig'i", kod:"№ PAY-2024-3345", summa:"46 750 000 so'm", firma:'"Nurafshon ofis" MCHJ', muddat:"25-may", soat:"10:00"},
-  {nom:"Sotuv shartnomasi tasdig'i", kod:"№ SOT-2024-0099", summa:"312 000 000 so'm", firma:'"Industrial Park" MCHJ', muddat:"26-may", soat:"09:30"},
-  {nom:"Aktiv qabul qilish", kod:"№ AC-2024-2211", summa:"32 500 000 so'm", firma:'"Savdo markazi" MCHJ', muddat:"27-may", soat:"11:00"}
+  {nom:"Xarid so'rovnomasi", kod:"№ PR-2024-0568", summa:"125 000 000 so'm", firma:'"Green Tower" MCHJ', muddat:"Bugun", soat:"14:30", shosh:true, faol:true,
+   izoh:"Moliyaviy limit doirasida. Tasdiqlash uchun yuborildi.",
+   qadamlar:[
+     ["bajarildi","Boshlang'ich so'rov","Shohruh Umurzakov","24-may, 09:15","Tasdiqlandi"],
+     ["joriy","Moliyaviy nazorat","Malika Saidova","","Kutilmoqda"],
+     ["kutish","Yuridik ko'rib chiqish","Javlonbek Karimov","","Kutilmoqda"],
+     ["kutish","Yakuniy tasdiq","Akmalov Laziz","","Kutilmoqda"]],
+   tarix:[
+     ["24-may, 09:15","Shohruh Umurzakov","Boshlang'ich so'rov yopildi va tasdiqlash jarayoniga yuborildi."],
+     ["24-may, 10:02","Tizim","Keyingi bosqich: Moliyaviy nazorat (Malika Saidova)"]],
+   malumot:{turi:"Xarid so'rovnomasi", byudjet:"Kapital xarajatlar", obyekt:'"Green Tower" MCHJ', yetkazib:"Climate Pro MCHJ", muddatIsh:"10 ish kuni"}},
+
+  {nom:"Shartnoma tasdig'i", kod:"№ CT-2024-1187", summa:"85 400 000 so'm", firma:'"Mega Mall" MCHJ', muddat:"Bugun", soat:"16:00", shosh:true,
+   izoh:"Ijara shartnomasi loyihasi. Yuridik bo'lim tekshiruvi kutilmoqda.",
+   qadamlar:[
+     ["bajarildi","Loyiha tayyorlandi","Nilufar Ismoilova","24-may, 08:40","Tasdiqlandi"],
+     ["joriy","Yuridik ko'rib chiqish","Javlonbek Karimov","","Kutilmoqda"],
+     ["kutish","Moliyaviy nazorat","Malika Saidova","","Kutilmoqda"],
+     ["kutish","Yakuniy imzo","Akmalov Laziz","","Kutilmoqda"]],
+   tarix:[
+     ["24-may, 08:40","Nilufar Ismoilova","Shartnoma loyihasi tayyorlandi va yuborildi."],
+     ["24-may, 09:50","Tizim","Keyingi bosqich: Yuridik ko'rib chiqish (Javlonbek Karimov)"]],
+   malumot:{turi:"Shartnoma tasdig'i", byudjet:"Operatsion xarajatlar", obyekt:'"Mega Mall" MCHJ', yetkazib:"Retail Group", muddatIsh:"5 ish kuni"}},
+
+  {nom:"To'lov topshirig'i", kod:"№ PAY-2024-3345", summa:"46 750 000 so'm", firma:'"Nurafshon ofis" MCHJ', muddat:"25-may", soat:"10:00",
+   izoh:"Oylik kommunal xizmatlar to'lovi. Standart jarayon.",
+   qadamlar:[
+     ["bajarildi","So'rov yaratildi","Saida Rahimova","23-may, 15:20","Tasdiqlandi"],
+     ["bajarildi","Moliyaviy nazorat","Malika Saidova","24-may, 11:05","Tasdiqlandi"],
+     ["joriy","Yakuniy tasdiq","Akmalov Laziz","","Kutilmoqda"],
+     ["kutish","To'lov amalga oshirish","Xazina bo'limi","","Kutilmoqda"]],
+   tarix:[
+     ["23-may, 15:20","Saida Rahimova","To'lov topshirig'i yaratildi."],
+     ["24-may, 11:05","Malika Saidova","Moliyaviy nazorat o'tdi, yakuniy tasdiqqa yuborildi."]],
+   malumot:{turi:"To'lov topshirig'i", byudjet:"Kommunal xarajatlar", obyekt:'"Nurafshon ofis" MCHJ', yetkazib:"Hududiy elektr tarmoqlari", muddatIsh:"3 ish kuni"}},
+
+  {nom:"Sotuv shartnomasi tasdig'i", kod:"№ SOT-2024-0099", summa:"312 000 000 so'm", firma:'"Industrial Park" MCHJ', muddat:"26-may", soat:"09:30",
+   izoh:"Yirik summadagi sotuv bitimi — kengaytirilgan yuridik tekshiruv talab etiladi.",
+   qadamlar:[
+     ["bajarildi","Boshlang'ich so'rov","Bekzod Yusupov","22-may, 14:00","Tasdiqlandi"],
+     ["joriy","Yuridik ko'rib chiqish","Javlonbek Karimov","","Kutilmoqda"],
+     ["kutish","Moliyaviy nazorat","Malika Saidova","","Kutilmoqda"],
+     ["kutish","Yakuniy tasdiq","Akmalov Laziz","","Kutilmoqda"]],
+   tarix:[
+     ["22-may, 14:00","Bekzod Yusupov","Sotuv shartnomasi loyihasi kiritildi."],
+     ["23-may, 09:15","Tizim","Keyingi bosqich: Yuridik ko'rib chiqish (Javlonbek Karimov)"]],
+   malumot:{turi:"Sotuv shartnomasi tasdig'i", byudjet:"Aktivlarni realizatsiya qilish", obyekt:'"Industrial Park" MCHJ', yetkazib:"Industrial Partners LLC", muddatIsh:"15 ish kuni"}},
+
+  {nom:"Aktiv qabul qilish", kod:"№ AC-2024-2211", summa:"32 500 000 so'm", firma:'"Savdo markazi" MCHJ', muddat:"27-may", soat:"11:00",
+   izoh:"Yangi uskuna qabul qilinishi kutilmoqda. Texnik ko'rikdan keyin davom etadi.",
+   qadamlar:[
+     ["joriy","Boshlang'ich so'rov","Jahongir Otajonov","","Kutilmoqda"],
+     ["kutish","Texnik ko'rik","Shahzod Abdullaev","","Kutilmoqda"],
+     ["kutish","Moliyaviy nazorat","Malika Saidova","","Kutilmoqda"],
+     ["kutish","Yakuniy tasdiq","Akmalov Laziz","","Kutilmoqda"]],
+   tarix:[
+     ["25-may, 16:40","Jahongir Otajonov","Aktiv qabul qilish so'rovi yaratildi."]],
+   malumot:{turi:"Aktiv qabul qilish", byudjet:"Aktivlar hisobga olish", obyekt:'"Savdo markazi" MCHJ', yetkazib:"Tex Import MCHJ", muddatIsh:"7 ish kuni"}}
 ];
 document.getElementById("navbat").innerHTML = NAVBAT.map((n,i)=>`
   <button class="tasdiq-kartacha ${n.faol?"faol":""}" data-i="${i}">
@@ -289,16 +312,36 @@ document.getElementById("navbat").innerHTML = NAVBAT.map((n,i)=>`
     <span class="tk-past" style="margin-top:4px"><span class="firma" style="margin-left:0">${n.firma}</span></span>
   </button>`).join("");
 
+function detalYangila(n){
+  document.getElementById("j-nom").textContent = n.nom;
+  document.getElementById("j-kod").textContent = n.kod;
+  document.getElementById("j-summa").textContent = n.summa;
+  document.getElementById("j-izoh").textContent = n.izoh;
+
+  document.getElementById("qadam-royxat").innerHTML = `<h4>Tasdiqlash jarayoni</h4>` + n.qadamlar.map(([holat,nom,kim,vaqt,holatMatn],i)=>`
+    <div class="qadam">
+      <span class="qadam-belgi ${holat}">${holat==="bajarildi" ? '<svg class="ic"><use href="#i-belgi"/></svg>' : i+1}</span>
+      <span class="qadam-matn"><b>${nom}</b><span>${kim}</span></span>
+      <span class="qadam-ong">${vaqt?`<span class="vaqt">${vaqt}</span>`:""}<span class="holat ${holat==="bajarildi"?"tasdiq":"kutilmoqda"}">${holatMatn}</span></span>
+    </div>`).join("");
+
+  document.getElementById("faoliyat-royxat").innerHTML = n.tarix.map(([vaqt,kim,nima])=>`
+    <div class="fj-qator"><span class="vaqt">${vaqt}</span><span class="kim">${kim}</span><span class="nima">${nima}</span></div>`).join("");
+
+  const m = n.malumot;
+  const MAYDON = [["So'rov turi",m.turi],["Byudjet moddasi",m.byudjet],["Obyekt",m.obyekt],["Yetkazib beruvchi",m.yetkazib],["Summa",n.summa],["Muddat",m.muddatIsh]];
+  document.getElementById("malumot-royxat").innerHTML = MAYDON.map(([yorliq,qiymat])=>`
+    <div><div style="font-size:12.5px;color:var(--matn-4)">${yorliq}</div><div style="font-size:14px;font-weight:650;margin-top:3px">${qiymat}</div></div>`).join("");
+}
+
 document.querySelectorAll(".tasdiq-kartacha").forEach(k=>{
   k.addEventListener("click", ()=>{
     document.querySelectorAll(".tasdiq-kartacha").forEach(x=>x.classList.remove("faol"));
     k.classList.add("faol");
-    const n = NAVBAT[+k.dataset.i];
-    document.getElementById("j-nom").textContent = n.nom;
-    document.getElementById("j-kod").textContent = n.kod;
-    document.getElementById("j-summa").textContent = n.summa;
+    detalYangila(NAVBAT[+k.dataset.i]);
   });
 });
+detalYangila(NAVBAT[0]);
 
 /* Markaz tablari */
 document.querySelectorAll(".jarayon-tab").forEach(t=>{

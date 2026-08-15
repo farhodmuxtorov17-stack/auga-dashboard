@@ -43,7 +43,8 @@
 .joylashuv-karta h3{font-size:16.5px;font-weight:750}
 .joylashuv-karta .kod{font-size:12.5px;color:var(--matn-4);margin-top:1px}
 .aero{position:relative;border-radius:15px;overflow:hidden;margin-top:12px}
-.aero img{width:100%;height:420px;object-fit:cover}
+.aero img{width:100%;height:420px;object-fit:cover;transition:filter .25s ease}
+.aero img.sxematik{filter:grayscale(.85) contrast(1.15) brightness(1.08)}
 .aero .nazorat{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:8px}
 .aero .nazorat button{width:36px;height:36px;background:#fff;border-radius:10px;box-shadow:var(--soya-pin);display:grid;place-items:center;font-size:16px;font-weight:700;color:#2B3036}
 .aero .nazorat .ic{width:17px;height:17px}
@@ -146,7 +147,7 @@
         <h3>Uchastka joylashuvi</h3>
         <div class="kod" id="j-kod">YM-2024-001</div>
         <div class="aero">
-          <img src="assets/uchastka_aero.png" alt="Uchastka aerofoto ko'rinishi — chegara polygon bilan">
+          <img id="aero-rasm" src="assets/uchastka_aero.png" alt="Uchastka aerofoto ko'rinishi — chegara polygon bilan">
           <div class="nazorat">
             <button data-toast="Yaqinlashtirish">+</button>
             <button data-toast="Uzoqlashtirish">−</button>
@@ -264,6 +265,7 @@ function royxatChiz(){
   });
 }
 function panelChiz(){
+  document.querySelector(".ym-grid aside").style.display = "";
   const u = UCHASTKALAR[faol];
   document.getElementById("j-kod").textContent = u.kod;
   document.getElementById("u-kod").textContent = u.kod;
@@ -286,8 +288,12 @@ document.querySelectorAll(".tur-chip").forEach(c=>{
   });
 });
 
-document.getElementById("a-2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-3d").classList.remove("aktiv"); AUGA.toast("2D xarita rejimi"); });
-document.getElementById("a-3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-2d").classList.remove("aktiv"); AUGA.toast("3D xarita rejimi"); });
+document.getElementById("a-2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-3d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.add("sxematik"); AUGA.toast("2D xarita rejimi"); });
+document.getElementById("a-3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-2d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.remove("sxematik"); AUGA.toast("3D xarita rejimi"); });
+document.querySelector(".up-yop").addEventListener("click", ()=>{
+  document.querySelector(".ym-grid aside").style.display = "none";
+  document.querySelectorAll(".uch-band").forEach(r=>r.classList.remove("faol"));
+});
 
 document.getElementById("yangi-yer").addEventListener("click", ()=>{
   AUGA.modal("Yangi yer maydoni qo'shish",

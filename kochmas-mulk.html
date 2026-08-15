@@ -115,9 +115,9 @@
     </section>
 
     <div class="filtr-qator">
-      <button class="tanlov" data-variantlar='["Barcha turdagi","Turar-joy","Ofis","Savdo","Dacha","Yer uchastkasi"]'><span class="t-yorliq">Barcha turdagi</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="tanlov" data-variantlar='["Barcha hudud","Toshkent sh.","Toshkent vil.","Boshqa hududlar"]'><span class="t-yorliq">Barcha hudud</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="tanlov" data-variantlar='["Barcha status","Faol","Rejalashtirilgan","Ta&#39;mirda"]'><span class="t-yorliq">Barcha status</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="mf-tur" data-variantlar='["Barcha turdagi","Turar-joy","Ofis","Savdo","Dacha","Yer uchastkasi"]'><span class="t-yorliq">Barcha turdagi</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="mf-hudud" data-variantlar='["Barcha hudud","Toshkent sh.","Toshkent vil.","Boshqa hududlar"]'><span class="t-yorliq">Barcha hudud</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="mf-status" data-variantlar='["Barcha status","Faol","Rejalashtirilgan","Ta&#39;mirda"]'><span class="t-yorliq">Barcha status</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
       <div class="korinish" role="group" aria-label="Ko'rinish">
         <button class="aktiv" id="k-grid" aria-label="Kartalar ko'rinishi"><svg class="ic"><use href="#i-panel"/></svg></button>
@@ -186,7 +186,7 @@ const MULKLAR = [
    qiymat:"28 450 000 000 so'm", bandlik:93, ball:93, rasm:"assets/bino_turar.png", id:"nurafshon-turar"},
   {nom:"Green Tower", tur:"Ofis binosi", manzil:"Toshkent sh., Shayxontohur tum.", holat:"Faol", hrang:"#22B14C",
    qiymat:"24 500 000 000 so'm", bandlik:81, ball:81, rasm:"assets/bino_tower.png", id:"green-tower"},
-  {nom:"Chorvoq dacha", tur:"Dacha uyi", manzil:"Bo'stonliq tum., Chorvoq", holat:"Faol", hrang:"#22B14C",
+  {nom:"Chorvoq dacha", tur:"Dacha uyi", manzil:"Toshkent vil., Bo'stonliq tum.", holat:"Faol", hrang:"#22B14C",
    qiymat:"1 850 000 000 so'm", bandlik:70, ball:70, rasm:"assets/bino_dacha.png", id:"chorvoq-dacha"},
   {nom:"Mega Mall", tur:"Savdo markazi", manzil:"Toshkent sh., Mirobod tum.", holat:"Faol", hrang:"#22B14C",
    qiymat:"25 600 000 000 so'm", bandlik:89, ball:89, rasm:"assets/bino_mall.png", id:"mega-mall"},
@@ -205,22 +205,48 @@ function halqa(b){
       stroke-dasharray="${(Math.max(b,1.5)/100*C).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 22 22)"/>
   </svg>`;
 }
-document.getElementById("mulk-grid").innerHTML = MULKLAR.map(m=>`
-  <a class="mulk-karta" href="aktiv.html?id=${m.id}">
-    <img src="${m.rasm}" alt="${m.nom}">
-    <span class="mulk-tana">
-      <span class="mulk-bosh"><b>${m.nom}</b><span class="mulk-holat"><span class="nuqta" style="background:${m.hrang}"></span>${m.holat}</span></span>
-      <span class="mulk-tur">${m.tur}</span>
-      <span class="mulk-manzil">${m.manzil}</span>
-      <span class="mulk-past">
-        <span><span class="yorliq">Qiymat</span><br><span class="qiymat">${m.qiymat}</span></span>
-        <span class="bandlik">
-          <span><span class="yorliq">Bandlik</span><br><span class="foiz">${m.bandlik}%</span></span>
-          <span class="halqa">${halqa(m.ball)}<b>${m.ball>0?m.ball+"%":"·"}</b></span>
+let mTur = "Barcha turdagi", mHudud = "Barcha hudud", mStatus = "Barcha status", korinish = "grid";
+function mulkFiltrlangan(){
+  return MULKLAR.filter(m=>
+    (mTur==="Barcha turdagi" || m.tur.includes(mTur)) &&
+    (mHudud==="Barcha hudud" || (mHudud==="Boshqa hududlar" ? !m.manzil.startsWith("Toshkent sh.") && !m.manzil.startsWith("Toshkent vil.") : m.manzil.startsWith(mHudud))) &&
+    (mStatus==="Barcha status" || m.holat===mStatus)
+  );
+}
+function mulkChiz(){
+  const royxat = mulkFiltrlangan();
+  const grid = document.getElementById("mulk-grid");
+  if (korinish==="grid"){
+    grid.className = "mulk-grid";
+    grid.innerHTML = royxat.length ? royxat.map(m=>`
+      <a class="mulk-karta" href="aktiv.html?id=${m.id}">
+        <img src="${m.rasm}" alt="${m.nom}">
+        <span class="mulk-tana">
+          <span class="mulk-bosh"><b>${m.nom}</b><span class="mulk-holat"><span class="nuqta" style="background:${m.hrang}"></span>${m.holat}</span></span>
+          <span class="mulk-tur">${m.tur}</span>
+          <span class="mulk-manzil">${m.manzil}</span>
+          <span class="mulk-past">
+            <span><span class="yorliq">Qiymat</span><br><span class="qiymat">${m.qiymat}</span></span>
+            <span class="bandlik">
+              <span><span class="yorliq">Bandlik</span><br><span class="foiz">${m.bandlik}%</span></span>
+              <span class="halqa">${halqa(m.ball)}<b>${m.ball>0?m.ball+"%":"·"}</b></span>
+            </span>
+          </span>
         </span>
-      </span>
-    </span>
-  </a>`).join("");
+      </a>`).join("") : `<div style="padding:40px;text-align:center;color:var(--matn-4)">Filtrga mos obyekt topilmadi</div>`;
+  } else {
+    grid.className = "";
+    grid.innerHTML = `<div class="karta jadval-korpus"><div class="jadval-orash"><table class="jadval">
+      <thead><tr><th>Obyekt</th><th>Turi</th><th>Manzil</th><th>Qiymat</th><th>Bandlik</th><th>Holat</th></tr></thead>
+      <tbody>${royxat.length ? royxat.map(m=>`
+        <tr onclick="location.href='aktiv.html?id=${m.id}'">
+          <td><b>${m.nom}</b></td><td>${m.tur}</td><td>${m.manzil}</td><td>${m.qiymat}</td><td>${m.bandlik}%</td>
+          <td><span class="mini-holat"><span class="nuqta" style="background:${m.hrang}"></span>${m.holat}</span></td>
+        </tr>`).join("") : `<tr><td colspan="6" style="text-align:center;color:var(--matn-4);padding:24px">Filtrga mos obyekt topilmadi</td></tr>`}</tbody>
+    </table></div></div>`;
+  }
+}
+mulkChiz();
 
 /* Portfel donut */
 (function(){
@@ -244,12 +270,17 @@ document.getElementById("mulk-grid").innerHTML = MULKLAR.map(m=>`
 /* Ko'rinish tugmalari */
 document.getElementById("k-grid").addEventListener("click", function(){
   this.classList.add("aktiv"); document.getElementById("k-royxat").classList.remove("aktiv");
+  korinish = "grid"; mulkChiz();
 });
 document.getElementById("k-royxat").addEventListener("click", function(){
   this.classList.add("aktiv"); document.getElementById("k-grid").classList.remove("aktiv");
-  AUGA.toast("Ro'yxat ko'rinishi — Obyektlar ro'yxati sahifasida", "i-topshiriq");
-  setTimeout(()=>location.href="aktivlar.html", 700);
+  korinish = "royxat"; mulkChiz();
 });
+
+/* Filtrlar */
+document.getElementById("mf-tur").addEventListener("tanlov", e=>{ mTur = e.detail; mulkChiz(); });
+document.getElementById("mf-hudud").addEventListener("tanlov", e=>{ mHudud = e.detail; mulkChiz(); });
+document.getElementById("mf-status").addEventListener("tanlov", e=>{ mStatus = e.detail; mulkChiz(); });
 });
 </script>
 </body>

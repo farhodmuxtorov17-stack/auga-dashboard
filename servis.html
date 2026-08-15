@@ -297,7 +297,7 @@ hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
 }));
 
 /* 3D/2D */
-document.getElementById("s3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s2d").classList.remove("aktiv"); });
+document.getElementById("s3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s2d").classList.remove("aktiv"); AUGA.toast("3D reja"); });
 document.getElementById("s2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s3d").classList.remove("aktiv"); AUGA.toast("2D reja"); });
 
 /* Tahrirlash */

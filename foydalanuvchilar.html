@@ -141,10 +141,10 @@
           <div class="malumot-jadval">
             <div class="mj-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">ID raqami</span><b id="p-id">U056789012</b></div>
             <div class="mj-qator"><svg class="ic"><use href="#i-mail"/></svg><span class="yorliq">Email</span><b id="p-email">javlon.karimov@auga.uz</b></div>
-            <div class="mj-qator"><svg class="ic"><use href="#i-tel"/></svg><span class="yorliq">Telefon</span><b>+998 90 123 45 67</b></div>
+            <div class="mj-qator"><svg class="ic"><use href="#i-tel"/></svg><span class="yorliq">Telefon</span><b id="p-tel">+998 90 123 45 67</b></div>
             <div class="mj-qator"><svg class="ic"><use href="#i-panel"/></svg><span class="yorliq">Bo'lim</span><b id="p-bolim">IT bo'limi</b></div>
             <div class="mj-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Lavozim</span><b id="p-lavozim">Tizim administratori</b></div>
-            <div class="mj-qator"><svg class="ic"><use href="#i-kalendar"/></svg><span class="yorliq">Ishga kirish sanasi</span><b>15-yan, 2022</b></div>
+            <div class="mj-qator"><svg class="ic"><use href="#i-kalendar"/></svg><span class="yorliq">Ishga kirish sanasi</span><b id="p-sana">15-yan, 2022</b></div>
             <div class="mj-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b><span class="nuqta" id="p-holat-nuqta"></span><span id="p-holat">Faol</span></b></div>
           </div>
 
@@ -194,14 +194,14 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 const AVATAR = `<span class="avatar"><svg viewBox="0 0 34 34" style="width:32px;height:32px;display:block;margin:5px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;
 const FOYDLAR = [
-  {nom:"Javlon Karimov", rol:"Administrator", teg:"admin", bolim:"IT bo'limi", faol:true, id:"U056789012", email:"javlon.karimov@auga.uz", lavozim:"Tizim administratori"},
-  {nom:"Nilufar Ismoilova", rol:"Operator", teg:"operator", bolim:"Operatsion bo'lim", faol:true, id:"U056789013", email:"n.ismoilova@auga.uz", lavozim:"Katta operator"},
-  {nom:"Bekzod Yusupov", rol:"Auditor", teg:"auditor", bolim:"Audit bo'limi", faol:true, id:"U056789014", email:"b.yusupov@auga.uz", lavozim:"Bosh auditor"},
-  {nom:"Madina Tursunova", rol:"Moliya", teg:"moliya", bolim:"Moliya bo'limi", faol:true, id:"U056789015", email:"m.tursunova@auga.uz", lavozim:"Moliya mutaxassisi"},
-  {nom:"Shahzod Abdullaev", rol:"Texnik xodim", teg:"texnik", bolim:"Texnik xizmat", faol:true, id:"U056789016", email:"sh.abdullaev@auga.uz", lavozim:"Texnik muhandis"},
-  {nom:"Umid Safarov", rol:"Operator", teg:"operator", bolim:"Operatsion bo'lim", faol:false, id:"U056789017", email:"u.safarov@auga.uz", lavozim:"Operator"},
-  {nom:"Saida Rahimova", rol:"Moliya", teg:"moliya", bolim:"Moliya bo'limi", faol:true, id:"U056789018", email:"s.rahimova@auga.uz", lavozim:"Buxgalter"},
-  {nom:"Jahongir Otajonov", rol:"Texnik xodim", teg:"texnik", bolim:"Texnik xizmat", faol:true, id:"U056789019", email:"j.otajonov@auga.uz", lavozim:"Elektrik"}
+  {nom:"Javlon Karimov", rol:"Administrator", teg:"admin", bolim:"IT bo'limi", faol:true, id:"U056789012", email:"javlon.karimov@auga.uz", lavozim:"Tizim administratori", tel:"+998 90 123 45 67", sana:"15-yan, 2022"},
+  {nom:"Nilufar Ismoilova", rol:"Operator", teg:"operator", bolim:"Operatsion bo'lim", faol:true, id:"U056789013", email:"n.ismoilova@auga.uz", lavozim:"Katta operator", tel:"+998 91 234 56 78", sana:"03-mar, 2022"},
+  {nom:"Bekzod Yusupov", rol:"Auditor", teg:"auditor", bolim:"Audit bo'limi", faol:true, id:"U056789014", email:"b.yusupov@auga.uz", lavozim:"Bosh auditor", tel:"+998 93 345 67 89", sana:"20-avg, 2021"},
+  {nom:"Madina Tursunova", rol:"Moliya", teg:"moliya", bolim:"Moliya bo'limi", faol:true, id:"U056789015", email:"m.tursunova@auga.uz", lavozim:"Moliya mutaxassisi", tel:"+998 94 456 78 90", sana:"11-noy, 2022"},
+  {nom:"Shahzod Abdullaev", rol:"Texnik xodim", teg:"texnik", bolim:"Texnik xizmat", faol:true, id:"U056789016", email:"sh.abdullaev@auga.uz", lavozim:"Texnik muhandis", tel:"+998 97 567 89 01", sana:"05-fev, 2023"},
+  {nom:"Umid Safarov", rol:"Operator", teg:"operator", bolim:"Operatsion bo'lim", faol:false, id:"U056789017", email:"u.safarov@auga.uz", lavozim:"Operator", tel:"+998 88 678 90 12", sana:"14-iyul, 2023"},
+  {nom:"Saida Rahimova", rol:"Moliya", teg:"moliya", bolim:"Moliya bo'limi", faol:true, id:"U056789018", email:"s.rahimova@auga.uz", lavozim:"Buxgalter", tel:"+998 99 789 01 23", sana:"22-sen, 2021"},
+  {nom:"Jahongir Otajonov", rol:"Texnik xodim", teg:"texnik", bolim:"Texnik xizmat", faol:true, id:"U056789019", email:"j.otajonov@auga.uz", lavozim:"Elektrik", tel:"+998 95 890 12 34", sana:"09-dek, 2023"}
 ];
 let faol = 0, izlash = "";
 
@@ -232,6 +232,8 @@ function profilChiz(){
   document.getElementById("p-email").textContent = f.email;
   document.getElementById("p-bolim").textContent = f.bolim;
   document.getElementById("p-lavozim").textContent = f.lavozim;
+  document.getElementById("p-tel").textContent = f.tel;
+  document.getElementById("p-sana").textContent = f.sana;
   document.getElementById("p-holat").textContent = f.faol ? "Faol" : "Nofaol";
   document.getElementById("p-holat-nuqta").style.background = f.faol ? "#22B14C" : "#9AA1A9";
 }

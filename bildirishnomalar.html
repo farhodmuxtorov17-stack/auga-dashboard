@@ -125,10 +125,10 @@
       <aside style="display:flex;flex-direction:column;gap:18px">
         <div class="karta">
           <div class="faollik-bosh">
-            <h3>Bugungi faollik</h3>
-            <button class="tanlov" data-variantlar='["Bugun","Kecha","Hafta"]'><span class="t-yorliq">Bugun</span><svg class="ic"><use href="#i-past"/></svg></button>
+            <h3 id="faollik-sarlavha">Bugungi faollik</h3>
+            <button class="tanlov" id="faollik-davr" data-variantlar='["Bugun","Kecha","Hafta"]'><span class="t-yorliq">Bugun</span><svg class="ic"><use href="#i-past"/></svg></button>
           </div>
-          <div class="faollik-son">12</div>
+          <div class="faollik-son" id="faollik-son">12</div>
           <div class="faollik-izoh">Jami bildirishnoma</div>
           <svg id="faollik-grafik" width="100%" height="150" role="img"
                aria-label="Soatlik bildirishnomalar taqsimoti, eng ko'pi tushga yaqin"></svg>
@@ -215,14 +215,20 @@ document.getElementById("sozlama-ochish").addEventListener("click", ()=>{
 /* Faollik grafigi — soatlik ustunlar */
 const svg = document.getElementById("faollik-grafik");
 const NS = "http://www.w3.org/2000/svg";
-const SOATLIK = [0,0,0,0,0,0,0,0,1,1,1,2,2,1,1,1,1,1,0,0,0,0,0,0];
+const DAVRLAR = {
+  "Bugun": [0,0,0,0,0,0,0,0,1,1,1,2,2,1,1,1,1,1,0,0,0,0,0,0],
+  "Kecha": [0,0,0,0,0,0,0,0,1,1,1,1,2,1,1,0,1,0,0,0,0,0,0,0],
+  "Hafta": [0,0,0,0,0,0,0,0,6,7,7,12,13,8,7,6,6,5,3,2,1,0,0,0]
+};
+let SOATLIK = DAVRLAR["Bugun"];
 function chiz(){
   svg.innerHTML = "";
   const W = svg.clientWidth || 340, H = 150;
   const chap = 22, past = 22, tepa = 8;
   const pw = W - chap - 6, ph = H - tepa - past;
-  const maxY = 15;
-  [0,5,10,15].forEach(t=>{
+  const maxY = Math.max(...SOATLIK) <= 2 ? 5 : Math.ceil(Math.max(...SOATLIK)/5)*5;
+  const chiziqlar = maxY<=5 ? [0,1,2,3,4,5] : [0,maxY/2,maxY];
+  chiziqlar.forEach(t=>{
     const y = tepa + ph - t/maxY*ph;
     const l = document.createElementNS(NS,"line");
     l.setAttribute("x1",chap);l.setAttribute("y1",y);l.setAttribute("x2",W-4);l.setAttribute("y2",y);
@@ -256,6 +262,13 @@ function chiz(){
 }
 chiz();
 let rz; window.addEventListener("resize", ()=>{clearTimeout(rz); rz=setTimeout(chiz,120);});
+
+document.getElementById("faollik-davr").addEventListener("tanlov", e=>{
+  SOATLIK = DAVRLAR[e.detail];
+  document.getElementById("faollik-son").textContent = SOATLIK.reduce((a,b)=>a+b,0);
+  document.getElementById("faollik-sarlavha").textContent = e.detail==="Bugun" ? "Bugungi faollik" : e.detail==="Kecha" ? "Kechagi faollik" : "Haftalik faollik";
+  chiz();
+});
 });
 </script>
 </body>

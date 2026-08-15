@@ -216,9 +216,15 @@ function qavatChiz(){
 }
 function qavatTanla(q){
   faolQavat = q;
+  faolXona = 0;
   qavatChiz();
   document.querySelectorAll(".qavat-yorliq").forEach(y=>y.classList.toggle("faol", y.dataset.q===q));
   document.getElementById("xonalar-sarlavha").textContent = `Xonalar (${q}-qavat)`;
+  xonalarChiz();
+  const royxat = joriyXonalar();
+  const panel = document.getElementById("xona-panel");
+  if (royxat.length){ panel.style.display = ""; panelChiz(); }
+  else { panel.style.display = "none"; }
   AUGA.toast(`${q}-qavat tanlandi`, "i-qavat");
 }
 document.querySelectorAll(".qavat-yorliq").forEach(y=>{
@@ -226,30 +232,34 @@ document.querySelectorAll(".qavat-yorliq").forEach(y=>{
 });
 
 const XONALAR = [
-  {nom:"Ofis 301", maydon:"120 m²", rasm:"assets/xona_ofis.png", tur:"Ofis", sigim:"12 kishi", holat:"Band",
+  {nom:"Ofis 301", qavat:"3", maydon:"120 m²", rasm:"assets/xona_ofis.png", tur:"Ofis", sigim:"12 kishi", holat:"Band",
    egasi:"Tech Solutions LLC", shartnoma:"NPR-2024-0566", muddat:"26-may, 2025",
    jihozlar:[["Stol","12 ta"],["Kreslo","12 ta"],["Kompyuter","12 ta"],["Printer","2 ta"],["Konditsioner","2 ta"]]},
-  {nom:"Konferensiya zali", maydon:"60 m²", rasm:"assets/xona_konf.png", tur:"Konferensiya", sigim:"24 kishi", holat:"Bron qilinadi",
+  {nom:"Konferensiya zali", qavat:"4", maydon:"60 m²", rasm:"assets/xona_konf.png", tur:"Konferensiya", sigim:"24 kishi", holat:"Bron qilinadi",
    egasi:"Umumiy foydalanish", shartnoma:"—", muddat:"—",
    jihozlar:[["Stol","1 ta"],["Kreslo","24 ta"],["Proyektor","1 ta"],["Video panel","1 ta"],["Konditsioner","2 ta"]]},
-  {nom:"Arxiv xonasi", maydon:"25 m²", rasm:"assets/xona_arxiv.png", tur:"Arxiv", sigim:"—", holat:"Faol",
+  {nom:"Arxiv xonasi", qavat:"-1", maydon:"25 m²", rasm:"assets/xona_arxiv.png", tur:"Arxiv", sigim:"—", holat:"Faol",
    egasi:"AUGA ma'muriyati", shartnoma:"—", muddat:"—",
    jihozlar:[["Javon","16 ta"],["Seyf","2 ta"],["Namlik sensori","2 ta"]]},
-  {nom:"Server xonasi", maydon:"18 m²", rasm:"assets/xona_server.png", tur:"Texnik", sigim:"—", holat:"Faol",
+  {nom:"Server xonasi", qavat:"-1", maydon:"18 m²", rasm:"assets/xona_server.png", tur:"Texnik", sigim:"—", holat:"Faol",
    egasi:"IT bo'limi", shartnoma:"—", muddat:"—",
    jihozlar:[["Server shkafi","6 ta"],["UPS","4 ta"],["Sovutish bloki","2 ta"]]},
-  {nom:"Savdo maydoni", maydon:"240 m²", rasm:"assets/xona_savdo.png", tur:"Savdo", sigim:"120 kishi", holat:"Band",
+  {nom:"Savdo maydoni", qavat:"2", maydon:"240 m²", rasm:"assets/xona_savdo.png", tur:"Savdo", sigim:"120 kishi", holat:"Band",
    egasi:"Retail Group", shartnoma:"NPR-2024-0312", muddat:"14-iyun, 2025",
    jihozlar:[["Peshtaxta","8 ta"],["Javon","32 ta"],["Kassa","4 ta"],["Konditsioner","4 ta"]]}
 ];
 let faolXona = 0;
 
+function joriyXonalar(){ return XONALAR.filter(x=>x.qavat===faolQavat); }
+
 function xonalarChiz(){
-  document.getElementById("xona-torlar").innerHTML = XONALAR.map((x,i)=>`
+  const royxat = joriyXonalar();
+  if (faolXona >= royxat.length) faolXona = 0;
+  document.getElementById("xona-torlar").innerHTML = royxat.length ? royxat.map((x,i)=>`
     <button class="xona-k ${i===faolXona?"faol":""}" data-i="${i}">
       <img src="${x.rasm}" alt="${x.nom}">
       <b>${x.nom}</b><span>${x.maydon}</span>
-    </button>`).join("");
+    </button>`).join("") : `<div style="padding:24px;color:var(--matn-4);font-size:13.5px">${faolQavat}-qavatda ro'yxatga olingan xona yo'q</div>`;
   document.querySelectorAll(".xona-k").forEach(k=>{
     k.addEventListener("click", ()=>{
       faolXona = +k.dataset.i;
@@ -258,12 +268,13 @@ function xonalarChiz(){
   });
 }
 function panelChiz(){
-  const x = XONALAR[faolXona];
+  const x = joriyXonalar()[faolXona];
+  if (!x) return;
   document.getElementById("xona-panel").innerHTML = `
     <div class="xp-bosh">
       <h2>${x.nom}</h2>
       <span class="chip ${x.holat==="Band"?"chip-yashil":x.holat==="Faol"?"chip-yashil":"chip-kok"}">${x.holat}</span>
-      <button class="xp-yop" data-toast="Panel yopildi" aria-label="Yopish"><svg class="ic" style="width:18px;height:18px"><use href="#i-yopish"/></svg></button>
+      <button class="xp-yop" id="xp-yop" aria-label="Yopish"><svg class="ic" style="width:18px;height:18px"><use href="#i-yopish"/></svg></button>
     </div>
 
     <div class="xp-blok">
@@ -271,7 +282,7 @@ function panelChiz(){
       <div class="xp-qator"><svg class="ic"><use href="#i-uy"/></svg><span class="yorliq">Xona turi</span><b>${x.tur}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-kengay"/></svg><span class="yorliq">Maydon</span><b>${x.maydon}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-tashrif"/></svg><span class="yorliq">Sig'im</span><b>${x.sigim}</b></div>
-      <div class="xp-qator"><svg class="ic"><use href="#i-qavat"/></svg><span class="yorliq">Qavat</span><b>${faolQavat}-qavat</b></div>
+      <div class="xp-qator"><svg class="ic"><use href="#i-qavat"/></svg><span class="yorliq">Qavat</span><b>${x.qavat}-qavat</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b><span class="nuqta" style="background:${x.holat==="Band"||x.holat==="Faol"?"#22B14C":"#2F6BCF"}"></span>${x.holat}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Egasi / Ijarachi</span><b>${x.egasi}</b></div>
       <div class="xp-qator"><svg class="ic"><use href="#i-shartnoma"/></svg><span class="yorliq">Shartnoma</span><b>${x.shartnoma}</b></div>
@@ -301,7 +312,12 @@ function panelChiz(){
       </div>`,
       { okMatn:"Saqlash", ok(){ AUGA.toast("Xona ma'lumotlari saqlandi"); } });
   });
+  document.getElementById("xp-yop").addEventListener("click", ()=>{
+    document.getElementById("xona-panel").style.display = "none";
+    document.querySelectorAll(".xona-k").forEach(k=>k.classList.remove("faol"));
+  });
 }
+qavatChiz();
 xonalarChiz(); panelChiz();
 
 document.getElementById("xona-keyingi").addEventListener("click", ()=>{

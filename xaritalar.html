@@ -37,6 +37,7 @@
 .hudud-panel h3{font-size:17px;font-weight:750;margin-bottom:8px}
 .hudud-band{display:flex;align-items:center;gap:11px;width:100%;padding:9px 8px;margin:0 -8px;border-radius:10px;font-size:14.5px;transition:background var(--tez);text-align:left}
 .hudud-band:hover{background:#F6F7F8}
+.hudud-band.faol{background:#F3FBE2;box-shadow:inset 0 0 0 1px #CBE99B}
 .hudud-band .ic{width:18px;height:18px;color:#5F6169}
 .hudud-band .nomi{color:#33383E;font-weight:550}
 .hudud-band b{margin-left:auto;font-weight:750;font-variant-numeric:tabular-nums;color:#17191C}
@@ -86,7 +87,7 @@
       <div id="leaflet-uzb" role="img" aria-label="O'zbekiston hududlari bo'yicha aktivlar faollik xaritasi"></div>
 
       <div class="ustki-qator">
-        <button class="tanlov" data-variantlar='["Barcha hududlar","Toshkent shahri","Toshkent viloyati","Samarqand","Farg&#39;ona","Buxoro","Qashqadaryo","Navoiy","Andijon","Namangan","Xorazm","Jizzax","Surxondaryo","Qoraqalpog&#39;iston R."]'>
+        <button class="tanlov" id="hudud-filtr" data-variantlar='["Barcha hududlar","Toshkent shahri","Toshkent viloyati","Samarqand","Farg&#39;ona","Buxoro","Qashqadaryo","Navoiy","Andijon","Namangan","Xorazm","Jizzax","Surxondaryo","Qoraqalpog&#39;iston R."]'>
           <span class="t-yorliq">Barcha hududlar</span><svg class="ic"><use href="#i-past"/></svg>
         </button>
         <div class="rejim" role="group" aria-label="Xarita rejimi">
@@ -214,6 +215,23 @@ HUDUDLAR.forEach(h=>{
     uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
     AUGA.toast(`${h[0]} bo'yicha batafsil`, "i-bino");
   });
+});
+
+/* Hudud filtri — xaritani tanlangan hududga uchiradi va ro'yxatda ajratib ko'rsatadi */
+document.getElementById("hudud-filtr").addEventListener("tanlov", e=>{
+  document.querySelectorAll(".hudud-band").forEach(b=>b.classList.remove("faol"));
+  if (e.detail === "Barcha hududlar"){
+    uzMap.flyTo([41.35, 64.4], 6, {duration:0.6});
+    return;
+  }
+  const nom = HUDUDLAR.map(h=>h[0]).find(n=>n.startsWith(e.detail)) || e.detail;
+  const geo = HUDUD_GEO[nom];
+  if (geo){
+    uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
+    AUGA.toast(`${nom} bo'yicha batafsil`, "i-bino");
+    const band = Array.from(document.querySelectorAll(".hudud-band")).find(b=>b.textContent.includes(nom));
+    if (band) band.classList.add("faol");
+  }
 });
 
 /* 2D/3D rejim — haqiqiy qatlam almashtirish (sxematik ↔ sputnik) */

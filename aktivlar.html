@@ -173,22 +173,40 @@ document.addEventListener("DOMContentLoaded", ()=>{
 const OBYEKTLAR = [
   {id:"green-tower", nom:"Green Tower", kod:"GT-2024-001", hudud:"Toshkent sh.", tur:"Biznes markazi",
    status:"Faol", srang:"#22B14C", qiymat:"12 450 000 000 so'm", ball:92, rasm:"assets/bino_tower.png",
-   manzil:"Amir Temur ko'chasi, 88", hududToliq:"Toshkent sh., Shayxontohur", maydon:"18 500 m²", sana:"2022-yil 15-iyun"},
+   manzil:"Amir Temur ko'chasi, 88", hududToliq:"Toshkent sh., Shayxontohur", maydon:"18 500 m²", sana:"2022-yil 15-iyun",
+   moliya:{daromad:"1 240 000 000 so'm", xarajat:"310 000 000 so'm", soliq:"86 000 000 so'm", sugurta:"Amalda"},
+   hujjatlar:[["Texnik pasport.pdf","2,4 MB"],["Kadastr hujjati.pdf","1,1 MB"],["Ijara shartnomasi.pdf","860 KB"],["Baholash hisoboti.xlsx","420 KB"]],
+   tarix:[["Bugun, 11:42","Obyekt yangilandi","i-belgi-doira"],["Bugun, 09:15","Hujjat yuklandi","i-hujjat"],["23-may, 16:30","Servis rejalashtirildi","i-muddat"],["22-may, 14:20","Shartnoma imzolandi","i-foyd"]]},
   {id:"chorvoq-dacha", nom:"Chorvoq dacha", kod:"CH-2023-045", hudud:"Bo'stonliq tum.", tur:"Dacha",
    status:"Faol", srang:"#22B14C", qiymat:"1 850 000 000 so'm", ball:81, rasm:"assets/bino_dacha.png",
-   manzil:"Chorvoq qirg'og'i, 12", hududToliq:"Toshkent vil., Bo'stonliq", maydon:"850 m²", sana:"2019-yil 3-avgust"},
+   manzil:"Chorvoq qirg'og'i, 12", hududToliq:"Toshkent vil., Bo'stonliq", maydon:"850 m²", sana:"2019-yil 3-avgust",
+   moliya:{daromad:"0 so'm", xarajat:"42 000 000 so'm", soliq:"9 500 000 so'm", sugurta:"Amalda"},
+   hujjatlar:[["Texnik pasport.pdf","1,2 MB"],["Kadastr hujjati.pdf","640 KB"],["Baholash hisoboti.xlsx","280 KB"]],
+   tarix:[["Bugun, 08:20","Obyekt yangilandi","i-belgi-doira"],["18-may, 11:05","Hujjat yuklandi","i-hujjat"],["02-mart, 09:40","Texnik ko'rik o'tkazildi","i-muddat"]]},
   {id:"yashnobod-yer", nom:"Yashnobod yer maydoni", kod:"YM-2024-078", hudud:"Toshkent sh.", tur:"Yer maydoni",
    status:"Rejalashtirilgan", srang:"#4A90F2", qiymat:"3 200 000 000 so'm", ball:74, rasm:"assets/bino_yer.png",
-   manzil:"Yashnobod tumani, 7-mavze", hududToliq:"Toshkent sh., Yashnobod", maydon:"12 000 m²", sana:"—"},
+   manzil:"Yashnobod tumani, 7-mavze", hududToliq:"Toshkent sh., Yashnobod", maydon:"12 000 m²", sana:"—",
+   moliya:{daromad:"0 so'm", xarajat:"12 000 000 so'm", soliq:"24 000 000 so'm", sugurta:"Yo'q"},
+   hujjatlar:[["Kadastr hujjati.pdf","980 KB"],["Yer tekshiruvi.pdf","1,4 MB"]],
+   tarix:[["Bugun, 10:05","Loyiha rejasi ko'rib chiqildi","i-belgi-doira"],["14-may, 15:30","Kadastr hujjati yuklandi","i-hujjat"],["28-fev, 09:00","Obyekt ro'yxatga olindi","i-foyd"]]},
   {id:"mega-mall", nom:"Mega Mall", kod:"MM-2022-013", hudud:"Toshkent sh.", tur:"Savdo markazi",
    status:"Faol", srang:"#22B14C", qiymat:"25 600 000 000 so'm", ball:89, rasm:"assets/bino_mall.png",
-   manzil:"Qatortol ko'chasi, 4", hududToliq:"Toshkent sh., Chilonzor", maydon:"32 400 m²", sana:"2020-yil 20-noyabr"},
+   manzil:"Qatortol ko'chasi, 4", hududToliq:"Toshkent sh., Chilonzor", maydon:"32 400 m²", sana:"2020-yil 20-noyabr",
+   moliya:{daromad:"3 850 000 000 so'm", xarajat:"980 000 000 so'm", soliq:"215 000 000 so'm", sugurta:"Amalda"},
+   hujjatlar:[["Texnik pasport.pdf","3,1 MB"],["Kadastr hujjati.pdf","1,6 MB"],["Ijara shartnomasi.pdf","1,2 MB"],["Yong'in xavfsizligi sertifikati.pdf","540 KB"],["Baholash hisoboti.xlsx","610 KB"]],
+   tarix:[["Bugun, 13:50","To'lov qabul qilindi","i-belgi-doira"],["20-may, 10:15","Servis rejalashtirildi","i-muddat"],["05-may, 16:40","Ijarachi shartnomasi yangilandi","i-foyd"],["19-apr, 12:00","Xavfsizlik tekshiruvi o'tkazildi","i-hujjat"]]},
   {id:"nurafshon-turar", nom:"Nurafshon turar-joy majmuasi", kod:"NT-2023-067", hudud:"Nurafshon sh.", tur:"Turar-joy",
    status:"Faol", srang:"#22B14C", qiymat:"18 900 000 000 so'm", ball:86, rasm:"assets/bino_turar.png",
-   manzil:"Istiqlol ko'chasi, 21", hududToliq:"Toshkent vil., Nurafshon", maydon:"14 800 m²", sana:"2023-yil 1-mart"},
+   manzil:"Istiqlol ko'chasi, 21", hududToliq:"Toshkent vil., Nurafshon", maydon:"14 800 m²", sana:"2023-yil 1-mart",
+   moliya:{daromad:"2 100 000 000 so'm", xarajat:"540 000 000 so'm", soliq:"128 000 000 so'm", sugurta:"Amalda"},
+   hujjatlar:[["Texnik pasport.pdf","2,8 MB"],["Kadastr hujjati.pdf","1,3 MB"],["Foydalanishga topshirish akti.pdf","920 KB"],["Baholash hisoboti.xlsx","505 KB"]],
+   tarix:[["Bugun, 09:30","Obyekt yangilandi","i-belgi-doira"],["27-apr, 14:10","Yangi turar-joy blok qo'shildi","i-hujjat"],["01-mart, 08:00","Foydalanishga topshirildi","i-foyd"]]},
   {id:"humo-office", nom:"Humo Office", kod:"HO-2023-021", hudud:"Toshkent sh.", tur:"Ofis",
    status:"Faol", srang:"#22B14C", qiymat:"6 750 000 000 so'm", ball:88, rasm:"assets/bino_humo.png",
-   manzil:"Bobur ko'chasi, 40", hududToliq:"Toshkent sh., Yakkasaroy", maydon:"6 200 m²", sana:"2021-yil 12-may"}
+   manzil:"Bobur ko'chasi, 40", hududToliq:"Toshkent sh., Yakkasaroy", maydon:"6 200 m²", sana:"2021-yil 12-may",
+   moliya:{daromad:"780 000 000 so'm", xarajat:"195 000 000 so'm", soliq:"54 000 000 so'm", sugurta:"Amalda"},
+   hujjatlar:[["Texnik pasport.pdf","1,9 MB"],["Kadastr hujjati.pdf","870 KB"],["Ijara shartnomasi.pdf","610 KB"]],
+   tarix:[["Bugun, 11:00","Obyekt yangilandi","i-belgi-doira"],["12-may, 09:45","Hujjat yuklandi","i-hujjat"],["30-apr, 13:20","Servis rejalashtirildi","i-muddat"]]}
 ];
 
 const tbody = document.querySelector("#obyekt-jadval tbody");
@@ -269,29 +287,27 @@ function inspektorChiz(o){
     <div data-panel="moliyaviy" hidden>
       <div class="tafsilot">
         <div class="tafsilot-qator"><span class="yorliq">Balans qiymati</span><span class="qiymat">${o.qiymat}</span></div>
-        <div class="tafsilot-qator"><span class="yorliq">Yillik ijara daromadi</span><span class="qiymat">1 240 000 000 so'm</span></div>
-        <div class="tafsilot-qator"><span class="yorliq">Yillik xarajatlar</span><span class="qiymat">310 000 000 so'm</span></div>
-        <div class="tafsilot-qator"><span class="yorliq">Soliq (yillik)</span><span class="qiymat">86 000 000 so'm</span></div>
-        <div class="tafsilot-qator"><span class="yorliq">Sug'urta holati</span><span class="qiymat"><span class="chip chip-yashil"><span class="nuqta"></span>Amalda</span></span></div>
+        <div class="tafsilot-qator"><span class="yorliq">Yillik ijara daromadi</span><span class="qiymat">${o.moliya.daromad}</span></div>
+        <div class="tafsilot-qator"><span class="yorliq">Yillik xarajatlar</span><span class="qiymat">${o.moliya.xarajat}</span></div>
+        <div class="tafsilot-qator"><span class="yorliq">Soliq (yillik)</span><span class="qiymat">${o.moliya.soliq}</span></div>
+        <div class="tafsilot-qator"><span class="yorliq">Sug'urta holati</span><span class="qiymat"><span class="chip ${o.moliya.sugurta==="Amalda"?"chip-yashil":"chip-qizil"}"><span class="nuqta"></span>${o.moliya.sugurta}</span></span></div>
       </div>
     </div>
 
     <div data-panel="hujjatlar" hidden>
       <div class="tafsilot">
-        ${["Texnik pasport.pdf|2,4 MB","Kadastr hujjati.pdf|1,1 MB","Ijara shartnomasi.pdf|860 KB","Baholash hisoboti.xlsx|420 KB"].map(h=>{
-          const [nom,hajm]=h.split("|");
-          return `<div class="tafsilot-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">${nom}</span>
-            <span class="qiymat"><button class="amal-tugma" data-toast="${nom} yuklab olinmoqda" aria-label="Yuklab olish"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>`;
-        }).join("")}
+        ${o.hujjatlar.map(([nom,hajm])=>
+          `<div class="tafsilot-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">${nom}</span>
+            <span class="qiymat"><button class="amal-tugma" data-toast="${nom} yuklab olinmoqda" aria-label="Yuklab olish"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>`
+        ).join("")}
       </div>
     </div>
 
     <div data-panel="tarix" hidden>
       <div class="tafsilot">
-        <div class="tafsilot-qator"><svg class="ic"><use href="#i-belgi-doira"/></svg><span class="yorliq">Bugun, 11:42</span><span class="qiymat">Obyekt yangilandi</span></div>
-        <div class="tafsilot-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Bugun, 09:15</span><span class="qiymat">Hujjat yuklandi</span></div>
-        <div class="tafsilot-qator"><svg class="ic"><use href="#i-muddat"/></svg><span class="yorliq">23-may, 16:30</span><span class="qiymat">Servis rejalashtirildi</span></div>
-        <div class="tafsilot-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">22-may, 14:20</span><span class="qiymat">Shartnoma imzolandi</span></div>
+        ${o.tarix.map(([vaqt,matn,ikon])=>
+          `<div class="tafsilot-qator"><svg class="ic"><use href="#${ikon}"/></svg><span class="yorliq">${vaqt}</span><span class="qiymat">${matn}</span></div>`
+        ).join("")}
       </div>
     </div>
 
