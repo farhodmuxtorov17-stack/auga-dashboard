@@ -1,6 +1,6 @@
 /* ============================================================
    AUGA — umumiy shell va interaktivlik
-   Har sahifa: <body data-sahifa="panel|aktivlar|mulk|
+   Har sahifa: <body data-sahifa="panel|aktivlar|
    shartnomalar|xaritalar|hisobotlar|bildirishnomalar|sozlamalar">
    Ichida [data-shell-sidebar] va [data-shell-topbar] bo'lsa,
    shu skript ularni to'ldiradi. window.AUGA yordamchilari:
@@ -84,8 +84,8 @@ const IKONLAR = `
 const ROL_KALIT = {"Rahbar":"rahbar","Operator":"operator","Texnik xodim":"texnik","Administrator":"admin"};
 const ROL_RUXSAT = {
   admin: null, // barcha bo'limlar
-  rahbar: ["panel","aktivlar","mulk","shartnomalar","xaritalar","hisobotlar","hujjatlar","bildirishnomalar","monitoring","vazifalar","yer","sotuv","arxiv","sozlamalar"],
-  operator: ["panel","aktivlar","mulk","shartnomalar","xaritalar","smart-access","hujjatlar","bildirishnomalar","monitoring","hodisalar","vazifalar","yer","sotuv","arxiv","sozlamalar"],
+  rahbar: ["panel","aktivlar","shartnomalar","xaritalar","hisobotlar","hujjatlar","bildirishnomalar","monitoring","vazifalar","yer","sotuv","arxiv","sozlamalar"],
+  operator: ["panel","aktivlar","shartnomalar","xaritalar","smart-access","hujjatlar","bildirishnomalar","monitoring","hodisalar","vazifalar","yer","sotuv","arxiv","sozlamalar"],
   texnik: ["panel","aktivlar","xaritalar","monitoring","hodisalar","xonalar","yer","bildirishnomalar","sozlamalar"]
 };
 function rolYaroqlimi(r){
@@ -113,7 +113,6 @@ const FOYD_ISM = {admin:"Akmalov Laziz", rahbar:"Yusupov Botir", operator:"Nazar
 const MENYU = [
   ["panel","index.html","i-panel","Boshqaruv paneli"],
   ["aktivlar","aktivlar.html","i-aktiv","Aktivlar"],
-  ["mulk","kochmas-mulk.html","i-uy","Ko'chmas mulk"],
   ["shartnomalar","shartnomalar.html","i-shartnoma","Shartnomalar"],
   ["xaritalar","xaritalar.html","i-xarita","Xaritalar"],
   ["hisobotlar","hisobotlar.html","i-hisobot","Hisobotlar"],
