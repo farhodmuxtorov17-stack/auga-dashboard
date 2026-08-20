@@ -81,6 +81,8 @@
   border-radius:99px;padding:8px 16px;
 }
 .ruxsat-chip .ic{width:16px;height:16px}
+.ruxsat-chip.kutish{background:var(--sariq-fon);color:#9A6E00}
+.ruxsat-chip.bekor{background:var(--qizil-fon);color:#C43C31}
 .shaxs-tablar{display:flex;margin-top:20px;border-bottom:1px solid var(--chiziq)}
 .shaxs-tab{flex:1;padding:10px 0 12px;font-size:14.5px;font-weight:650;color:#5F6169;border-bottom:2px solid transparent;margin-bottom:-1px}
 .shaxs-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
@@ -180,8 +182,8 @@
           <img src="assets/kirish_sahna.png" alt="Asosiy kirish — turniketlar 3D ko'rinishi">
         </div>
         <div class="qurilma-qator">
-          <button class="qurilma-k" data-toast="Turniketlar boshqaruvi: 2/2 faol">
-            <span><b>Turniketlar</b><span>2/2 faol</span></span>
+          <button class="qurilma-k" id="turniket" data-toast="Turniketlar boshqaruvi: 2/2 faol">
+            <span><b>Turniketlar</b><span data-holat>2/2 faol</span></span>
             <svg class="ic"><use href="#i-ekran"/></svg>
           </button>
           <button class="qurilma-k" id="shlagbaum">
@@ -214,14 +216,14 @@
 
       <!-- O'ng panel -->
       <aside class="karta shaxs-panel" id="shaxs-panel">
-        <button class="shaxs-yop" data-toast="Panel yopildi" aria-label="Yopish"><svg class="ic" style="width:19px;height:19px"><use href="#i-yopish"/></svg></button>
+        <button class="shaxs-yop" id="shaxs-yop" aria-label="Yopish"><svg class="ic" style="width:19px;height:19px"><use href="#i-yopish"/></svg></button>
         <div class="shaxs-avatar">
           <svg viewBox="0 0 34 34"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg>
           <span class="onlayn"></span>
         </div>
         <h2 id="sh-nom">Sardor Aliyev</h2>
         <div class="rol" id="sh-rol">Mehmon</div>
-        <div class="ruxsat-chip"><svg class="ic"><use href="#i-belgi"/></svg>Ruxsat berildi<svg class="ic"><use href="#i-belgi-doira"/></svg></div>
+        <div class="ruxsat-chip" id="ruxsat-chip"><svg class="ic"><use href="#i-belgi"/></svg><span id="ruxsat-matn">Ruxsat berildi</span><svg class="ic"><use href="#i-belgi-doira"/></svg></div>
 
         <div class="shaxs-tablar" role="tablist">
           <button class="shaxs-tab aktiv" data-t="malumot">Ma'lumot</button>
@@ -229,22 +231,22 @@
         </div>
 
         <div class="shaxs-malumot" data-p="malumot">
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">ID raqami</span><b>G56789012</b></div>
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-bino"/></svg><span class="yorliq">Tashkilot</span><b>Tech Solutions LLC</b></div>
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-daromad"/></svg><span class="yorliq">Maqsad</span><b>Uchrashuv</b></div>
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Mezbon</span><b>Akmalov Laziz</b></div>
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Kirish vaqti</span><b>24-may, 14:31</b></div>
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Chiqish vaqti</span><b>–</b></div>
-          <div class="shaxs-qator"><svg class="ic"><use href="#i-pin"/></svg><span class="yorliq">Kirish nuqtasi</span><b>Asosiy kirish</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">ID raqami</span><b id="sh-id">G56789012</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-bino"/></svg><span class="yorliq">Tashkilot</span><b id="sh-tashkilot">Tech Solutions LLC</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-daromad"/></svg><span class="yorliq">Maqsad</span><b id="sh-maqsad">Uchrashuv</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">Mezbon</span><b id="sh-mezbon">Akmalov Laziz</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Kirish vaqti</span><b id="sh-kirish-vaqt">24-may, 14:31</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">Chiqish vaqti</span><b id="sh-chiqish-vaqt">–</b></div>
+          <div class="shaxs-qator"><svg class="ic"><use href="#i-pin"/></svg><span class="yorliq">Kirish nuqtasi</span><b id="sh-nuqta">Asosiy kirish</b></div>
         </div>
-        <div class="shaxs-malumot" data-p="tarix" hidden>
+        <div class="shaxs-malumot" data-p="tarix" hidden id="sh-tarix">
           <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">24-may, 14:31</span><b>Kirish — Asosiy</b></div>
           <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">17-may, 12:44</span><b>Chiqish — Asosiy</b></div>
           <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">17-may, 10:02</span><b>Kirish — Asosiy</b></div>
           <div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">03-may, 09:18</span><b>Kirish — Yon</b></div>
         </div>
 
-        <button class="chiqish-tugma" data-toast="Chiqish ruxsati berildi — turniket ochildi">
+        <button class="chiqish-tugma" id="chiqish-ruxsat" data-toast="Chiqish ruxsati berildi — turniket ochildi">
           <svg class="ic" style="width:18px;height:18px"><use href="#i-chiqish"/></svg>
           Chiqishni ruxsat etish
         </button>
@@ -263,45 +265,97 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 const SOROVLAR = [
-  ["Javlon Karimov","Mehmon","14:31"],
-  ["Shahnoza Mirzayeva","Pudratchi","14:30"],
-  ["Bobur Yusupov","Haydovchi","14:29"],
-  ["Azizbek Norov","Xodim","14:28"],
-  ["Madina Tursunova","Mehmon","14:27"]
+  {nom:"Javlon Karimov", rol:"Mehmon", vaqt:"14:31", id:"G56781234", tashkilot:"BuildTech LLC", maqsad:"Yetkazib berish", mezbon:"Nazarova Feruza", nuqta:"Asosiy kirish",
+   tarix:[["22-may, 09:10","Kirish — Asosiy"]]},
+  {nom:"Shahnoza Mirzayeva", rol:"Pudratchi", vaqt:"14:30", id:"G56782345", tashkilot:"CleanPro Xizmat", maqsad:"Tozalash xizmati", mezbon:"Rustamov Sanjar", nuqta:"Yon kirish",
+   tarix:[["23-may, 08:00","Kirish — Yon"],["23-may, 17:15","Chiqish — Yon"]]},
+  {nom:"Bobur Yusupov", rol:"Haydovchi", vaqt:"14:29", id:"G56783456", tashkilot:"FastCargo", maqsad:"Yuk tushirish", mezbon:"Nazarova Feruza", nuqta:"Ombor kirish",
+   tarix:[["18-may, 11:20","Kirish — Ombor"],["18-may, 12:05","Chiqish — Ombor"]]},
+  {nom:"Azizbek Norov", rol:"Xodim", vaqt:"14:28", id:"U056789020", tashkilot:"AUGA (ichki xodim)", maqsad:"Ish smenasi", mezbon:"—", nuqta:"Asosiy kirish",
+   tarix:[["24-may, 08:02","Kirish — Asosiy"],["23-may, 18:40","Chiqish — Asosiy"],["23-may, 08:05","Kirish — Asosiy"]]},
+  {nom:"Madina Tursunova", rol:"Mehmon", vaqt:"14:27", id:"G56784567", tashkilot:"Investment Group", maqsad:"Uchrashuv", mezbon:"Akmalov Laziz", nuqta:"Asosiy kirish",
+   tarix:[["10-may, 15:30","Kirish — Asosiy"],["10-may, 16:45","Chiqish — Asosiy"]]}
+];
+const MEHMONLAR = [
+  {nom:"Kamron Aliyev", id:"G56785678", tashkilot:"Tech Solutions LLC", maqsad:"Uchrashuv", mezbon:"Akmalov Laziz", nuqta:"Asosiy kirish", kirishVaqti:"24-may, 14:20",
+   tarix:[["24-may, 14:20","Kirish — Asosiy"]]},
+  {nom:"Nargiza Karimova", id:"G56786789", tashkilot:"Prime Consulting", maqsad:"Konsultatsiya", mezbon:"Nazarova Feruza", nuqta:"Asosiy kirish", kirishVaqti:"24-may, 14:15",
+   tarix:[["24-may, 14:15","Kirish — Asosiy"],["02-may, 10:00","Kirish — Asosiy"],["02-may, 11:20","Chiqish — Asosiy"]]},
+  {nom:"Umid Soliyev", id:"G56787890", tashkilot:"Legal Partners", maqsad:"Huquqiy maslahat", mezbon:"Rustamov Sanjar", nuqta:"Asosiy kirish", kirishVaqti:"24-may, 14:10",
+   tarix:[["24-may, 14:10","Kirish — Asosiy"]]},
+  {nom:"Saida Rahimova", id:"G56788901", tashkilot:"Media Group", maqsad:"Intervyu", mezbon:"Akmalov Laziz", nuqta:"Asosiy kirish", kirishVaqti:"24-may, 14:05",
+   tarix:[["24-may, 14:05","Kirish — Asosiy"]]}
 ];
 const AVATAR = `<span class="avatar"><svg viewBox="0 0 34 34" style="width:30px;height:30px;display:block;margin:5px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;
 
 document.getElementById("sorovlar").innerHTML = SOROVLAR.map(s=>`
-  <div class="sorov-band" data-nom="${s[0]}" data-rol="${s[1]}" role="button" tabindex="0">
+  <div class="sorov-band" data-nom="${s.nom}" role="button" tabindex="0">
     ${AVATAR}
-    <span class="matn"><b>${s[0]}</b><span>${s[1]}</span></span>
-    <span class="vaqt">${s[2]}</span>
-    <button class="ruxsat-tugma" data-ruxsat="${s[0]}" aria-label="${s[0]} uchun ruxsat berish"><svg class="ic"><use href="#i-belgi"/></svg></button>
+    <span class="matn"><b>${s.nom}</b><span>${s.rol}</span></span>
+    <span class="vaqt">${s.vaqt}</span>
+    <button class="ruxsat-tugma" data-ruxsat="${s.nom}" aria-label="${s.nom} uchun ruxsat berish"><svg class="ic"><use href="#i-belgi"/></svg></button>
   </div>`).join("");
 
-/* So'rov qatori bosilganda — o'ng panelda ko'rsatish */
+function panelChiz(p, holat){
+  document.getElementById("shaxs-panel").hidden = false;
+  document.getElementById("sh-nom").textContent = p.nom;
+  document.getElementById("sh-rol").textContent = p.rol || "Mehmon";
+  document.getElementById("sh-id").textContent = p.id;
+  document.getElementById("sh-tashkilot").textContent = p.tashkilot;
+  document.getElementById("sh-maqsad").textContent = p.maqsad;
+  document.getElementById("sh-mezbon").textContent = p.mezbon;
+  document.getElementById("sh-kirish-vaqt").textContent = p.kirishVaqti || "–";
+  document.getElementById("sh-chiqish-vaqt").textContent = p.chiqishVaqti || "–";
+  document.getElementById("sh-nuqta").textContent = p.nuqta;
+  document.getElementById("sh-tarix").innerHTML = p.tarix.map(([vaqt,matn])=>
+    `<div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">${vaqt}</span><b>${matn}</b></div>`).join("");
+  const chip = document.getElementById("ruxsat-chip"), matn = document.getElementById("ruxsat-matn");
+  chip.className = "ruxsat-chip" + (holat==="kutish" ? " kutish" : holat==="bekor" ? " bekor" : "");
+  matn.textContent = holat==="kutish" ? "Kutilmoqda" : holat==="bekor" ? "Ruxsat bekor qilindi" : "Ruxsat berildi";
+  const chiqishBtn = document.getElementById("chiqish-ruxsat"), bekorBtn = document.getElementById("bekor");
+  chiqishBtn.disabled = holat!=="berildi"; bekorBtn.disabled = holat!=="berildi";
+  chiqishBtn.style.opacity = bekorBtn.style.opacity = holat!=="berildi" ? ".45" : "";
+}
+
+/* So'rov qatori bosilganda — o'ng panelda ko'rsatish (kutilmoqda holatida) */
 document.querySelectorAll(".sorov-band[data-nom]").forEach(band=>{
   band.addEventListener("click", e=>{
     if (e.target.closest(".ruxsat-tugma")) return;
-    document.getElementById("sh-nom").textContent = band.dataset.nom;
-    document.getElementById("sh-rol").textContent = band.dataset.rol;
-    AUGA.toast(band.dataset.nom+" ma'lumotlari ochildi");
+    const p = SOROVLAR.find(s=>s.nom===band.dataset.nom);
+    panelChiz(p, "kutish");
   });
 });
 document.querySelectorAll(".ruxsat-tugma").forEach(t=>{
-  t.addEventListener("click", ()=>{
+  t.addEventListener("click", e=>{
+    e.stopPropagation();
     AUGA.toast(t.dataset.ruxsat+" uchun kirish ruxsati berildi", "i-belgi-doira");
     t.closest(".sorov-band").style.opacity = ".45";
     t.disabled = true;
+    const pendingCount = document.getElementById("sorovlar").querySelectorAll('.ruxsat-tugma:not(:disabled)').length;
+    document.querySelector(".sa-karta .sub").textContent = pendingCount+" ta kutmoqda";
   });
 });
 
-/* Kirish nuqtasi tablari */
+/* Kirish nuqtasi tablari — qurilma holati shu nuqtaga mos yangilanadi */
+const NUQTA_QURILMA = {
+  "Asosiy kirish": {turniket:"2/2 faol", shlagbaum:"Yopiq", eshik:"Yopiq"},
+  "Yon kirish": {turniket:"1/1 faol", shlagbaum:"—", eshik:"Yopiq"},
+  "Ombor kirish": {turniket:"—", shlagbaum:"—", eshik:"Yopiq"},
+  "Parking kirish": {turniket:"—", shlagbaum:"Yopiq", eshik:"—"}
+};
 document.querySelectorAll(".sahna-tab button").forEach(b=>{
   b.addEventListener("click", ()=>{
     document.querySelectorAll(".sahna-tab button").forEach(x=>x.classList.remove("aktiv"));
     b.classList.add("aktiv");
-    AUGA.toast(b.textContent.trim()+" kameralari ko'rsatilmoqda", "i-kamera");
+    const q = NUQTA_QURILMA[b.textContent.trim()];
+    if (q){
+      const turniket = document.getElementById("turniket");
+      turniket.querySelector("[data-holat]").textContent = q.turniket;
+      turniket.dataset.toast = "Turniketlar boshqaruvi: "+q.turniket;
+      document.getElementById("shlagbaum").querySelector("[data-holat]").textContent = q.shlagbaum;
+      document.getElementById("eshik").querySelector("[data-holat]").textContent = q.eshik;
+    }
+    AUGA.toast(b.textContent.trim()+" tanlandi", "i-pin");
   });
 });
 
@@ -310,6 +364,7 @@ document.querySelectorAll(".sahna-tab button").forEach(b=>{
   const el = document.getElementById(id);
   el.addEventListener("click", ()=>{
     const holat = el.querySelector("[data-holat]");
+    if (holat.textContent === "—") return;
     const ochiq = holat.textContent === "Ochiq";
     holat.textContent = ochiq ? "Yopiq" : "Ochiq";
     holat.style.color = ochiq ? "" : "#3E7C0A";
@@ -317,12 +372,11 @@ document.querySelectorAll(".sahna-tab button").forEach(b=>{
   });
 });
 
-/* Mehmonlar */
+/* Mehmonlar — ruxsat berilgan holatda */
 document.querySelectorAll("[data-mehmon]").forEach(m=>{
   m.addEventListener("click", ()=>{
-    document.getElementById("sh-nom").textContent = m.dataset.mehmon;
-    document.getElementById("sh-rol").textContent = "Mehmon";
-    AUGA.toast(m.dataset.mehmon+" ma'lumotlari ochildi");
+    const p = MEHMONLAR.find(x=>x.nom===m.dataset.mehmon);
+    if (p) panelChiz(p, "berildi");
   });
 });
 
@@ -335,11 +389,25 @@ document.querySelectorAll(".shaxs-tab").forEach(t=>{
   });
 });
 
+/* Panelni yopish */
+document.getElementById("shaxs-yop").addEventListener("click", ()=>{
+  document.getElementById("shaxs-panel").hidden = true;
+});
+
 /* Bekor qilish */
 document.getElementById("bekor").addEventListener("click", ()=>{
+  if (document.getElementById("bekor").disabled) return;
+  const nom = document.getElementById("sh-nom").textContent;
   AUGA.modal("Ruxsatni bekor qilish",
-    "Ushbu shaxsning joriy kirish ruxsati bekor qilinadi va sessiya yakunlanadi. Davom etasizmi?",
-    {xavf:true, okMatn:"Bekor qilish", ok(){ AUGA.toast("Ruxsat bekor qilindi"); }});
+    `${nom} uchun joriy kirish ruxsati bekor qilinadi va sessiya yakunlanadi. Davom etasizmi?`,
+    {xavf:true, okMatn:"Bekor qilish", ok(){
+      AUGA.toast("Ruxsat bekor qilindi");
+      const chip = document.getElementById("ruxsat-chip"), matn = document.getElementById("ruxsat-matn");
+      chip.className = "ruxsat-chip bekor"; matn.textContent = "Ruxsat bekor qilindi";
+      document.getElementById("chiqish-ruxsat").disabled = true;
+      document.getElementById("bekor").disabled = true;
+      document.getElementById("chiqish-ruxsat").style.opacity = document.getElementById("bekor").style.opacity = ".45";
+    }});
 });
 });
 </script>

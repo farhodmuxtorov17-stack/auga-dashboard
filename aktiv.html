@@ -484,11 +484,6 @@ document.getElementById("barcha-faoliyat").addEventListener("click", ()=>{
 const gal = document.getElementById("galereya");
 document.getElementById("gal-chap").addEventListener("click", ()=>gal.scrollBy({left:-380}));
 document.getElementById("gal-ong").addEventListener("click", ()=>gal.scrollBy({left:380}));
-
-/* Jadval qatorlari toast */
-document.querySelectorAll("tr[data-toast]").forEach(tr=>{
-  tr.addEventListener("click", ()=>AUGA.toast(tr.dataset.toast));
-});
 });
 </script>
 </body>

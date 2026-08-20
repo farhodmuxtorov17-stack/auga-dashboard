@@ -13,14 +13,9 @@
 .hodisa-grid{display:grid;grid-template-columns:1fr 400px;gap:18px;align-items:start}
 
 .kanban-karta{padding:0}
-.kanban-bosh{display:flex;align-items:center;padding:6px 20px 0;border-bottom:1px solid var(--chiziq)}
-.kb-tab{
-  padding:14px 4px 15px;margin-right:26px;font-size:15px;font-weight:600;color:#5F6169;
-  border-bottom:2px solid transparent;margin-bottom:-1px;transition:color var(--tez);
-}
-.kb-tab:hover{color:#33383E}
-.kb-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
-.kanban-bosh .tanlov{width:auto;min-width:180px;height:44px;margin-left:auto;margin-bottom:8px}
+.kanban-bosh{display:flex;align-items:center;padding:16px 20px;border-bottom:1px solid var(--chiziq)}
+.kb-sarlavha{font-size:16.5px;font-weight:750}
+.kanban-bosh .tanlov{width:auto;min-width:180px;height:44px;margin-left:auto}
 
 .kanban-korpus{display:grid;grid-template-columns:250px repeat(4,1fr);gap:0;min-height:520px}
 .royxat-panel{border-right:1px solid var(--chiziq);padding:18px 14px}
@@ -162,10 +157,8 @@
         <!-- Kanban -->
         <div class="karta kanban-karta">
           <div class="kanban-bosh">
-            <button class="kb-tab aktiv" data-korinish="kanban">Kanban</button>
-            <button class="kb-tab" data-korinish="royxat">Ro'yxat</button>
-            <button class="kb-tab" data-korinish="xarita">Xarita</button>
-            <button class="tanlov" data-variantlar='["Barcha hodisalar","Yuqori","O&#39;rta","Past"]'>
+            <h3 class="kb-sarlavha">Kanban taxtasi</h3>
+            <button class="tanlov" id="jiddiylik-filtr" data-variantlar='["Barcha hodisalar","Yuqori","O&#39;rta","Past"]'>
               <span class="t-yorliq">Barcha hodisalar</span><svg class="ic"><use href="#i-past"/></svg>
             </button>
           </div>
@@ -217,7 +210,7 @@
           <div class="karta">
             <div class="dinamika-bosh">
               <h3>Hodisalar dinamikasi</h3>
-              <button class="tanlov" data-variantlar='["7 kun","30 kun","Chorak"]'><span class="t-yorliq">7 kun</span><svg class="ic"><use href="#i-past"/></svg></button>
+              <button class="tanlov" id="dinamika-davr" data-variantlar='["7 kun","30 kun","Chorak"]'><span class="t-yorliq">7 kun</span><svg class="ic"><use href="#i-past"/></svg></button>
             </div>
             <div class="din-legend">
               <span><span class="nuqta" style="background:#3B82F6"></span>Yangi</span>
@@ -237,16 +230,16 @@
         <div class="karta">
           <div class="umumiy-bosh">
             <h3>Hodisalar bo'yicha umumiy ko'rsatkichlar</h3>
-            <button class="tanlov" data-variantlar='["Bugun","Hafta","Oy"]'><span class="t-yorliq">Bugun</span><svg class="ic"><use href="#i-past"/></svg></button>
+            <button class="tanlov" id="umumiy-davr" data-variantlar='["Bugun","Hafta","Oy"]'><span class="t-yorliq">Bugun</span><svg class="ic"><use href="#i-past"/></svg></button>
           </div>
           <div class="stat-uch">
-            <div class="stat-katak"><div class="yorliq">Yangi hodisalar</div><div class="qiymat"><b>12</b><span class="delta">↑ 20%</span></div></div>
-            <div class="stat-katak"><div class="yorliq">Bartaraf etilmoqda</div><div class="qiymat"><b>5</b><span class="delta salbiy">↓ 16%</span></div></div>
-            <div class="stat-katak"><div class="yorliq">Yopildi</div><div class="qiymat"><b>8</b><span class="delta">↑ 14%</span></div></div>
+            <div class="stat-katak"><div class="yorliq">Yangi hodisalar</div><div class="qiymat"><b id="us-yangi">12</b><span class="delta" id="us-yangi-d">↑ 20%</span></div></div>
+            <div class="stat-katak"><div class="yorliq">Bartaraf etilmoqda</div><div class="qiymat"><b id="us-bartaraf">5</b><span class="delta salbiy" id="us-bartaraf-d">↓ 16%</span></div></div>
+            <div class="stat-katak"><div class="yorliq">Yopildi</div><div class="qiymat"><b id="us-yopildi">8</b><span class="delta" id="us-yopildi-d">↑ 14%</span></div></div>
           </div>
           <div class="ortacha">
             <div class="yorliq">O'rtacha bartaraf etish vaqti</div>
-            <div class="qiymat"><b>2 soat 18 daqiqa</b><span class="delta salbiy">↓ 8%</span></div>
+            <div class="qiymat"><b id="us-ortacha">2 soat 18 daqiqa</b><span class="delta salbiy" id="us-ortacha-d">↓ 8%</span></div>
           </div>
         </div>
       </div>
@@ -304,10 +297,13 @@ const HODISALAR = [
    masul:"Jasur A.", bolim:"Xavfsizlik bo'limi", fayl:"kirish_log.pdf", hajm:"175 KB"}
 ];
 let faolKod = "#INC-2024-00128";
+let faolJiddiylik = "Barcha hodisalar";
+const JIDDIYLIK_KALIT = {"Yuqori":"yuqori", "O'rta":"orta", "Past":"past"};
+function jiddiylikMos(h){ return faolJiddiylik==="Barcha hodisalar" || JIDDIYLIK_KALIT[faolJiddiylik]===h.jiddiylik; }
 
-/* Chap ro'yxat paneli (birinchi 5 ta) */
+/* Chap ro'yxat paneli (birinchi 5 ta, filtrga mos) */
 function royxatChiz(){
-  document.getElementById("royxat-panel-royxat").innerHTML = HODISALAR.slice(0,5).map(h=>`
+  document.getElementById("royxat-panel-royxat").innerHTML = HODISALAR.filter(jiddiylikMos).slice(0,5).map(h=>`
     <button class="royxat-band ${h.kod===faolKod?"faol":""}" data-kod="${h.kod}">
       <span class="h-kod"><span class="nuqta" style="background:${h.rang}"></span>${h.kod}</span>
       <div class="sarlavha">${h.sarlavha}</div>
@@ -319,7 +315,7 @@ function royxatChiz(){
 function kanbanChiz(){
   document.querySelectorAll(".kb-ustun").forEach(u=>{
     const t = u.dataset.ustun;
-    const bandlar = HODISALAR.filter(h=>h.ustun===t);
+    const bandlar = HODISALAR.filter(h=>h.ustun===t && jiddiylikMos(h));
     u.querySelector(".son").textContent = bandlar.length;
     u.querySelector(".kb-royxat").innerHTML = bandlar.map(h=>`
       <div class="kb-karta ${h.kod===faolKod?"faol":""}" draggable="true" data-kod="${h.kod}" tabindex="0" role="button">
@@ -377,10 +373,15 @@ function detalChiz(h){
   document.getElementById("detal-tahrir").addEventListener("click", ()=>{
     AUGA.modal("Hodisani tahrirlash",
       `<div style="display:grid;gap:14px;margin-top:6px">
-        <div><label class="maydon-yorliq">Sarlavha</label><div class="kirish"><input value="${h.sarlavha.replace(/"/g,"&quot;")}"></div></div>
-        <div><label class="maydon-yorliq">Mas'ul</label><div class="kirish"><input value="${h.masul}"></div></div>
+        <div><label class="maydon-yorliq">Sarlavha</label><div class="kirish"><input id="th-sarlavha" value="${h.sarlavha.replace(/"/g,"&quot;")}"></div></div>
+        <div><label class="maydon-yorliq">Mas'ul</label><div class="kirish"><input id="th-masul" value="${h.masul}"></div></div>
       </div>`,
-      { okMatn:"Saqlash", ok(){ AUGA.toast("Hodisa yangilandi"); } });
+      { okMatn:"Saqlash", ok(){
+        h.sarlavha = document.getElementById("th-sarlavha").value.trim() || h.sarlavha;
+        h.masul = document.getElementById("th-masul").value.trim() || h.masul;
+        royxatChiz(); kanbanChiz(); detalChiz(h);
+        AUGA.toast("Hodisa yangilandi");
+      } });
   });
   const mt = document.getElementById("detal-menyu-tugma"), mm = document.getElementById("detal-menyu");
   mt.addEventListener("click", e=>{
@@ -394,8 +395,18 @@ function detalChiz(h){
     e.stopPropagation(); mm.classList.remove("ochiq");
     if (b.dataset.amal==="ochirish"){
       AUGA.modal("Hodisani o'chirish", `${h.kod} hodisasini o'chirmoqchimisiz? Bu amalni bekor qilib bo'lmaydi.`,
-        {xavf:true, okMatn:"O'chirish", ok(){ AUGA.toast("Hodisa o'chirildi"); }});
+        {xavf:true, okMatn:"O'chirish", ok(){
+          const i = HODISALAR.findIndex(x=>x.kod===h.kod);
+          if (i>-1) HODISALAR.splice(i,1);
+          faolKod = HODISALAR[0] ? HODISALAR[0].kod : null;
+          royxatChiz(); kanbanChiz();
+          if (faolKod) detalChiz(HODISALAR[0]);
+          else document.getElementById("detal-karta").innerHTML = `<div style="padding:24px;text-align:center;color:var(--matn-4);font-size:13.5px">Hodisa tanlanmagan</div>`;
+          AUGA.toast("Hodisa o'chirildi");
+        }});
     } else if (b.dataset.amal==="yopish"){
+      h.ustun = "yopildi"; h.holat = "Yopildi";
+      royxatChiz(); kanbanChiz(); detalChiz(h);
       AUGA.toast("Hodisa yopildi deb belgilandi", "i-belgi-doira");
     } else {
       AUGA.toast("Mas'ul biriktirish oynasi", "i-foyd");
@@ -438,41 +449,52 @@ function ulash(){
   document.querySelectorAll(".kb-qoshish").forEach(b=>{
     if (b.dataset.ulandi) return; b.dataset.ulandi="1";
     b.addEventListener("click", ()=>{
+      const ustun = b.closest(".kb-ustun").dataset.ustun;
       AUGA.modal("Yangi hodisa qo'shish",
         `<div style="display:grid;gap:14px;margin-top:6px">
-          <div><label class="maydon-yorliq">Sarlavha</label><div class="kirish"><input placeholder="Hodisa tavsifi"></div></div>
-          <div><label class="maydon-yorliq">Obyekt</label><div class="kirish"><input placeholder="Green Tower"></div></div>
+          <div><label class="maydon-yorliq">Sarlavha</label><div class="kirish"><input id="yh-sarlavha" placeholder="Hodisa tavsifi"></div></div>
+          <div><label class="maydon-yorliq">Obyekt</label><div class="kirish"><input id="yh-obyekt" placeholder="Green Tower"></div></div>
         </div>`,
-        { okMatn:"Qo'shish", ok(){ AUGA.toast("Yangi hodisa yaratildi"); } });
+        { okMatn:"Qo'shish", ok(){
+          const sarlavha = document.getElementById("yh-sarlavha").value.trim();
+          const obyekt = document.getElementById("yh-obyekt").value.trim();
+          if (!sarlavha){ AUGA.toast("Sarlavha kiritilishi shart"); return; }
+          const raqam = 129 + HODISALAR.length;
+          const yangi = {
+            kod:`#INC-2024-00${raqam}`, rang:"#3B82F6", sarlavha: obyekt ? `${obyekt} — ${sarlavha}` : sarlavha,
+            vaqt:"Hozirgina", jiddiylik:"orta", ustun,
+            holat:{yangi:"Yangi",tekshirilmoqda:"Tekshirilmoqda",bartaraf:"Bartaraf etilmoqda",yopildi:"Yopildi"}[ustun],
+            joy:"—", bino: obyekt || "—", tavsif:"Yangi qo'lda kiritilgan hodisa, tafsilotlar hali to'ldirilmagan.",
+            masul:"Belgilanmagan", bolim:"—", fayl:"—", hajm:"—"
+          };
+          HODISALAR.unshift(yangi);
+          faolKod = yangi.kod;
+          royxatChiz(); kanbanChiz(); detalChiz(yangi);
+          AUGA.toast("Yangi hodisa yaratildi");
+        } });
     });
   });
 }
-
-/* Ko'rinish tablari */
-document.querySelectorAll(".kb-tab").forEach(t=>{
-  t.addEventListener("click", ()=>{
-    document.querySelectorAll(".kb-tab").forEach(x=>x.classList.remove("aktiv"));
-    t.classList.add("aktiv");
-    if (t.dataset.korinish!=="kanban") AUGA.toast(`"${t.textContent}" ko'rinishi`);
-  });
-});
 
 /* Dinamika grafigi */
 const svg = document.getElementById("din-grafik");
 const NS = "http://www.w3.org/2000/svg";
 function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);svg.appendChild(n);return n;}
-const KUNLAR = ["18-may","19-may","20-may","21-may","22-may","23-may","24-may"];
-const SERIYALAR = [
-  {rang:"#3B82F6", q:[30,38,62,45,85,92,25]},
-  {rang:"#F2994A", q:[42,60,38,35,32,52,32]},
-  {rang:"#78C802", q:[12,35,32,58,35,30,65]}
-];
+const DAVR_MALUMOT = {
+  "7 kun": {yorliqlar:["18-may","19-may","20-may","21-may","22-may","23-may","24-may"],
+    seriya:[{rang:"#3B82F6", q:[30,38,62,45,85,92,25]}, {rang:"#F2994A", q:[42,60,38,35,32,52,32]}, {rang:"#78C802", q:[12,35,32,58,35,30,65]}]},
+  "30 kun": {yorliqlar:["1-hafta","2-hafta","3-hafta","4-hafta"],
+    seriya:[{rang:"#3B82F6", q:[55,68,48,72]}, {rang:"#F2994A", q:[40,45,38,50]}, {rang:"#78C802", q:[35,52,60,78]}]},
+  "Chorak": {yorliqlar:["Mart","Aprel","May"],
+    seriya:[{rang:"#3B82F6", q:[62,70,58]}, {rang:"#F2994A", q:[45,48,42]}, {rang:"#78C802", q:[50,65,82]}]}
+};
+let KUNLAR = DAVR_MALUMOT["7 kun"].yorliqlar, SERIYALAR = DAVR_MALUMOT["7 kun"].seriya;
 function dinChiz(){
   svg.innerHTML = "";
   const W = svg.clientWidth || 560, H = 190;
   const chap = 30, ong = 8, tepa = 10, past = 26;
   const pw = W - chap - ong, ph = H - tepa - past;
-  const x = i => chap + i/(KUNLAR.length-1)*pw;
+  const x = i => chap + (KUNLAR.length===1 ? pw/2 : i/(KUNLAR.length-1)*pw);
   const y = v => tepa + ph - v/100*ph;
   [0,20,40,60,80,100].forEach(t=>{
     el("line",{x1:chap,y1:y(t),x2:W-ong,y2:y(t),stroke:"#EDEEE9","stroke-width":1});
@@ -490,6 +512,34 @@ function dinChiz(){
 }
 dinChiz();
 let rz; window.addEventListener("resize", ()=>{clearTimeout(rz); rz=setTimeout(dinChiz,120);});
+
+document.getElementById("dinamika-davr").addEventListener("tanlov", e=>{
+  const d = DAVR_MALUMOT[e.detail];
+  KUNLAR = d.yorliqlar; SERIYALAR = d.seriya;
+  dinChiz();
+});
+
+/* Umumiy ko'rsatkichlar davri */
+const UMUMIY_MALUMOT = {
+  "Bugun": {yangi:["12","↑ 20%",false], bartaraf:["5","↓ 16%",true], yopildi:["8","↑ 14%",false], ortacha:["2 soat 18 daqiqa","↓ 8%",true]},
+  "Hafta": {yangi:["47","↑ 9%",false], bartaraf:["18","↓ 4%",true], yopildi:["52","↑ 22%",false], ortacha:["3 soat 05 daqiqa","↑ 3%",false]},
+  "Oy": {yangi:["163","↑ 12%",false], bartaraf:["41","↓ 11%",true], yopildi:["201","↑ 18%",false], ortacha:["2 soat 47 daqiqa","↓ 15%",true]}
+};
+document.getElementById("umumiy-davr").addEventListener("tanlov", e=>{
+  const m = UMUMIY_MALUMOT[e.detail];
+  [["us-yangi","yangi"],["us-bartaraf","bartaraf"],["us-yopildi","yopildi"],["us-ortacha","ortacha"]].forEach(([id,key])=>{
+    document.getElementById(id).textContent = m[key][0];
+    const d = document.getElementById(id+"-d");
+    d.textContent = m[key][1];
+    d.className = "delta" + (m[key][2] ? " salbiy" : "");
+  });
+});
+
+/* Jiddiylik filtri */
+document.getElementById("jiddiylik-filtr").addEventListener("tanlov", e=>{
+  faolJiddiylik = e.detail;
+  royxatChiz(); kanbanChiz();
+});
 
 /* Boshlash */
 royxatChiz(); kanbanChiz(); detalChiz(HODISALAR[0]);

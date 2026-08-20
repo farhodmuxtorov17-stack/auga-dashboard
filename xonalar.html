@@ -49,7 +49,8 @@
 .sahna-bosh .rejim button{height:38px;min-width:48px;padding:0 13px;border-radius:10px;font-size:13.5px;font-weight:700;color:#5B6168;border:1px solid var(--kirish-chiziq);transition:all var(--tez)}
 .sahna-bosh .rejim button.aktiv{background:#8CD121;border-color:#8CD121;color:#fff}
 .qavat-sahna{position:relative;border-radius:16px;background:linear-gradient(180deg,#FDFDFC,#F4F5F2);overflow:hidden;min-height:480px}
-.qavat-sahna img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:16px 100px 16px 150px}
+.qavat-sahna img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:16px 100px 16px 150px;transition:filter var(--tez)}
+.qavat-sahna img.sxematik{filter:grayscale(.85) contrast(1.15) brightness(1.08)}
 .qavat-yorliq{
   position:absolute;left:16px;display:flex;flex-direction:column;text-align:left;
   padding:8px 13px;border-radius:11px;background:transparent;transition:background var(--tez);
@@ -148,7 +149,7 @@
           </div>
           <div class="band">
             <span class="tile"><svg class="ic"><use href="#i-qavat"/></svg></span>
-            <span><span class="yorliq">Tanlangan qavat</span><b class="yashil">3-qavat</b></span>
+            <span><span class="yorliq">Tanlangan qavat</span><b class="yashil" id="stat-qavat">3-qavat</b></span>
           </div>
         </div>
 
@@ -169,7 +170,7 @@
           </div>
         </div>
         <div class="qavat-sahna">
-          <img src="assets/bino_qavatlar.png" alt="Bino qavatlari kesim ko'rinishi">
+          <img id="qavat-rasm" src="assets/bino_qavatlar.png" alt="Bino qavatlari kesim ko'rinishi">
           <button class="qavat-yorliq" style="top:6%" data-q="5"><b>5-qavat</b><span>Penthouse</span></button>
           <button class="qavat-yorliq" style="top:23%" data-q="4"><b>4-qavat</b><span>Ofis qavati</span></button>
           <button class="qavat-yorliq faol" style="top:41%" data-q="3"><b>3-qavat</b><span>Ofis qavati</span></button>
@@ -217,6 +218,7 @@ function qavatChiz(){
 function qavatTanla(q){
   faolQavat = q;
   faolXona = 0;
+  document.getElementById("stat-qavat").textContent = q+"-qavat";
   qavatChiz();
   document.querySelectorAll(".qavat-yorliq").forEach(y=>y.classList.toggle("faol", y.dataset.q===q));
   document.getElementById("xonalar-sarlavha").textContent = `Xonalar (${q}-qavat)`;
@@ -263,6 +265,7 @@ function xonalarChiz(){
   document.querySelectorAll(".xona-k").forEach(k=>{
     k.addEventListener("click", ()=>{
       faolXona = +k.dataset.i;
+      document.getElementById("xona-panel").style.display = "";
       xonalarChiz(); panelChiz();
     });
   });
@@ -307,10 +310,15 @@ function panelChiz(){
   document.getElementById("xp-tahrir").addEventListener("click", ()=>{
     AUGA.modal("Xonani tahrirlash",
       `<div style="display:grid;gap:14px;margin-top:6px">
-        <div><label class="maydon-yorliq">Xona nomi</label><div class="kirish"><input value="${x.nom}"></div></div>
-        <div><label class="maydon-yorliq">Holat</label><div class="kirish"><input value="${x.holat}"></div></div>
+        <div><label class="maydon-yorliq">Xona nomi</label><div class="kirish"><input id="tx-nom" value="${x.nom}"></div></div>
+        <div><label class="maydon-yorliq">Holat</label><div class="kirish"><input id="tx-holat" value="${x.holat}"></div></div>
       </div>`,
-      { okMatn:"Saqlash", ok(){ AUGA.toast("Xona ma'lumotlari saqlandi"); } });
+      { okMatn:"Saqlash", ok(){
+        x.nom = document.getElementById("tx-nom").value.trim() || x.nom;
+        x.holat = document.getElementById("tx-holat").value.trim() || x.holat;
+        xonalarChiz(); panelChiz();
+        AUGA.toast("Xona ma'lumotlari saqlandi");
+      } });
   });
   document.getElementById("xp-yop").addEventListener("click", ()=>{
     document.getElementById("xona-panel").style.display = "none";
@@ -325,8 +333,16 @@ document.getElementById("xona-keyingi").addEventListener("click", ()=>{
 });
 
 /* 3D/2D */
-document.getElementById("rj-3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("rj-2d").classList.remove("aktiv"); AUGA.toast("3D ko'rinish"); });
-document.getElementById("rj-2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("rj-3d").classList.remove("aktiv"); AUGA.toast("2D reja ko'rinishi"); });
+document.getElementById("rj-3d").addEventListener("click", function(){
+  this.classList.add("aktiv"); document.getElementById("rj-2d").classList.remove("aktiv");
+  document.getElementById("qavat-rasm").classList.remove("sxematik");
+  AUGA.toast("3D ko'rinish");
+});
+document.getElementById("rj-2d").addEventListener("click", function(){
+  this.classList.add("aktiv"); document.getElementById("rj-3d").classList.remove("aktiv");
+  document.getElementById("qavat-rasm").classList.add("sxematik");
+  AUGA.toast("2D reja ko'rinishi");
+});
 
 /* Hisobot */
 const ht = document.getElementById("hisobot-tugma"), hm = document.getElementById("hisobot-menyu");
