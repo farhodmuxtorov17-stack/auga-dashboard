@@ -113,7 +113,7 @@
 
       <!-- Kutilayotgan tasdiqlar -->
       <div class="karta">
-        <h3>Kutilayotgan tasdiqlar<span class="t-son">4</span></h3>
+        <h3>Kutilayotgan tasdiqlar<span class="t-son" id="t-son">4</span></h3>
         <div id="kt-royxat"></div>
         <button class="barcha-band" data-toast="Barcha tasdiqlar ro'yxati">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
       </div>
@@ -241,6 +241,7 @@ function bosHarflar(ism){ return ism.split(" ").map(s=>s[0]).join("").toUpperCas
 let faol = 0;
 
 function royxatChiz(){
+  document.getElementById("t-son").textContent = TASDIQLAR.length;
   document.getElementById("kt-royxat").innerHTML = TASDIQLAR.map((t,i)=>`
     <button class="kt-band ${i===faol?"faol":""}" data-i="${i}">
       <span class="kt-tile ${t.tile}"><svg class="ic"><use href="#${t.ikon}"/></svg></span>
@@ -295,14 +296,32 @@ document.getElementById("d-hujjat-band").addEventListener("click", ()=>{
   AUGA.toast(TASDIQLAR[faol].hujjatNomi+" yuklab olinmoqda", "i-yuklab");
 });
 
+function navbatdanOlish(){
+  TASDIQLAR.splice(faol, 1);
+  if (faol >= TASDIQLAR.length) faol = Math.max(0, TASDIQLAR.length - 1);
+  royxatChiz();
+  if (TASDIQLAR.length) detalChiz();
+  else document.querySelector(".td-korpus").closest(".karta").innerHTML =
+    `<div style="padding:48px 24px;text-align:center;color:var(--matn-4)">
+      <svg class="ic" style="width:32px;height:32px;margin:0 auto 12px"><use href="#i-belgi-doira"/></svg>
+      <div style="font-size:14.5px;font-weight:650">Barcha so'rovlar ko'rib chiqildi</div>
+      <div style="font-size:13px;margin-top:4px">Kutilayotgan tasdiqlar navbati bo'sh</div>
+    </div>`;
+}
+
 document.getElementById("tasdiqla").addEventListener("click", ()=>{
-  AUGA.toast(TASDIQLAR[faol].sarlavha+" — tasdiqlandi", "i-belgi-doira");
+  const t = TASDIQLAR[faol];
+  AUGA.toast(t.sarlavha+" — tasdiqlandi", "i-belgi-doira");
+  navbatdanOlish();
 });
 document.getElementById("rad-et").addEventListener("click", ()=>{
   AUGA.modal("So'rovni rad etish",
     `<div style="margin-top:6px"><label class="maydon-yorliq">Rad etish sababi</label>
      <div class="kirish kirish-katta"><textarea placeholder="Sababni kiriting..."></textarea></div></div>`,
-    {xavf:true, okMatn:"Rad etish", ok(){ AUGA.toast("So'rov rad etildi"); }});
+    {xavf:true, okMatn:"Rad etish", ok(){
+      AUGA.toast("So'rov rad etildi");
+      navbatdanOlish();
+    }});
 });
 });
 </script>

@@ -99,6 +99,10 @@ const IKONLAR = `
       <stop offset="0" stop-color="#A7E639"/>
       <stop offset="1" stop-color="#5C9600"/>
     </linearGradient>
+    <linearGradient id="grad-ring-3d-qizil" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F0897A"/>
+      <stop offset="1" stop-color="#C43C31"/>
+    </linearGradient>
     <linearGradient id="grad-dark-3d" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#333A2C"/>
       <stop offset="1" stop-color="#101208"/>

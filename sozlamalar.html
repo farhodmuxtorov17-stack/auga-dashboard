@@ -10,16 +10,6 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- Sozlamalar (ekran 21) ---- */
-.sz-tablar{display:flex;gap:8px;flex-wrap:wrap}
-.sz-tab{
-  display:flex;align-items:center;gap:8px;height:46px;padding:0 20px;border-radius:99px;
-  background:var(--karta);box-shadow:var(--soya);font-size:14px;font-weight:650;color:#33383E;
-  transition:all var(--tez);
-}
-.sz-tab .nuqta{width:7px;height:7px;border-radius:99px;background:#8CD121;display:none}
-.sz-tab.aktiv{background:#22261F;color:#fff}
-.sz-tab.aktiv .nuqta{display:block}
-
 .sz-grid{display:grid;grid-template-columns:300px 1fr 400px;gap:18px;align-items:start}
 .bolim-karta h3{font-size:16px;font-weight:750;margin-bottom:10px}
 .bolim-band{
@@ -80,15 +70,6 @@
 
   <main class="kontent">
     <div class="sahifa-qator"><h1>Sozlamalar</h1></div>
-
-    <div class="sz-tablar" id="sz-tablar">
-      <button class="sz-tab aktiv"><span class="nuqta"></span>Umumiy</button>
-      <button class="sz-tab">Xavfsizlik</button>
-      <button class="sz-tab">Foydalanuvchilar</button>
-      <button class="sz-tab">Bildirishnomalar</button>
-      <button class="sz-tab">Brending</button>
-      <button class="sz-tab">Zaxira nusxa</button>
-    </div>
 
     <div class="sz-grid">
 
@@ -192,11 +173,11 @@
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
 
-document.querySelectorAll(".sz-tab").forEach(t=>{
-  t.addEventListener("click", ()=>{
-    document.querySelectorAll(".sz-tab").forEach(x=>x.classList.remove("aktiv"));
-    t.classList.add("aktiv");
-    if (t.textContent.trim()!=="Umumiy") AUGA.toast(`"${t.textContent.trim()}" bo'limi`);
+document.querySelectorAll(".bolim-band").forEach(b=>{
+  if (b.tagName === "A") return;
+  b.addEventListener("click", ()=>{
+    document.querySelectorAll(".bolim-band").forEach(x=>x.classList.remove("aktiv"));
+    b.classList.add("aktiv");
   });
 });
 
