@@ -363,7 +363,6 @@ function detalChiz(h){
         </button>
         <div class="menyu-popover" id="detal-menyu" style="bottom:calc(100% + 8px);top:auto;right:0">
           <button type="button" data-amal="yopish"><svg class="ic"><use href="#i-belgi-doira"/></svg>Hodisani yopish</button>
-          <button type="button" data-amal="biriktirish"><svg class="ic"><use href="#i-foyd"/></svg>Mas'ul biriktirish</button>
           <div class="ajrat"></div>
           <button type="button" class="xavf" data-amal="ochirish"><svg class="ic"><use href="#i-savat"/></svg>O'chirish</button>
         </div>
@@ -408,8 +407,6 @@ function detalChiz(h){
       h.ustun = "yopildi"; h.holat = "Yopildi";
       royxatChiz(); kanbanChiz(); detalChiz(h);
       AUGA.toast("Hodisa yopildi deb belgilandi", "i-belgi-doira");
-    } else {
-      AUGA.toast("Mas'ul biriktirish oynasi", "i-foyd");
     }
   }));
 }

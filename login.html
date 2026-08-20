@@ -160,6 +160,12 @@ body{background:#F8F8F8;min-height:100vh;overflow-x:hidden}
 <script src="auga.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
+  /* Meni eslab qolish — oldingi foydalanuvchi nomini tiklaydi */
+  const eslabKatak = document.getElementById("eslab");
+  const eslabNom = localStorage.getItem("auga-eslab-nom");
+  if (eslabNom){ document.getElementById("foyd-nomi").value = eslabNom; }
+  else { eslabKatak.checked = false; }
+
   /* Parol ko'rsatish/yashirish */
   const koz = document.getElementById("koz");
   const parol = document.getElementById("parol");
@@ -198,6 +204,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
     const xato = document.getElementById("xato");
     if (!nom || !par){ xato.classList.add("korinadi"); return; }
     xato.classList.remove("korinadi");
+    if (eslabKatak.checked) localStorage.setItem("auga-eslab-nom", nom);
+    else localStorage.removeItem("auga-eslab-nom");
     const tanlangan = document.querySelector('.rol-tugma[aria-pressed="true"]');
     const rol = tanlangan ? tanlangan.dataset.rol : "Rahbar";
     localStorage.setItem("auga-rol", rol);

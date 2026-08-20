@@ -30,8 +30,6 @@
 .ruxsat-tugma:hover{background:#7DC013}
 .ruxsat-tugma:active{transform:scale(.92)}
 .ruxsat-tugma .ic{width:16px;height:16px;stroke-width:2.4}
-.sa-havola{display:flex;align-items:center;gap:8px;width:100%;padding:12px 4px 2px;font-size:14px;font-weight:650;color:#33383E;border-radius:8px}
-.sa-havola .ic{margin-left:auto;width:16px;height:16px}
 .sessiya-nuqta{width:7px;height:7px;border-radius:99px;background:#22B14C;flex:none;margin-right:6px}
 
 /* Markaziy sahna */
@@ -142,13 +140,12 @@
           <h3>Kirish so'rovlar</h3>
           <div class="sub">5 ta kutmoqda</div>
           <div style="margin-top:8px" id="sorovlar"></div>
-          <button class="sa-havola" data-toast="Barcha kirish so'rovlari">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
         </div>
 
         <div class="karta sa-karta">
           <div style="display:flex;align-items:center">
             <div><h3>Faol sessiyalar</h3><div class="sub">12 ta faol</div></div>
-            <button class="karta-havola" data-toast="Barcha faol sessiyalar">Barchasini ko'rish</button>
+            <a class="karta-havola" href="kirish-voqealari.html">Barchasini ko'rish</a>
           </div>
           <div style="margin-top:8px">
             <div class="sorov-band">
@@ -202,14 +199,13 @@
         <div class="karta mehmon-karta">
           <div style="display:flex;align-items:center;margin-bottom:14px">
             <div><h3 style="font-size:16.5px;font-weight:750">Bugungi mehmonlar</h3><div class="sub" style="font-size:12.5px;color:var(--matn-4)">8 kishi</div></div>
-            <button class="karta-havola" data-toast="Barcha bugungi mehmonlar">Barchasini ko'rish</button>
           </div>
           <div class="mehmon-royxat">
             <button class="mehmon-k" data-mehmon="Kamron Aliyev"><span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span><span><b>Kamron Aliyev</b><span>Mehmon</span></span><span class="vaqt">14:20</span></button>
             <button class="mehmon-k" data-mehmon="Nargiza Karimova"><span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span><span><b>Nargiza Karimova</b><span>Mehmon</span></span><span class="vaqt">14:15</span></button>
             <button class="mehmon-k" data-mehmon="Umid Soliyev"><span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span><span><b>Umid Soliyev</b><span>Mehmon</span></span><span class="vaqt">14:10</span></button>
             <button class="mehmon-k" data-mehmon="Saida Rahimova"><span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span><span><b>Saida Rahimova</b><span>Mehmon</span></span><span class="vaqt">14:05</span></button>
-            <button class="mehmon-plus" data-toast="Yana 4 mehmon ro'yxati">+4</button>
+            <a class="mehmon-plus" href="kirish-voqealari.html" aria-label="Yana 4 mehmonni ko'rish">+4</a>
           </div>
         </div>
       </div>
