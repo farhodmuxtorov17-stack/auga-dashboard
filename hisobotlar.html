@@ -337,11 +337,12 @@ document.querySelectorAll(".kpi-band .kpi").forEach((k,i)=>{
     s.appendChild(c);
     boshi += f/100*360;
   });
-  const oyna = document.createElementNS(NS,"circle");
-  oyna.setAttribute("cx",cx); oyna.setAttribute("cy",cy); oyna.setAttribute("r", r + w/2 - 3);
-  oyna.setAttribute("fill","url(#grad-sheen)");
-  oyna.setAttribute("pointer-events","none");
-  s.appendChild(oyna);
+  const yorug = document.createElementNS(NS,"circle");
+  yorug.setAttribute("cx",cx); yorug.setAttribute("cy",cy); yorug.setAttribute("r",r);
+  yorug.setAttribute("fill","none"); yorug.setAttribute("stroke","url(#grad-ring-overlay)");
+  yorug.setAttribute("stroke-width",w);
+  yorug.setAttribute("pointer-events","none");
+  s.appendChild(yorug);
 })();
 });
 </script>

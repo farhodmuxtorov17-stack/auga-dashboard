@@ -107,6 +107,12 @@ const IKONLAR = `
       <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
       <stop offset="1" stop-color="#fff" stop-opacity="0"/>
     </radialGradient>
+    <linearGradient id="grad-ring-overlay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset=".38" stop-color="#fff" stop-opacity="0"/>
+      <stop offset=".65" stop-color="#fff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#171A1F" stop-opacity=".22"/>
+    </linearGradient>
     <filter id="depth-sm" x="-40%" y="-40%" width="180%" height="180%">
       <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#171A1F" flood-opacity=".22"/>
     </filter>
