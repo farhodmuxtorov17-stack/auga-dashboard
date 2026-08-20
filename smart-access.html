@@ -11,6 +11,7 @@
 <style>
 /* ---- Smart Access (ekran 8) ---- */
 .sa-grid{display:grid;grid-template-columns:340px 1fr 350px;gap:18px;align-items:start}
+.sa-grid > div:nth-child(2){min-width:0}
 .sa-karta h3{font-size:16.5px;font-weight:750}
 .sa-karta .sub{font-size:12.5px;color:var(--matn-4);margin-top:2px}
 .sorov-band{display:flex;align-items:center;gap:12px;width:100%;padding:11px 4px;border-bottom:1px solid #F2F3F5;text-align:left;border-radius:10px;transition:background var(--tez)}
@@ -23,6 +24,7 @@
 .sorov-band .vaqt{font-size:12.5px;color:var(--matn-3);flex:none}
 .ruxsat-tugma{
   width:34px;height:34px;border-radius:10px;background:#8CD121;display:grid;place-items:center;color:#fff;flex:none;
+  box-shadow:var(--chuqur-tile-tor);
   transition:background var(--tez),transform 80ms ease;
 }
 .ruxsat-tugma:hover{background:#7DC013}
@@ -198,6 +200,7 @@
         <div class="karta mehmon-karta">
           <div style="display:flex;align-items:center;margin-bottom:14px">
             <div><h3 style="font-size:16.5px;font-weight:750">Bugungi mehmonlar</h3><div class="sub" style="font-size:12.5px;color:var(--matn-4)">8 kishi</div></div>
+            <button class="karta-havola" data-toast="Barcha bugungi mehmonlar">Barchasini ko'rish</button>
           </div>
           <div class="mehmon-royxat">
             <button class="mehmon-k" data-mehmon="Kamron Aliyev"><span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span><span><b>Kamron Aliyev</b><span>Mehmon</span></span><span class="vaqt">14:20</span></button>

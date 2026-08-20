@@ -20,7 +20,7 @@
 }
 .kt-band:hover{box-shadow:var(--soya)}
 .kt-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
-.kt-tile{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.kt-tile{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile)}
 .kt-tile .ic{width:20px;height:20px}
 .kt-tile.yashil{background:#EBF7D8;color:#3E7C0A}
 .kt-tile.sariq{background:#FFF6DE;color:#9A6E00}
@@ -40,6 +40,7 @@
 /* Markaz */
 .td-bosh{display:flex;align-items:flex-start;gap:14px}
 .td-bosh .kt-tile{width:52px;height:52px}
+.td-bosh .kt-tile .ic{width:24px;height:24px}
 .td-bosh h2{font-size:20px;font-weight:750;line-height:1.3}
 .td-bosh .sub{font-size:13.5px;color:var(--matn-3);margin-top:4px}
 .td-bosh .jiddiylik{margin-left:auto;flex:none;font-size:12.5px;padding:6px 14px}
@@ -57,7 +58,7 @@
 .hujjat-blok h4{font-size:14.5px;font-weight:750;margin-bottom:8px}
 .hujjat-band{display:flex;align-items:center;gap:12px;border:1px solid var(--chiziq);border-radius:13px;padding:12px 14px;width:100%;text-align:left;transition:background var(--tez)}
 .hujjat-band:hover{background:#F8F9F7}
-.hujjat-band .tile{width:38px;height:38px;border-radius:10px;background:#F0F1F4;display:grid;place-items:center;color:#5B6168}
+.hujjat-band .tile{width:38px;height:38px;border-radius:10px;background:#F0F1F4;display:grid;place-items:center;color:#5B6168;box-shadow:var(--chuqur-tile-tor)}
 .hujjat-band .tile .ic{width:17px;height:17px}
 .hujjat-band b{font-size:13.5px;font-weight:650}
 .hujjat-band span{display:block;font-size:12px;color:var(--matn-4)}
@@ -76,7 +77,7 @@
 .shaxs-band{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #F2F3F5}
 .shaxs-band:last-of-type{border-bottom:none}
 .shaxs-band .avatar{width:40px;height:40px}
-.shaxs-band .harf{width:40px;height:40px;border-radius:99px;background:#EEF0F3;display:grid;place-items:center;font-size:12.5px;font-weight:750;color:#5B6168;flex:none}
+.shaxs-band .harf{width:40px;height:40px;border-radius:99px;background:#EEF0F3;display:grid;place-items:center;font-size:12.5px;font-weight:750;color:#5B6168;flex:none;box-shadow:var(--chuqur-tile-tor)}
 .shaxs-band .rol{display:block;font-size:12px;color:var(--matn-4)}
 .shaxs-band b{display:block;font-size:14px;font-weight:650}
 .shaxs-band .aloqa{margin-left:auto;display:flex;gap:8px}
@@ -122,7 +123,7 @@
         <div class="td-bosh">
           <span class="kt-tile yashil" id="d-tile"><svg class="ic"><use href="#i-kamera"/></svg></span>
           <div>
-            <h2 id="d-sarlavha">Masofaviy ko'rish sessiyasini tasdiqlash</h2>
+            <h2 id="d-sarlavha">Masofaviy ko'rik sessiyasini tasdiqlash</h2>
             <div class="sub" id="d-sub">Green Tower &nbsp;·&nbsp; GT-2024-001</div>
           </div>
           <span class="jiddiylik yuqori" id="d-jiddiylik">Yuqori</span>
@@ -132,7 +133,7 @@
           <div>
             <div class="td-tavsif">
               <h4>Tavsif</h4>
-              <p id="d-tavsif">Investor bilan masofaviy ko'rish sessiyasini o'tkazish uchun ruxsat so'ralmoqda.</p>
+              <p id="d-tavsif">Investor bilan masofaviy ko'rik sessiyasini o'tkazish uchun ruxsat so'ralmoqda.</p>
             </div>
             <div style="margin-top:12px">
               <div class="td-qator"><svg class="ic"><use href="#i-foyd"/></svg><span class="yorliq">So'rovchi</span><b id="d-sorovchi">Javlon Karimov</b></div>
@@ -207,8 +208,8 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 const TASDIQLAR = [
-  {ikon:"i-kamera", tile:"yashil", sarlavha:"Masofaviy ko'rish sessiyasini tasdiqlash", org:"Green Tower", sub:"Green Tower &nbsp;·&nbsp; GT-2024-001",
-   vaqt:"Bugun, 14:20", j:"yuqori", jm:"Yuqori", tavsif:"Investor bilan masofaviy ko'rish sessiyasini o'tkazish uchun ruxsat so'ralmoqda.",
+  {ikon:"i-kamera", tile:"yashil", sarlavha:"Masofaviy ko'rik sessiyasini tasdiqlash", org:"Green Tower", sub:"Green Tower &nbsp;·&nbsp; GT-2024-001",
+   vaqt:"Bugun, 14:20", j:"yuqori", jm:"Yuqori", tavsif:"Investor bilan masofaviy ko'rik sessiyasini o'tkazish uchun ruxsat so'ralmoqda.",
    sorovchi:"Javlon Karimov", lavozim:"Aktivlar direktori", joy:"Green Tower, 1201-xona", ishtirokchilar:"3 nafar", sessiyaTuri:"Video konferensiya",
    qoshimcha:"Investor: Global Invest Ltd.", hujjatNomi:"Session_Request_GreenTower.pdf", hujjatHajmi:"1.2 MB",
    sorovSana:"24-may, 2025 &nbsp;·&nbsp; 14:20", javobMuddati:"26-may, 2025 &nbsp;·&nbsp; 15:00", qolgan:"0 soat 28 daqiqa",

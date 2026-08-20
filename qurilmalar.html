@@ -32,7 +32,7 @@
 }
 .q-band:hover{box-shadow:var(--soya)}
 .q-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
-.q-band .tile{width:40px;height:40px;border-radius:11px;background:#F0F1F4;display:grid;place-items:center;color:#43484E;flex:none;position:relative}
+.q-band .tile{width:40px;height:40px;border-radius:11px;background:#F0F1F4;display:grid;place-items:center;color:#43484E;flex:none;position:relative;box-shadow:var(--chuqur-tile-tor)}
 .q-band .tile .ic{width:18px;height:18px}
 .q-band .tile.qizil{background:#FDEEEC;color:#C43C31}
 .q-band .tile .n{position:absolute;left:-3px;top:-3px;width:9px;height:9px;border-radius:99px;background:#22B14C;border:2px solid #fff}
@@ -45,7 +45,7 @@
 
 /* Markaz */
 .qm-bosh{display:flex;align-items:center;gap:13px;flex-wrap:wrap}
-.qm-bosh .tile{width:48px;height:48px;border-radius:13px;background:#F0F1F4;display:grid;place-items:center;color:#43484E}
+.qm-bosh .tile{width:48px;height:48px;border-radius:13px;background:#F0F1F4;display:grid;place-items:center;color:#43484E;box-shadow:var(--chuqur-tile)}
 .qm-bosh .tile .ic{width:22px;height:22px}
 .qm-bosh h2{font-size:20px;font-weight:750;display:flex;align-items:center;gap:10px}
 .qm-bosh .sub{font-size:13px;color:var(--matn-3);margin-top:2px}
@@ -76,6 +76,19 @@
 .ak-katak svg.chizma{width:100%;height:22px;margin-top:8px}
 .ak-katak .qulf{display:flex;align-items:center;gap:7px;margin-top:5px;font-size:15px;font-weight:750;color:#9A6E00}
 .ak-katak .qulf .ic{width:16px;height:16px}
+
+.komponent-royxat{border:1px solid var(--chiziq);border-radius:14px;overflow:hidden}
+.komponent-band{display:flex;align-items:center;gap:13px;padding:13px 16px;border-bottom:1px solid #F2F3F5}
+.komponent-band:last-child{border-bottom:none}
+.komponent-ikon{width:38px;height:38px;border-radius:11px;background:#F0F1F4;color:#43484E;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile-tor)}
+.komponent-ikon .ic{width:18px;height:18px}
+.komponent-matn{flex:1;min-width:0}
+.komponent-matn b{display:block;font-size:14px;font-weight:650}
+.komponent-matn span{display:block;font-size:12.5px;color:var(--matn-4);margin-top:1px}
+.favqulodda-rejim-band{display:flex;gap:12px;background:var(--sariq-fon);border-radius:13px;padding:14px 16px;margin-top:14px}
+.favqulodda-rejim-band .ic{width:19px;height:19px;color:#9A6E00;flex:none;margin-top:1px}
+.favqulodda-rejim-band b{display:block;font-size:14px;font-weight:700;color:#7A5900}
+.favqulodda-rejim-band span{display:block;font-size:12.5px;color:#8A6B1F;margin-top:3px;line-height:1.55}
 
 /* O'ng ustun */
 .qh-karta h3{font-size:16px;font-weight:750;margin-bottom:6px}
@@ -169,41 +182,78 @@
             <div class="qm-stat"><span class="yorliq">Signal kuchi</span><b>-62 dBm</b></div>
             <div class="qm-stat"><span class="yorliq">Sog'liq darajasi</span><b style="color:#3E9412">A'lo</b></div>
             <span class="soglik">
-              <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="21" fill="none" stroke="#EAF3D4" stroke-width="5"/><circle cx="26" cy="26" r="21" fill="none" stroke="#78C802" stroke-width="5" stroke-linecap="round" stroke-dasharray="121.4 131.9" transform="rotate(-90 26 26)"/></svg>
+              <svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="21" fill="none" stroke="#EAF3D4" stroke-width="5"/><circle cx="26" cy="26" r="21" fill="none" stroke="url(#grad-ring-3d)" stroke-width="5" stroke-linecap="round" stroke-dasharray="121.4 131.9" transform="rotate(-90 26 26)" filter="url(#depth-sm)"/></svg>
               <b>92</b>
             </span>
           </div>
         </div>
 
         <div class="qm-tablar" role="tablist">
-          <button class="qm-tab aktiv">Umumiy ma'lumot</button>
+          <button class="qm-tab aktiv" data-t="umumiy">Umumiy ma'lumot</button>
           <button class="qm-tab" data-toast="Diagnostika testlari paneli">Diagnostika</button>
-          <button class="qm-tab" data-toast="Komponentlar ro'yxati">Komponentlar</button>
+          <button class="qm-tab" data-t="komponentlar">Komponentlar</button>
           <button class="qm-tab" data-toast="Qurilma sozlamalari">Sozlamalar</button>
           <button class="qm-tab" data-toast="Qurilma hujjatlari">Hujjatlar</button>
         </div>
 
-        <div class="qm-korinish">
-          <h4>Qurilma ko'rinishi</h4>
-          <img src="assets/qurilma_eshik.png" alt="Entry Door Main — eshik, kontroller, kamera va Face ID qurilmasi joylashuvi">
+        <div data-panel="umumiy">
+          <div class="qm-korinish">
+            <h4>Qurilma ko'rinishi</h4>
+            <img src="assets/qurilma_eshik.png" alt="Entry Door Main — eshik, kontroller, kamera va Face ID qurilmasi joylashuvi">
+          </div>
+
+          <div class="info-strip">
+            <div class="band"><svg class="ic"><use href="#i-sozlama"/></svg><span><span class="yorliq">Firmware</span><b>v2.4.1</b></span></div>
+            <div class="band"><svg class="ic"><use href="#i-wifi"/></svg><span><span class="yorliq">IP manzil</span><b>192.168.1.45</b></span></div>
+            <div class="band"><svg class="ic"><use href="#i-ekran"/></svg><span><span class="yorliq">MAC manzil</span><b>20:4E:7F:12:9A:BC</b></span></div>
+            <div class="band"><svg class="ic"><use href="#i-soat"/></svg><span><span class="yorliq">Uptime</span><b>12 kun 4 soat</b></span></div>
+            <div class="band"><svg class="ic"><use href="#i-saralash"/></svg><span><span class="yorliq">Oxirgi sinx.</span><b>24-may, 14:28</b></span></div>
+          </div>
+
+          <div class="asosiy-k">
+            <h4>Asosiy ko'rsatkichlar</h4>
+            <div class="ak-grid">
+              <button class="ak-katak" data-toast="CPU tarixi grafigi"><span class="yorliq">CPU yuklanishi</span><b>18%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,14 12,12 24,15 36,10 48,13 60,9 72,12 84,8 100,11" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></button>
+              <button class="ak-katak" data-toast="Xotira tarixi"><span class="yorliq">Xotira</span><b>42%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,16 14,13 28,14 42,11 56,13 70,10 84,12 100,9" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></button>
+              <button class="ak-katak" data-toast="Tarmoq kechikishi tarixi"><span class="yorliq">Tarmoq kechikishi</span><b>12 ms</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,11 14,13 28,10 42,14 56,11 70,13 84,10 100,12" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></button>
+              <button class="ak-katak" id="eshik-holati"><span class="yorliq">Eshik holati</span><span class="qulf"><svg class="ic"><use href="#i-qulf"/></svg><span data-holat>Yopiq</span></span></button>
+              <button class="ak-katak" data-toast="Bugungi o'tishlar jurnali"><span class="yorliq">O'tishlar soni (bugun)</span><b>128</b><svg class="chizma" viewBox="0 0 100 22"><rect x="4" y="12" width="5" height="10" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="14" y="8" width="5" height="14" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="24" y="14" width="5" height="8" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="34" y="6" width="5" height="16" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="44" y="10" width="5" height="12" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="54" y="4" width="5" height="18" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="64" y="9" width="5" height="13" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="74" y="12" width="5" height="10" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="84" y="7" width="5" height="15" rx="3" fill="url(#grad-bar-3d)" filter="url(#depth-sm)"/></svg></button>
+            </div>
+          </div>
         </div>
 
-        <div class="info-strip">
-          <div class="band"><svg class="ic"><use href="#i-sozlama"/></svg><span><span class="yorliq">Firmware</span><b>v2.4.1</b></span></div>
-          <div class="band"><svg class="ic"><use href="#i-wifi"/></svg><span><span class="yorliq">IP manzil</span><b>192.168.1.45</b></span></div>
-          <div class="band"><svg class="ic"><use href="#i-ekran"/></svg><span><span class="yorliq">MAC manzil</span><b>20:4E:7F:12:9A:BC</b></span></div>
-          <div class="band"><svg class="ic"><use href="#i-soat"/></svg><span><span class="yorliq">Uptime</span><b>12 kun 4 soat</b></span></div>
-          <div class="band"><svg class="ic"><use href="#i-saralash"/></svg><span><span class="yorliq">Oxirgi sinx.</span><b>24-may, 14:28</b></span></div>
-        </div>
-
-        <div class="asosiy-k">
-          <h4>Asosiy ko'rsatkichlar</h4>
-          <div class="ak-grid">
-            <button class="ak-katak" data-toast="CPU tarixi grafigi"><span class="yorliq">CPU yuklanishi</span><b>18%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,14 12,12 24,15 36,10 48,13 60,9 72,12 84,8 100,11" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg></button>
-            <button class="ak-katak" data-toast="Xotira tarixi"><span class="yorliq">Xotira</span><b>42%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,16 14,13 28,14 42,11 56,13 70,10 84,12 100,9" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg></button>
-            <button class="ak-katak" data-toast="Tarmoq kechikishi tarixi"><span class="yorliq">Tarmoq kechikishi</span><b>12 ms</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,11 14,13 28,10 42,14 56,11 70,13 84,10 100,12" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke"/></svg></button>
-            <button class="ak-katak" id="eshik-holati"><span class="yorliq">Eshik holati</span><span class="qulf"><svg class="ic"><use href="#i-qulf"/></svg><span data-holat>Yopiq</span></span></button>
-            <button class="ak-katak" data-toast="Bugungi o'tishlar jurnali"><span class="yorliq">O'tishlar soni (bugun)</span><b>128</b><svg class="chizma" viewBox="0 0 100 22"><rect x="4" y="12" width="5" height="10" rx="1.5" fill="#8CD121"/><rect x="14" y="8" width="5" height="14" rx="1.5" fill="#8CD121"/><rect x="24" y="14" width="5" height="8" rx="1.5" fill="#8CD121"/><rect x="34" y="6" width="5" height="16" rx="1.5" fill="#8CD121"/><rect x="44" y="10" width="5" height="12" rx="1.5" fill="#8CD121"/><rect x="54" y="4" width="5" height="18" rx="1.5" fill="#8CD121"/><rect x="64" y="9" width="5" height="13" rx="1.5" fill="#8CD121"/><rect x="74" y="12" width="5" height="10" rx="1.5" fill="#8CD121"/><rect x="84" y="7" width="5" height="15" rx="1.5" fill="#8CD121"/></svg></button>
+        <div data-panel="komponentlar" hidden>
+          <h4 style="font-size:15.5px;font-weight:750;margin-bottom:12px">Tizim komponentlari</h4>
+          <div class="komponent-royxat">
+            <div class="komponent-band">
+              <span class="komponent-ikon"><svg class="ic"><use href="#i-qulf"/></svg></span>
+              <span class="komponent-matn"><b>Elektr qulf boshqaruvchisi</b><span>AUGA SmartLock X2 &nbsp;·&nbsp; masofadan boshqariladigan magnit qulf</span></span>
+              <span class="chip chip-yashil"><span class="nuqta"></span>Ishlayapti</span>
+            </div>
+            <div class="komponent-band">
+              <span class="komponent-ikon"><svg class="ic"><use href="#i-kamera"/></svg></span>
+              <span class="komponent-matn"><b>FaceID skaner</b><span>Biometrik yuz-tanish moduli &nbsp;·&nbsp; AUGA Face Match v2.1</span></span>
+              <span class="chip chip-yashil"><span class="nuqta"></span>Ishlayapti</span>
+            </div>
+            <div class="komponent-band">
+              <span class="komponent-ikon"><svg class="ic"><use href="#i-kamera"/></svg></span>
+              <span class="komponent-matn"><b>IP kamera</b><span>Kirish nuqtasi videokuzatuvi, doimiy yozuv</span></span>
+              <span class="chip chip-yashil"><span class="nuqta"></span>Ishlayapti</span>
+            </div>
+            <div class="komponent-band">
+              <span class="komponent-ikon"><svg class="ic"><use href="#i-energiya"/></svg></span>
+              <span class="komponent-matn"><b>Zaxira quvvat (UPS)</b><span>Asosiy quvvat uzilganda 500ms ichida avtomatik almashadi</span></span>
+              <span class="chip chip-yashil"><span class="nuqta"></span>To'liq — 4 soat zaxira</span>
+            </div>
+            <div class="komponent-band">
+              <span class="komponent-ikon"><svg class="ic"><use href="#i-wifi"/></svg></span>
+              <span class="komponent-matn"><b>Tarmoq moduli</b><span>Ethernet + Wi-Fi zaxira kanali</span></span>
+              <span class="chip chip-yashil"><span class="nuqta"></span>Ulangan</span>
+            </div>
+          </div>
+          <div class="favqulodda-rejim-band">
+            <svg class="ic"><use href="#i-ogoh"/></svg>
+            <span><b>Favqulodda rejim: Yoqilgan (fail-safe)</b><span>Quvvat yoki tarmoq butunlay uzilsa, eshik xavfsizlik qoidalariga muvofiq avtomatik qulfdan chiqadi — mijoz hech qachon ichkarida qulflanib qolmaydi. Zaxira mexanik kalit texnik xonada saqlanadi.</span></span>
           </div>
         </div>
       </div>
@@ -300,6 +350,7 @@ document.querySelectorAll(".qm-tab").forEach(t=>{
   t.addEventListener("click", ()=>{
     document.querySelectorAll(".qm-tab").forEach(x=>x.classList.remove("aktiv"));
     t.classList.add("aktiv");
+    if (t.dataset.t) document.querySelectorAll("[data-panel]").forEach(p=>p.hidden = p.dataset.panel !== t.dataset.t);
   });
 });
 

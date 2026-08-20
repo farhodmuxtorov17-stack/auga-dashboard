@@ -215,11 +215,14 @@ let tanlanganId = "green-tower";
 
 function halqaSVG(ball, olcham, qalinlik){
   const r = (olcham - qalinlik)/2, C = 2*Math.PI*r;
-  return `<svg width="${olcham}" height="${olcham}" viewBox="0 0 ${olcham} ${olcham}">
+  // style="overflow:visible" shart: halqa strokeining tashqi chekkasi svg quti chekkasiga
+  // aynan tegib turadi (nol-margin geometriya), shuning uchun overflow:hidden standart qiymatida
+  // filter="url(#depth-sm)" soyasi butunlay kesilib qolar edi (spec 4-qoida: soya ko'rinishi shart).
+  return `<svg width="${olcham}" height="${olcham}" viewBox="0 0 ${olcham} ${olcham}" style="overflow:visible">
     <circle cx="${olcham/2}" cy="${olcham/2}" r="${r}" fill="none" stroke="#EAF3D4" stroke-width="${qalinlik}"/>
-    <circle cx="${olcham/2}" cy="${olcham/2}" r="${r}" fill="none" stroke="#78C802" stroke-width="${qalinlik}"
+    <circle cx="${olcham/2}" cy="${olcham/2}" r="${r}" fill="none" stroke="url(#grad-ring-3d)" stroke-width="${qalinlik}"
       stroke-linecap="round" stroke-dasharray="${(ball/100*C).toFixed(1)} ${C.toFixed(1)}"
-      transform="rotate(-90 ${olcham/2} ${olcham/2})"/>
+      transform="rotate(-90 ${olcham/2} ${olcham/2})" filter="url(#depth-sm)"/>
   </svg>`;
 }
 

@@ -62,7 +62,7 @@
 
 .hisobot-band{display:flex;align-items:center;gap:13px;padding:12px 4px;border-bottom:1px solid #F2F3F5}
 .hisobot-band:last-child{border-bottom:none}
-.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:800;color:#fff}
+.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:800;color:#fff;box-shadow:var(--chuqur-tile-tor)}
 .fayl-ikon.pdf{background:#E8563F}
 .fayl-ikon.xlsx{background:#3E9B4F}
 .hisobot-band .matn{flex:1;min-width:0}
@@ -148,7 +148,7 @@
       <div class="karta">
         <h3>Daromad tuzilmasi</h3>
         <div class="tuzilma-korpus">
-          <svg id="tuzilma-donut" width="170" height="170" viewBox="0 0 170 170" role="img"
+          <svg id="tuzilma-donut" width="170" height="170" viewBox="0 0 170 170" role="img" filter="url(#depth-md)"
                aria-label="Daromad tuzilmasi: ijara 45,2%, savdo 26,7%, xizmat 18,3%, boshqa 9,8%"></svg>
           <div class="legend">
             <button class="legend-qator" data-toast="Ijara tushumlari tafsiloti"><span class="nuqta" style="background:#3E9B4F"></span><span class="nomi">Ijara tushumlari</span><b>45,2%</b></button>
@@ -291,8 +291,8 @@ function chiz(){
     t.textContent = o;
   });
   const nuqtalar = QIYMAT.map((v,i)=>`${x(i)},${y(v)}`).join(" ");
-  el("polygon",{points:`${x(0)},${y(0)} ${nuqtalar} ${x(QIYMAT.length-1)},${y(0)}`,fill:"rgba(120,200,2,.12)"});
-  el("polyline",{points:nuqtalar,fill:"none",stroke:"#78C802","stroke-width":2.2,"stroke-linejoin":"round","stroke-linecap":"round"});
+  el("polygon",{points:`${x(0)},${y(0)} ${nuqtalar} ${x(QIYMAT.length-1)},${y(0)}`,fill:"url(#grad-area-3d)"});
+  el("polyline",{points:nuqtalar,fill:"none",stroke:"#78C802","stroke-width":2.2,"stroke-linejoin":"round","stroke-linecap":"round",filter:"url(#depth-sm)"});
   QIYMAT.forEach((v,i)=>el("circle",{cx:x(i),cy:y(v),r:4.2,fill:"#78C802",stroke:"#fff","stroke-width":2.2}));
 }
 chiz();
@@ -337,6 +337,11 @@ document.querySelectorAll(".kpi-band .kpi").forEach((k,i)=>{
     s.appendChild(c);
     boshi += f/100*360;
   });
+  const oyna = document.createElementNS(NS,"circle");
+  oyna.setAttribute("cx",cx); oyna.setAttribute("cy",cy); oyna.setAttribute("r", r + w/2 - 3);
+  oyna.setAttribute("fill","url(#grad-sheen)");
+  oyna.setAttribute("pointer-events","none");
+  s.appendChild(oyna);
 })();
 });
 </script>

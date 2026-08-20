@@ -78,7 +78,7 @@
   transition:border-color var(--tez),box-shadow var(--tez);
 }
 .tv-band:hover{box-shadow:var(--soya)}
-.tv-belgi{width:28px;height:28px;border-radius:99px;display:grid;place-items:center;flex:none;margin-top:1px}
+.tv-belgi{width:28px;height:28px;border-radius:99px;display:grid;place-items:center;flex:none;margin-top:1px;box-shadow:var(--chuqur-tile-tor)}
 .tv-band.bajarildi .tv-belgi{background:#8CD121;color:#fff}
 .tv-band.jarayonda .tv-belgi{background:#fff;border:2.5px solid #3B82F6}
 .tv-band.kutish .tv-belgi{background:#EEF0EA;color:#71767E}
@@ -290,9 +290,11 @@ ht.addEventListener("click", e=>{
   document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
   hm.classList.toggle("ochiq", !o);
 });
+const HOLAT_RANG = {"Jarayonda":"#F2C230","To'xtatilgan":"#F45E53","Yakunlandi":"#22B14C"};
 hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
   e.stopPropagation(); hm.classList.remove("ochiq");
   document.getElementById("holat-matn").textContent = b.dataset.h;
+  ht.querySelector(".nuqta").style.background = HOLAT_RANG[b.dataset.h];
   AUGA.toast("Topshiriq holati: "+b.dataset.h);
 }));
 

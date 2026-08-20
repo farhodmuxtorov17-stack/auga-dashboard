@@ -54,7 +54,7 @@
 .hudud-kartalar .h-karta{background:var(--karta);border-radius:16px;box-shadow:var(--soya);padding:18px;text-align:left;transition:transform var(--tez)}
 .hudud-kartalar .h-karta:hover{transform:translateY(-2px)}
 .h-karta .bosh{display:flex;align-items:center;gap:12px}
-.h-karta .tile{width:46px;height:46px;border-radius:13px;background:#EAF6D3;display:grid;place-items:center;color:#4F8F08;flex:none}
+.h-karta .tile{width:46px;height:46px;border-radius:13px;background:#EAF6D3;display:grid;place-items:center;color:#4F8F08;flex:none;box-shadow:var(--chuqur-tile)}
 .h-karta .tile .ic{width:22px;height:22px}
 .h-karta .nomi{font-size:14.5px;font-weight:650;color:#23272C}
 .h-karta .qiymat{display:flex;align-items:baseline;gap:10px;margin-top:2px}
@@ -68,7 +68,7 @@
 }
 @media (max-width:1240px){
   .xarita-maydon{min-height:auto;display:flex;flex-direction:column;gap:16px}
-  #leaflet-uzb{position:static;height:420px}
+  #leaflet-uzb{position:relative;height:420px}
   .legenda,.hudud-panel,.hudud-kartalar{position:static;width:100%;max-width:none;right:auto}
   .hudud-kartalar{grid-template-columns:repeat(2,1fr)}
 }
@@ -153,7 +153,7 @@ function chizma(){
     p.push(`${(i/(n-1)*100).toFixed(1)},${y.toFixed(1)}`);
   }
   return `<svg class="chizma" viewBox="0 0 100 38" preserveAspectRatio="none">
-    <polyline points="${p.join(" ")}" fill="none" stroke="#78C802" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+    <polyline points="${p.join(" ")}" fill="none" stroke="#78C802" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/>
   </svg>`;
 }
 document.getElementById("hudud-kartalar").innerHTML = KARTALAR.map(k=>`
@@ -202,10 +202,10 @@ HUDUDLAR.forEach(h=>{
   const geo = HUDUD_GEO[h[0]];
   if (!geo) return;
   const son = parseInt(h[1].replace(/\s/g,""),10);
-  const radius = 8 + 22*Math.sqrt(son/maxSon);
+  const d = Math.round(18 + 42*Math.sqrt(son/maxSon));
   const rang = DARAJA_RANG[geo.daraja];
-  const belgi = L.circleMarker([geo.lat, geo.lng], {
-    radius, weight:2, color:"#fff", fillColor:rang, fillOpacity:.88
+  const belgi = L.marker([geo.lat, geo.lng], {
+    icon: L.divIcon({className:"auga-pin", html:`<span class="nuqtacha" style="background:${rang}"></span>`, iconSize:[d,d], iconAnchor:[d/2,d/2]})
   }).addTo(uzMap);
   belgi.bindTooltip(
     `<span class="pin-chip"><span class="pin-nuqta" style="background:${rang}"></span>${h[0]} — <b>${h[1]}</b></span>`,

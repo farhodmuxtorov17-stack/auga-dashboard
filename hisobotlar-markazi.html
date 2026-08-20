@@ -32,7 +32,7 @@
 }
 .kutubxona-band:hover{box-shadow:var(--soya)}
 .kutubxona-band.faol{border-color:#B7E534;background:#FBFEF2;box-shadow:0 0 0 1px #B7E534}
-.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:800;color:#fff}
+.fayl-ikon{width:40px;height:40px;border-radius:11px;display:grid;place-items:center;flex:none;font-size:10px;font-weight:800;color:#fff;box-shadow:var(--chuqur-tile-tor)}
 .fayl-ikon.pdf{background:#E8563F}
 .fayl-ikon.xlsx{background:#3E9B4F}
 .fayl-ikon.pptx{background:#E8752C}
@@ -83,7 +83,11 @@
   transition:box-shadow var(--tez),transform var(--tez);
 }
 .eksport-tile:hover{box-shadow:var(--soya);transform:translateY(-2px)}
-.eksport-tile .ic{width:20px;height:20px;color:#43484E}
+.eksport-ikon{width:38px;height:38px;border-radius:11px;background:#F0F1F4;color:#43484E;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile-tor)}
+.eksport-ikon .ic{width:18px;height:18px}
+.eksport-ikon.xlsx{background:#E5F5E5;color:#3E9B4F}
+.eksport-ikon.pdf{background:#FBE9E5;color:#E8563F}
+.eksport-ikon.pptx{background:#FCEADB;color:#E8752C}
 .eksport-tile b{display:block;font-size:13.5px;font-weight:700;margin-top:10px;line-height:1.35}
 .eksport-tile .format{display:block;font-size:12px;font-weight:750;margin-top:6px}
 .format.xlsx{color:#3E9B4F}
@@ -205,10 +209,10 @@
         <h3 style="font-size:16.5px;font-weight:750">Tez eksportlar</h3>
         <div style="font-size:12.5px;color:var(--matn-4);margin:2px 0 14px">Tezkor hisobot eksporti</div>
         <div class="eksport-grid">
-          <button class="eksport-tile" data-toast="Aktivlar ro'yxati XLSX shakllantirilmoqda"><svg class="ic"><use href="#i-hisobot"/></svg><b>Aktivlar ro'yxati</b><span class="format xlsx">XLSX</span></button>
-          <button class="eksport-tile" data-toast="Ijara to'lovlari XLSX shakllantirilmoqda"><svg class="ic"><use href="#i-lizing"/></svg><b>Ijara to'lovlari</b><span class="format xlsx">XLSX</span></button>
-          <button class="eksport-tile" data-toast="Moliyaviy ko'rsatkichlar PDF shakllantirilmoqda"><svg class="ic"><use href="#i-hujjat"/></svg><b>Moliyaviy ko'rsatkichlar</b><span class="format pdf">PDF</span></button>
-          <button class="eksport-tile" data-toast="KPI panel PPTX shakllantirilmoqda"><svg class="ic"><use href="#i-ekran"/></svg><b>KPI panel eksporti</b><span class="format pptx">PPTX</span></button>
+          <button class="eksport-tile" data-toast="Aktivlar ro'yxati XLSX shakllantirilmoqda"><span class="eksport-ikon xlsx"><svg class="ic"><use href="#i-hisobot"/></svg></span><b>Aktivlar ro'yxati</b><span class="format xlsx">XLSX</span></button>
+          <button class="eksport-tile" data-toast="Ijara to'lovlari XLSX shakllantirilmoqda"><span class="eksport-ikon xlsx"><svg class="ic"><use href="#i-lizing"/></svg></span><b>Ijara to'lovlari</b><span class="format xlsx">XLSX</span></button>
+          <button class="eksport-tile" data-toast="Moliyaviy ko'rsatkichlar PDF shakllantirilmoqda"><span class="eksport-ikon pdf"><svg class="ic"><use href="#i-hujjat"/></svg></span><b>Moliyaviy ko'rsatkichlar</b><span class="format pdf">PDF</span></button>
+          <button class="eksport-tile" data-toast="KPI panel PPTX shakllantirilmoqda"><span class="eksport-ikon pptx"><svg class="ic"><use href="#i-ekran"/></svg></span><b>KPI panel eksporti</b><span class="format pptx">PPTX</span></button>
         </div>
         <button class="shablon-tugma" data-toast="Barcha eksport shablonlari">Barcha shablonlarni ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
       </div>
@@ -295,8 +299,9 @@ function miniBarChiz(Q){
     r.setAttribute("y",H-past-h);
     r.setAttribute("width",band*0.42);
     r.setAttribute("height",h);
-    r.setAttribute("rx",3);
-    r.setAttribute("fill", i===Q.length-1 ? "#78C802" : "#D8ECC0");
+    r.setAttribute("rx",5);
+    r.setAttribute("fill", i===Q.length-1 ? "url(#grad-bar-3d)" : "url(#grad-bar-3d-passiv)");
+    r.setAttribute("filter","url(#depth-sm)");
     svg.appendChild(r);
     const t = document.createElementNS(NS,"text");
     t.setAttribute("x",8 + i*band + band*0.5);

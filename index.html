@@ -262,7 +262,7 @@ html.erta-rol-texnik #dash-texnik{display:block}
       <div class="karta">
         <div class="karta-bosh"><h2>Aktivlar holati</h2></div>
         <div class="holat-korpus">
-          <svg id="donut" width="150" height="150" viewBox="0 0 150 150" role="img"
+          <svg id="donut" width="150" height="150" viewBox="0 0 150 150" role="img" filter="url(#depth-md)"
                aria-label="Aktivlar holati: Faol 1082 (87%), Ijarada 104 (8%), Ta'mirda 42 (3%), Nofaol 20 (2%)"></svg>
           <div class="legend">
             <a class="legend-qator" href="aktivlar.html?holat=Faol"><span class="nuqta" style="background:var(--h-faol)"></span><span class="nomi">Faol</span><b>1 082 (87%)</b></a>
@@ -584,6 +584,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
     svg.appendChild(c);
     boshi += foiz/100*360;
   });
+  const oyna = document.createElementNS(NS,"circle");
+  oyna.setAttribute("cx",cx); oyna.setAttribute("cy",cy); oyna.setAttribute("r", r + w/2 - 3);
+  oyna.setAttribute("fill","url(#grad-sheen)");
+  oyna.setAttribute("pointer-events","none");
+  svg.appendChild(oyna);
 
   /* Hisobot dropdown */
   const ht = document.getElementById("hisobot-tugma");
@@ -626,8 +631,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const nuqtaBelgilar = [];
   AKTIV_NUQTALAR.forEach(n=>{
     const rang = ranglar.getPropertyValue(n.rangVar).trim();
-    const belgi = L.circleMarker([n.lat, n.lng], {
-      radius:9, weight:3, color:"#fff", fillColor:rang, fillOpacity:1
+    const belgi = L.marker([n.lat, n.lng], {
+      icon: L.divIcon({className:"auga-pin", html:`<span class="nuqtacha" style="background:${rang}"></span>`, iconSize:[24,24], iconAnchor:[12,12]})
     }).addTo(xMap);
     belgi.bindTooltip(
       `<span class="pin-chip"><span class="pin-nuqta" style="background:${rang}"></span>${n.tur}</span>`,

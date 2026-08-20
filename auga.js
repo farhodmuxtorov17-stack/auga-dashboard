@@ -78,6 +78,42 @@ const IKONLAR = `
   <symbol id="i-energiya" viewBox="0 0 24 24"><path d="M13 2.5 4.5 13.5h6L11 21.5l8.5-11h-6z"/></symbol>
   <symbol id="i-servis" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></symbol>
   <symbol id="i-topshiriq" viewBox="0 0 24 24"><path d="M8.5 6h12M8.5 12h12M8.5 18h12M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+  <defs>
+    <!-- Chuqurlik tizimi — grafik/diagramma/statistika elementlari uchun premium 3D gradient/filtrlar.
+         Barcha sahifalar shu bir manbadan foydalanadi (bar/donut/halqa/chiziq grafiklar). -->
+    <linearGradient id="grad-bar-3d" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9FE332"/>
+      <stop offset=".55" stop-color="#78C802"/>
+      <stop offset="1" stop-color="#4C8600"/>
+    </linearGradient>
+    <linearGradient id="grad-bar-3d-passiv" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E9F4D3"/>
+      <stop offset=".55" stop-color="#D8ECC0"/>
+      <stop offset="1" stop-color="#BFDD9C"/>
+    </linearGradient>
+    <linearGradient id="grad-area-3d" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#78C802" stop-opacity=".38"/>
+      <stop offset="1" stop-color="#78C802" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="grad-ring-3d" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A7E639"/>
+      <stop offset="1" stop-color="#5C9600"/>
+    </linearGradient>
+    <linearGradient id="grad-dark-3d" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#333A2C"/>
+      <stop offset="1" stop-color="#101208"/>
+    </linearGradient>
+    <radialGradient id="grad-sheen" cx=".5" cy=".18" r=".55">
+      <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="depth-sm" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#171A1F" flood-opacity=".22"/>
+    </filter>
+    <filter id="depth-md" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#171A1F" flood-opacity=".20"/>
+    </filter>
+  </defs>
 </svg>`;
 
 /* ---------- Rollar (RBAC) — texnik talablar §3 matritsasi asosida ---------- */
@@ -138,15 +174,9 @@ const LOGO_SVG = `
   <path d="m11.6 6.5 13 7.2 3.2-1.8-13-7.2z" fill="#C4EC66"/>
 </svg>`;
 
-const ROL_ISH_MAYDONI = {
-  admin:"Administrator paneli", rahbar:"Rahbariyat paneli",
-  operator:"Operator ish joyi", texnik:"Texnik xizmat ish joyi"
-};
 function sidebarHTML(aktiv){
-  const rk = ROL_KALIT[joriyRol()];
   return `
   <div class="logo"><a href="index.html" style="display:flex;align-items:center;gap:12px" aria-label="AUGA bosh sahifa">${LOGO_SVG}<span class="logo-soz">AUGA</span></a></div>
-  <div class="ish-maydoni rol-${rk}"><span class="nuqta"></span><span class="yozuv">${ROL_ISH_MAYDONI[rk]}</span></div>
   <nav class="menyu" aria-label="Asosiy navigatsiya">
     ${MENYU.filter(([id])=>ruxsatlimi(id)).map(([id,href,ikon,nom])=>`
       <a class="m-band${id===aktiv?" aktiv":""}" href="${href}" ${id===aktiv?'aria-current="page"':""}>

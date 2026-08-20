@@ -50,6 +50,15 @@
   --soya-pin:0 2px 6px rgba(23,26,31,.10), 0 8px 20px rgba(23,26,31,.10);
   --soya-modal:0 10px 40px rgba(23,26,31,.18);
 
+  /* Chuqurlik tizimi — statistik chipteglar/tile'lar uchun premium 3D-uslub.
+     Har qanday mavjud fon rangi ustiga qo'llanadi (rangga bog'liq emas):
+     yorug'lik yuqoridan tushayotgandek yuqori qirrada yorqin chiziq,
+     pastki qirrada ichki soya (qavariqlik hissi), va tashqi ko'tarma soya. */
+  --chuqur-tile:inset 0 1px 0 rgba(255,255,255,.45), inset 0 -4px 7px rgba(0,0,0,.12), 0 2px 5px rgba(23,26,31,.08), 0 10px 18px -8px rgba(23,26,31,.16);
+  --chuqur-tile-tor:inset 0 1px 0 rgba(255,255,255,.4), inset 0 -2px 4px rgba(0,0,0,.10), 0 1px 3px rgba(23,26,31,.07), 0 5px 10px -5px rgba(23,26,31,.14);
+  --tile-dark-3d:linear-gradient(155deg,#2E332A 0%,var(--tile-dark) 55%,#0C0D0A 100%);
+  --tile-lime-3d:linear-gradient(155deg,#F1F7DC 0%,var(--tile-lime) 55%,#C7DA84 100%);
+
   --r-katta:20px; --r-karta:18px; --r-ich:16px; --r-el:12px;
   --tez:150ms cubic-bezier(.23,1,.32,1);
 }
@@ -83,17 +92,7 @@ img{display:block;max-width:100%}
 }
 .logo{display:flex;align-items:center;gap:12px;padding:2px 6px 0}
 .logo-soz{font-size:25px;font-weight:800;letter-spacing:.01em;color:#17191C}
-.ish-maydoni{
-  display:flex;align-items:center;gap:9px;margin:20px 6px 0;padding:11px 15px;
-  border-radius:12px;font-size:13.5px;font-weight:750;letter-spacing:.01em;
-  border:1.5px solid transparent;
-}
-.ish-maydoni .nuqta{width:8px;height:8px;border-radius:99px;background:currentColor;flex:none}
-.ish-maydoni.rol-admin{background:var(--rol-admin-fon);color:var(--rol-admin-matn);border-color:color-mix(in srgb, var(--rol-admin) 30%, transparent)}
-.ish-maydoni.rol-rahbar{background:var(--rol-rahbar-fon);color:var(--rol-rahbar-matn);border-color:color-mix(in srgb, var(--rol-rahbar) 30%, transparent)}
-.ish-maydoni.rol-operator{background:var(--rol-operator-fon);color:var(--rol-operator-matn);border-color:color-mix(in srgb, var(--rol-operator) 30%, transparent)}
-.ish-maydoni.rol-texnik{background:var(--rol-texnik-fon);color:var(--rol-texnik-matn);border-color:color-mix(in srgb, var(--rol-texnik) 30%, transparent)}
-.menyu{margin-top:22px;display:flex;flex-direction:column;gap:8px}
+.menyu{margin-top:26px;display:flex;flex-direction:column;gap:8px}
 .m-band{
   position:relative;display:flex;align-items:center;gap:14px;
   height:52px;padding:0 16px;border-radius:14px;width:100%;text-align:left;
@@ -400,9 +399,9 @@ table.jadval{width:100%;border-collapse:collapse}
   background:var(--karta);border-radius:var(--r-karta);box-shadow:var(--soya);
   padding:20px 22px;display:flex;align-items:center;gap:18px;min-height:116px;
 }
-.kpi-tile{width:64px;height:64px;border-radius:99px;display:grid;place-items:center;flex:none}
-.kpi-tile.dark{background:var(--tile-dark);color:var(--tile-dark-ikon)}
-.kpi-tile.lime{background:var(--tile-lime);color:var(--tile-lime-ikon)}
+.kpi-tile{width:64px;height:64px;border-radius:99px;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile)}
+.kpi-tile.dark{background:var(--tile-dark-3d);color:var(--tile-dark-ikon)}
+.kpi-tile.lime{background:var(--tile-lime-3d);color:var(--tile-lime-ikon)}
 .kpi-tile .ic{width:26px;height:26px;stroke-width:1.6}
 .kpi-matn{min-width:0}
 .kpi-yorliq{font-size:14px;color:var(--matn-3);font-weight:500}
@@ -448,6 +447,15 @@ table.jadval{width:100%;border-collapse:collapse}
 .leaflet-control-attribution{font-size:10px;background:rgba(255,255,255,.8)}
 .leaflet-tooltip.auga-chip{background:none;border:none;box-shadow:none;padding:0;margin-bottom:2px}
 .leaflet-tooltip.auga-chip::before{display:none}
+
+/* Xarita belgilari — premium 3D pin (auga.js sprite'idagi umumiy chuqurlik tokenlari bilan) */
+.auga-pin{background:none;border:none}
+.auga-pin .nuqtacha{
+  display:block;width:100%;height:100%;border-radius:99px;
+  box-shadow:0 0 0 3px #fff, var(--chuqur-tile-tor);
+  transition:transform var(--tez);
+}
+.auga-pin:hover .nuqtacha{transform:scale(1.12)}
 
 /* ============ Moslashuvchanlik ============ */
 @media (max-width:1500px){

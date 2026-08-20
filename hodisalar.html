@@ -484,7 +484,7 @@ function dinChiz(){
     t.textContent = k;
   });
   SERIYALAR.forEach(s=>{
-    el("polyline",{points:s.q.map((v,i)=>`${x(i)},${y(v)}`).join(" "),fill:"none",stroke:s.rang,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round"});
+    el("polyline",{points:s.q.map((v,i)=>`${x(i)},${y(v)}`).join(" "),fill:"none",stroke:s.rang,"stroke-width":2,"stroke-linejoin":"round","stroke-linecap":"round","filter":"url(#depth-sm)"});
     s.q.forEach((v,i)=>el("circle",{cx:x(i),cy:y(v),r:3.6,fill:s.rang,stroke:"#fff","stroke-width":2}));
   });
 }

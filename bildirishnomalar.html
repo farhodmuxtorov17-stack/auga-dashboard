@@ -239,6 +239,8 @@ function chiz(){
     tx.textContent = t; svg.appendChild(tx);
   });
   const band = pw/24;
+  let oxirgiFaol = -1;
+  SOATLIK.forEach((v,i)=>{ if (v) oxirgiFaol = i; });
   SOATLIK.forEach((v,i)=>{
     if (!v) return;
     const h = v/maxY*ph;
@@ -247,8 +249,9 @@ function chiz(){
     r.setAttribute("y",tepa + ph - h);
     r.setAttribute("width",band*0.56);
     r.setAttribute("height",h);
-    r.setAttribute("rx",2);
-    r.setAttribute("fill","#8CD121");
+    r.setAttribute("rx",3);
+    r.setAttribute("fill", i===oxirgiFaol ? "url(#grad-bar-3d)" : "url(#grad-bar-3d-passiv)");
+    r.setAttribute("filter","url(#depth-sm)");
     svg.appendChild(r);
   });
   [0,6,12,18,24].forEach(s=>{
