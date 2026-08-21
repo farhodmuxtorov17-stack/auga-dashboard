@@ -40,13 +40,16 @@
   --rol-rahbar:#8A4BD8;   --rol-rahbar-fon:#F3EBFE;  --rol-rahbar-matn:#7233C4;
   --rol-operator:#2F6BCF; --rol-operator-fon:#E7F0FE;--rol-operator-matn:#2058B0;
   --rol-texnik:#1C8A82;   --rol-texnik-fon:#E1F5F2;  --rol-texnik-matn:#146F68;
+  /* Administrator rangi ochiq yuzalarda (avatar, yorliq) to'g'ri ishlaydi, lekin to'q
+     sidebar fonida ko'rinmay qoladi — shu sababli sidebar uchun ochiq varianti. */
+  --rol-admin-sb:#D5D9C9;
 
   --qizil:#F45E53;
   --qizil-fon:#FDEEEC;
   --sariq-fon:#FFF6DE;
   --kok-fon:#EEF4FE;
 
-  --soya:0 1px 2px rgba(23,26,31,.04), 0 6px 24px rgba(23,26,31,.05);
+  --soya:0 1px 2px rgba(23,26,31,.05), 0 8px 28px -4px rgba(23,26,31,.09);
   --soya-pin:0 2px 6px rgba(23,26,31,.10), 0 8px 20px rgba(23,26,31,.10);
   --soya-modal:0 10px 40px rgba(23,26,31,.18);
 
@@ -61,6 +64,19 @@
 
   --r-katta:20px; --r-karta:18px; --r-ich:16px; --r-el:12px;
   --tez:150ms cubic-bezier(.23,1,.32,1);
+
+  /* Sidebar — to'q fon (premium admin-panel uslubi: Linear/Vercel/Stripe kabi),
+     --tile-dark oilasidan qurilgan, brendga mos, o'zboshimchalik bilan tanlanmagan. */
+  --sb-bg:#14170F;
+  --sb-bg-hover:#1E2318;
+  --sb-bg-aktiv:#232B18;
+  --sb-chiziq:rgba(255,255,255,.06);
+  --sb-matn:#9CA394;
+  --sb-matn-ustida:#EDEFE7;
+  --sb-ikon:#767C6C;
+
+  /* Interaktiv kartalar uchun muallaqlash (hover) ko'tarilish effekti */
+  --soya-muallaq:0 2px 4px rgba(23,26,31,.06), 0 16px 32px -8px rgba(23,26,31,.16);
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
@@ -84,46 +100,46 @@ img{display:block;max-width:100%}
 
 /* ============ Sidebar ============ */
 .sidebar{
-  background:var(--karta);
-  border-right:1px solid var(--chiziq);
+  background:var(--sb-bg);
+  border-right:1px solid rgba(255,255,255,.04);
   padding:26px 20px 22px;
   display:flex;flex-direction:column;
   position:sticky;top:0;height:100vh;overflow-y:auto;
 }
 .logo{display:flex;align-items:center;gap:12px;padding:2px 6px 0}
-.logo-soz{font-size:25px;font-weight:800;letter-spacing:.01em;color:#17191C}
-.menyu{margin-top:26px;display:flex;flex-direction:column;gap:8px}
+.logo-soz{font-size:25px;font-weight:800;letter-spacing:.01em;color:#fff}
+.menyu{margin-top:28px;display:flex;flex-direction:column;gap:3px}
 .m-band{
   position:relative;display:flex;align-items:center;gap:14px;
-  height:52px;padding:0 16px;border-radius:14px;width:100%;text-align:left;
-  font-size:15px;font-weight:500;color:var(--matn-2);
+  height:50px;padding:0 16px;border-radius:12px;width:100%;text-align:left;
+  font-size:14.5px;font-weight:500;color:var(--sb-matn);
   transition:background var(--tez),color var(--tez);
 }
-.m-band .ic{width:22px;height:22px;color:#8B9198;transition:color var(--tez)}
-.m-band:hover{background:#F6F7F8;color:var(--matn)}
-.m-band:hover .ic{color:var(--matn-2)}
-.m-band.aktiv{background:#F3F4F6;color:#17191C;font-weight:650}
-.m-band.aktiv .ic{color:#17191C}
+.m-band .ic{width:21px;height:21px;color:var(--sb-ikon);transition:color var(--tez)}
+.m-band:hover{background:var(--sb-bg-hover);color:var(--sb-matn-ustida)}
+.m-band:hover .ic{color:var(--sb-matn-ustida)}
+.m-band.aktiv{background:var(--sb-bg-aktiv);color:#fff;font-weight:650}
+.m-band.aktiv .ic{color:var(--lime)}
 .m-band.aktiv::after{
   content:"";position:absolute;right:-20px;top:6px;bottom:6px;width:4px;
   background:var(--lime);border-radius:4px 0 0 4px;
 }
 /* Rol identifikatori — aktiv band chizig'i har bir rolda o'z rangida (har sahifada ko'rinadi) */
-.sidebar.rol-admin .m-band.aktiv::after{background:var(--rol-admin)}
-.sidebar.rol-rahbar .m-band.aktiv::after{background:var(--rol-rahbar)}
-.sidebar.rol-operator .m-band.aktiv::after{background:var(--rol-operator)}
-.sidebar.rol-texnik .m-band.aktiv::after{background:var(--rol-texnik)}
+.sidebar.rol-admin .m-band.aktiv::after{background:var(--rol-admin-sb);box-shadow:0 0 12px -1px rgba(213,217,201,.5)}
+.sidebar.rol-rahbar .m-band.aktiv::after{background:var(--rol-rahbar);box-shadow:0 0 12px -1px var(--rol-rahbar)}
+.sidebar.rol-operator .m-band.aktiv::after{background:var(--rol-operator);box-shadow:0 0 12px -1px var(--rol-operator)}
+.sidebar.rol-texnik .m-band.aktiv::after{background:var(--rol-texnik);box-shadow:0 0 12px -1px var(--rol-texnik)}
 .sidebar-past{margin-top:auto;padding-top:18px}
 .yordam{
   display:flex;align-items:center;gap:13px;width:100%;
-  border:1px solid var(--kirish-chiziq);border-radius:16px;
+  border:1px solid var(--sb-chiziq);border-radius:16px;
   height:62px;padding:0 18px;text-align:left;
-  font-size:15px;font-weight:600;color:#33383E;
-  transition:background var(--tez);
+  font-size:15px;font-weight:600;color:var(--sb-matn);
+  transition:background var(--tez),border-color var(--tez);
 }
-.yordam:hover{background:#F6F7F8}
-.yordam .ic{width:21px;height:21px;color:#555B62}
-.yordam .strelka{margin-left:auto;width:16px;height:16px;color:#71767E}
+.yordam:hover{background:var(--sb-bg-hover);border-color:rgba(255,255,255,.1)}
+.yordam .ic{width:21px;height:21px;color:var(--sb-ikon)}
+.yordam .strelka{margin-left:auto;width:16px;height:16px;color:var(--sb-ikon)}
 
 /* ============ Topbar ============ */
 .topbar{display:flex;align-items:center;gap:22px;padding:22px 28px 20px}
@@ -196,9 +212,9 @@ img{display:block;max-width:100%}
 }
 .tugma:active{transform:scale(.98)}
 .tugma .ic{width:19px;height:19px}
-.tugma-yashil{background:var(--yashil);color:#17210A}
-.tugma-yashil:hover{background:#70BB02}
-.tugma-yashil:active{background:var(--yashil-toq)}
+.tugma-yashil{background:var(--yashil);color:#17210A;box-shadow:0 1px 2px rgba(94,166,0,.15),0 6px 16px -4px rgba(94,166,0,.35)}
+.tugma-yashil:hover{background:#70BB02;box-shadow:0 1px 2px rgba(94,166,0,.18),0 8px 20px -4px rgba(94,166,0,.42)}
+.tugma-yashil:active{background:var(--yashil-toq);box-shadow:0 1px 2px rgba(94,166,0,.15)}
 .tugma-oq{background:var(--karta);color:#23272C;box-shadow:var(--soya)}
 .tugma-oq:hover{box-shadow:0 1px 2px rgba(23,26,31,.05),0 10px 28px rgba(23,26,31,.09)}
 .tugma-chiziqli{background:var(--karta);color:#23272C;border:1px solid var(--kirish-chiziq)}
@@ -398,8 +414,11 @@ table.jadval{width:100%;border-collapse:collapse}
 .kpi{
   background:var(--karta);border-radius:var(--r-karta);box-shadow:var(--soya);
   padding:20px 22px;display:flex;align-items:center;gap:18px;min-height:116px;
+  transition:transform var(--tez),box-shadow var(--tez);
 }
-.kpi-tile{width:64px;height:64px;border-radius:99px;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile)}
+.kpi:hover{transform:translateY(-3px);box-shadow:var(--soya-muallaq)}
+.kpi-tile{width:64px;height:64px;border-radius:99px;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile);transition:transform var(--tez)}
+.kpi:hover .kpi-tile{transform:scale(1.06)}
 .kpi-tile.dark{background:var(--tile-dark-3d);color:var(--tile-dark-ikon)}
 .kpi-tile.lime{background:var(--tile-lime-3d);color:var(--tile-lime-ikon)}
 .kpi-tile .ic{width:26px;height:26px;stroke-width:1.6}
