@@ -147,13 +147,14 @@
 
       <!-- Tasdiqlash navbati -->
       <div class="karta vz-karta">
-        <h3>Tasdiqlash navbati<span class="vz-son">5</span></h3>
+        <h3>Tasdiqlash navbati<span class="vz-son" id="vz-son-navbat">5</span></h3>
         <div id="navbat"></div>
         <button class="vz-havola" data-toast="Barcha tasdiqlash so'rovlari">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
       </div>
 
       <!-- Markaziy jarayon -->
       <div class="karta">
+        <div id="jp-mazmun">
         <div class="jarayon-bosh">
           <h2 id="j-nom">Xarid so'rovnomasi</h2>
           <span class="chip chip-yashil" style="margin-left:auto"><svg class="ic" style="width:13px;height:13px"><use href="#i-belgi-doira"/></svg>Jarayonda</span>
@@ -181,7 +182,7 @@
           </div>
 
           <div style="display:flex;gap:10px;margin-top:18px">
-            <button class="tugma tugma-yashil" data-toast="So'rov tasdiqlandi — keyingi bosqichga o'tdi">
+            <button class="tugma tugma-yashil" id="tasdiqlash-tugma">
               <svg class="ic"><use href="#i-belgi"/></svg>Tasdiqlash
             </button>
             <button class="tugma tugma-chiziqli" id="rad-tugma">Rad etish</button>
@@ -195,6 +196,12 @@
 
         <div data-jp="malumot" hidden>
           <div class="detal-jadval" id="malumot-royxat" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:18px"></div>
+        </div>
+        </div>
+        <div class="bosh-holat" id="jp-bosh-holat" hidden>
+          <span class="doira"><svg class="ic"><use href="#i-belgi-doira"/></svg></span>
+          <h3>Navbat bo'sh</h3>
+          <p>Barcha tasdiqlash so'rovlari ko'rib chiqildi. Yangi so'rov kelganda shu yerda ko'rinadi.</p>
         </div>
       </div>
 
@@ -296,18 +303,41 @@ const NAVBAT = [
      ["25-may, 16:40","Jahongir Otajonov","Aktiv qabul qilish so'rovi yaratildi."]],
    malumot:{turi:"Aktiv qabul qilish", byudjet:"Aktivlar hisobga olish", obyekt:'"Savdo markazi" MCHJ', yetkazib:"Tex Import MCHJ", muddatIsh:"7 ish kuni"}}
 ];
-document.getElementById("navbat").innerHTML = NAVBAT.map((n,i)=>`
-  <button class="tasdiq-kartacha ${n.faol?"faol":""}" data-i="${i}">
-    <span class="tk-bosh">
-      <span class="tk-ikon ${n.faol?"":"kul"}"><svg class="ic"><use href="#i-shartnoma"/></svg></span>
-      <span><b>${n.nom}</b><span>${n.kod}</span></span>
-    </span>
-    <span class="tk-past">
-      <span class="summa">${n.summa}</span>
-      <span class="tk-vaqt"><b class="${n.shosh?"":"oddiy"}">${n.muddat}</b><span>${n.soat}</span></span>
-    </span>
-    <span class="tk-past" style="margin-top:4px"><span class="firma" style="margin-left:0">${n.firma}</span></span>
-  </button>`).join("");
+let navbatFaol = 0;
+
+function navbatChiz(){
+  document.getElementById("vz-son-navbat").textContent = NAVBAT.length;
+
+  if (!NAVBAT.length){
+    document.getElementById("navbat").innerHTML = "";
+    document.getElementById("jp-mazmun").hidden = true;
+    document.getElementById("jp-bosh-holat").hidden = false;
+    return;
+  }
+  document.getElementById("jp-mazmun").hidden = false;
+  document.getElementById("jp-bosh-holat").hidden = true;
+  if (navbatFaol >= NAVBAT.length) navbatFaol = 0;
+
+  document.getElementById("navbat").innerHTML = NAVBAT.map((n,i)=>`
+    <button class="tasdiq-kartacha ${i===navbatFaol?"faol":""}" data-i="${i}">
+      <span class="tk-bosh">
+        <span class="tk-ikon ${i===navbatFaol?"":"kul"}"><svg class="ic"><use href="#i-shartnoma"/></svg></span>
+        <span><b>${n.nom}</b><span>${n.kod}</span></span>
+      </span>
+      <span class="tk-past">
+        <span class="summa">${n.summa}</span>
+        <span class="tk-vaqt"><b class="${n.shosh?"":"oddiy"}">${n.muddat}</b><span>${n.soat}</span></span>
+      </span>
+      <span class="tk-past" style="margin-top:4px"><span class="firma" style="margin-left:0">${n.firma}</span></span>
+    </button>`).join("");
+  document.querySelectorAll(".tasdiq-kartacha").forEach(k=>{
+    k.addEventListener("click", ()=>{
+      navbatFaol = +k.dataset.i;
+      navbatChiz();
+      detalYangila(NAVBAT[navbatFaol]);
+    });
+  });
+}
 
 function detalYangila(n){
   document.getElementById("j-nom").textContent = n.nom;
@@ -331,14 +361,8 @@ function detalYangila(n){
     <div><div style="font-size:12.5px;color:var(--matn-4)">${yorliq}</div><div style="font-size:14px;font-weight:650;margin-top:3px">${qiymat}</div></div>`).join("");
 }
 
-document.querySelectorAll(".tasdiq-kartacha").forEach(k=>{
-  k.addEventListener("click", ()=>{
-    document.querySelectorAll(".tasdiq-kartacha").forEach(x=>x.classList.remove("faol"));
-    k.classList.add("faol");
-    detalYangila(NAVBAT[+k.dataset.i]);
-  });
-});
-detalYangila(NAVBAT[0]);
+navbatChiz();
+detalYangila(NAVBAT[navbatFaol]);
 
 /* Markaz tablari */
 document.querySelectorAll(".jarayon-tab").forEach(t=>{
@@ -349,12 +373,63 @@ document.querySelectorAll(".jarayon-tab").forEach(t=>{
   });
 });
 
+/* Navbatdan bitta so'rovni olib tashlash (tasdiqlangan yoki rad etilgan) va keyingisini ko'rsatish */
+function navbatdanOlib(i){
+  NAVBAT.splice(i, 1);
+  navbatFaol = 0;
+  navbatChiz();
+  if (NAVBAT.length) detalYangila(NAVBAT[0]);
+}
+
+/* Tasdiqlash — joriy bosqichni "bajarildi" belgilaydi, keyingi bosqichni "joriy" qiladi;
+   agar oxirgi bosqich bo'lsa, butun so'rov navbatdan olib tashlanadi (TOR: ko'p bosqichli tasdiqlash zanjiri) */
+document.getElementById("tasdiqlash-tugma").addEventListener("click", ()=>{
+  const i = navbatFaol;
+  const n = NAVBAT[i];
+  const joriyIdx = n.qadamlar.findIndex(q=>q[0]==="joriy");
+  if (joriyIdx === -1) return;
+
+  const foydIsm = AUGA.foydIsmi();
+  const qadamNomi = n.qadamlar[joriyIdx][1];
+  n.qadamlar[joriyIdx][0] = "bajarildi";
+  n.qadamlar[joriyIdx][3] = "Hozirgina";
+  n.qadamlar[joriyIdx][4] = "Tasdiqlandi";
+  n.tarix.push(["Hozirgina", foydIsm, `${qadamNomi} bosqichi tasdiqlandi.`]);
+
+  if (joriyIdx + 1 < n.qadamlar.length){
+    n.qadamlar[joriyIdx+1][0] = "joriy";
+    n.tarix.push(["Hozirgina","Tizim",`Keyingi bosqich: ${n.qadamlar[joriyIdx+1][1]} (${n.qadamlar[joriyIdx+1][2]})`]);
+    detalYangila(n);
+    navbatChiz();
+    AUGA.toast(`${qadamNomi} tasdiqlandi — keyingi bosqichga o'tdi`, "i-belgi");
+  } else {
+    AUGA.toast(`${n.nom} to'liq tasdiqlandi`, "i-belgi");
+    navbatdanOlib(i);
+  }
+});
+
 /* Rad etish */
 document.getElementById("rad-tugma").addEventListener("click", ()=>{
+  const i = navbatFaol;
+  const n = NAVBAT[i];
   AUGA.modal("So'rovni rad etish",
     `<div style="margin-top:6px"><label class="maydon-yorliq">Rad etish sababi</label>
-     <div class="kirish kirish-katta"><textarea placeholder="Sababni kiriting..."></textarea></div></div>`,
-    {xavf:true, okMatn:"Rad etish", ok(){ AUGA.toast("So'rov rad etildi va muallifga qaytarildi"); }});
+     <div class="kirish kirish-katta"><textarea id="rad-sabab" placeholder="Sababni kiriting..."></textarea></div></div>`,
+    {xavf:true, okMatn:"Rad etish", ok(){
+      const sabab = document.getElementById("rad-sabab").value.trim();
+      if (!sabab) return;
+      AUGA.toast(`${n.nom} rad etildi va muallifga qaytarildi`, "i-ogoh");
+      navbatdanOlib(i);
+    } });
+  const modallarRad = document.querySelectorAll(".modal-fon");
+  const radFon = modallarRad[modallarRad.length-1];
+  radFon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("rad-sabab").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Rad etish sababini kiriting");
+    }
+  }, true);
 });
 
 /* Vazifalar (Mening vazifalarim) */
