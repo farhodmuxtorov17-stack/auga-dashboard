@@ -87,12 +87,20 @@
   .aktiv-torlar{grid-template-columns:repeat(2,1fr)}
 }
 
-/* ---- Rolga qarab bosh sahifa (Operator / Texnik) ---- */
-#dash-operator,#dash-texnik{display:none}
+/* ---- Rolga qarab bosh sahifa (Rahbar / Operator / Texnik) ---- */
+#dash-operator,#dash-texnik,#dash-rahbar{display:none}
 html.erta-rol-operator #dash-admin{display:none}
 html.erta-rol-operator #dash-operator{display:block}
 html.erta-rol-texnik #dash-admin{display:none}
 html.erta-rol-texnik #dash-texnik{display:block}
+html.erta-rol-rahbar #dash-admin{display:none}
+html.erta-rol-rahbar #dash-rahbar{display:block}
+.holat-chiziq{height:7px;border-radius:99px;background:#F0F1F4;overflow:hidden}
+.holat-chiziq > div{height:100%;border-radius:99px}
+.holat-qator + .holat-qator{margin-top:14px}
+.holat-qator .b{display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px}
+.holat-qator .b span{display:flex;align-items:center;gap:7px;color:#33383E}
+.holat-qator .n{display:inline-block;width:8px;height:8px;border-radius:99px}
 
 .salom{font-size:14px;color:var(--matn-3);margin-top:3px}
 .rol-qator{display:grid;grid-template-columns:1.55fr 1fr;gap:18px}
@@ -116,7 +124,7 @@ html.erta-rol-texnik #dash-texnik{display:block}
   var ROL_KALIT = {"Rahbar":"rahbar","Operator":"operator","Texnik xodim":"texnik","Administrator":"admin"};
   var r = localStorage.getItem("auga-rol");
   var kalit = Object.prototype.hasOwnProperty.call(ROL_KALIT, r) ? ROL_KALIT[r] : null;
-  if (kalit === "operator" || kalit === "texnik") document.documentElement.classList.add("erta-rol-"+kalit);
+  if (kalit === "operator" || kalit === "texnik" || kalit === "rahbar") document.documentElement.classList.add("erta-rol-"+kalit);
 })();
 </script>
 
@@ -291,6 +299,152 @@ html.erta-rol-texnik #dash-texnik{display:block}
       </div>
     </section>
     </div><!-- /dash-admin -->
+
+    <!-- ============================================================
+         RAHBAR paneli — moliyaviy/portfel nazorati va tasdiqlashga
+         urg'u beradi; texnik xarita/donat o'rniga shartnoma-nazorati
+         va oddiy foiz-chiziqlar (JS grafik moduliga bog'liq emas, shu
+         bilan dash-admin'dagi #donut/#leaflet-xarita bilan id to'qnashuvi bo'lmaydi).
+    ============================================================ -->
+    <div id="dash-rahbar">
+
+    <div class="sahifa-qator">
+      <div>
+        <h1>Boshqaruv paneli</h1>
+        <div class="salom" id="salom-rahbar"></div>
+      </div>
+      <div class="sahifa-harakat" style="position:relative">
+        <button class="tugma tugma-oq" id="hisobot-tugma-rahbar" aria-haspopup="menu" aria-expanded="false">
+          <svg class="ic"><use href="#i-yuklab"/></svg>
+          Hisobot yaratish
+          <svg class="ic" style="width:16px;height:16px;color:#5F6169"><use href="#i-past"/></svg>
+        </button>
+        <div class="menyu-popover" id="hisobot-menyu-rahbar" role="menu" style="top:calc(100% + 8px);right:0">
+          <button type="button" data-format="PDF"><svg class="ic"><use href="#i-hujjat"/></svg>PDF hisobot</button>
+          <button type="button" data-format="XLSX"><svg class="ic"><use href="#i-hisobot"/></svg>Excel (XLSX)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- KPI: portfel + moliyaviy nazorat -->
+    <section class="kpi-band" aria-label="Asosiy ko'rsatkichlar">
+      <a class="kpi" href="aktivlar.html">
+        <span class="kpi-tile dark"><svg class="ic"><use href="#i-bino"/></svg></span>
+        <div class="kpi-matn">
+          <div class="kpi-yorliq">Jami aktivlar</div>
+          <div class="kpi-qiymat"><b>1 248</b><span class="delta">↑ 8,2%</span></div>
+          <div class="kpi-izoh">O'tgan oyga nisbatan</div>
+        </div>
+      </a>
+      <a class="kpi" href="hisobotlar.html">
+        <span class="kpi-tile dark"><svg class="ic"><use href="#i-grafik"/></svg></span>
+        <div class="kpi-matn">
+          <div class="kpi-yorliq">Umumiy qiymat</div>
+          <div class="kpi-qiymat"><b>12,7 <small>trln so'm</small></b><span class="delta">↑ 7,6%</span></div>
+          <div class="kpi-izoh">O'tgan oyga nisbatan</div>
+        </div>
+      </a>
+      <a class="kpi" href="hisobotlar.html">
+        <span class="kpi-tile lime"><svg class="ic"><use href="#i-daromad"/></svg></span>
+        <div class="kpi-matn">
+          <div class="kpi-yorliq">Ijara daromadi (oy)</div>
+          <div class="kpi-qiymat"><b>58,4 <small>mlrd so'm</small></b><span class="delta">↑ 6,1%</span></div>
+          <div class="kpi-izoh">O'tgan oyga nisbatan</div>
+        </div>
+      </a>
+      <a class="kpi" href="shartnomalar.html">
+        <span class="kpi-tile lime"><svg class="ic"><use href="#i-muddat"/></svg></span>
+        <div class="kpi-matn">
+          <div class="kpi-yorliq">Muddati yaqinlashgan</div>
+          <div class="kpi-qiymat"><b>5</b><span class="delta salbiy">shartnoma</span></div>
+          <div class="kpi-izoh">Keyingi 7 kun ichida</div>
+        </div>
+      </a>
+    </section>
+
+    <!-- Shartnomalar nazorati + Aktivlar holati -->
+    <section style="display:grid;grid-template-columns:1.55fr 1fr;gap:18px">
+      <div class="karta eslatma-karta">
+        <div class="karta-bosh"><h2>Shartnomalar nazorati</h2><a class="karta-havola" href="shartnomalar.html">Barchasini ko'rish<svg class="ic"><use href="#i-ong"/></svg></a></div>
+        <a class="eslatma" href="shartnomalar.html">
+          <svg class="ic"><use href="#i-muddat"/></svg>
+          <div><b>Mega Mall — Ijara shartnomasi</b><span>15 kundan so'ng tugaydi · 25,6 mlrd so'm</span></div>
+        </a>
+        <a class="eslatma" href="shartnomalar.html">
+          <svg class="ic"><use href="#i-muddat"/></svg>
+          <div><b>Humo Office — Xizmat ko'rsatish</b><span>30 kundan so'ng tugaydi · 6,75 mlrd so'm</span></div>
+        </a>
+        <a class="eslatma" href="vazifalar.html">
+          <svg class="ic"><use href="#i-belgi-doira"/></svg>
+          <div><b>2 ta shartnoma tasdiqlashingizni kutmoqda</b><span>Tasdiqlash navbatida</span></div>
+        </a>
+        <a class="eslatma-tugma" href="vazifalar.html">
+          Tasdiqlash navbatini ochish
+          <svg class="ic"><use href="#i-ong"/></svg>
+        </a>
+      </div>
+
+      <div class="karta">
+        <div class="karta-bosh"><h2>Aktivlar holati</h2></div>
+        <div style="margin-top:8px">
+          <div class="holat-qator">
+            <div class="b"><span><span class="n" style="background:var(--h-faol)"></span>Faol</span><b>1 082 (87%)</b></div>
+            <div class="holat-chiziq"><div style="width:87%;background:var(--h-faol)"></div></div>
+          </div>
+          <div class="holat-qator">
+            <div class="b"><span><span class="n" style="background:var(--h-ijara)"></span>Ijarada</span><b>104 (8%)</b></div>
+            <div class="holat-chiziq"><div style="width:8%;background:var(--h-ijara)"></div></div>
+          </div>
+          <div class="holat-qator">
+            <div class="b"><span><span class="n" style="background:var(--h-tamir)"></span>Ta'mirda</span><b>42 (3%)</b></div>
+            <div class="holat-chiziq"><div style="width:3%;background:var(--h-tamir)"></div></div>
+          </div>
+          <div class="holat-qator">
+            <div class="b"><span><span class="n" style="background:var(--h-nofaol)"></span>Nofaol</span><b>20 (2%)</b></div>
+            <div class="holat-chiziq"><div style="width:2%;background:var(--h-nofaol)"></div></div>
+          </div>
+        </div>
+        <div class="jami-yakun"><span>Jami:</span><b>1 248</b></div>
+      </div>
+    </section>
+
+    <!-- So'nggi aktivlar -->
+    <section class="past-qator" style="grid-template-columns:1fr">
+      <div class="karta">
+        <div class="karta-bosh">
+          <h2>So'nggi aktivlar</h2>
+          <a class="karta-havola" href="aktivlar.html">Barchasini ko'rish<svg class="ic"><use href="#i-ong"/></svg></a>
+        </div>
+        <div class="aktiv-torlar">
+          <a class="aktiv-kartacha" href="aktiv.html?id=green-tower">
+            <img src="assets/thumb_tower.png" alt="Green Tower binosi">
+            <span class="aktiv-nom"><span class="nuqta" style="background:var(--t-biznes)"></span><b>Green Tower</b></span>
+            <span class="aktiv-shahar">Toshkent</span>
+          </a>
+          <a class="aktiv-kartacha" href="aktiv.html?id=mega-mall">
+            <img src="assets/thumb_mall.png" alt="Mega Mall savdo markazi">
+            <span class="aktiv-nom"><span class="nuqta" style="background:var(--t-savdo)"></span><b>Mega Mall</b></span>
+            <span class="aktiv-shahar">Toshkent</span>
+          </a>
+          <a class="aktiv-kartacha" href="aktiv.html?id=yakkasaroy-dm">
+            <img src="assets/thumb_dm.png" alt="Yakkasaroy davlat muassasasi">
+            <span class="aktiv-nom"><span class="nuqta" style="background:var(--t-davlat)"></span><b>Yakkasaroy DM</b></span>
+            <span class="aktiv-shahar">Toshkent</span>
+          </a>
+          <a class="aktiv-kartacha" href="aktiv.html?id=nurafshon-ofis">
+            <img src="assets/thumb_ofis.png" alt="Nurafshon ofis binosi">
+            <span class="aktiv-nom"><span class="nuqta" style="background:var(--t-turar)"></span><b>Nurafshon ofis</b></span>
+            <span class="aktiv-shahar">Nurafshon</span>
+          </a>
+          <a class="aktiv-kartacha" href="aktiv.html?id=chorvoq-dacha">
+            <img src="assets/thumb_dacha.png" alt="Chorvoq dacha">
+            <span class="aktiv-nom"><span class="nuqta" style="background:var(--t-dacha)"></span><b>Chorvoq dacha</b></span>
+            <span class="aktiv-shahar">Bo'stonliq</span>
+          </a>
+        </div>
+      </div>
+    </section>
+    </div><!-- /dash-rahbar -->
 
     <!-- ============================================================
          OPERATOR — jonli kirish, hodisalar, tashriflar
@@ -555,7 +709,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const vaqtSalomi = soat < 6 ? "Xayrli tun" : soat < 12 ? "Xayrli tong" : soat < 18 ? "Xayrli kun" : "Xayrli kech";
   const ism = (AUGA.foydIsmi() || "").split(" ")[0] || "";
   const matn = `${vaqtSalomi}, ${ism}. Bugungi holat bilan tanishing.`;
-  ["salom-admin","salom-operator","salom-texnik"].forEach(id=>{
+  ["salom-admin","salom-rahbar","salom-operator","salom-texnik"].forEach(id=>{
     const el = document.getElementById(id);
     if (el) el.textContent = matn;
   });
@@ -591,23 +745,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
   yorug.setAttribute("pointer-events","none");
   svg.appendChild(yorug);
 
-  /* Hisobot dropdown */
-  const ht = document.getElementById("hisobot-tugma");
-  const hm = document.getElementById("hisobot-menyu");
-  ht.addEventListener("click", e=>{
-    e.stopPropagation();
-    const ochiq = hm.classList.contains("ochiq");
-    document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
-    hm.classList.toggle("ochiq", !ochiq);
-    ht.setAttribute("aria-expanded", String(!ochiq));
-  });
-  hm.querySelectorAll("button").forEach(b=>{
-    b.addEventListener("click", e=>{
+  /* Hisobot dropdown — Admin va Rahbar panellari o'z tugma/menyusiga ega, shu bilan bir funksiya ikkalasiga xizmat qiladi */
+  function hisobotDropdownUla(tugmaId, menyuId){
+    const t = document.getElementById(tugmaId), m = document.getElementById(menyuId);
+    if (!t || !m) return;
+    t.addEventListener("click", e=>{
       e.stopPropagation();
-      hm.classList.remove("ochiq");
-      AUGA.toast(b.dataset.format+" hisobot shakllantirildi — yuklab olinmoqda", "i-yuklab");
+      const ochiq = m.classList.contains("ochiq");
+      document.querySelectorAll(".menyu-popover.ochiq").forEach(p=>p.classList.remove("ochiq"));
+      m.classList.toggle("ochiq", !ochiq);
+      t.setAttribute("aria-expanded", String(!ochiq));
     });
-  });
+    m.querySelectorAll("button").forEach(b=>{
+      b.addEventListener("click", e=>{
+        e.stopPropagation();
+        m.classList.remove("ochiq");
+        AUGA.toast(b.dataset.format+" hisobot shakllantirildi — yuklab olinmoqda", "i-yuklab");
+      });
+    });
+  }
+  hisobotDropdownUla("hisobot-tugma", "hisobot-menyu");
+  hisobotDropdownUla("hisobot-tugma-rahbar", "hisobot-menyu-rahbar");
 
   /* Xarita — Leaflet + OpenStreetMap (haqiqiy geo-koordinatalar) */
   const AKTIV_NUQTALAR = [
