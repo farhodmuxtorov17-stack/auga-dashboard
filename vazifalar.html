@@ -88,6 +88,17 @@
 .vazifa-kartacha .sub{display:block;font-size:12.5px;color:var(--matn-3);margin-top:2px}
 .vazifa-kartacha .kod{display:block;font-size:12px;color:var(--matn-4);margin-top:2px}
 
+/* Muhimlik segmentli tanlovi (Yangi vazifa modali) */
+.vz-mh-segment{display:grid;grid-template-columns:repeat(4,1fr);background:var(--kanvas);border:1px solid var(--kirish-chiziq);border-radius:12px;padding:4px;gap:0}
+.vz-mh-tugma{height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:650;color:var(--matn-3);position:relative;transition:background var(--tez),color var(--tez)}
+.vz-mh-tugma:hover{color:#23272C}
+.vz-mh-tugma[aria-pressed="true"]{background:#F0F1F4;color:#33383E}
+.vz-mh-tugma[aria-pressed="true"][data-mh="yuqori"]{background:var(--sariq-fon);color:#9A6E00}
+.vz-mh-tugma[aria-pressed="true"][data-mh="kritik"]{background:var(--qizil-fon);color:#C43C31}
+.vz-mh-tugma + .vz-mh-tugma::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:1px;background:var(--kirish-chiziq)}
+.vz-mh-tugma[aria-pressed="true"]::before,
+.vz-mh-tugma[aria-pressed="true"] + .vz-mh-tugma::before{opacity:0}
+
 /* Taqvim */
 .taqvim-bosh{display:flex;align-items:center;margin:2px 0 12px}
 .taqvim-bosh b{font-size:15px;font-weight:750}
@@ -190,27 +201,13 @@
       <!-- O'ng ustun -->
       <aside>
         <div class="karta vz-karta">
-          <h3>Mening vazifalarim<span class="vz-son">4</span></h3>
-          <button class="vazifa-kartacha faol">
-            <span class="tk-ikon"><svg class="ic"><use href="#i-daromad"/></svg></span>
-            <span style="flex:1;min-width:0"><b>Moliyaviy nazorat</b><span class="sub">Xarid so'rovnomasi</span><span class="kod">№ PR-2024-0568</span></span>
-            <span class="tk-vaqt"><b>Bugun</b><span>14:30</span></span>
-          </button>
-          <button class="vazifa-kartacha">
-            <span class="tk-ikon"><svg class="ic"><use href="#i-shartnoma"/></svg></span>
-            <span style="flex:1;min-width:0"><b>Shartnoma loyihasi</b><span class="sub">Ko'rib chiqish</span><span class="kod">№ CT-2024-1187</span></span>
-            <span class="tk-vaqt"><b>Bugun</b><span>16:00</span></span>
-          </button>
-          <button class="vazifa-kartacha">
-            <span class="tk-ikon kul"><svg class="ic"><use href="#i-daromad"/></svg></span>
-            <span style="flex:1;min-width:0"><b>To'lov jadvali yangilash</b><span class="sub">Hisobot tayyorlash</span><span class="kod">№ REP-2024-0091</span></span>
-            <span class="tk-vaqt"><b class="oddiy">25-may</b><span>09:00</span></span>
-          </button>
-          <button class="vazifa-kartacha">
-            <span class="tk-ikon kul"><svg class="ic"><use href="#i-aktiv"/></svg></span>
-            <span style="flex:1;min-width:0"><b>Aktiv ma'lumotlarini tekshirish</b><span class="sub">Ma'lumotlarni yangilash</span><span class="kod">№ AC-2024-2211</span></span>
-            <span class="tk-vaqt"><b class="oddiy">26-may</b><span>11:30</span></span>
-          </button>
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <h3>Mening vazifalarim<span class="vz-son" id="vz-son-mening">4</span></h3>
+            <button class="tugma tugma-oq tugma-kichik" id="vz-yangi-tugma" style="margin-left:auto">
+              <svg class="ic"><use href="#i-qoshish"/></svg>Yangi vazifa
+            </button>
+          </div>
+          <div id="mening-vazifalar-royxat"></div>
           <button class="vz-havola" data-toast="Barcha vazifalar ro'yxati">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
         </div>
 
@@ -360,12 +357,115 @@ document.getElementById("rad-tugma").addEventListener("click", ()=>{
     {xavf:true, okMatn:"Rad etish", ok(){ AUGA.toast("So'rov rad etildi va muallifga qaytarildi"); }});
 });
 
-/* Vazifalar */
-document.querySelectorAll(".vazifa-kartacha").forEach(v=>{
-  v.addEventListener("click", ()=>{
-    document.querySelectorAll(".vazifa-kartacha").forEach(x=>x.classList.remove("faol"));
-    v.classList.add("faol");
-    AUGA.toast(v.querySelector("b").textContent+" vazifasi ochildi");
+/* Vazifalar (Mening vazifalarim) */
+const MUHIMLIK_LABEL = {past:"Past", orta:"O'rta", yuqori:"Yuqori", kritik:"Kritik"};
+const MUHIMLIK_CHIP = {past:"chip-kul", orta:"chip-kul", yuqori:"chip-sariq", kritik:"chip-qizil"};
+const OY_NOMI = ["yanvar","fevral","mart","aprel","may","iyun","iyul","avgust","sentabr","oktabr","noyabr","dekabr"];
+// Ilova ichidagi shartli "bugun" — yuqoridagi soat/sana ko'rsatkichi va taqvim shu sanaga moslangan
+const VZ_BUGUN = {y:2024, m:5, d:24};
+function vzMuddatFormat(qiymat){
+  if (!qiymat) return {sana:"Muddatsiz", bugunmi:false};
+  const [y,m,d] = qiymat.split("-").map(Number);
+  if (y===VZ_BUGUN.y && m===VZ_BUGUN.m && d===VZ_BUGUN.d) return {sana:"Bugun", bugunmi:true};
+  return {sana:`${d}-${OY_NOMI[m-1]}`, bugunmi:false};
+}
+
+const MENING_VAZIFALARIM = [
+  {nom:"Moliyaviy nazorat", tur:"Xarid so'rovnomasi", kod:"№ PR-2024-0568", sana:"Bugun", vaqt:"14:30", bugunmi:true,
+   ikon:"i-daromad", muhimlik:"kritik", ijrochi:"Malika Saidova"},
+  {nom:"Shartnoma loyihasi", tur:"Ko'rib chiqish", kod:"№ CT-2024-1187", sana:"Bugun", vaqt:"16:00", bugunmi:true,
+   ikon:"i-shartnoma", muhimlik:"yuqori", ijrochi:"Javlonbek Karimov"},
+  {nom:"To'lov jadvali yangilash", tur:"Hisobot tayyorlash", kod:"№ REP-2024-0091", sana:"25-may", vaqt:"09:00", bugunmi:false,
+   ikon:"i-daromad", muhimlik:"orta", ijrochi:"Saida Rahimova"},
+  {nom:"Aktiv ma'lumotlarini tekshirish", tur:"Ma'lumotlarni yangilash", kod:"№ AC-2024-2211", sana:"26-may", vaqt:"11:30", bugunmi:false,
+   ikon:"i-aktiv", muhimlik:"past", ijrochi:"Jahongir Otajonov"}
+];
+
+function vazifalarChiz(){
+  document.getElementById("mening-vazifalar-royxat").innerHTML = MENING_VAZIFALARIM.map((v,i)=>{
+    const kul = v.muhimlik==="past" || v.muhimlik==="orta";
+    return `
+    <button class="vazifa-kartacha${i===0?" faol":""}">
+      <span class="tk-ikon${kul?" kul":""}"><svg class="ic"><use href="#${v.ikon}"/></svg></span>
+      <span style="flex:1;min-width:0">
+        <b>${v.nom}</b><span class="sub">${v.tur}</span><span class="kod">${v.kod}</span>
+        <span class="chip ${MUHIMLIK_CHIP[v.muhimlik]}" style="height:24px;margin-top:6px">${MUHIMLIK_LABEL[v.muhimlik]}</span>
+      </span>
+      <span class="tk-vaqt"><b class="${v.bugunmi?"":"oddiy"}">${v.sana}</b><span>${v.vaqt}</span></span>
+    </button>`;
+  }).join("");
+  document.querySelectorAll(".vazifa-kartacha").forEach(v=>{
+    v.addEventListener("click", ()=>{
+      document.querySelectorAll(".vazifa-kartacha").forEach(x=>x.classList.remove("faol"));
+      v.classList.add("faol");
+      AUGA.toast(v.querySelector("b").textContent+" vazifasi ochildi");
+    });
+  });
+}
+vazifalarChiz();
+
+/* Yangi vazifa qo'shish */
+document.getElementById("vz-yangi-tugma").addEventListener("click", ()=>{
+  let mhTanlangan = "orta";
+  AUGA.modal("Yangi vazifa",
+    `<div style="display:flex;flex-direction:column;gap:16px;margin-top:4px">
+       <div><label class="maydon-yorliq" for="vz-f-nom">Vazifa nomi</label>
+         <div class="kirish"><input id="vz-f-nom" type="text" maxlength="120" placeholder="Masalan: Shartnoma loyihasini tekshirish"></div></div>
+       <div><label class="maydon-yorliq" for="vz-f-tur">Tavsif / tur</label>
+         <div class="kirish"><input id="vz-f-tur" type="text" maxlength="80" placeholder="Masalan: Ko'rib chiqish"></div></div>
+       <div><label class="maydon-yorliq" for="vz-f-ijro">Ijrochi</label>
+         <div class="kirish"><input id="vz-f-ijro" type="text" maxlength="80" placeholder="F.I.Sh. kiriting"></div></div>
+       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+         <div><label class="maydon-yorliq" for="vz-f-sana">Muddat sanasi</label>
+           <div class="kirish"><input id="vz-f-sana" type="date"></div></div>
+         <div><label class="maydon-yorliq" for="vz-f-vaqt">Muddat vaqti</label>
+           <div class="kirish"><input id="vz-f-vaqt" type="time"></div></div>
+       </div>
+       <div><label class="maydon-yorliq">Muhimlik</label>
+         <div class="vz-mh-segment" role="group" aria-label="Muhimlik darajasi">
+           <button type="button" class="vz-mh-tugma" data-mh="past" aria-pressed="false">Past</button>
+           <button type="button" class="vz-mh-tugma" data-mh="orta" aria-pressed="true">O'rta</button>
+           <button type="button" class="vz-mh-tugma" data-mh="yuqori" aria-pressed="false">Yuqori</button>
+           <button type="button" class="vz-mh-tugma" data-mh="kritik" aria-pressed="false">Kritik</button>
+         </div>
+       </div>
+     </div>`,
+    { okMatn:"Qo'shish", ok(){
+        const nom = document.getElementById("vz-f-nom").value.trim();
+        if (!nom) return; // himoya chorasi: bo'sh holatda "capture" tinglovchisi yopilishni allaqachon to'xtatgan
+        const tur = document.getElementById("vz-f-tur").value.trim() || "Qo'lda kiritilgan vazifa";
+        const ijro = document.getElementById("vz-f-ijro").value.trim();
+        const {sana, bugunmi} = vzMuddatFormat(document.getElementById("vz-f-sana").value);
+        const vaqt = document.getElementById("vz-f-vaqt").value.trim() || "—";
+        const raqam = Math.floor(1000 + Math.random()*9000);
+        MENING_VAZIFALARIM.unshift({
+          nom, tur, kod:`№ VZ-2024-${raqam}`, sana, vaqt, bugunmi,
+          ikon:"i-vazifa", muhimlik: mhTanlangan, ijrochi: ijro || "Belgilanmagan"
+        });
+        document.getElementById("vz-son-mening").textContent = MENING_VAZIFALARIM.length;
+        vazifalarChiz();
+        AUGA.toast("Yangi vazifa qo'shildi");
+      } });
+
+  // AUGA.modal standart holatda "OK" bosilganda modalni darhol yopadi (auga.js'ga
+  // tegmasdan buni o'zgartirib bo'lmaydi). Shuning uchun bosishni "capture" bosqichida
+  // ushlab, vazifa nomi bo'sh bo'lsa yopilishning o'ziga yo'l qo'ymaymiz — modal ochiq
+  // qoladi va faqat ogohlantirish chiqadi; nom to'ldirilgan bo'lsa, oddiy oqim davom etadi.
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("vz-f-nom").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Vazifa nomini kiriting");
+    }
+  }, true);
+  fon.querySelectorAll(".vz-mh-tugma").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      fon.querySelectorAll(".vz-mh-tugma").forEach(x=>x.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed","true");
+      mhTanlangan = b.dataset.mh;
+    });
   });
 });
 

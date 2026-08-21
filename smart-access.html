@@ -137,8 +137,10 @@
       <!-- Chap ustun -->
       <div style="display:flex;flex-direction:column;gap:18px">
         <div class="karta sa-karta">
-          <h3>Kirish so'rovlar</h3>
-          <div class="sub">5 ta kutmoqda</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <div><h3>Kirish so'rovlar</h3><div class="sub">5 ta kutmoqda</div></div>
+            <button class="tugma tugma-oq tugma-kichik" id="sorov-qoshish" style="margin-left:auto"><svg class="ic"><use href="#i-qoshish"/></svg>Yangi so'rov</button>
+          </div>
           <div style="margin-top:8px" id="sorovlar"></div>
         </div>
 
@@ -284,13 +286,15 @@ const MEHMONLAR = [
 ];
 const AVATAR = `<span class="avatar"><svg viewBox="0 0 34 34" style="width:30px;height:30px;display:block;margin:5px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;
 
-document.getElementById("sorovlar").innerHTML = SOROVLAR.map(s=>`
-  <div class="sorov-band" data-nom="${s.nom}" role="button" tabindex="0">
+function sorovBandHTML(s){
+  return `<div class="sorov-band" data-nom="${s.nom}" role="button" tabindex="0">
     ${AVATAR}
     <span class="matn"><b>${s.nom}</b><span>${s.rol}</span></span>
     <span class="vaqt">${s.vaqt}</span>
     <button class="ruxsat-tugma" data-ruxsat="${s.nom}" aria-label="${s.nom} uchun ruxsat berish"><svg class="ic"><use href="#i-belgi"/></svg></button>
-  </div>`).join("");
+  </div>`;
+}
+document.getElementById("sorovlar").innerHTML = SOROVLAR.map(sorovBandHTML).join("");
 
 function panelChiz(p, holat){
   document.getElementById("shaxs-panel").hidden = false;
@@ -314,23 +318,27 @@ function panelChiz(p, holat){
 }
 
 /* So'rov qatori bosilganda — o'ng panelda ko'rsatish (kutilmoqda holatida) */
-document.querySelectorAll(".sorov-band[data-nom]").forEach(band=>{
+function kutmoqdaYangila(){
+  const pendingCount = document.getElementById("sorovlar").querySelectorAll(".ruxsat-tugma:not(:disabled)").length;
+  document.querySelector(".sa-karta .sub").textContent = pendingCount+" ta kutmoqda";
+}
+/* Bitta so'rov qatori (band) uchun tinglovchilarni ulaydi — sahifa yuklanganda barcha qatorlarga,
+   yangi so'rov qo'shilganda esa faqat o'sha bitta yangi qatorga qo'llaniladi */
+function sorovBandUla(band){
   band.addEventListener("click", e=>{
     if (e.target.closest(".ruxsat-tugma")) return;
     const p = SOROVLAR.find(s=>s.nom===band.dataset.nom);
     panelChiz(p, "kutish");
   });
-});
-document.querySelectorAll(".ruxsat-tugma").forEach(t=>{
-  t.addEventListener("click", e=>{
+  band.querySelector(".ruxsat-tugma").addEventListener("click", e=>{
     e.stopPropagation();
-    AUGA.toast(t.dataset.ruxsat+" uchun kirish ruxsati berildi", "i-belgi-doira");
-    t.closest(".sorov-band").style.opacity = ".45";
-    t.disabled = true;
-    const pendingCount = document.getElementById("sorovlar").querySelectorAll('.ruxsat-tugma:not(:disabled)').length;
-    document.querySelector(".sa-karta .sub").textContent = pendingCount+" ta kutmoqda";
+    AUGA.toast(e.currentTarget.dataset.ruxsat+" uchun kirish ruxsati berildi", "i-belgi-doira");
+    band.style.opacity = ".45";
+    e.currentTarget.disabled = true;
+    kutmoqdaYangila();
   });
-});
+}
+document.querySelectorAll(".sorov-band[data-nom]").forEach(sorovBandUla);
 
 /* Kirish nuqtasi tablari — qurilma holati shu nuqtaga mos yangilanadi */
 const NUQTA_QURILMA = {
@@ -404,6 +412,95 @@ document.getElementById("bekor").addEventListener("click", ()=>{
       document.getElementById("bekor").disabled = true;
       document.getElementById("chiqish-ruxsat").style.opacity = document.getElementById("bekor").style.opacity = ".45";
     }});
+});
+
+/* Yangi kirish so'rovi yaratish */
+const OY_QISQA = ["yan","fev","mar","apr","may","iyun","iyul","avg","sen","okt","noy","dek"];
+function sanaChiz(qiymat){
+  if (!qiymat) return "";
+  const d = new Date(qiymat);
+  if (isNaN(d)) return "";
+  const kun = String(d.getDate()).padStart(2,"0");
+  const soat = String(d.getHours()).padStart(2,"0");
+  const daq = String(d.getMinutes()).padStart(2,"0");
+  return `${kun}-${OY_QISQA[d.getMonth()]}, ${soat}:${daq}`;
+}
+function ysMalumot(){
+  return {
+    nom: document.getElementById("ys-nom").value.trim(),
+    hujjat: document.getElementById("ys-hujjat").value.trim(),
+    tashkilot: document.getElementById("ys-tashkilot").value.trim(),
+    maqsad: document.getElementById("ys-maqsad").value.trim(),
+    mezbon: document.getElementById("ys-mezbon").value.trim(),
+    nuqta: document.getElementById("ys-nuqta").value,
+    boshlanish: document.getElementById("ys-boshlanish").value,
+    tugash: document.getElementById("ys-tugash").value
+  };
+}
+document.getElementById("sorov-qoshish").addEventListener("click", ()=>{
+  AUGA.modal("Yangi kirish so'rovi",
+    `<div style="display:grid;gap:14px;margin-top:6px;text-align:left">
+      <div><label class="maydon-yorliq">Tashrifchi F.I.Sh.</label><div class="kirish"><input id="ys-nom" placeholder="Familiya Ism Sharif"></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="maydon-yorliq">Hujjat turi</label><div class="kirish"><select id="ys-turi">
+          <option>Pasport</option>
+          <option>ID karta</option>
+          <option>Haydovchilik guvohnomasi</option>
+        </select></div></div>
+        <div><label class="maydon-yorliq">Hujjat raqami</label><div class="kirish"><input id="ys-hujjat" placeholder="AB1234567"></div></div>
+      </div>
+      <div><label class="maydon-yorliq">Tashkilot</label><div class="kirish"><input id="ys-tashkilot" placeholder="Tashkilot nomi"></div></div>
+      <div><label class="maydon-yorliq">Tashrif maqsadi</label><div class="kirish"><input id="ys-maqsad" placeholder="Masalan, Uchrashuv"></div></div>
+      <div><label class="maydon-yorliq">Mezbon</label><div class="kirish"><input id="ys-mezbon" placeholder="Qabul qiluvchi xodim"></div></div>
+      <div><label class="maydon-yorliq">Ruxsat etilgan kirish nuqtasi</label><div class="kirish"><select id="ys-nuqta">
+        <option value="">Tanlang</option>
+        <option>Asosiy kirish</option>
+        <option>Yon kirish</option>
+        <option>Ombor kirish</option>
+        <option>Parking kirish</option>
+      </select></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="maydon-yorliq">Boshlanish sanasi/vaqti</label><div class="kirish"><input type="datetime-local" id="ys-boshlanish"></div></div>
+        <div><label class="maydon-yorliq">Tugash sanasi/vaqti</label><div class="kirish"><input type="datetime-local" id="ys-tugash"></div></div>
+      </div>
+    </div>`,
+    { okMatn:"Yaratish", ok(){
+      const m = ysMalumot();
+      const hozir = new Date();
+      const vaqt = String(hozir.getHours()).padStart(2,"0")+":"+String(hozir.getMinutes()).padStart(2,"0");
+      const yangiSorov = {
+        nom:m.nom, rol:"Mehmon", vaqt, id:m.hujjat,
+        tashkilot: m.tashkilot || "—", maqsad: m.maqsad || "—", mezbon: m.mezbon || "—", nuqta:m.nuqta,
+        kirishVaqti: sanaChiz(m.boshlanish), chiqishVaqti: sanaChiz(m.tugash),
+        tarix:[["Hozirgina","So'rov yaratildi"]]
+      };
+      SOROVLAR.unshift(yangiSorov);
+      const sorovlarEl = document.getElementById("sorovlar");
+      sorovlarEl.insertAdjacentHTML("afterbegin", sorovBandHTML(yangiSorov));
+      sorovBandUla(sorovlarEl.firstElementChild);
+      kutmoqdaYangila();
+      panelChiz(yangiSorov, "kutish");
+      AUGA.toast("Yangi kirish so'rovi yaratildi");
+    } });
+  /* AUGA.modal "Yaratish" bosilganda modalni har doim yopadi (yop() so'ng ok() chaqiradi) —
+     shuning uchun tekshiruv shu yerda, capture bosqichida, alohida bajariladi: agar maydonlar
+     to'liq bo'lmasa stopPropagation chaqirilib, hodisa tugmaning o'z (bubble) tinglovchisiga
+     yetib bormaydi va modal ochiq qoladi. */
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    const m = ysMalumot();
+    const yoq = [];
+    if (!m.nom) yoq.push("F.I.Sh.");
+    if (!m.hujjat) yoq.push("hujjat raqami");
+    if (!m.nuqta) yoq.push("kirish nuqtasi");
+    if (!m.boshlanish || !m.tugash) yoq.push("vaqt oralig'i");
+    if (yoq.length){
+      e.stopPropagation();
+      AUGA.toast("Quyidagi maydonlarni to'ldiring: "+yoq.join(", "));
+    }
+  }, true);
 });
 });
 </script>

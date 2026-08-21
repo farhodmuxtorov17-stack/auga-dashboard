@@ -17,7 +17,7 @@
 .kb-sarlavha{font-size:16.5px;font-weight:750}
 .kanban-bosh .tanlov{width:auto;min-width:180px;height:44px;margin-left:auto}
 
-.kanban-korpus{display:grid;grid-template-columns:250px repeat(4,1fr);gap:0;min-height:520px}
+.kanban-korpus{display:grid;grid-template-columns:250px repeat(5,1fr);gap:0;min-height:520px}
 .royxat-panel{border-right:1px solid var(--chiziq);padding:18px 14px}
 .royxat-panel .bosh{display:flex;align-items:center;margin-bottom:12px;padding:0 4px}
 .royxat-panel .bosh h4{font-size:15px;font-weight:750}
@@ -187,6 +187,11 @@
               <div class="kb-royxat"></div>
               <button class="kb-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hodisa qo'shish</button>
             </div>
+            <div class="kb-ustun" data-ustun="hal_qilindi">
+              <div class="kb-ustun-bosh"><h4>Hal qilindi</h4><span class="son"></span></div>
+              <div class="kb-royxat"></div>
+              <button class="kb-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hodisa qo'shish</button>
+            </div>
             <div class="kb-ustun" data-ustun="yopildi">
               <div class="kb-ustun-bosh"><h4>Yopildi</h4><span class="son"></span></div>
               <div class="kb-royxat"></div>
@@ -300,6 +305,8 @@ let faolKod = "#INC-2024-00128";
 let faolJiddiylik = "Barcha hodisalar";
 const JIDDIYLIK_KALIT = {"Yuqori":"yuqori", "O'rta":"orta", "Past":"past"};
 function jiddiylikMos(h){ return faolJiddiylik==="Barcha hodisalar" || JIDDIYLIK_KALIT[faolJiddiylik]===h.jiddiylik; }
+/* Ustun kaliti → ko'rinadigan holat matni (barcha joyda shu yagona manbadan foydalaniladi) */
+const USTUN_HOLAT = {yangi:"Yangi", tekshirilmoqda:"Tekshirilmoqda", bartaraf:"Bartaraf etilmoqda", hal_qilindi:"Hal qilindi", yopildi:"Yopildi"};
 
 /* Chap ro'yxat paneli (birinchi 5 ta, filtrga mos) */
 function royxatChiz(){
@@ -343,6 +350,9 @@ function detalChiz(h){
     <div class="detal-blok"><div class="yorliq">Joylashuv</div><div class="qiymat">${h.joy}</div></div>
     <div class="detal-blok"><div class="yorliq">Bino / obyekt</div><div class="qiymat">${h.bino}</div></div>
     <div class="detal-blok"><div class="yorliq">Tavsif</div><div class="qiymat" style="font-weight:500">${h.tavsif}</div></div>
+    ${h.texnikXulosa ? `
+    <div class="detal-blok"><div class="yorliq">Texnik xulosa</div><div class="qiymat" style="font-weight:500">${h.texnikXulosa}</div></div>
+    <div class="detal-blok"><div class="yorliq">Dalil / izoh</div><div class="qiymat" style="font-weight:500">${h.dalil}</div></div>` : ``}
     <div class="detal-blok"><div class="yorliq">Mas'ul shaxs</div>
       <div class="masul">
         <span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:5px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
@@ -362,8 +372,8 @@ function detalChiz(h){
           <svg class="ic" style="width:18px;height:18px"><use href="#i-nuqtalar"/></svg>
         </button>
         <div class="menyu-popover" id="detal-menyu" style="bottom:calc(100% + 8px);top:auto;right:0">
-          <button type="button" data-amal="yopish"><svg class="ic"><use href="#i-belgi-doira"/></svg>Hodisani yopish</button>
-          <div class="ajrat"></div>
+          ${h.ustun==="hal_qilindi" ? `<button type="button" data-amal="yopish"><svg class="ic"><use href="#i-belgi-doira"/></svg>Hodisani yopish</button>
+          <div class="ajrat"></div>` : ``}
           <button type="button" class="xavf" data-amal="ochirish"><svg class="ic"><use href="#i-savat"/></svg>O'chirish</button>
         </div>
       </div>
@@ -404,11 +414,42 @@ function detalChiz(h){
           AUGA.toast("Hodisa o'chirildi");
         }});
     } else if (b.dataset.amal==="yopish"){
-      h.ustun = "yopildi"; h.holat = "Yopildi";
+      if (AUGA.asilRol() !== "Administrator"){
+        AUGA.toast("Faqat Administrator hodisani yopishi mumkin", "i-qalqon");
+        return;
+      }
+      h.ustun = "yopildi"; h.holat = USTUN_HOLAT.yopildi;
       royxatChiz(); kanbanChiz(); detalChiz(h);
       AUGA.toast("Hodisa yopildi deb belgilandi", "i-belgi-doira");
     }
   }));
+}
+
+/* Hodisani boshqa ustunga ko'chirish — qayta chizish + toast, barcha oddiy o'tishlar uchun umumiy */
+function kochirYakunlash(h, yangiUstun){
+  h.ustun = yangiUstun;
+  h.holat = USTUN_HOLAT[yangiUstun];
+  kanbanChiz();
+  if (h.kod===faolKod) detalChiz(h);
+  AUGA.toast(`${h.kod} → "${h.holat}" ustuniga ko'chirildi`);
+}
+
+/* "Hal qilindi" bosqichiga o'tishdan oldin texnik xulosa va dalil talab qilinadi (TOR: Kritik) */
+function halQilindiOynasi(h, tasdiqlandi){
+  AUGA.modal("Hodisani hal qilish",
+    `<div style="display:grid;gap:14px;margin-top:6px">
+      <div><label class="maydon-yorliq">Texnik xulosa</label><div class="kirish kirish-katta"><textarea id="hq-xulosa" placeholder="Texnik xulosani batafsil yozing..."></textarea></div></div>
+      <div><label class="maydon-yorliq">Dalil / izoh</label><div class="kirish"><input id="hq-dalil" placeholder="Masalan: akt raqami, tekshiruv natijasi"></div></div>
+    </div>`,
+    { okMatn:"Hal qilindi deb belgilash", ok(){
+      const xulosa = document.getElementById("hq-xulosa").value.trim();
+      const dalil = document.getElementById("hq-dalil").value.trim();
+      if (!xulosa){ AUGA.toast("Texnik xulosa kiritilishi shart"); return; }
+      if (!dalil){ AUGA.toast("Dalil yoki izoh kiritilishi shart"); return; }
+      h.texnikXulosa = xulosa;
+      h.dalil = dalil;
+      tasdiqlandi();
+    } });
 }
 
 /* Tanlash + drag-drop */
@@ -428,19 +469,37 @@ function ulash(){
     k.addEventListener("dragend", ()=>k.classList.remove("surilmoqda"));
   });
   document.querySelectorAll(".kb-ustun").forEach(u=>{
+    if (u.dataset.ulandi) return; u.dataset.ulandi="1";
     u.addEventListener("dragover", e=>{ e.preventDefault(); u.classList.add("tortish"); });
     u.addEventListener("dragleave", ()=>u.classList.remove("tortish"));
     u.addEventListener("drop", e=>{
       e.preventDefault(); u.classList.remove("tortish");
       const kod = e.dataTransfer.getData("text/plain");
       const h = HODISALAR.find(x=>x.kod===kod);
-      if (h && h.ustun !== u.dataset.ustun){
-        h.ustun = u.dataset.ustun;
-        h.holat = {yangi:"Yangi",tekshirilmoqda:"Tekshirilmoqda",bartaraf:"Bartaraf etilmoqda",yopildi:"Yopildi"}[h.ustun];
-        kanbanChiz();
-        if (kod===faolKod) detalChiz(h);
-        AUGA.toast(`${kod} → "${h.holat}" ustuniga ko'chirildi`);
+      const yangiUstun = u.dataset.ustun;
+      if (!h || h.ustun === yangiUstun) return;
+
+      /* Yopildi — faqat "Hal qilindi"dan, va faqat Administrator (TOR: Kritik) */
+      if (yangiUstun === "yopildi"){
+        if (h.ustun !== "hal_qilindi"){
+          AUGA.toast('Avval hodisani "Hal qilindi" bosqichiga o\'tkazing, keyin yoping');
+          return;
+        }
+        if (AUGA.asilRol() !== "Administrator"){
+          AUGA.toast("Faqat Administrator hodisani yopishi mumkin", "i-qalqon");
+          return;
+        }
+        kochirYakunlash(h, yangiUstun);
+        return;
       }
+
+      /* Hal qilindi — texnik xulosa va dalil talab qilinadi */
+      if (yangiUstun === "hal_qilindi"){
+        halQilindiOynasi(h, ()=>kochirYakunlash(h, yangiUstun));
+        return;
+      }
+
+      kochirYakunlash(h, yangiUstun);
     });
   });
   document.querySelectorAll(".kb-qoshish").forEach(b=>{
@@ -460,7 +519,7 @@ function ulash(){
           const yangi = {
             kod:`#INC-2024-00${raqam}`, rang:"#3B82F6", sarlavha: obyekt ? `${obyekt} — ${sarlavha}` : sarlavha,
             vaqt:"Hozirgina", jiddiylik:"orta", ustun,
-            holat:{yangi:"Yangi",tekshirilmoqda:"Tekshirilmoqda",bartaraf:"Bartaraf etilmoqda",yopildi:"Yopildi"}[ustun],
+            holat:USTUN_HOLAT[ustun],
             joy:"—", bino: obyekt || "—", tavsif:"Yangi qo'lda kiritilgan hodisa, tafsilotlar hali to'ldirilmagan.",
             masul:"Belgilanmagan", bolim:"—", fayl:"—", hajm:"—"
           };

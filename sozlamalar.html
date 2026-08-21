@@ -56,6 +56,22 @@
 .diagnostika-tugma:hover{background:#F6F7F8}
 .diagnostika-tugma .ic{width:19px;height:19px;color:#43484E}
 .diagnostika-tugma .strelka{margin-left:auto;width:16px;height:16px;color:#71767E}
+
+/* Audit jurnali (modal ichida) */
+.audit-royxat{max-height:min(300px,44vh);overflow-y:auto;padding-right:4px;margin-top:2px}
+.audit-qator{padding:10px 2px;border-bottom:1px solid #F2F3F5}
+.audit-qator:last-of-type{border-bottom:none}
+.audit-tepa{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px}
+.audit-vaqt{font-size:11.5px;font-weight:600;color:var(--matn-4)}
+.audit-rol{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:99px;white-space:nowrap}
+.audit-rol.admin{background:var(--rol-admin-fon);color:var(--rol-admin-matn)}
+.audit-rol.rahbar{background:var(--rol-rahbar-fon);color:var(--rol-rahbar-matn)}
+.audit-rol.operator{background:var(--rol-operator-fon);color:var(--rol-operator-matn)}
+.audit-rol.texnik{background:var(--rol-texnik-fon);color:var(--rol-texnik-matn)}
+.audit-rol.sistema{background:#F0F1F4;color:#5B6168}
+.audit-amal{font-size:13.5px;color:#33383E;line-height:1.4}
+.audit-amal b{font-weight:750;color:#17191C}
+.audit-obyekt{font-size:12px;color:var(--matn-3);margin-top:2px}
 @media (max-width:1600px){.sz-grid{grid-template-columns:270px 1fr}.sz-grid > aside{grid-column:1/-1}}
 @media (max-width:1100px){.sz-grid{grid-template-columns:1fr}.param-qator{grid-template-columns:1fr;gap:10px}}
 </style>
@@ -83,7 +99,7 @@
         <button class="bolim-band" data-toast="Integratsiyalar sozlamalari"><svg class="ic"><use href="#i-ekran"/></svg>Integratsiyalar</button>
         <button class="bolim-band" data-toast="Elektron pochta sozlamalari"><svg class="ic"><use href="#i-mail"/></svg>Elektron pochta</button>
         <button class="bolim-band" data-toast="Ma'lumotlarni saqlash sozlamalari"><svg class="ic"><use href="#i-aktiv"/></svg>Ma'lumotlarni saqlash</button>
-        <button class="bolim-band" data-toast="Audit jurnali"><svg class="ic"><use href="#i-qalqon"/></svg>Audit jurnali</button>
+        <button class="bolim-band" id="audit-jurnali-tugma"><svg class="ic"><use href="#i-qalqon"/></svg>Audit jurnali</button>
         <a class="bolim-band" href="holatlar.html"><svg class="ic"><use href="#i-ogoh"/></svg>Xatolik va holat ekranlari</a>
       </div>
 
@@ -197,6 +213,50 @@ document.getElementById("diagnostika").addEventListener("click", ()=>{
       <div style="display:flex;gap:10px;align-items:center"><span style="color:#F2C230">●</span> SMTP — sekin javob (420 ms)</div>
     </div>`,
     { okMatn:"Yopish", ok(){} });
+});
+
+/* Audit jurnali — faqat o'qish uchun; yozuvlarni o'chirish yoki tahrirlash imkoniyati yo'q */
+const AUDIT_ROL_QISQA = {"Administrator":"admin","Rahbar":"rahbar","Operator":"operator","Texnik xodim":"texnik"};
+const AUDIT_JURNAL = [
+  {vaqt:"24-may, 14:47", ism:"Akmalov Laziz", rol:"Administrator", amal:"Tizimga kirdi", obyekt:"Sessiya #SS-88214 · IP 192.168.10.14"},
+  {vaqt:"24-may, 14:20", ism:"Nazarova Feruza", rol:"Operator", amal:`Hodisani "Bartaraf etilmoqda" ustuniga ko'chirdi`, obyekt:"#INC-2024-00126 — Mega Mall (sovutish tizimida nosozlik)"},
+  {vaqt:"24-may, 13:55", ism:"Rustamov Sanjar", rol:"Texnik xodim", amal:"Qurilmani qayta ishga tushirdi", obyekt:"Network Switch 1 — Green Tower, Texnik xona"},
+  {vaqt:"24-may, 12:10", ism:"Yusupov Botir", rol:"Rahbar", amal:"Shartnomani tasdiqladi", obyekt:"CT-2025-0912 — Tech Solutions LLC"},
+  {vaqt:"24-may, 11:32", ism:"Akmalov Laziz", rol:"Administrator", amal:`Foydalanuvchi rolini o'zgartirdi: "Texnik xodim" → "Operator"`, obyekt:"Nilufar Ismoilova · U056789013"},
+  {vaqt:"24-may, 11:05", ism:"Akmalov Laziz", rol:"Administrator", amal:"Sozlamani o'chirdi", obyekt:"Ikki bosqichli autentifikatsiya — Tizim parametrlari"},
+  {vaqt:"24-may, 10:40", ism:"Nilufar Ismoilova", rol:"Operator", amal:"Hujjat yukladi", obyekt:"Baholash hisobot.pdf — Nurafshon turar-joy majmuasi"},
+  {vaqt:"24-may, 10:15", ism:"Yusupov Botir", rol:"Rahbar", amal:"Kirish so'rovini tasdiqladi", obyekt:"Sardor Aliyev, mehmon — Green Tower"},
+  {vaqt:"24-may, 09:12", ism:"Nazarova Feruza", rol:"Operator", amal:"Yangi hodisa qayd etdi", obyekt:"#INC-2024-00128 — Toshkent City Mall (yong'in signalizatsiyasi)"},
+  {vaqt:"24-may, 04:15", ism:"Tizim", rol:"Avtomatik", amal:"Zaxira nusxa yaratdi", obyekt:"To'liq zaxira — 213 GB"},
+  {vaqt:"23-may, 22:48", ism:"Jahongir Otajonov", rol:"Texnik xodim", amal:"Xato parol bilan kirishga urindi (3 marta)", obyekt:"IP 91.204.239.18"},
+  {vaqt:"23-may, 16:05", ism:"Nazarova Feruza", rol:"Operator", amal:"Hisobotni eksport qildi", obyekt:"Moliyaviy hisobot — PDF"},
+  {vaqt:"22-may, 15:20", ism:"Akmalov Laziz", rol:"Administrator", amal:"Foydalanuvchi hisobini nofaollashtirdi", obyekt:"Umid Safarov · U056789017"},
+  {vaqt:"22-may, 09:47", ism:"Akmalov Laziz", rol:"Administrator", amal:"Foydalanuvchi parolini tiklashga majburladi", obyekt:"Jahongir Otajonov · U056789019"}
+];
+function auditRoyxatChiz(qidiruv){
+  const q = (qidiruv||"").toLowerCase().trim();
+  const royxat = AUDIT_JURNAL.filter(a=>!q || (a.vaqt+" "+a.ism+" "+a.rol+" "+a.amal+" "+a.obyekt).toLowerCase().includes(q));
+  document.getElementById("audit-royxat").innerHTML = royxat.length ? royxat.map(a=>`
+    <div class="audit-qator">
+      <div class="audit-tepa">
+        <span class="audit-vaqt">${a.vaqt}</span>
+        <span class="audit-rol ${AUDIT_ROL_QISQA[a.rol]||"sistema"}">${a.rol}</span>
+      </div>
+      <div class="audit-amal"><b>${a.ism}</b> — ${a.amal}</div>
+      <div class="audit-obyekt">${a.obyekt}</div>
+    </div>`).join("") : `<div style="padding:26px 4px;text-align:center;color:var(--matn-4);font-size:13.5px">Hech qanday yozuv topilmadi</div>`;
+}
+document.getElementById("audit-jurnali-tugma").addEventListener("click", ()=>{
+  AUGA.modal("Audit jurnali",
+    `<div style="font-size:13px;color:var(--matn-3);margin-top:2px;margin-bottom:14px">Barcha yozuvlar avtomatik qayd etiladi va tahrirlab yoki o'chirib bo'lmaydi.</div>
+    <div class="kirish" style="margin-bottom:10px">
+      <svg class="ic"><use href="#i-izlash"/></svg>
+      <input type="search" id="audit-izlash" placeholder="Qidirish..." aria-label="Audit jurnalidan qidirish">
+    </div>
+    <div class="audit-royxat" id="audit-royxat"></div>`,
+    { okMatn:"Yopish", ok(){} });
+  auditRoyxatChiz();
+  document.getElementById("audit-izlash").addEventListener("input", e=>auditRoyxatChiz(e.target.value));
 });
 });
 </script>

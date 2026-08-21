@@ -105,6 +105,28 @@
 .izoh-past{display:flex;align-items:center;margin-top:10px}
 .izoh-past .hisob{font-size:12px;color:var(--matn-4)}
 .izoh-past .tugma{margin-left:auto}
+
+/* Ehtiyot qismlar */
+.eq-karta h3{font-size:16.5px;font-weight:750;margin-bottom:10px}
+.eq-band{
+  display:flex;align-items:center;gap:12px;
+  border:1px solid var(--chiziq);border-radius:14px;padding:13px 14px;margin-top:10px;
+  transition:box-shadow var(--tez);
+}
+.eq-band:hover{box-shadow:var(--soya)}
+.eq-info{flex:1;min-width:0}
+.eq-info b{display:block;font-size:14px;font-weight:650}
+.eq-sub{display:block;font-size:12px;color:var(--matn-4);margin-top:3px}
+.eq-son{color:var(--matn-3);font-weight:650}
+.eq-son.tugagan{color:#C43C31}
+.tugma:disabled{opacity:.45;cursor:not-allowed}
+.eq-biriktirilgan{margin-top:18px;padding-top:16px;border-top:1px solid var(--chiziq)}
+.eq-biriktirilgan h4{font-size:14.5px;font-weight:700;margin-bottom:10px;color:#33383E}
+.eq-bb-band{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:13.5px;border-bottom:1px solid #F2F3F5}
+.eq-bb-band:last-child{border-bottom:none}
+.eq-bb-band b{flex:1;min-width:0;font-weight:600;color:#23272C}
+.eq-bb-band span{color:var(--matn-4);font-size:12.5px;flex:none}
+.eq-bosh-matn{font-size:13px;color:var(--matn-4)}
 .sv-grid > aside{display:flex;flex-direction:column;gap:18px}
 @media (max-width:1700px){.sv-grid{grid-template-columns:300px 1fr}.sv-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
 @media (max-width:1200px){.sv-grid{grid-template-columns:1fr}.sv-grid > aside{grid-template-columns:1fr}.ok-grid{grid-template-columns:1fr 1fr}}
@@ -213,10 +235,20 @@
           <div id="tv-royxat"></div>
         </div>
 
+        <div class="karta eq-karta">
+          <h3>Ehtiyot qismlar</h3>
+          <div id="eq-royxat"></div>
+
+          <div class="eq-biriktirilgan">
+            <h4>Ushbu topshiriqqa biriktirilgan qismlar</h4>
+            <div id="eq-biriktirilgan-royxat"></div>
+          </div>
+        </div>
+
         <div class="karta izoh-karta">
           <div class="bosh">
             <h3>Texnik izohlar</h3>
-            <span class="saqlangan-chip" id="saqlangan">Saqlangan</span>
+            <span class="saqlangan-chip" id="saqlangan" style="background:#FFF6DE;color:#9A6E00">Saqlanmagan</span>
           </div>
           <textarea class="izoh-matn" id="izoh" maxlength="1000">1-qavat kameralarida tasvir sifati yaxshi.
 Interkom tizimida ovoz biroz past, ammo ishlash holati normal.
@@ -265,6 +297,70 @@ function tvChiz(){
 }
 tvChiz();
 
+/* Ehtiyot qismlar — ombor va biriktirish */
+const EHTIYOT_QISMLAR = [
+  {nom:"Magnit qulf moduli", kod:"EQ-1001", omborda:6, birlik:"dona"},
+  {nom:"Face ID sensori", kod:"EQ-1002", omborda:3, birlik:"dona"},
+  {nom:"IP kamera obyektivi", kod:"EQ-1003", omborda:5, birlik:"dona"},
+  {nom:"UPS batareya bloki", kod:"EQ-1004", omborda:2, birlik:"dona"},
+  {nom:"Tarmoq kabeli", kod:"EQ-1005", omborda:45, birlik:"m"}
+];
+const BIRIKTIRILGAN = [];
+
+function eqChiz(){
+  document.getElementById("eq-royxat").innerHTML = EHTIYOT_QISMLAR.map((q,i)=>`
+    <div class="eq-band">
+      <div class="eq-info">
+        <b>${q.nom}</b>
+        <span class="eq-sub">${q.kod} · Omborda: <span class="eq-son${q.omborda<=0?" tugagan":""}">${q.omborda} ${q.birlik}</span></span>
+      </div>
+      <button type="button" class="tugma tugma-chiziqli tugma-kichik" data-i="${i}" aria-label="${q.nom} biriktirish"${q.omborda<=0?" disabled":""}>Biriktirish</button>
+    </div>`).join("");
+  document.querySelectorAll("#eq-royxat [data-i]").forEach(btn=>{
+    btn.addEventListener("click", ()=>eqModalOch(+btn.dataset.i));
+  });
+
+  const bbJoy = document.getElementById("eq-biriktirilgan-royxat");
+  bbJoy.innerHTML = BIRIKTIRILGAN.length
+    ? BIRIKTIRILGAN.map(b=>`<div class="eq-bb-band"><b>${b.nom}</b><span>${b.miqdor} ${b.birlik}</span></div>`).join("")
+    : `<p class="eq-bosh-matn">Hozircha ushbu topshiriqqa qism biriktirilmagan.</p>`;
+}
+
+function eqModalOch(i){
+  const q = EHTIYOT_QISMLAR[i];
+  AUGA.modal("Ehtiyot qismni biriktirish",
+    `<div style="display:grid;gap:13px;margin-top:6px">
+      <p style="line-height:1.5">
+        <b style="color:#17191C">${q.nom}</b> <span style="color:var(--matn-4)">(${q.kod})</span><br>
+        Omborda mavjud: <b>${q.omborda} ${q.birlik}</b>
+      </p>
+      <div><label class="maydon-yorliq">Biriktiriladigan miqdor</label><div class="kirish"><input id="eq-miqdor" placeholder="Masalan: 1"></div></div>
+    </div>`,
+    { okMatn:"Biriktirish", ok(){ eqTasdiqla(i); } });
+}
+
+function eqTasdiqla(i){
+  const q = EHTIYOT_QISMLAR[i];
+  const inp = document.getElementById("eq-miqdor");
+  const qiymat = inp ? inp.value.trim() : "";
+  const son = Number(qiymat);
+  if (!qiymat || !Number.isInteger(son) || son <= 0){
+    AUGA.toast("Miqdorni to'g'ri kiriting — musbat butun son bo'lishi kerak", "i-ogoh");
+    return;
+  }
+  if (son > q.omborda){
+    AUGA.toast("Omborda faqat "+q.omborda+" "+q.birlik+" qoldi — so'ralgan miqdor ortiq", "i-ogoh");
+    return;
+  }
+  q.omborda -= son;
+  const mavjud = BIRIKTIRILGAN.find(b=>b.kod===q.kod);
+  if (mavjud) mavjud.miqdor += son;
+  else BIRIKTIRILGAN.push({nom:q.nom, kod:q.kod, miqdor:son, birlik:q.birlik});
+  eqChiz();
+  AUGA.toast(q.nom+" — "+son+" "+q.birlik+" biriktirildi");
+}
+eqChiz();
+
 /* Izohlar */
 const izoh = document.getElementById("izoh");
 const hisob = document.getElementById("hisob");
@@ -293,6 +389,18 @@ ht.addEventListener("click", e=>{
 const HOLAT_RANG = {"Jarayonda":"#F2C230","To'xtatilgan":"#F45E53","Yakunlandi":"#22B14C"};
 hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
   e.stopPropagation(); hm.classList.remove("ochiq");
+  if (b.dataset.h === "Yakunlandi"){
+    const bajarilmagan = VAZIFALAR.filter(v=>v.holat!=="bajarildi").length;
+    if (bajarilmagan > 0){
+      AUGA.toast("Yakunlash uchun barcha tekshiruv vazifalari bajarilishi kerak ("+bajarilmagan+"/"+VAZIFALAR.length+" bajarilmagan)", "i-ogoh");
+      return;
+    }
+    const xulosaSaqlangan = document.getElementById("saqlangan").textContent === "Saqlangan" && izoh.value.trim() !== "";
+    if (!xulosaSaqlangan){
+      AUGA.toast("Yakunlash uchun avval texnik xulosa saqlanishi kerak", "i-ogoh");
+      return;
+    }
+  }
   document.getElementById("holat-matn").textContent = b.dataset.h;
   ht.querySelector(".nuqta").style.background = HOLAT_RANG[b.dataset.h];
   AUGA.toast("Topshiriq holati: "+b.dataset.h);
