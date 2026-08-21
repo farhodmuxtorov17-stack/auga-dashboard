@@ -31,8 +31,7 @@
 .rol-teg{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px;margin-top:4px}
 .rol-teg.admin{background:#EBF7D8;color:#3E7C0A}
 .rol-teg.operator{background:#E7F0FE;color:#2F6BCF}
-.rol-teg.auditor{background:#F3EBFE;color:#8A4BD8}
-.rol-teg.moliya{background:#FFF0DC;color:#C46A0A}
+.rol-teg.rahbar{background:#F3EBFE;color:#8A4BD8}
 .rol-teg.texnik{background:#F0F1F4;color:#5B6168}
 .foyd-band .bolim{margin-left:auto;font-size:13px;color:var(--matn-3);text-align:right;flex:none}
 .foyd-band .holat{display:flex;align-items:center;gap:7px;font-size:13px;color:#33383E;flex:none;width:64px;justify-content:flex-end}
@@ -163,13 +162,12 @@
       <aside style="display:flex;flex-direction:column;gap:18px">
         <div class="karta">
           <div style="display:flex;align-items:center;margin-bottom:8px">
-            <h3>Rollar ro'yxati<span class="f-son">5</span></h3>
+            <h3>Rollar ro'yxati<span class="f-son">4</span></h3>
             <button class="tugma tugma-yashil tugma-kichik" style="margin-left:auto" id="yangi-rol"><svg class="ic"><use href="#i-qoshish"/></svg>Yangi rol</button>
           </div>
           <button class="rol-band" data-toast="Administrator roli tafsiloti"><span class="rol-tile yashil"><svg class="ic"><use href="#i-foyd"/></svg></span><span><b>Administrator</b><span>Tizimga to'liq kirish huquqi</span></span><span class="son">3</span></button>
           <button class="rol-band" data-toast="Operator roli tafsiloti"><span class="rol-tile kok"><svg class="ic"><use href="#i-ekran"/></svg></span><span><b>Operator</b><span>Operatsion ma'lumotlar bilan ishlash</span></span><span class="son">8</span></button>
-          <button class="rol-band" data-toast="Auditor roli tafsiloti"><span class="rol-tile binafsha"><svg class="ic"><use href="#i-qalqon"/></svg></span><span><b>Auditor</b><span>Hisobot va audit ma'lumotlarini ko'rish</span></span><span class="son">4</span></button>
-        <button class="rol-band" data-toast="Moliya roli tafsiloti"><span class="rol-tile sariq"><svg class="ic"><use href="#i-daromad"/></svg></span><span><b>Moliya</b><span>Moliya va to'lov ma'lumotlari</span></span><span class="son">5</span></button>
+          <button class="rol-band" data-toast="Rahbar roli tafsiloti"><span class="rol-tile binafsha"><svg class="ic"><use href="#i-vazifa"/></svg></span><span><b>Rahbar</b><span>Boshqaruv, hisobotlar va tasdiqlar bo'yicha kirish</span></span><span class="son">9</span></button>
           <button class="rol-band" data-toast="Texnik xodim roli tafsiloti"><span class="rol-tile kul"><svg class="ic"><use href="#i-sozlama"/></svg></span><span><b>Texnik xodim</b><span>Texnik xizmat va obyektlar bo'yicha kirish</span></span><span class="son">4</span></button>
         </div>
 
@@ -177,7 +175,7 @@
           <h3>Rollar bo'yicha ruxsat matritsasi</h3>
           <div class="jadval-orash">
             <table>
-              <thead><tr><th>Modul / Rollar</th><th>Admin</th><th>Operator</th><th>Auditor</th><th>Moliya</th><th>Texnik</th></tr></thead>
+              <thead><tr><th>Modul / Rollar</th><th>Admin</th><th>Operator</th><th>Rahbar</th><th>Texnik</th></tr></thead>
               <tbody id="matritsa-tanasi"></tbody>
             </table>
           </div>
@@ -196,11 +194,11 @@ const AVATAR = `<span class="avatar"><svg viewBox="0 0 34 34" style="width:32px;
 const FOYDLAR = [
   {nom:"Javlon Karimov", rol:"Administrator", teg:"admin", bolim:"IT bo'limi", faol:true, id:"U056789012", email:"javlon.karimov@auga.uz", lavozim:"Tizim administratori", tel:"+998 90 123 45 67", sana:"15-yan, 2022"},
   {nom:"Nilufar Ismoilova", rol:"Operator", teg:"operator", bolim:"Operatsion bo'lim", faol:true, id:"U056789013", email:"n.ismoilova@auga.uz", lavozim:"Katta operator", tel:"+998 91 234 56 78", sana:"03-mar, 2022"},
-  {nom:"Bekzod Yusupov", rol:"Auditor", teg:"auditor", bolim:"Audit bo'limi", faol:true, id:"U056789014", email:"b.yusupov@auga.uz", lavozim:"Bosh auditor", tel:"+998 93 345 67 89", sana:"20-avg, 2021"},
-  {nom:"Madina Tursunova", rol:"Moliya", teg:"moliya", bolim:"Moliya bo'limi", faol:true, id:"U056789015", email:"m.tursunova@auga.uz", lavozim:"Moliya mutaxassisi", tel:"+998 94 456 78 90", sana:"11-noy, 2022"},
+  {nom:"Bekzod Yusupov", rol:"Rahbar", teg:"rahbar", bolim:"Audit bo'limi", faol:true, id:"U056789014", email:"b.yusupov@auga.uz", lavozim:"Bosh auditor", tel:"+998 93 345 67 89", sana:"20-avg, 2021"},
+  {nom:"Madina Tursunova", rol:"Rahbar", teg:"rahbar", bolim:"Moliya bo'limi", faol:true, id:"U056789015", email:"m.tursunova@auga.uz", lavozim:"Moliya mutaxassisi", tel:"+998 94 456 78 90", sana:"11-noy, 2022"},
   {nom:"Shahzod Abdullaev", rol:"Texnik xodim", teg:"texnik", bolim:"Texnik xizmat", faol:true, id:"U056789016", email:"sh.abdullaev@auga.uz", lavozim:"Texnik muhandis", tel:"+998 97 567 89 01", sana:"05-fev, 2023"},
   {nom:"Umid Safarov", rol:"Operator", teg:"operator", bolim:"Operatsion bo'lim", faol:false, id:"U056789017", email:"u.safarov@auga.uz", lavozim:"Operator", tel:"+998 88 678 90 12", sana:"14-iyul, 2023"},
-  {nom:"Saida Rahimova", rol:"Moliya", teg:"moliya", bolim:"Moliya bo'limi", faol:true, id:"U056789018", email:"s.rahimova@auga.uz", lavozim:"Buxgalter", tel:"+998 99 789 01 23", sana:"22-sen, 2021"},
+  {nom:"Saida Rahimova", rol:"Operator", teg:"operator", bolim:"Moliya bo'limi", faol:true, id:"U056789018", email:"s.rahimova@auga.uz", lavozim:"Buxgalter", tel:"+998 99 789 01 23", sana:"22-sen, 2021"},
   {nom:"Jahongir Otajonov", rol:"Texnik xodim", teg:"texnik", bolim:"Texnik xizmat", faol:true, id:"U056789019", email:"j.otajonov@auga.uz", lavozim:"Elektrik", tel:"+998 95 890 12 34", sana:"09-dek, 2023"}
 ];
 let faol = 0, izlash = "";
@@ -244,14 +242,14 @@ royxatChiz(); profilChiz();
 const HA = `<span class="ha"><svg class="ic"><use href="#i-belgi-doira"/></svg></span>`;
 const KOZ = `<span class="koz"><svg class="ic"><use href="#i-koz"/></svg></span>`;
 const MODULLAR = [
-  ["Boshqaruv paneli", HA, HA, HA, HA, HA],
-  ["Aktivlar", HA, "–", "–", "–", "–"],
-  ["Shartnomalar", HA, "–", KOZ, "–", "–"],
-  ["Hisobotlar", HA, HA, "–", HA, "–"],
-  ["Sozlamalar", HA, "–", KOZ, "–", "–"]
+  ["Boshqaruv paneli", HA, HA, HA, HA],
+  ["Aktivlar", HA, "–", HA, "–"],
+  ["Shartnomalar", HA, "–", HA, "–"],
+  ["Hisobotlar", HA, HA, HA, "–"],
+  ["Sozlamalar", HA, "–", HA, "–"]
 ];
 document.getElementById("matritsa-tanasi").innerHTML = MODULLAR.map(m=>`
-  <tr><td>${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td>${m[4]}</td><td>${m[5]}</td></tr>`).join("");
+  <tr><td>${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td>${m[4]}</td></tr>`).join("");
 
 /* Yangi rol */
 document.getElementById("yangi-rol").addEventListener("click", ()=>{

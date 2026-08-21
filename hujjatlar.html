@@ -193,7 +193,7 @@ function jadvalChiz(){
     (holatFiltri==="Barcha holatlar" || h.holat===holatFiltri) &&
     (!qidiruv || (h.nom+" "+h.obyekt).toLowerCase().includes(qidiruv))
   );
-  tbody.innerHTML = royxat.map(h=>`
+  tbody.innerHTML = royxat.length ? royxat.map(h=>`
     <tr data-id="${h.id}" class="${h.id===faolId?"tanlangan":""}" tabindex="0">
       <td><span class="hujjat-katak"><span class="fayl-ikon ${h.ikon}"><svg class="ic"><use href="#${h.iturl}"/></svg></span><b>${h.nom}</b></span></td>
       <td><b>${h.obyekt}</b><br><span style="font-size:12.5px;color:var(--matn-4)">${h.kod}</span></td>
@@ -201,13 +201,14 @@ function jadvalChiz(){
       <td>${h.sana}</td>
       <td><span class="holat-katak"><span class="nuqta" style="background:${h.hrang}"></span>${h.holat}</span></td>
       <td><button class="amal-tugma" data-menyu="${h.id}" aria-label="Amallar"><svg class="ic"><use href="#i-nuqtalar"/></svg></button></td>
-    </tr>`).join("");
+    </tr>`).join("") :
+    `<tr><td colspan="6"><div class="bosh-holat"><span class="doira"><svg class="ic"><use href="#i-hujjat"/></svg></span><h3>Hujjat topilmadi</h3><p>Qidiruv yoki filtrga mos hujjat yo'q.</p></div></td></tr>`;
 
-  tbody.querySelectorAll("tr").forEach(tr=>{
+  tbody.querySelectorAll("tr[data-id]").forEach(tr=>{
     tr.addEventListener("click", e=>{
       if (e.target.closest(".amal-tugma")){ AUGA.toast("Amallar: ko'rish / yuklab olish / o'chirish"); return; }
       faolId = tr.dataset.id;
-      tbody.querySelectorAll("tr").forEach(r=>r.classList.toggle("tanlangan", r===tr));
+      tbody.querySelectorAll("tr[data-id]").forEach(r=>r.classList.toggle("tanlangan", r===tr));
       panelChiz(HUJJATLAR.find(h=>h.id===faolId));
     });
     tr.addEventListener("keydown", e=>{ if(e.key==="Enter"){ tr.click(); } });
@@ -274,17 +275,99 @@ document.getElementById("hj-grid").addEventListener("click", e=>{
   }
 });
 
+/* Hujjat qo'shish — yordamchi funksiyalar */
+function hajmChiz(bayt){
+  if (bayt < 1024) return bayt + " B";
+  if (bayt < 1024*1024) return (bayt/1024).toFixed(1) + " KB";
+  if (bayt < 1024*1024*1024) return (bayt/(1024*1024)).toFixed(1) + " MB";
+  return (bayt/(1024*1024*1024)).toFixed(1) + " GB";
+}
+// Fayl kengaytmasidan ushbu ilovaning fayl-ikon/tur-teg konvensiyasiga moslashtirish.
+// DOCX — shartnoma, DWG — kadastr, JPG/PNG — rasm; qolganlari (PDF, XLS va h.k.)
+// uchun aniq turni fayl nomidan bilib bo'lmaydi, shuning uchun "Hisobot" — neytral holat.
+const FAYL_TUR_XARITASI = {
+  pdf:  {ikon:"pdf", iturl:"i-hujjat",  tur:"Hisobot",   teg:"hisobot"},
+  doc:  {ikon:"doc", iturl:"i-hujjat",  tur:"Shartnoma", teg:"shartnoma"},
+  docx: {ikon:"doc", iturl:"i-hujjat",  tur:"Shartnoma", teg:"shartnoma"},
+  xls:  {ikon:"rep", iturl:"i-hisobot", tur:"Hisobot",   teg:"hisobot"},
+  xlsx: {ikon:"rep", iturl:"i-hisobot", tur:"Hisobot",   teg:"hisobot"},
+  dwg:  {ikon:"dwg", iturl:"i-xarita",  tur:"Kadastr",   teg:"kadastr"},
+  jpg:  {ikon:"img", iturl:"i-kamera",  tur:"Rasm",      teg:"rasm"},
+  jpeg: {ikon:"img", iturl:"i-kamera",  tur:"Rasm",      teg:"rasm"},
+  png:  {ikon:"img", iturl:"i-kamera",  tur:"Rasm",      teg:"rasm"}
+};
+function faylMalumoti(fayl){
+  const nuqta = fayl.name.lastIndexOf(".");
+  const kengaytma = nuqta>-1 ? fayl.name.slice(nuqta+1).toLowerCase() : "";
+  const mos = FAYL_TUR_XARITASI[kengaytma] || {ikon:"doc", iturl:"i-hujjat", tur:"Hisobot", teg:"hisobot"};
+  return { ...mos, format: kengaytma ? kengaytma.toUpperCase() : "FAYL" };
+}
+function yangiHujjatId(){
+  let eng = 0;
+  HUJJATLAR.forEach(h=>{
+    const mos = /^DOC-\d{4}-(\d+)$/.exec(h.id);
+    if (mos) eng = Math.max(eng, parseInt(mos[1], 10));
+  });
+  return "DOC-2024-" + String(eng+1).padStart(3,"0");
+}
+
 /* Hujjat qo'shish */
 document.getElementById("hujjat-qoshish").addEventListener("click", ()=>{
+  let tanlanganFayl = null;
+
   AUGA.modal("Hujjat qo'shish",
     `<div style="display:grid;gap:14px;margin-top:6px">
-      <div><label class="maydon-yorliq">Hujjat nomi</label><div class="kirish"><svg class="ic"><use href="#i-hujjat"/></svg><input placeholder="Masalan: Sug'urta polisi.pdf"></div></div>
-      <div><label class="maydon-yorliq">Obyekt</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input placeholder="Green Tower"></div></div>
-      <div style="border:1.5px dashed #D3D7DC;border-radius:12px;padding:22px;text-align:center;color:var(--matn-3);font-size:13.5px">
-        Faylni shu yerga tashlang yoki <b style="color:#3E7C0A">tanlang</b><br><span style="font-size:12px">PDF, DOCX, XLSX, JPG · maks. 25 MB</span>
-      </div>
+      <div><label class="maydon-yorliq">Hujjat nomi</label><div class="kirish"><svg class="ic"><use href="#i-hujjat"/></svg><input id="hj-nom" placeholder="Masalan: Sug'urta polisi.pdf"></div></div>
+      <div><label class="maydon-yorliq">Obyekt</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input id="hj-obyekt" placeholder="Green Tower"></div></div>
+      <div><label class="maydon-yorliq">Tavsif (ixtiyoriy)</label><div class="kirish kirish-katta"><textarea id="hj-tavsif" placeholder="Hujjat haqida qisqacha ma'lumot..."></textarea></div></div>
+      <label for="hujjat-fayl" style="position:relative;cursor:pointer;display:block;border:1.5px dashed #D3D7DC;border-radius:12px;padding:22px;text-align:center;color:var(--matn-3);font-size:13.5px">
+        <span id="hj-fayl-matn">Faylni shu yerga tashlang yoki <b style="color:#3E7C0A">tanlang</b><br><span style="font-size:12px">PDF, DOCX, XLSX, JPG · maks. 25 MB</span></span>
+        <input type="file" id="hujjat-fayl" accept=".pdf,.doc,.docx,.xls,.xlsx,.dwg,.jpg,.jpeg,.png" style="position:absolute;opacity:0;width:0;height:0">
+      </label>
     </div>`,
-    { okMatn:"Yuklash", ok(){ AUGA.toast("Hujjat yuklandi va tasdiqlashga yuborildi", "i-yuklash"); } });
+    { okMatn:"Yuklash", ok(){
+        const nom = document.getElementById("hj-nom").value.trim() || tanlanganFayl.name;
+        const obyekt = document.getElementById("hj-obyekt").value.trim() || "—";
+        const tavsif = document.getElementById("hj-tavsif").value.trim();
+        const mos = faylMalumoti(tanlanganFayl);
+        const mavjud = HUJJATLAR.find(h=>h.obyekt===obyekt);
+        const yangi = {
+          nom, ikon:mos.ikon, iturl:mos.iturl, obyekt, kod: mavjud ? mavjud.kod : "—",
+          tur:mos.tur, teg:mos.teg, sana:"Hozirgina", holat:"Yangi", hrang:"#22B14C",
+          id:yangiHujjatId(), hajm:hajmChiz(tanlanganFayl.size), format:mos.format,
+          rasm: mavjud ? mavjud.rasm : "assets/bino_9.png",
+          yuklagan:AUGA.foydIsmi(), tavsif: tavsif || "Tavsif kiritilmagan."
+        };
+        HUJJATLAR.push(yangi);
+        faolId = yangi.id;
+        jadvalChiz();
+        panelChiz(yangi);
+        AUGA.toast("Hujjat yuklandi va tasdiqlashga yuborildi", "i-yuklash");
+      } });
+
+  const faylInput = document.getElementById("hujjat-fayl");
+  const faylMatn = document.getElementById("hj-fayl-matn");
+  faylInput.addEventListener("change", ()=>{
+    tanlanganFayl = faylInput.files[0] || null;
+    if (tanlanganFayl){
+      faylMatn.innerHTML = `<b style="color:#3E7C0A">${tanlanganFayl.name}</b> tanlandi<br><span style="font-size:12px">${hajmChiz(tanlanganFayl.size)} · boshqa faylni tanlash uchun qayta bosing</span>`;
+      const nomMaydon = document.getElementById("hj-nom");
+      if (!nomMaydon.value.trim()) nomMaydon.value = tanlanganFayl.name;
+    }
+  });
+
+  // AUGA.modal standart holatda "OK" bosilganda modalni darhol yopadi. Shuning uchun
+  // bosishni "capture" bosqichida ushlab, fayl yoki nom bo'sh bo'lsa yopilishning
+  // o'ziga yo'l qo'ymaymiz — modal ochiq qoladi va faqat ogohlantirish chiqadi.
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    const yoq = [];
+    if (!document.getElementById("hj-nom").value.trim()) yoq.push("hujjat nomi");
+    if (!tanlanganFayl) yoq.push("fayl");
+    if (yoq.length){ e.stopPropagation(); AUGA.toast("Quyidagilar kerak: "+yoq.join(", ")); }
+  }, true);
 });
 
 jadvalChiz();

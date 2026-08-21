@@ -227,7 +227,7 @@ function halqaSVG(ball, olcham, qalinlik){
 }
 
 function jadvalChiz(royxat){
-  tbody.innerHTML = royxat.map(o=>`
+  tbody.innerHTML = royxat.length ? royxat.map(o=>`
     <tr data-id="${o.id}" class="${o.id===tanlanganId?"tanlangan":""}" tabindex="0" aria-selected="${o.id===tanlanganId}">
       <td>
         <span class="obyekt-katak">
@@ -240,13 +240,14 @@ function jadvalChiz(royxat){
       <td><span class="status-katak"><span class="nuqta" style="background:${o.srang}"></span>${o.status}</span></td>
       <td><b>${o.qiymat}</b></td>
       <td><span class="ball-halqa">${halqaSVG(o.ball,46,4)}<b>${o.ball}</b></span></td>
-    </tr>`).join("");
+    </tr>`).join("") : `
+    <tr><td colspan="6"><div class="bosh-holat"><span class="doira"><svg class="ic"><use href="#i-aktiv"/></svg></span><h3>Obyekt topilmadi</h3><p>Qidiruv yoki filtrga mos obyekt yo'q.</p></div></td></tr>`;
   document.getElementById("jami-son").textContent = royxat.length;
 
-  tbody.querySelectorAll("tr").forEach(tr=>{
+  tbody.querySelectorAll("tr[data-id]").forEach(tr=>{
     const tanla = ()=>{
       tanlanganId = tr.dataset.id;
-      tbody.querySelectorAll("tr").forEach(r=>{r.classList.toggle("tanlangan", r===tr); r.setAttribute("aria-selected", String(r===tr));});
+      tbody.querySelectorAll("tr[data-id]").forEach(r=>{r.classList.toggle("tanlangan", r===tr); r.setAttribute("aria-selected", String(r===tr));});
       inspektorChiz(OBYEKTLAR.find(o=>o.id===tanlanganId));
       grid.classList.add("inspector-ochiq");
     };
@@ -376,14 +377,88 @@ em.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
 }));
 
 /* Yangi obyekt */
+const STATUS_RANG = {"Faol":"#22B14C","Rejalashtirilgan":"#4A90F2","Ta'mirda":"#F2C230","Nofaol":"#9AA1A9"};
+// Hech qanday real surat mavjud bo'lmagan yangi obyektlar uchun neytral belgi (bosh-holat bilan bir xil ranglar) —
+// mavjud obyektlarning haqiqiy suratlaridan birini "qarz olib" ko'rsatish yolg'on bo'lar edi.
+const RASM_YOQ = "data:image/svg+xml,"+encodeURIComponent(
+  "<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 52'>"+
+  "<rect width='64' height='52' fill='#F0F1F4'/>"+
+  "<path d='M22 38 L22 18 L36 18 L36 38 M36 26 L44 26 L44 38 M16 38 L48 38' stroke='#6A7078' stroke-width='1.7' fill='none' stroke-linecap='round' stroke-linejoin='round'/>"+
+  "</svg>"
+);
+function pulFormat(matn){
+  const raqam = (matn||"").replace(/[^\d]/g,"");
+  return raqam ? raqam.replace(/\B(?=(\d{3})+(?!\d))/g," ")+" so'm" : "0 so'm";
+}
+function idYarat(nom){
+  let asos = nom.toLowerCase().replace(/[ʻʼ'`’]/g,"").trim().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+  if (!asos) asos = "obyekt";
+  let id = asos, i = 2;
+  while (OBYEKTLAR.some(o=>o.id===id)){ id = asos+"-"+i; i++; }
+  return id;
+}
+function kodYarat(nom){
+  const sozlar = nom.trim().split(/\s+/).filter(Boolean);
+  const bosh = (sozlar.length>=2 ? sozlar[0][0]+sozlar[1][0] : (sozlar[0]||"OB").slice(0,2)).toUpperCase();
+  const tartib = String(OBYEKTLAR.length+1).padStart(3,"0");
+  return `${bosh}-${new Date().getFullYear()}-${tartib}`;
+}
+
 document.getElementById("yangi-obyekt").addEventListener("click", ()=>{
+  const hududlar = JSON.parse(document.getElementById("f-hudud").dataset.variantlar).slice(1);
+  const turlar = JSON.parse(document.getElementById("f-tur").dataset.variantlar).slice(1);
+  const statuslar = JSON.parse(document.getElementById("f-status").dataset.variantlar).slice(1);
+
   AUGA.modal("Yangi obyekt qo'shish",
     `<div style="display:grid;gap:14px;margin-top:6px">
-      <div><label class="maydon-yorliq">Obyekt nomi</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input placeholder="Masalan: Chilonzor Plaza"></div></div>
-      <div><label class="maydon-yorliq">Turi</label><div class="kirish"><svg class="ic"><use href="#i-aktiv"/></svg><input placeholder="Biznes markazi"></div></div>
-      <div><label class="maydon-yorliq">Manzil</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><input placeholder="Toshkent sh., ..."></div></div>
+      <div><label class="maydon-yorliq">Obyekt nomi</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input id="yo-nom" placeholder="Masalan: Chilonzor Plaza"></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="maydon-yorliq">Hudud</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><select id="yo-hudud">${hududlar.map(h=>`<option>${h}</option>`).join("")}</select></div></div>
+        <div><label class="maydon-yorliq">Turi</label><div class="kirish"><svg class="ic"><use href="#i-aktiv"/></svg><select id="yo-tur">${turlar.map(t=>`<option>${t}</option>`).join("")}</select></div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div><label class="maydon-yorliq">Status</label><div class="kirish"><select id="yo-status">${statuslar.map(s=>`<option>${s}</option>`).join("")}</select></div></div>
+        <div><label class="maydon-yorliq">Qiymati (so'm)</label><div class="kirish"><svg class="ic"><use href="#i-daromad"/></svg><input id="yo-qiymat" placeholder="Masalan: 1 500 000 000"></div></div>
+      </div>
+      <div><label class="maydon-yorliq">Manzil</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><input id="yo-manzil" placeholder="Toshkent sh., ..."></div></div>
     </div>`,
-    { okMatn:"Qo'shish", ok(){ AUGA.toast("Yangi obyekt qoralama sifatida saqlandi", "i-belgi-doira"); } });
+    { okMatn:"Qo'shish", ok(){
+      const nom = document.getElementById("yo-nom").value.trim();
+      const hudud = document.getElementById("yo-hudud").value;
+      const tur = document.getElementById("yo-tur").value;
+      const status = document.getElementById("yo-status").value;
+      const manzil = document.getElementById("yo-manzil").value.trim();
+      const qiymat = pulFormat(document.getElementById("yo-qiymat").value);
+      const yangi = {
+        id: idYarat(nom), nom, kod: kodYarat(nom),
+        hudud, tur, status, srang: STATUS_RANG[status] || "#9AA1A9",
+        qiymat, ball: 0, rasm: RASM_YOQ,
+        manzil: manzil || "—", maydon: "—", sana: "—",
+        moliya: {daromad:"0 so'm", xarajat:"0 so'm", soliq:"0 so'm", sugurta:"Yo'q"},
+        hujjatlar: [],
+        tarix: [["Hozirgina","Obyekt ro'yxatga olindi","i-foyd"]]
+      };
+      OBYEKTLAR.push(yangi);
+      tanlanganId = yangi.id;
+      qollash();
+      grid.classList.add("inspector-ochiq");
+      inspektorChiz(yangi);
+      AUGA.toast("Yangi obyekt ro'yxatga olindi");
+    } });
+
+  /* AUGA.modal "Qo'shish" bosilganda modalni har doim yopadi (yop() so'ng ok() chaqiradi) —
+     shuning uchun tekshiruv shu yerda, capture bosqichida, alohida bajariladi: nom bo'sh
+     bo'lsa stopPropagation chaqirilib, hodisa tugmaning o'z (bubble) tinglovchisiga
+     yetib bormaydi va modal ochiq qoladi. */
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("yo-nom").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Obyekt nomini kiriting");
+    }
+  }, true);
 });
 
 /* Boshlash */
