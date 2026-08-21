@@ -205,9 +205,9 @@ html.erta-rol-texnik #dash-texnik{display:block}
           <h2>Filtrlar</h2>
           <button data-toast="Kengaytirilgan filtrlar" aria-label="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg></button>
         </div>
-        <button class="tanlov" data-variantlar='["Barcha viloyatlar","Toshkent shahri","Toshkent viloyati","Samarqand","Buxoro","Farg&#39;ona","Andijon","Namangan","Xorazm"]'><span class="t-yorliq">Barcha viloyatlar</span><svg class="ic"><use href="#i-past"/></svg></button>
-        <button class="tanlov" data-variantlar='["Barcha turlar","Biznes markazi","Savdo markazi","Davlat muassasasi","Turar-joy / Ofis","Dacha","Bo&#39;sh yer"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
-        <button class="tanlov" data-variantlar='["Barcha holatlar","Faol","Ijarada","Ta&#39;mirda","Nofaol"]'><span class="t-yorliq">Barcha holatlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+        <button class="tanlov" id="f-viloyat" data-variantlar='["Barcha viloyatlar","Toshkent shahri","Toshkent viloyati","Samarqand","Buxoro","Farg&#39;ona","Andijon","Namangan","Xorazm"]'><span class="t-yorliq">Barcha viloyatlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+        <button class="tanlov" id="f-tur" data-variantlar='["Barcha turlar","Biznes markazi","Savdo markazi","Davlat muassasasi","Turar-joy / Ofis","Dacha","Bo&#39;sh yer"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+        <button class="tanlov" id="f-holat" data-variantlar='["Barcha holatlar","Faol","Ijarada","Ta&#39;mirda","Nofaol"]'><span class="t-yorliq">Barcha holatlar</span><svg class="ic"><use href="#i-past"/></svg></button>
 
         <div class="turlar-karta">
           <h3>Ob'ekt turlari</h3>
@@ -611,12 +611,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   /* Xarita — Leaflet + OpenStreetMap (haqiqiy geo-koordinatalar) */
   const AKTIV_NUQTALAR = [
-    {tur:"Biznes markazi",      rangVar:"--t-biznes", href:"aktivlar.html?tur=Biznes+markazi",     lat:41.3111, lng:69.2797},
-    {tur:"Dacha",               rangVar:"--t-dacha",  href:"aktivlar.html?tur=Dacha",               lat:41.6230, lng:69.7810},
-    {tur:"Davlat muassasasi",   rangVar:"--t-davlat", href:"aktivlar.html?tur=Davlat+muassasasi",   lat:41.2874, lng:69.2734},
-    {tur:"Savdo markazi",       rangVar:"--t-savdo",  href:"aktivlar.html?tur=Savdo+markazi",       lat:41.2775, lng:69.2054},
-    {tur:"Bo'sh yer maydoni",   rangVar:"--t-yer",    href:"aktivlar.html?tur=Bo'sh+yer",           lat:41.1500, lng:69.1700},
-    {tur:"Turar-joy / Ofislar", rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",           lat:41.0378, lng:69.3567}
+    {tur:"Biznes markazi",      rangVar:"--t-biznes", href:"aktivlar.html?tur=Biznes+markazi",     lat:41.3111, lng:69.2797, viloyat:"Toshkent shahri",   holat:"Faol"},
+    {tur:"Dacha",               rangVar:"--t-dacha",  href:"aktivlar.html?tur=Dacha",               lat:41.6230, lng:69.7810, viloyat:"Toshkent viloyati", holat:"Faol"},
+    {tur:"Davlat muassasasi",   rangVar:"--t-davlat", href:"aktivlar.html?tur=Davlat+muassasasi",   lat:41.2874, lng:69.2734, viloyat:"Toshkent shahri",   holat:"Faol"},
+    {tur:"Savdo markazi",       rangVar:"--t-savdo",  href:"aktivlar.html?tur=Savdo+markazi",       lat:41.2775, lng:69.2054, viloyat:"Toshkent shahri",   holat:"Faol"},
+    {tur:"Bo'sh yer maydoni",   rangVar:"--t-yer",    href:"aktivlar.html?tur=Bo'sh+yer",           lat:41.1500, lng:69.1700, viloyat:"Toshkent viloyati", holat:"Nofaol"},
+    {tur:"Turar-joy / Ofislar", rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",           lat:41.0378, lng:69.3567, viloyat:"Toshkent viloyati", holat:"Ijarada"}
   ];
 
   const xMap = L.map("leaflet-xarita", {zoomControl:false, attributionControl:true, scrollWheelZoom:true})
@@ -643,6 +643,28 @@ document.addEventListener("DOMContentLoaded", ()=>{
     nuqtaBelgilar.push(belgi);
   });
   const boshlangichChegara = L.featureGroup(nuqtaBelgilar).getBounds();
+
+  /* Xarita filtrlari — viloyat/tur/holat bo'yicha ko'rinadigan belgilarni boshqaradi.
+     TUR_MOS — filtr ro'yxatidagi qisqa nomlarni AKTIV_NUQTALAR dagi "tur" yorlig'iga moslaydi
+     (masalan aktivlar.html dagi "mos" jadvali kabi), boshqa turlar to'g'ridan-to'g'ri mos keladi. */
+  const TUR_MOS = {"Turar-joy / Ofis":"Turar-joy / Ofislar", "Bo'sh yer":"Bo'sh yer maydoni"};
+  const xaritaFiltri = {viloyat:"Barcha viloyatlar", tur:"Barcha turlar", holat:"Barcha holatlar"};
+  function qollash(){
+    const turQiymati = TUR_MOS[xaritaFiltri.tur] || xaritaFiltri.tur;
+    let korinadigan = 0;
+    AKTIV_NUQTALAR.forEach((n, i)=>{
+      const mosKeladi =
+        (xaritaFiltri.viloyat==="Barcha viloyatlar" || n.viloyat===xaritaFiltri.viloyat) &&
+        (xaritaFiltri.tur==="Barcha turlar" || n.tur===turQiymati) &&
+        (xaritaFiltri.holat==="Barcha holatlar" || n.holat===xaritaFiltri.holat);
+      if (mosKeladi){ nuqtaBelgilar[i].addTo(xMap); korinadigan++; }
+      else xMap.removeLayer(nuqtaBelgilar[i]);
+    });
+    if (korinadigan === 0) AUGA.toast("Tanlangan filtrlarga mos obyekt topilmadi");
+  }
+  document.getElementById("f-viloyat").addEventListener("tanlov", e=>{ xaritaFiltri.viloyat = e.detail; qollash(); });
+  document.getElementById("f-tur").addEventListener("tanlov", e=>{ xaritaFiltri.tur = e.detail; qollash(); });
+  document.getElementById("f-holat").addEventListener("tanlov", e=>{ xaritaFiltri.holat = e.detail; qollash(); });
 
   document.getElementById("x-katta").addEventListener("click", ()=> xMap.zoomIn());
   document.getElementById("x-kichik").addEventListener("click", ()=> xMap.zoomOut());

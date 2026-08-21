@@ -84,11 +84,11 @@
     </div>
 
     <div class="bn-chiplar" id="bn-chiplar">
-      <button class="bn-chip aktiv" data-t="Barchasi"><svg class="ic"><use href="#i-qongiroq"/></svg>Barchasi<span class="son">12</span></button>
-      <button class="bn-chip" data-t="Tizim"><svg class="ic"><use href="#i-sozlama"/></svg>Tizim<span class="son">4</span></button>
-      <button class="bn-chip" data-t="Hodisalar"><svg class="ic"><use href="#i-ogoh"/></svg>Hodisalar<span class="son">3</span></button>
+      <button class="bn-chip aktiv" data-t="Barchasi"><svg class="ic"><use href="#i-qongiroq"/></svg>Barchasi<span class="son">6</span></button>
+      <button class="bn-chip" data-t="Tizim"><svg class="ic"><use href="#i-sozlama"/></svg>Tizim<span class="son">1</span></button>
+      <button class="bn-chip" data-t="Hodisalar"><svg class="ic"><use href="#i-ogoh"/></svg>Hodisalar<span class="son">1</span></button>
       <button class="bn-chip" data-t="Tasdiqlar"><svg class="ic"><use href="#i-vazifa"/></svg>Tasdiqlar<span class="son">2</span></button>
-      <button class="bn-chip" data-t="Moliya"><svg class="ic"><use href="#i-daromad"/></svg>Moliya<span class="son">2</span></button>
+      <button class="bn-chip" data-t="Moliya"><svg class="ic"><use href="#i-daromad"/></svg>Moliya<span class="son">1</span></button>
       <button class="bn-chip" data-t="Smart Access"><svg class="ic"><use href="#i-qulf"/></svg>Smart Access<span class="son">1</span></button>
     </div>
 
@@ -137,10 +137,10 @@
         <div class="karta sozlama-karta">
           <h3>Bildirishnoma sozlamalari</h3>
           <h4>Bildirishnoma kanallari</h4>
-          <label class="kanal-qator katakcha"><input type="checkbox" checked><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Tizim ichida</label>
-          <label class="kanal-qator katakcha"><input type="checkbox" checked><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>E-mail</label>
-          <label class="kanal-qator katakcha"><input type="checkbox" checked><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Push bildirishnoma</label>
-          <label class="kanal-qator katakcha"><input type="checkbox"><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>SMS</label>
+          <label class="kanal-qator katakcha"><input type="checkbox" id="kanal-tizim" checked><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Tizim ichida</label>
+          <label class="kanal-qator katakcha"><input type="checkbox" id="kanal-email" checked><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>E-mail</label>
+          <label class="kanal-qator katakcha"><input type="checkbox" id="kanal-push" checked><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>Push bildirishnoma</label>
+          <label class="kanal-qator katakcha"><input type="checkbox" id="kanal-sms"><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>SMS</label>
 
           <h4>Bildirishnoma turlari</h4>
           <button class="tur-qator2" data-toast="Tizim bildirishnomalari sozlamasi"><svg class="ic"><use href="#i-sozlama"/></svg><b>Tizim</b><span class="qiymat">Barchasi</span><svg class="ic strelka"><use href="#i-ong"/></svg></button>
@@ -194,6 +194,16 @@ function royxatChiz(){
 }
 royxatChiz();
 
+/* Chip son-belgilari — hardcode qilinmaydi, doim BILDIRISHLAR massividan hisoblanadi */
+function bnSonlarniYangila(){
+  document.querySelectorAll("#bn-chiplar .bn-chip").forEach(chip=>{
+    const t = chip.dataset.t;
+    const soni = t === "Barchasi" ? BILDIRISHLAR.length : BILDIRISHLAR.filter(b=>b.t===t).length;
+    chip.querySelector(".son").textContent = soni;
+  });
+}
+bnSonlarniYangila();
+
 document.querySelectorAll(".bn-chip").forEach(c=>{
   c.addEventListener("click", ()=>{
     document.querySelectorAll(".bn-chip").forEach(x=>x.classList.remove("aktiv"));
@@ -210,6 +220,23 @@ document.getElementById("hammasi-oqildi").addEventListener("click", ()=>{
 });
 document.getElementById("sozlama-ochish").addEventListener("click", ()=>{
   document.querySelector(".sozlama-karta").scrollIntoView({behavior:"smooth", block:"center"});
+});
+
+/* Bildirishnoma kanallari — yoqilgan/o'chirilgan holat saqlanadi va qayta ochilganda tiklanadi */
+const BN_KANALLAR = [
+  {id:"kanal-tizim", kalit:"auga-bn-kanal-tizim", xabar:"Tizim ichidagi bildirishnomalar"},
+  {id:"kanal-email", kalit:"auga-bn-kanal-email", xabar:"E-mail orqali bildirishnomalar"},
+  {id:"kanal-push",  kalit:"auga-bn-kanal-push",  xabar:"Push bildirishnomalar"},
+  {id:"kanal-sms",   kalit:"auga-bn-kanal-sms",   xabar:"SMS orqali bildirishnomalar"}
+];
+BN_KANALLAR.forEach(k=>{
+  const el = document.getElementById(k.id);
+  const saqlangan = localStorage.getItem(k.kalit);
+  if (saqlangan !== null) el.checked = saqlangan === "1";
+  el.addEventListener("change", ()=>{
+    localStorage.setItem(k.kalit, el.checked ? "1" : "0");
+    AUGA.toast(`${k.xabar} ${el.checked ? "yoqildi" : "o'chirildi"}`);
+  });
 });
 
 /* Faollik grafigi — soatlik ustunlar */

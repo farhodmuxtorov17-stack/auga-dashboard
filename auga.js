@@ -78,6 +78,7 @@ const IKONLAR = `
   <symbol id="i-energiya" viewBox="0 0 24 24"><path d="M13 2.5 4.5 13.5h6L11 21.5l8.5-11h-6z"/></symbol>
   <symbol id="i-servis" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></symbol>
   <symbol id="i-topshiriq" viewBox="0 0 24 24"><path d="M8.5 6h12M8.5 12h12M8.5 18h12M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></symbol>
+  <symbol id="i-tashrif" viewBox="0 0 24 24"><path d="M9.5 3.5h-3a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h3"/><path d="m13.5 8 4 4-4 4"/><path d="M17.5 12h-9"/></symbol>
   <defs>
     <!-- Chuqurlik tizimi — grafik/diagramma/statistika elementlari uchun premium 3D gradient/filtrlar.
          Barcha sahifalar shu bir manbadan foydalanadi (bar/donut/halqa/chiziq grafiklar). -->

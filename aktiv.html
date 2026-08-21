@@ -343,13 +343,13 @@
       <aside class="karta">
         <div class="faoliyat-bosh">
           <h3>Faoliyat tarixi</h3>
-          <button class="tanlov" data-variantlar='["Barchasi","Hujjatlar","To&#39;lovlar","Texnik"]'><span class="t-yorliq">Barchasi</span><svg class="ic"><use href="#i-past"/></svg></button>
+          <button class="tanlov" id="faoliyat-filtr" data-variantlar='["Barchasi","Hujjatlar","To&#39;lovlar","Texnik"]'><span class="t-yorliq">Barchasi</span><svg class="ic"><use href="#i-past"/></svg></button>
         </div>
-        <div class="f-band"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>Obyekt yangilandi</b><span>Texnik holat ma'lumotlari yangilandi</span></span><span class="f-vaqt"><b>Bugun, 11:42</b><span>Akmalov L.</span></span></div>
-        <div class="f-band"><span class="f-doira kok"><svg class="ic"><use href="#i-hujjat"/></svg></span><span class="f-matn"><b>Yangi hujjat yuklandi</b><span>Texnik pasport.pdf</span></span><span class="f-vaqt"><b>Bugun, 09:15</b><span>Rahimov S.</span></span></div>
-        <div class="f-band"><span class="f-doira sariq"><svg class="ic"><use href="#i-muddat"/></svg></span><span class="f-matn"><b>Xizmat ko'rsatilishi rejalashtirildi</b><span>HVAC tizimi uchun profilaktika ishlari</span></span><span class="f-vaqt"><b>23-may, 16:30</b><span>Karimov I.</span></span></div>
-        <div class="f-band"><span class="f-doira binafsha"><svg class="ic"><use href="#i-foyd"/></svg></span><span class="f-matn"><b>Yangi ijara shartnomasi imzolandi</b><span>CRC Group – 800 m², 3-qavat</span></span><span class="f-vaqt"><b>22-may, 14:20</b><span>Akmalov L.</span></span></div>
-        <div class="f-band"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>To'lov qabul qilindi</b><span>Ijara to'lovi – may, 2024</span></span><span class="f-vaqt"><b>22-may, 10:05</b><span>Soliev B.</span></span></div>
+        <div class="f-band" data-toifa="Texnik"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>Obyekt yangilandi</b><span>Texnik holat ma'lumotlari yangilandi</span></span><span class="f-vaqt"><b>Bugun, 11:42</b><span>Akmalov L.</span></span></div>
+        <div class="f-band" data-toifa="Hujjatlar"><span class="f-doira kok"><svg class="ic"><use href="#i-hujjat"/></svg></span><span class="f-matn"><b>Yangi hujjat yuklandi</b><span>Texnik pasport.pdf</span></span><span class="f-vaqt"><b>Bugun, 09:15</b><span>Rahimov S.</span></span></div>
+        <div class="f-band" data-toifa="Texnik"><span class="f-doira sariq"><svg class="ic"><use href="#i-muddat"/></svg></span><span class="f-matn"><b>Xizmat ko'rsatilishi rejalashtirildi</b><span>HVAC tizimi uchun profilaktika ishlari</span></span><span class="f-vaqt"><b>23-may, 16:30</b><span>Karimov I.</span></span></div>
+        <div class="f-band" data-toifa="Hujjatlar"><span class="f-doira binafsha"><svg class="ic"><use href="#i-foyd"/></svg></span><span class="f-matn"><b>Yangi ijara shartnomasi imzolandi</b><span>CRC Group – 800 m², 3-qavat</span></span><span class="f-vaqt"><b>22-may, 14:20</b><span>Akmalov L.</span></span></div>
+        <div class="f-band" data-toifa="To'lovlar"><span class="f-doira yashil"><svg class="ic"><use href="#i-belgi"/></svg></span><span class="f-matn"><b>To'lov qabul qilindi</b><span>Ijara to'lovi – may, 2024</span></span><span class="f-vaqt"><b>22-may, 10:05</b><span>Soliev B.</span></span></div>
         <button class="faoliyat-tugma" id="barcha-faoliyat">Barcha faoliyatni ko'rish<svg class="ic"><use href="#i-ong"/></svg></button>
       </aside>
     </div>
@@ -436,10 +436,30 @@ x.addEventListener("click", ()=>{
 document.getElementById("tahrir").addEventListener("click", ()=>{
   AUGA.modal("Obyektni tahrirlash",
     `<div style="display:grid;gap:14px;margin-top:6px">
-      <div><label class="maydon-yorliq">Nomi</label><div class="kirish"><input value="${o.nom}"></div></div>
-      <div><label class="maydon-yorliq">Holati</label><div class="kirish"><input value="${o.holat}"></div></div>
+      <div><label class="maydon-yorliq">Nomi</label><div class="kirish"><input id="tahrir-nom" value="${o.nom}"></div></div>
+      <div><label class="maydon-yorliq">Holati</label><div class="kirish"><input id="tahrir-holat" value="${o.holat}"></div></div>
     </div>`,
-    { okMatn:"Saqlash", ok(){ AUGA.toast("O'zgarishlar saqlandi"); } });
+    { okMatn:"Saqlash", ok(){
+      const nom = document.getElementById("tahrir-nom").value.trim();
+      const holat = document.getElementById("tahrir-holat").value.trim();
+      if (!nom) return; // himoya: bo'sh holatda "capture" tinglovchisi yopilishni allaqachon to'xtatgan
+      o.nom = nom;
+      o.holat = holat || o.holat;
+      document.title = "AUGA — " + o.nom;
+      document.getElementById("h-nom").textContent = o.nom;
+      document.getElementById("h-holat").textContent = o.holat;
+      document.getElementById("h-holat2").textContent = o.holat;
+      AUGA.toast("O'zgarishlar saqlandi");
+    } });
+  const modallarTahrir = document.querySelectorAll(".modal-fon");
+  const tahrirFon = modallarTahrir[modallarTahrir.length-1];
+  tahrirFon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("tahrir-nom").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Nomi kiritilishi shart");
+    }
+  }, true);
 });
 
 /* Hisobot dropdown */
@@ -484,6 +504,15 @@ document.getElementById("barcha-faoliyat").addEventListener("click", ()=>{
 const gal = document.getElementById("galereya");
 document.getElementById("gal-chap").addEventListener("click", ()=>gal.scrollBy({left:-380}));
 document.getElementById("gal-ong").addEventListener("click", ()=>gal.scrollBy({left:380}));
+
+/* Faoliyat tarixi filtri */
+const faoliyatBandlar = document.querySelectorAll(".f-band[data-toifa]");
+document.getElementById("faoliyat-filtr").addEventListener("tanlov", e=>{
+  const tanlangan = e.detail;
+  faoliyatBandlar.forEach(b=>{
+    b.hidden = tanlangan !== "Barchasi" && b.dataset.toifa !== tanlangan;
+  });
+});
 });
 </script>
 </body>

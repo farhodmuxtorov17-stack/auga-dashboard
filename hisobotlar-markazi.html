@@ -15,9 +15,11 @@
   background:var(--karta);border-radius:14px;box-shadow:var(--soya);
   padding:10px 18px;display:flex;align-items:center;gap:16px;text-align:left;
   transition:box-shadow var(--tez);min-width:200px;
+  /* .tanlov bazaviy uslubini bekor qilish — karta ko'rinishini saqlab qolamiz */
+  width:auto;height:auto;border:none;white-space:normal;
 }
 .hm-select:hover{box-shadow:0 1px 2px rgba(23,26,31,.05),0 10px 28px rgba(23,26,31,.09)}
-.hm-select .yorliq{display:block;font-size:11.5px;color:var(--matn-4)}
+.hm-select .yorliq{display:block;font-size:11.5px;font-weight:400;color:var(--matn-4)}
 .hm-select b{display:block;font-size:14px;font-weight:650;margin-top:2px}
 .hm-select .ic{margin-left:auto;width:17px;height:17px;color:#5F6169}
 .f-tugma{display:flex;align-items:center;gap:9px;height:58px;padding:0 20px;background:var(--karta);border-radius:14px;box-shadow:var(--soya);font-size:14.5px;font-weight:650;color:#23272C}
@@ -128,16 +130,16 @@
     </div>
 
     <div class="hm-filtrlar">
-      <button class="hm-select" data-toast="Davr tanlash oynasi">
-        <span><span class="yorliq">Davr</span><b>01-may, 2024 – 31-may, 2024</b></span>
+      <button class="hm-select tanlov" id="davr-tanlov" data-variantlar='["Barcha davrlar","Bu oy","O&#39;tgan oy","Oxirgi 3 oy"]'>
+        <span><span class="yorliq">Davr</span><b class="t-yorliq">Barcha davrlar</b></span>
         <svg class="ic"><use href="#i-past"/></svg>
       </button>
-      <button class="hm-select" data-toast="Hisobot turini tanlash">
-        <span><span class="yorliq">Hisobot turi</span><b>Barcha turlar</b></span>
-        <svg class="ic"><use href="#i-slayder"/></svg>
+      <button class="hm-select tanlov" id="tur-tanlov" data-variantlar='["Barcha turlar","Faoliyat tahlili","Aktivlar tahlili","Moliyaviy","Taqdimot","Xavfsizlik"]'>
+        <span><span class="yorliq">Hisobot turi</span><b class="t-yorliq">Barcha turlar</b></span>
+        <svg class="ic"><use href="#i-past"/></svg>
       </button>
-      <button class="hm-select" data-toast="Formatni tanlash">
-        <span><span class="yorliq">Format</span><b>Barcha formatlar</b></span>
+      <button class="hm-select tanlov" id="format-tanlov" data-variantlar='["Barcha formatlar","PDF","XLSX","PPTX"]'>
+        <span><span class="yorliq">Format</span><b class="t-yorliq">Barcha formatlar</b></span>
         <svg class="ic"><use href="#i-past"/></svg>
       </button>
       <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
@@ -146,10 +148,10 @@
     <div class="hm-grid">
       <!-- Kutubxona -->
       <div class="karta">
-        <h3>Hisobotlar kutubxonasi <span style="display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 8px;margin-left:6px;background:#EAF6D3;color:#3E7C0A;border-radius:99px;font-size:12.5px;font-weight:750;vertical-align:2px">12</span></h3>
+        <h3>Hisobotlar kutubxonasi <span id="kutubxona-son" style="display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 8px;margin-left:6px;background:#EAF6D3;color:#3E7C0A;border-radius:99px;font-size:12.5px;font-weight:750;vertical-align:2px">6</span></h3>
         <div id="kutubxona"></div>
         <div class="sahifalash" style="padding:14px 0 0">
-          <span class="oraliq">Jami: <b>12</b></span>
+          <span class="oraliq">Jami: <b id="kutubxona-jami">6</b></span>
           <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
           <button class="s-tugma aktiv">1</button>
           <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
@@ -158,33 +160,40 @@
 
       <!-- Tanlangan hisobot -->
       <div class="karta">
-        <div class="hd-bosh">
-          <h3 id="d-nom">Oylik faoliyat hisoboti</h3>
-          <span class="chip chip-yashil">Tayyor</span>
-        </div>
-        <div class="hd-korpus">
-          <div>
-            <div class="hd-maydon"><span class="yorliq">Davr</span><b>01-may – 31-may, 2024</b></div>
-            <div class="hd-maydon"><span class="yorliq">Hisobot turi</span><b id="d-tur">Faoliyat tahlili</b></div>
-            <div class="hd-maydon"><span class="yorliq">Format</span><b id="d-format">PDF</b></div>
-            <div class="hd-maydon"><span class="yorliq">Fayl hajmi</span><b id="d-hajm">2.4 MB</b></div>
-            <div class="hd-maydon"><span class="yorliq">Yaratilgan</span><b id="d-yaratilgan">31-may, 2024&nbsp; 14:30</b></div>
-            <div class="hd-maydon"><span class="yorliq">Yaratgan</span><b>Akmalov Laziz</b></div>
+        <div id="hd-mazmun">
+          <div class="hd-bosh">
+            <h3 id="d-nom">Oylik faoliyat hisoboti</h3>
+            <span class="chip chip-yashil">Tayyor</span>
           </div>
-          <div class="hd-rasm"><img src="assets/hisobot_3d.png" alt="Hisobot 3D illyustratsiyasi"></div>
-          <div class="korsatkichlar">
-            <h4>Asosiy ko'rsatkichlar</h4>
-            <div class="k-qator"><span class="nomi">Jami daromad</span><b id="d-daromad">12 450 000 000 so'm</b><span class="delta" id="d-daromad-d">+12,4%</span></div>
-            <div class="k-qator"><span class="nomi">Operatsion xarajatlar</span><b id="d-xarajat">4 250 000 000 so'm</b><span class="delta salbiy" id="d-xarajat-d">-5,3%</span></div>
-            <div class="k-qator"><span class="nomi">Sof foyda</span><b id="d-foyda">8 200 000 000 so'm</b><span class="delta" id="d-foyda-d">+18,7%</span></div>
-            <div class="k-qator"><span class="nomi">Faollik indeksi</span><b id="d-indeks">92 / 100</b><span class="delta" id="d-indeks-d">+6</span></div>
-            <h4 style="margin-top:12px">Daromad dinamikasi (so'm)</h4>
-            <svg id="mini-bar" width="100%" height="110" role="img" aria-label="Yanvardan maygacha daromad ustunlari, may eng yuqori"></svg>
+          <div class="hd-korpus">
+            <div>
+              <div class="hd-maydon"><span class="yorliq">Davr</span><b id="d-davr">01-may – 31-may, 2024</b></div>
+              <div class="hd-maydon"><span class="yorliq">Hisobot turi</span><b id="d-tur">Faoliyat tahlili</b></div>
+              <div class="hd-maydon"><span class="yorliq">Format</span><b id="d-format">PDF</b></div>
+              <div class="hd-maydon"><span class="yorliq">Fayl hajmi</span><b id="d-hajm">2.4 MB</b></div>
+              <div class="hd-maydon"><span class="yorliq">Yaratilgan</span><b id="d-yaratilgan">31-may, 2024&nbsp; 14:30</b></div>
+              <div class="hd-maydon"><span class="yorliq">Yaratgan</span><b id="d-yaratgan">Akmalov Laziz</b></div>
+            </div>
+            <div class="hd-rasm"><img src="assets/hisobot_3d.png" alt="Hisobot 3D illyustratsiyasi"></div>
+            <div class="korsatkichlar">
+              <h4>Asosiy ko'rsatkichlar</h4>
+              <div class="k-qator"><span class="nomi">Jami daromad</span><b id="d-daromad">12 450 000 000 so'm</b><span class="delta" id="d-daromad-d">+12,4%</span></div>
+              <div class="k-qator"><span class="nomi">Operatsion xarajatlar</span><b id="d-xarajat">4 250 000 000 so'm</b><span class="delta salbiy" id="d-xarajat-d">-5,3%</span></div>
+              <div class="k-qator"><span class="nomi">Sof foyda</span><b id="d-foyda">8 200 000 000 so'm</b><span class="delta" id="d-foyda-d">+18,7%</span></div>
+              <div class="k-qator"><span class="nomi">Faollik indeksi</span><b id="d-indeks">92 / 100</b><span class="delta" id="d-indeks-d">+6</span></div>
+              <h4 style="margin-top:12px">Daromad dinamikasi (so'm)</h4>
+              <svg id="mini-bar" width="100%" height="110" role="img" aria-label="Yanvardan maygacha daromad ustunlari, may eng yuqori"></svg>
+            </div>
+          </div>
+          <div class="hd-harakat">
+            <button class="tugma tugma-chiziqli" data-toast="Hisobot ko'rish oynasida ochildi"><svg class="ic"><use href="#i-koz"/></svg>Ko'rish</button>
+            <button class="tugma tugma-yashil" id="d-yuklab-tugma"><svg class="ic"><use href="#i-yuklab"/></svg>Yuklab olish</button>
           </div>
         </div>
-        <div class="hd-harakat">
-          <button class="tugma tugma-chiziqli" data-toast="Hisobot ko'rish oynasida ochildi"><svg class="ic"><use href="#i-koz"/></svg>Ko'rish</button>
-          <button class="tugma tugma-yashil" data-toast="Oylik faoliyat hisoboti yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>Yuklab olish</button>
+        <div class="bosh-holat" id="hd-bosh-holat" hidden>
+          <span class="doira"><svg class="ic"><use href="#i-hisobot"/></svg></span>
+          <h3>Hisobot topilmadi</h3>
+          <p>Ko'rsatish uchun hisobot yo'q. Filtrlarni tozalang yoki kutubxonadan boshqa hisobot tanlang.</p>
         </div>
       </div>
     </div>
@@ -226,30 +235,90 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 const HISOBOTLAR = [
-  {nom:"Oylik faoliyat hisoboti", sub:"Faoliyat tahlili va ko'rsatkichlar", format:"pdf", sana:"31-may, 2024", soat:"14:30", tur:"Faoliyat tahlili", hajm:"2.4 MB",
+  {nom:"Oylik faoliyat hisoboti", sub:"Faoliyat tahlili va ko'rsatkichlar", format:"pdf", sana:"31-may, 2024", soat:"14:30", tur:"Faoliyat tahlili", hajm:"2.4 MB", yaratgan:"Akmalov Laziz",
    daromad:"12 450 000 000 so'm", daromadD:"+12,4%", xarajat:"4 250 000 000 so'm", xarajatD:"-5,3%", foyda:"8 200 000 000 so'm", foydaD:"+18,7%", indeks:"92 / 100", indeksD:"+6", grafik:[6.1,7.2,6.8,9.4,12.45]},
-  {nom:"Aktivlar holati hisoboti", sub:"Aktivlar ro'yxati va holati", format:"xlsx", sana:"31-may, 2024", soat:"14:15", tur:"Aktivlar tahlili", hajm:"1.8 MB",
+  {nom:"Aktivlar holati hisoboti", sub:"Aktivlar ro'yxati va holati", format:"xlsx", sana:"31-may, 2024", soat:"14:15", tur:"Aktivlar tahlili", hajm:"1.8 MB", yaratgan:"Rustamov Sanjar",
    daromad:"9 800 000 000 so'm", daromadD:"+4,1%", xarajat:"3 100 000 000 so'm", xarajatD:"-2,8%", foyda:"6 700 000 000 so'm", foydaD:"+7,9%", indeks:"88 / 100", indeksD:"+3", grafik:[5.4,6.0,6.6,8.1,9.8]},
-  {nom:"Ijara va to'lovlar hisoboti", sub:"Ijara tushumlari va to'lov jadvallari", format:"pdf", sana:"31-may, 2024", soat:"13:40", tur:"Moliyaviy", hajm:"2.1 MB",
+  {nom:"Ijara va to'lovlar hisoboti", sub:"Ijara tushumlari va to'lov jadvallari", format:"pdf", sana:"31-may, 2024", soat:"13:40", tur:"Moliyaviy", hajm:"2.1 MB", yaratgan:"Nazarova Feruza",
    daromad:"15 200 000 000 so'm", daromadD:"+9,6%", xarajat:"2 400 000 000 so'm", xarajatD:"-1,2%", foyda:"12 800 000 000 so'm", foydaD:"+11,4%", indeks:"95 / 100", indeksD:"+4", grafik:[9.7,10.5,11.9,13.6,15.2]},
-  {nom:"Moliyaviy tahlil hisoboti", sub:"Daromad va xarajatlar tahlili", format:"xlsx", sana:"30-may, 2024", soat:"18:20", tur:"Moliyaviy", hajm:"1.5 MB",
+  {nom:"Moliyaviy tahlil hisoboti", sub:"Daromad va xarajatlar tahlili", format:"xlsx", sana:"30-may, 2024", soat:"18:20", tur:"Moliyaviy", hajm:"1.5 MB", yaratgan:"Yusupov Botir",
    daromad:"18 900 000 000 so'm", daromadD:"+15,8%", xarajat:"6 750 000 000 so'm", xarajatD:"-8,9%", foyda:"12 150 000 000 so'm", foydaD:"+21,3%", indeks:"90 / 100", indeksD:"+8", grafik:[11.2,13.0,14.8,16.5,18.9]},
-  {nom:"Boshqaruv taqdimoti", sub:"Asosiy KPI va tahlillar", format:"pptx", sana:"30-may, 2024", soat:"17:05", tur:"Taqdimot", hajm:"6.2 MB",
+  {nom:"Boshqaruv taqdimoti", sub:"Asosiy KPI va tahlillar", format:"pptx", sana:"30-may, 2024", soat:"17:05", tur:"Taqdimot", hajm:"6.2 MB", yaratgan:"Akmalov Laziz",
    daromad:"14 600 000 000 so'm", daromadD:"+10,2%", xarajat:"4 900 000 000 so'm", xarajatD:"-4,5%", foyda:"9 700 000 000 so'm", foydaD:"+16,1%", indeks:"91 / 100", indeksD:"+5", grafik:[8.3,9.6,10.8,12.9,14.6]},
-  {nom:"Xavfsizlik va kirish hisoboti", sub:"Smart Access faoliyati tahlili", format:"pdf", sana:"30-may, 2024", soat:"16:45", tur:"Xavfsizlik", hajm:"1.1 MB",
+  {nom:"Xavfsizlik va kirish hisoboti", sub:"Smart Access faoliyati tahlili", format:"pdf", sana:"30-may, 2024", soat:"16:45", tur:"Xavfsizlik", hajm:"1.1 MB", yaratgan:"Rustamov Sanjar",
    daromad:"7 300 000 000 so'm", daromadD:"+3,4%", xarajat:"1 900 000 000 so'm", xarajatD:"-6,1%", foyda:"5 400 000 000 so'm", foydaD:"+9,8%", indeks:"97 / 100", indeksD:"+2", grafik:[4.8,5.5,6.1,6.8,7.3]}
 ];
 let faol = 0;
+let faolTur = "Barcha turlar";
+let faolFormat = "Barcha formatlar";
+let faolDavr = "Barcha davrlar";
+
+/* "31-may, 2024" kabi matnni haqiqiy Date obyektiga aylantirish */
+const OY_NOM = {"yanvar":0,"fevral":1,"mart":2,"aprel":3,"may":4,"iyun":5,"iyul":6,"avgust":7,"sentabr":8,"oktabr":9,"noyabr":10,"dekabr":11};
+function sanaParse(s){
+  const m = /^(\d{1,2})-([a-zA-Z]+),\s*(\d{4})$/.exec(s || "");
+  if (!m) return null;
+  const oy = OY_NOM[m[2].toLowerCase()];
+  if (oy === undefined) return null;
+  return new Date(+m[3], oy, +m[1]);
+}
+function davrHisobla(sana){
+  const d = sanaParse(sana);
+  if (!d) return sana;
+  const oyNomi = Object.keys(OY_NOM)[d.getMonth()];
+  return `01-${oyNomi} – ${sana}`;
+}
+function davrMosmi(h, hoz){
+  if (faolDavr === "Barcha davrlar") return true;
+  const d = sanaParse(h.sana);
+  if (!d) return false;
+  if (faolDavr === "Bu oy") return d.getFullYear() === hoz.getFullYear() && d.getMonth() === hoz.getMonth();
+  if (faolDavr === "O'tgan oy"){
+    const o = new Date(hoz.getFullYear(), hoz.getMonth() - 1, 1);
+    return d.getFullYear() === o.getFullYear() && d.getMonth() === o.getMonth();
+  }
+  if (faolDavr === "Oxirgi 3 oy"){
+    const boshi = new Date(hoz.getFullYear(), hoz.getMonth() - 2, 1);
+    const oxiri = new Date(hoz.getFullYear(), hoz.getMonth() + 1, 0, 23, 59, 59, 999);
+    return d >= boshi && d <= oxiri;
+  }
+  return true;
+}
+function royxatFiltrlangan(){
+  const hoz = new Date(2024, 4, 31); // ilova bo'ylab qabul qilingan shartli "bugun" (boshqa sahifalarda ham shu davrga moslangan)
+  return HISOBOTLAR.filter(h =>
+    (faolTur === "Barcha turlar" || h.tur === faolTur) &&
+    (faolFormat === "Barcha formatlar" || h.format === faolFormat.toLowerCase()) &&
+    davrMosmi(h, hoz)
+  );
+}
 
 function kutubxonaChiz(){
-  document.getElementById("kutubxona").innerHTML = HISOBOTLAR.map((h,i)=>`
+  const royxat = royxatFiltrlangan();
+  document.getElementById("kutubxona-son").textContent = royxat.length;
+  document.getElementById("kutubxona-jami").textContent = royxat.length;
+
+  if (!royxat.length){
+    faol = -1;
+    document.getElementById("kutubxona").innerHTML =
+      `<div class="bosh-holat"><span class="doira"><svg class="ic"><use href="#i-hisobot"/></svg></span><h3>Hisobot topilmadi</h3><p>Tanlangan filtrlarga mos hisobot yo'q. Filtrlarni o'zgartirib ko'ring.</p></div>`;
+    return;
+  }
+  if (faol < 0 || !royxat.includes(HISOBOTLAR[faol])){
+    faol = HISOBOTLAR.indexOf(royxat[0]);
+  }
+
+  document.getElementById("kutubxona").innerHTML = royxat.map(h=>{
+    const i = HISOBOTLAR.indexOf(h);
+    return `
     <div class="kutubxona-band ${i===faol?"faol":""}" data-i="${i}" role="button" tabindex="0">
       <span class="fayl-ikon ${h.format}">${h.format.toUpperCase()}</span>
       <span style="min-width:0;flex:1"><b>${h.nom}</b><span class="sub">${h.sub}</span></span>
       <span class="vaqt">${h.sana}<br>${h.soat}</span>
       <button class="yuklab-mini" data-yuklab="${h.nom}" aria-label="Yuklab olish"><svg class="ic"><use href="#i-yuklab"/></svg></button>
       <button class="uch-nuqta-mini" data-toast="Amallar: ulashish / qayta yaratish / o'chirish" aria-label="Amallar"><svg class="ic"><use href="#i-nuqtalar"/></svg></button>
-    </div>`).join("");
+    </div>`;
+  }).join("");
   document.querySelectorAll(".kutubxona-band").forEach(b=>{
     b.addEventListener("click", e=>{
       if (e.target.closest(".yuklab-mini")){ AUGA.toast(e.target.closest(".yuklab-mini").dataset.yuklab+" yuklab olinmoqda","i-yuklab"); return; }
@@ -263,11 +332,23 @@ function kutubxonaChiz(){
 
 function detalYangila(){
   const h = HISOBOTLAR[faol];
+  const mazmun = document.getElementById("hd-mazmun");
+  const boshHolat = document.getElementById("hd-bosh-holat");
+  if (!h){
+    mazmun.hidden = true;
+    boshHolat.hidden = false;
+    return;
+  }
+  mazmun.hidden = false;
+  boshHolat.hidden = true;
   document.getElementById("d-nom").textContent = h.nom;
+  document.getElementById("d-davr").textContent = davrHisobla(h.sana);
   document.getElementById("d-tur").textContent = h.tur;
   document.getElementById("d-format").textContent = h.format.toUpperCase();
   document.getElementById("d-hajm").textContent = h.hajm;
   document.getElementById("d-yaratilgan").innerHTML = `${h.sana}&nbsp; ${h.soat}`;
+  document.getElementById("d-yaratgan").textContent = h.yaratgan;
+  document.getElementById("d-yuklab-tugma").dataset.toast = `${h.nom} yuklab olinmoqda`;
   document.getElementById("d-daromad").textContent = h.daromad;
   document.getElementById("d-daromad-d").textContent = h.daromadD;
   document.getElementById("d-daromad-d").className = "delta"+(h.daromadD.startsWith("-")?" salbiy":"");
@@ -315,6 +396,23 @@ function miniBarChiz(Q){
   });
 }
 detalYangila();
+
+/* Filtrlar — davr / hisobot turi / format (.tanlov) */
+document.getElementById("davr-tanlov").addEventListener("tanlov", e=>{
+  faolDavr = e.detail;
+  kutubxonaChiz();
+  detalYangila();
+});
+document.getElementById("tur-tanlov").addEventListener("tanlov", e=>{
+  faolTur = e.detail;
+  kutubxonaChiz();
+  detalYangila();
+});
+document.getElementById("format-tanlov").addEventListener("tanlov", e=>{
+  faolFormat = e.detail;
+  kutubxonaChiz();
+  detalYangila();
+});
 
 /* Avtomatik hisobotlar jadvali */
 const AVATAR = `<span class="a"><svg viewBox="0 0 34 34"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;

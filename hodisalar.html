@@ -444,12 +444,20 @@ function halQilindiOynasi(h, tasdiqlandi){
     { okMatn:"Hal qilindi deb belgilash", ok(){
       const xulosa = document.getElementById("hq-xulosa").value.trim();
       const dalil = document.getElementById("hq-dalil").value.trim();
-      if (!xulosa){ AUGA.toast("Texnik xulosa kiritilishi shart"); return; }
-      if (!dalil){ AUGA.toast("Dalil yoki izoh kiritilishi shart"); return; }
+      if (!xulosa || !dalil) return; // himoya: "capture" tinglovchisi yopilishni allaqachon to'xtatgan
       h.texnikXulosa = xulosa;
       h.dalil = dalil;
       tasdiqlandi();
     } });
+  const modallarHq = document.querySelectorAll(".modal-fon");
+  const hqFon = modallarHq[modallarHq.length-1];
+  hqFon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    const xulosa = document.getElementById("hq-xulosa").value.trim();
+    const dalil = document.getElementById("hq-dalil").value.trim();
+    if (!xulosa){ e.stopPropagation(); AUGA.toast("Texnik xulosa kiritilishi shart"); }
+    else if (!dalil){ e.stopPropagation(); AUGA.toast("Dalil yoki izoh kiritilishi shart"); }
+  }, true);
 }
 
 /* Tanlash + drag-drop */

@@ -179,9 +179,9 @@
         <input type="search" placeholder="Qidirish..." aria-label="Shartnomalarni qidirish">
         <svg class="ic"><use href="#i-izlash"/></svg>
       </div>
-      <button class="tanlov" data-variantlar='["Barcha aktivlar","Green Tower","Mega Mall","Humo Office","Nurafshon majmuasi","Yashnobod yer"]'><span class="t-yorliq">Barcha aktivlar</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="tanlov" data-variantlar='["Barcha turlar","Ijara","Xizmat ko&#39;rsatish","Qurilish","Sotish"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="tanlov" data-variantlar='["Barcha statuslar","Faol","Muddati yaqinlashgan","Muddati o&#39;tgan","Jarayonda"]'><span class="t-yorliq">Barcha statuslar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="f-obyekt" data-variantlar='["Barcha aktivlar","Green Tower","Mega Mall","Humo Office","Nurafshon majmuasi","Yashnobod yer"]'><span class="t-yorliq">Barcha aktivlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="f-turi" data-variantlar='["Barcha turlar","Ijara","Xizmat ko&#39;rsatish","Qurilish","Sotish"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="f-status" data-variantlar='["Barcha statuslar","Faol","Muddati yaqinlashgan","Muddati o&#39;tgan","Jarayonda"]'><span class="t-yorliq">Barcha statuslar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" data-toast="Sana oralig'ini tanlash" style="width:auto;min-width:140px;background:var(--karta);border:none;box-shadow:var(--soya)"><span class="t-yorliq">Sana oralig'i</span><svg class="ic"><use href="#i-kalendar"/></svg></button>
       <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
     </div>
@@ -191,9 +191,9 @@
       <!-- Chap ro'yxat -->
       <div class="karta">
         <div class="sh-tablar">
-          <button class="sh-tab aktiv">Barchasi<span class="son">128</span></button>
-          <button class="sh-tab">Faol<span class="son">96</span></button>
-          <button class="sh-tab">Muddati yaqinlashgan<span class="son">14</span></button>
+          <button class="sh-tab aktiv" data-holat="">Barchasi<span class="son">5</span></button>
+          <button class="sh-tab" data-holat="Faol">Faol<span class="son">1</span></button>
+          <button class="sh-tab" data-holat="Muddati yaqinlashgan">Muddati yaqinlashgan<span class="son">2</span></button>
         </div>
         <div id="sh-royxat"></div>
         <div class="sahifalash" style="padding:14px 0 0">
@@ -208,6 +208,7 @@
 
       <!-- Markaz -->
       <div class="karta">
+        <div id="t-mazmun">
         <div class="tafsilot-bosh">
           <h3><svg class="ic"><use href="#i-slayder"/></svg>Shartnoma tafsilotlari</h3>
           <span class="chip chip-yashil" id="t-holat">Faol</span>
@@ -241,13 +242,19 @@
           <h4>Uzaytirish jarayoni</h4>
           <div class="uz-qadamlar" id="uzaytirish-royxat"></div>
         </div>
+        </div>
+        <div class="bosh-holat" id="t-bosh" style="display:none">
+          <span class="doira"><svg class="ic"><use href="#i-shartnoma"/></svg></span>
+          <h3>Shartnoma topilmadi</h3>
+          <p>Tanlangan filtrlarga mos shartnoma yo'q.</p>
+        </div>
       </div>
 
       <!-- O'ng ustun -->
       <aside>
         <div class="karta amal-karta">
           <h3>Tezkor amallar</h3>
-          <button class="amal-band asosiy" data-toast="Shartnoma tasdiqlandi"><svg class="ic" style="color:#3E7C0A"><use href="#i-belgi-doira"/></svg>Tasdiqlash</button>
+          <button class="amal-band asosiy" id="tasdiqlash-tugma" data-toast="Shartnoma tasdiqlandi"><svg class="ic" style="color:#3E7C0A"><use href="#i-belgi-doira"/></svg>Tasdiqlash</button>
           <button class="amal-band" data-toast="Uzaytirish jarayoni boshlandi"><svg class="ic"><use href="#i-kalendar"/></svg>Uzaytirish</button>
           <button class="amal-band" data-toast="Shartnoma PDF yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>Shartnomani yuklab olish</button>
           <button class="amal-band" data-toast="To'lov jadvali XLSX yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>To'lov jadvalini yuklab olish</button>
@@ -367,9 +374,37 @@ const SHARTNOMALAR = [
    menejer:{ism:"Shahzod Abdullaev", tel:"+998 97 567-89-01", email:"sh.abdullaev@auga.uz"}}
 ];
 let faolIdx = 0;
+let filtrHolat = "";                     // "" = tab filtri yo'q (Barchasi tanlangan)
+let filtrObyekt = "Barcha aktivlar";
+let filtrTuri = "Barcha turlar";
+let filtrStatus = "Barcha statuslar";
 
-function royxatChiz(){
-  document.getElementById("sh-royxat").innerHTML = SHARTNOMALAR.map((s,i)=>`
+// Filtrdagi qisqa nom bilan obyekt maydonidagi to'liq nom farq qiladigan holatlar uchun
+const OBYEKT_NOM_MOS = {
+  "Nurafshon majmuasi": "Nurafshon turar-joy majmuasi",
+  "Yashnobod yer": "Yashnobod yer maydoni"
+};
+
+function royxatniFiltrla(){
+  return SHARTNOMALAR.filter(s=>
+    (!filtrHolat || s.holat===filtrHolat) &&
+    (filtrObyekt==="Barcha aktivlar" || s.obyekt===(OBYEKT_NOM_MOS[filtrObyekt]||filtrObyekt)) &&
+    (filtrTuri==="Barcha turlar" || s.turi.startsWith(filtrTuri)) &&
+    (filtrStatus==="Barcha statuslar" || s.holat===filtrStatus)
+  );
+}
+
+function tabSonlarniYangila(){
+  document.querySelectorAll(".sh-tab").forEach(t=>{
+    const h = t.dataset.holat;
+    t.querySelector(".son").textContent = h ? SHARTNOMALAR.filter(s=>s.holat===h).length : SHARTNOMALAR.length;
+  });
+}
+
+function royxatChiz(r){
+  document.getElementById("sh-royxat").innerHTML = r.length ? r.map(s=>{
+    const i = SHARTNOMALAR.indexOf(s);
+    return `
     <button class="sh-band ${i===faolIdx?"faol":""}" data-i="${i}">
       <img src="${s.rasm}" alt="">
       <span style="flex:1;min-width:0">
@@ -380,13 +415,32 @@ function royxatChiz(){
         <span class="summa">${s.summa}</span>
       </span>
       <span class="sh-teg ${s.teg}">${s.tegMatn}</span>
-    </button>`).join("");
+    </button>`;
+  }).join("") : `<div class="bosh-holat"><span class="doira"><svg class="ic"><use href="#i-shartnoma"/></svg></span><h3>Shartnoma topilmadi</h3><p>Tanlangan filtrlarga mos shartnoma yo'q.</p></div>`;
   document.querySelectorAll(".sh-band").forEach(b=>{
     b.addEventListener("click", ()=>{
       faolIdx = +b.dataset.i;
-      royxatChiz(); tafsilotChiz();
+      yangila();
     });
   });
+}
+
+function yangila(){
+  const r = royxatniFiltrla();
+  // Ro'yxatni chizishdan oldin faolIdx to'g'irlanadi — aks holda tanlangan
+  // band ro'yxatda noto'g'ri (yoki hech qanday) belgilanadi.
+  if (r.length && !r.includes(SHARTNOMALAR[faolIdx])) faolIdx = SHARTNOMALAR.indexOf(r[0]);
+  royxatChiz(r);
+  const mazmun = document.getElementById("t-mazmun");
+  const bosh = document.getElementById("t-bosh");
+  if (!r.length){
+    mazmun.style.display = "none";
+    bosh.style.display = "";
+    return;
+  }
+  mazmun.style.display = "";
+  bosh.style.display = "none";
+  tafsilotChiz();
 }
 
 function tafsilotChiz(){
@@ -433,6 +487,8 @@ document.querySelectorAll(".sh-tab").forEach(t=>{
     document.querySelectorAll(".sh-tab").forEach(x=>x.classList.remove("aktiv"));
     t.classList.add("aktiv");
     AUGA.toast(t.textContent.replace(/\d+$/,"").trim()+" ro'yxati");
+    filtrHolat = t.dataset.holat;
+    yangila();
   });
 });
 
@@ -443,7 +499,19 @@ document.getElementById("bekor-qilish").addEventListener("click", ()=>{
     {xavf:true, okMatn:"Bekor qilish", ok(){ AUGA.toast("Shartnoma bekor qilish jarayoni boshlandi"); }});
 });
 
-royxatChiz(); tafsilotChiz();
+document.getElementById("f-obyekt").addEventListener("tanlov", e=>{ filtrObyekt = e.detail; yangila(); });
+document.getElementById("f-turi").addEventListener("tanlov", e=>{ filtrTuri = e.detail; yangila(); });
+document.getElementById("f-status").addEventListener("tanlov", e=>{ filtrStatus = e.detail; yangila(); });
+
+document.getElementById("tasdiqlash-tugma").addEventListener("click", ()=>{
+  const s = SHARTNOMALAR[faolIdx];
+  s.teg = "faol"; s.tegMatn = "Faol"; s.holat = "Faol";
+  tabSonlarniYangila();
+  yangila();
+});
+
+tabSonlarniYangila();
+yangila();
 });
 </script>
 </body>
