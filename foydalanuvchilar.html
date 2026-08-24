@@ -149,11 +149,7 @@
 
           <div class="ruxsatlar">
             <h4>Ruxsatlar va huquqlar</h4>
-            <button class="ruxsat-band" data-toast="Tizim boshqaruvi ruxsatlari"><svg class="ic"><use href="#i-sozlama"/></svg><span><b>Tizim boshqaruvi</b><br><span>Foydalanuvchilar, rollar, sozlamalar va xavfsizlik</span></span><span class="strelka"><svg class="ic"><use href="#i-ong"/></svg></span></button>
-            <button class="ruxsat-band" data-toast="Ma'lumotlar boshqaruvi ruxsatlari"><svg class="ic"><use href="#i-foyd"/></svg><span><b>Ma'lumotlar boshqaruvi</b><br><span>Barcha modul va ma'lumotlarga to'liq kirish</span></span><span class="strelka"><svg class="ic"><use href="#i-ong"/></svg></span></button>
-            <button class="ruxsat-band" data-toast="Hisobotlar ruxsatlari"><svg class="ic"><use href="#i-shartnoma"/></svg><span><b>Hisobotlar</b><br><span>Hisobotlarni ko'rish, yaratish va eksport qilish</span></span><span class="strelka"><svg class="ic"><use href="#i-ong"/></svg></span></button>
-            <button class="ruxsat-band" data-toast="Integratsiyalar ruxsatlari"><svg class="ic"><use href="#i-ekran"/></svg><span><b>Integratsiyalar</b><br><span>API, integratsiyalar va tizim ulanishlari</span></span><span class="strelka"><svg class="ic"><use href="#i-ong"/></svg></span></button>
-            <button class="ruxsat-band" data-toast="Audit jurnali ruxsatlari"><svg class="ic"><use href="#i-qalqon"/></svg><span><b>Audit jurnali</b><br><span>Tizim faoliyati va o'zgarishlarni ko'rish</span></span><span class="strelka"><svg class="ic"><use href="#i-ong"/></svg></span></button>
+            <div id="ruxsat-royxat"></div>
           </div>
         </div>
       </div>
@@ -234,6 +230,27 @@ function profilChiz(){
   document.getElementById("p-sana").textContent = f.sana;
   document.getElementById("p-holat").textContent = f.faol ? "Faol" : "Nofaol";
   document.getElementById("p-holat-nuqta").style.background = f.faol ? "#22B14C" : "#9AA1A9";
+  ruxsatlarChiz(f.rol);
+}
+
+// Bo'lim -> ko'rsatiladigan nom va tavsif. Kalitlar auga.js MENYU bilan bir xil.
+const RUXSAT_TAVSIF = [
+  ["foydalanuvchilar","i-sozlama","Tizim boshqaruvi","Foydalanuvchilar, rollar va xavfsizlik"],
+  ["aktivlar","i-foyd","Aktivlar boshqaruvi","Obyektlar reyestri va kartalari"],
+  ["hisobotlar","i-shartnoma","Hisobotlar","Hisobotlarni ko'rish, yaratish va eksport qilish"],
+  ["monitoring","i-ekran","Monitoring va qurilmalar","Kameralar, qurilmalar va diagnostika"],
+  ["sozlamalar","i-qalqon","Tizim sozlamalari","Parametrlar va audit jurnali"]
+];
+function ruxsatlarChiz(rolNomi){
+  const bolimlar = AUGA.rolBolimlari(rolNomi);   // null = barcha bo'limlar (Administrator)
+  document.getElementById("ruxsat-royxat").innerHTML = RUXSAT_TAVSIF.map(([kalit,ikon,nom,izoh])=>{
+    const bor = !bolimlar || bolimlar.includes(kalit);
+    return `<button class="ruxsat-band" data-toast="${nom}: ${bor ? "ruxsat berilgan" : "ruxsat yo'q"}"${bor ? "" : ' style="opacity:.5"'}>
+      <svg class="ic"><use href="#${ikon}"/></svg>
+      <span><b>${nom}</b><br><span>${bor ? izoh : "Bu rol uchun yopiq"}</span></span>
+      <span class="strelka"><svg class="ic"><use href="#${bor ? "i-ong" : "i-qulf"}"/></svg></span>
+    </button>`;
+  }).join("");
 }
 document.getElementById("f-izlash").addEventListener("input", e=>{ izlash = e.target.value.toLowerCase(); royxatChiz(); });
 royxatChiz(); profilChiz();

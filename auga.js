@@ -428,7 +428,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
             </p>
             <div style="display:flex;gap:10px;justify-content:center;margin-top:22px">
               <a class="tugma tugma-yashil" href="index.html"><svg class="ic"><use href="#i-uy"/></svg>Bosh sahifaga qaytish</a>
-              <button class="tugma tugma-chiziqli" onclick="document.getElementById('profil-tugma').click()">Rolni almashtirish</button>
+              ${asilRol()==="Administrator"
+                ? `<button class="tugma tugma-chiziqli" onclick="document.getElementById('profil-tugma').click()">Rolni almashtirish</button>`
+                : `<a class="tugma tugma-chiziqli" href="login.html">Boshqa rol bilan kirish</a>`}
             </div>
           </div>
         </div>`;
@@ -471,6 +473,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 });
 
 AUGA.ruxsatlimi = ruxsatlimi;
+AUGA.rolBolimlari = nom => ROL_RUXSAT[ROL_KALIT[nom]] || null;   // null = barcha bo'limlar
 AUGA.joriyRol = joriyRol;
 AUGA.asilRol = asilRol;
 AUGA.rolKaliti = () => ROL_KALIT[joriyRol()];

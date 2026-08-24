@@ -264,7 +264,7 @@ function inspektorChiz(o){
     </div>
     <div class="insp-tablar" role="tablist">
       <button class="insp-tab aktiv" data-tab="umumiy">Umumiy</button>
-      <button class="insp-tab" data-tab="moliyaviy">Moliyaviy</button>
+      <button class="insp-tab" data-tab="moliyaviy" data-rol-yoq="texnik">Moliyaviy</button>
       <button class="insp-tab" data-tab="hujjatlar">Hujjatlar</button>
       <button class="insp-tab" data-tab="tarix">Tarix</button>
     </div>
@@ -288,7 +288,7 @@ function inspektorChiz(o){
       </div>
     </div>
 
-    <div data-panel="moliyaviy" hidden>
+    <div data-panel="moliyaviy" hidden data-rol-yoq="texnik">
       <div class="tafsilot">
         <div class="tafsilot-qator"><span class="yorliq">Balans qiymati</span><span class="qiymat">${o.qiymat}</span></div>
         <div class="tafsilot-qator"><span class="yorliq">Yillik ijara daromadi</span><span class="qiymat">${o.moliya.daromad}</span></div>
