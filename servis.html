@@ -20,7 +20,7 @@
 .holat-tanlov .nuqta{width:8px;height:8px;border-radius:99px;background:#F2C230}
 .holat-tanlov .ic{width:16px;height:16px;color:#5F6169}
 
-.sv-grid{display:grid;grid-template-columns:330px 1fr 400px;gap:18px;align-items:start}
+.sv-grid{display:grid;grid-template-columns:330px minmax(0,1fr) 400px;gap:18px;align-items:start}
 .sv-info h3{font-size:16px;font-weight:750;margin-bottom:6px}
 .sv-band{padding:11px 0;border-bottom:1px solid #F2F3F5}
 .sv-band:last-of-type{border-bottom:none}
@@ -57,7 +57,7 @@
 
 .oldin-keyin{margin-top:16px}
 .oldin-keyin h4{font-size:15.5px;font-weight:750;margin-bottom:12px}
-.ok-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px}
+.ok-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
 .ok-juft{position:relative;border-radius:13px;overflow:hidden}
 .ok-juft img{width:100%;height:120px;object-fit:cover;transition:transform var(--tez)}
 .ok-juft:hover img{transform:scale(1.03)}
@@ -128,8 +128,8 @@
 .eq-bb-band span{color:var(--matn-4);font-size:12.5px;flex:none}
 .eq-bosh-matn{font-size:13px;color:var(--matn-4)}
 .sv-grid > aside{display:flex;flex-direction:column;gap:18px}
-@media (max-width:1700px){.sv-grid{grid-template-columns:300px 1fr}.sv-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
-@media (max-width:1200px){.sv-grid{grid-template-columns:1fr}.sv-grid > aside{grid-template-columns:1fr}.ok-grid{grid-template-columns:1fr 1fr}}
+@media (max-width:1700px){.sv-grid{grid-template-columns:300px minmax(0,1fr)}.sv-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}}
+@media (max-width:1200px){.sv-grid{grid-template-columns:minmax(0,1fr)}.sv-grid > aside{grid-template-columns:minmax(0,1fr)}.ok-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 </style>
 </head>
 <body data-sahifa="monitoring">

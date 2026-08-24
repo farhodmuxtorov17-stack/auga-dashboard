@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- Tasdiqlar va topshiriqlar (ekran 22, Rahbar ko'rinishi) ---- */
-.tt-grid{display:grid;grid-template-columns:350px 1fr 360px;gap:18px;align-items:start}
+.tt-grid{display:grid;grid-template-columns:350px minmax(0,1fr) 360px;gap:18px;align-items:start}
 .tt-grid h3{font-size:16.5px;font-weight:750}
 .t-son{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 8px;margin-left:8px;background:#EAF6D3;color:#3E7C0A;border-radius:99px;font-size:12.5px;font-weight:750;vertical-align:2px}
 .kt-band{
@@ -44,7 +44,7 @@
 .td-bosh h2{font-size:20px;font-weight:750;line-height:1.3}
 .td-bosh .sub{font-size:13.5px;color:var(--matn-3);margin-top:4px}
 .td-bosh .jiddiylik{margin-left:auto;flex:none;font-size:12.5px;padding:6px 14px}
-.td-korpus{display:grid;grid-template-columns:1fr 360px;gap:20px;margin-top:18px}
+.td-korpus{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:20px;margin-top:18px}
 .td-tavsif h4{font-size:14.5px;font-weight:750;margin-bottom:6px}
 .td-tavsif p{font-size:14px;color:var(--matn-2);line-height:1.6}
 .td-qator{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid #F2F3F5;font-size:13.5px}
@@ -89,8 +89,8 @@
 .ft-band b{font-weight:650}
 .ft-band span{display:block;color:var(--matn-4);font-size:12px;margin-top:2px}
 .tt-grid > aside{display:flex;flex-direction:column;gap:18px}
-@media (max-width:1600px){.tt-grid{grid-template-columns:320px 1fr}.tt-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px}}
-@media (max-width:1200px){.tt-grid{grid-template-columns:1fr}.tt-grid > aside{grid-template-columns:1fr}.td-korpus{grid-template-columns:1fr}}
+@media (max-width:1600px){.tt-grid{grid-template-columns:320px minmax(0,1fr)}.tt-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}}
+@media (max-width:1200px){.tt-grid{grid-template-columns:minmax(0,1fr)}.tt-grid > aside{grid-template-columns:minmax(0,1fr)}.td-korpus{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body data-sahifa="vazifalar">

@@ -26,8 +26,8 @@
 .yakunlash:hover{background:var(--qizil-fon)}
 .yakunlash .ic{width:18px;height:18px}
 
-.mk-grid{display:grid;grid-template-columns:1.15fr 0.9fr 400px;gap:18px;align-items:start}
-.kamera-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mk-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,0.9fr) 400px;gap:18px;align-items:start}
+.kamera-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
 .mk-kamera{position:relative;border-radius:14px;overflow:hidden;text-align:left}
 .mk-kamera img{width:100%;height:212px;object-fit:cover;transition:transform var(--tez)}
 .mk-kamera:hover img{transform:scale(1.03)}
@@ -57,7 +57,7 @@
 /* Eshiklar */
 .eshiklar-karta h3{font-size:16.5px;font-weight:750}
 .eshiklar-karta .sub{font-size:12.5px;color:var(--matn-4);margin-top:2px}
-.eshik-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:14px}
+.eshik-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:14px}
 .eshik-k{border:1px solid var(--chiziq);border-radius:14px;padding:14px;text-align:left}
 .eshik-k .ic{width:20px;height:20px;color:#43484E}
 .eshik-k b{display:block;font-size:13.5px;font-weight:700;margin-top:9px;line-height:1.3}
@@ -72,7 +72,7 @@
 .eshik-och .ic{width:15px;height:15px;color:currentColor}
 
 /* Infratuzilma */
-.infra-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:14px}
+.infra-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:14px}
 .infra-karta{border:1px solid var(--chiziq);border-radius:16px;padding:16px 18px;display:flex;flex-direction:column;gap:11px}
 .infra-ikon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;flex:none;box-shadow:var(--chuqur-tile-tor)}
 .infra-ikon .ic{width:18px;height:18px}
@@ -84,8 +84,8 @@
 .infra-matn span{display:block;font-size:12.5px;color:var(--matn-3);margin-top:3px;line-height:1.5}
 .infra-eslatma{display:flex;align-items:center;gap:10px;margin-top:14px;padding:12px 14px;background:#F7F7FA;border-radius:12px;font-size:12.5px;color:var(--matn-3);line-height:1.5}
 .infra-eslatma .ic{width:16px;height:16px;color:var(--matn-4);flex:none}
-@media (max-width:1100px){.infra-grid{grid-template-columns:1fr 1fr}}
-@media (max-width:600px){.infra-grid{grid-template-columns:1fr}}
+@media (max-width:1100px){.infra-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media (max-width:600px){.infra-grid{grid-template-columns:minmax(0,1fr)}}
 
 /* O'ng ustun */
 .aloqa-karta .bosh{display:flex;align-items:center}
@@ -121,8 +121,8 @@
 .bosqich .oxiri{margin-left:auto;font-size:12px;color:var(--matn-4)}
 .bosqich.jonli .oxiri{color:#3E7C0A;font-weight:750}
 .mk-grid > aside{display:flex;flex-direction:column;gap:18px}
-@media (max-width:1700px){.mk-grid{grid-template-columns:1fr 1fr}.mk-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
-@media (max-width:1200px){.mk-grid{grid-template-columns:1fr}.mk-grid > aside{grid-template-columns:1fr}.eshik-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:1700px){.mk-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.mk-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}}
+@media (max-width:1200px){.mk-grid{grid-template-columns:minmax(0,1fr)}.mk-grid > aside{grid-template-columns:minmax(0,1fr)}.eshik-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body data-sahifa="smart-access">

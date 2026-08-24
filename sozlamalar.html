@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- Sozlamalar (ekran 21) ---- */
-.sz-grid{display:grid;grid-template-columns:300px 1fr 400px;gap:18px;align-items:start}
+.sz-grid{display:grid;grid-template-columns:300px minmax(0,1fr) 400px;gap:18px;align-items:start}
 .bolim-karta h3{font-size:16px;font-weight:750;margin-bottom:10px}
 .bolim-band{
   display:flex;align-items:center;gap:12px;width:100%;text-align:left;
@@ -25,7 +25,7 @@
 .param-karta h3{font-size:17px;font-weight:750}
 .param-karta .sub{font-size:13px;color:var(--matn-3);margin-top:3px}
 .param-qator{
-  display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:center;
+  display:grid;grid-template-columns:280px minmax(0,1fr);gap:20px;align-items:center;
   padding:18px 0;border-bottom:1px solid #F2F3F5;
 }
 .param-qator:last-of-type{border-bottom:none}
@@ -72,8 +72,8 @@
 .audit-amal{font-size:13.5px;color:#33383E;line-height:1.4}
 .audit-amal b{font-weight:750;color:#17191C}
 .audit-obyekt{font-size:12px;color:var(--matn-3);margin-top:2px}
-@media (max-width:1600px){.sz-grid{grid-template-columns:270px 1fr}.sz-grid > aside{grid-column:1/-1}}
-@media (max-width:1100px){.sz-grid{grid-template-columns:1fr}.param-qator{grid-template-columns:1fr;gap:10px}}
+@media (max-width:1600px){.sz-grid{grid-template-columns:270px minmax(0,1fr)}.sz-grid > aside{grid-column:1/-1}}
+@media (max-width:1100px){.sz-grid{grid-template-columns:minmax(0,1fr)}.param-qator{grid-template-columns:minmax(0,1fr);gap:10px}}
 </style>
 </head>
 <body data-sahifa="sozlamalar">

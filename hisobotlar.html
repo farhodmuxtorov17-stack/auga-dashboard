@@ -18,7 +18,7 @@
 .davr-chip:hover{box-shadow:0 1px 2px rgba(23,26,31,.05),0 10px 28px rgba(23,26,31,.09)}
 .davr-chip .ic{width:18px;height:18px;color:#5B6168}
 
-.m-qator{display:grid;grid-template-columns:1.35fr 1.05fr .95fr;gap:18px}
+.m-qator{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1.05fr) minmax(0,.95fr);gap:18px}
 .m-qator h3{font-size:16.5px;font-weight:750}
 .grafik-bosh{display:flex;align-items:center;margin-bottom:6px}
 .grafik-bosh .tanlov{width:auto;min-width:104px;height:40px;margin-left:auto}
@@ -47,10 +47,10 @@
 .barcha-tugma:hover{background:#F6F7F8}
 .barcha-tugma .ic{width:15px;height:15px}
 
-.m-past{display:grid;grid-template-columns:1.6fr 1fr;gap:18px}
-.sharh-korpus{display:grid;grid-template-columns:280px 1fr;gap:20px;align-items:center}
+.m-past{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:18px}
+.sharh-korpus{display:grid;grid-template-columns:280px minmax(0,1fr);gap:20px;align-items:center}
 .sharh-korpus img{max-width:100%;max-height:250px;margin:auto}
-.metrika-grid{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.metrika-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0}
 .metrika{padding:16px 18px;border-bottom:1px solid var(--chiziq)}
 .metrika:nth-child(odd){border-right:1px solid var(--chiziq)}
 .metrika:nth-child(3),.metrika:nth-child(4){border-bottom:none}
@@ -68,9 +68,9 @@
 .hisobot-band .matn{flex:1;min-width:0}
 .hisobot-band b{display:block;font-size:14px;font-weight:650;line-height:1.35}
 .hisobot-band span{display:block;font-size:12.5px;color:var(--matn-4);margin-top:1px}
-@media (max-width:1500px){.m-qator{grid-template-columns:1fr 1fr}.m-qator .karta:first-child{grid-column:1/-1}}
-@media (max-width:1240px){.m-past{grid-template-columns:1fr}.sharh-korpus{grid-template-columns:1fr}}
-@media (max-width:900px){.m-qator{grid-template-columns:1fr}.metrika-grid{grid-template-columns:1fr}.metrika{border-right:none!important}.metrika:nth-child(3){border-bottom:1px solid var(--chiziq)}}
+@media (max-width:1500px){.m-qator{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.m-qator .karta:first-child{grid-column:1/-1}}
+@media (max-width:1240px){.m-past{grid-template-columns:minmax(0,1fr)}.sharh-korpus{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:900px){.m-qator{grid-template-columns:minmax(0,1fr)}.metrika-grid{grid-template-columns:minmax(0,1fr)}.metrika{border-right:none!important}.metrika:nth-child(3){border-bottom:1px solid var(--chiziq)}}
 </style>
 </head>
 <body data-sahifa="hisobotlar">

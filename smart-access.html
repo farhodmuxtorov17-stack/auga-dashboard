@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- Smart Access (ekran 8) ---- */
-.sa-grid{display:grid;grid-template-columns:340px 1fr 350px;gap:18px;align-items:start}
+.sa-grid{display:grid;grid-template-columns:340px minmax(0,1fr) 350px;gap:18px;align-items:start}
 .sa-grid > div:nth-child(2){min-width:0}
 .sa-karta h3{font-size:16.5px;font-weight:750}
 .sa-karta .sub{font-size:12.5px;color:var(--matn-4);margin-top:2px}
@@ -46,7 +46,7 @@
   padding:8px 14px;border-radius:11px;font-size:13px;font-weight:650;
 }
 .sahna-yorliq .n{width:7px;height:7px;border-radius:99px;background:#8CD121;flex:none}
-.qurilma-qator{display:grid;grid-template-columns:1fr 1fr 1fr 64px;gap:12px;margin-top:14px}
+.qurilma-qator{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) 64px;gap:12px;margin-top:14px}
 .qurilma-k{background:var(--karta);border-radius:14px;box-shadow:var(--soya);padding:14px 16px;display:flex;align-items:center;gap:12px;text-align:left;transition:transform var(--tez)}
 .qurilma-k:hover{transform:translateY(-2px)}
 .qurilma-k b{display:block;font-size:14.5px;font-weight:700;color:#1F2328}
@@ -54,7 +54,7 @@
 .qurilma-k .ic{margin-left:auto;width:22px;height:22px;color:#5B6168}
 .qurilma-k.uch-nuqta{justify-content:center}
 .mehmon-karta{margin-top:16px}
-.mehmon-royxat{display:grid;grid-template-columns:repeat(4,1fr) 64px;gap:12px}
+.mehmon-royxat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr)) 64px;gap:12px}
 .mehmon-k{background:var(--karta);border:1px solid var(--chiziq);border-radius:13px;padding:12px;display:flex;align-items:center;gap:10px;text-align:left;transition:box-shadow var(--tez)}
 .mehmon-k:hover{box-shadow:var(--soya)}
 .mehmon-k .avatar{width:36px;height:36px}
@@ -103,16 +103,16 @@
 }
 .bekor-tugma:hover{background:var(--qizil-fon)}
 .bekor-tugma .ic{width:17px;height:17px}
-@media (max-width:1560px){.sa-grid{grid-template-columns:300px 1fr 330px}}
+@media (max-width:1560px){.sa-grid{grid-template-columns:300px minmax(0,1fr) 330px}}
 @media (max-width:1300px){
-  .sa-grid{grid-template-columns:1fr 1fr}
+  .sa-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .sa-grid > div:first-child{order:2}
   .sa-grid > div:nth-child(2){order:1;grid-column:1/-1}
   .sa-grid > aside{order:3;grid-column:1/-1}
-  .mehmon-royxat{grid-template-columns:1fr 1fr}
+  .mehmon-royxat{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .mehmon-plus{grid-column:1/-1}
 }
-@media (max-width:900px){.sa-grid{grid-template-columns:1fr}}
+@media (max-width:900px){.sa-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body data-sahifa="smart-access">
@@ -441,7 +441,7 @@ document.getElementById("sorov-qoshish").addEventListener("click", ()=>{
   AUGA.modal("Yangi kirish so'rovi",
     `<div style="display:grid;gap:14px;margin-top:6px;text-align:left">
       <div><label class="maydon-yorliq">Tashrifchi F.I.Sh.</label><div class="kirish"><input id="ys-nom" placeholder="Familiya Ism Sharif"></div></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px">
         <div><label class="maydon-yorliq">Hujjat turi</label><div class="kirish"><select id="ys-turi">
           <option>Pasport</option>
           <option>ID karta</option>
@@ -459,7 +459,7 @@ document.getElementById("sorov-qoshish").addEventListener("click", ()=>{
         <option>Ombor kirish</option>
         <option>Parking kirish</option>
       </select></div></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px">
         <div><label class="maydon-yorliq">Boshlanish sanasi/vaqti</label><div class="kirish"><input type="datetime-local" id="ys-boshlanish"></div></div>
         <div><label class="maydon-yorliq">Tugash sanasi/vaqti</label><div class="kirish"><input type="datetime-local" id="ys-tugash"></div></div>
       </div>

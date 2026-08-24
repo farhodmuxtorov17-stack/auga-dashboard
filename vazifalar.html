@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- Vazifalar va tasdiqlar (ekran 9) ---- */
-.vz-grid{display:grid;grid-template-columns:350px 1fr 400px;gap:18px;align-items:start}
+.vz-grid{display:grid;grid-template-columns:350px minmax(0,1fr) 400px;gap:18px;align-items:start}
 .vz-karta h3{font-size:16.5px;font-weight:750}
 .vz-son{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 8px;margin-left:9px;background:#EAF6D3;color:#3E7C0A;border-radius:99px;font-size:12.5px;font-weight:750;vertical-align:2px}
 
@@ -44,7 +44,7 @@
 .jarayon-tablar{display:flex;gap:24px;border-bottom:1px solid var(--chiziq);margin-top:16px}
 .jarayon-tab{padding:10px 2px 13px;font-size:14.5px;font-weight:650;color:#5F6169;border-bottom:2px solid transparent;margin-bottom:-1px}
 .jarayon-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
-.jarayon-blok{background:#FAFBF8;border-radius:16px;padding:22px;margin-top:18px;display:grid;grid-template-columns:1fr 280px;gap:16px}
+.jarayon-blok{background:#FAFBF8;border-radius:16px;padding:22px;margin-top:18px;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px}
 .jarayon-blok h4{font-size:15.5px;font-weight:750;margin-bottom:18px}
 .qadam{display:flex;gap:14px;position:relative;padding-bottom:26px}
 .qadam:last-child{padding-bottom:0}
@@ -69,7 +69,7 @@
 .izoh-quti span{font-size:13.5px;color:#4A524A}
 .faoliyat-jadval{margin-top:18px}
 .faoliyat-jadval h4{font-size:15.5px;font-weight:750;margin-bottom:8px}
-.fj-qator{display:grid;grid-template-columns:120px 160px 1fr;gap:10px;padding:9px 0;border-bottom:1px solid #F2F3F5;font-size:13px}
+.fj-qator{display:grid;grid-template-columns:120px 160px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid #F2F3F5;font-size:13px}
 .fj-qator:last-child{border-bottom:none}
 .fj-qator .vaqt{color:var(--matn-4)}
 .fj-qator .kim{font-weight:650;color:#33383E}
@@ -89,7 +89,7 @@
 .vazifa-kartacha .kod{display:block;font-size:12px;color:var(--matn-4);margin-top:2px}
 
 /* Muhimlik segmentli tanlovi (Yangi vazifa modali) */
-.vz-mh-segment{display:grid;grid-template-columns:repeat(4,1fr);background:var(--kanvas);border:1px solid var(--kirish-chiziq);border-radius:12px;padding:4px;gap:0}
+.vz-mh-segment{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:var(--kanvas);border:1px solid var(--kirish-chiziq);border-radius:12px;padding:4px;gap:0}
 .vz-mh-tugma{height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:650;color:var(--matn-3);position:relative;transition:background var(--tez),color var(--tez)}
 .vz-mh-tugma:hover{color:#23272C}
 .vz-mh-tugma[aria-pressed="true"]{background:#F0F1F4;color:#33383E}
@@ -117,11 +117,11 @@
 .taqvim button.bugun{background:#8CD121;color:#fff;font-weight:750}
 .taqvim button.belgili{box-shadow:inset 0 0 0 1.5px #8CD121;color:#3E7C0A;font-weight:700}
 .vz-grid > aside{display:flex;flex-direction:column;gap:18px}
-@media (max-width:1760px){.vz-grid{grid-template-columns:320px 1fr}
-  .vz-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px}}
-@media (max-width:1100px){.vz-grid{grid-template-columns:1fr}
-  .vz-grid > aside{grid-template-columns:1fr}
-  .jarayon-blok{grid-template-columns:1fr}}
+@media (max-width:1760px){.vz-grid{grid-template-columns:320px minmax(0,1fr)}
+  .vz-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}}
+@media (max-width:1100px){.vz-grid{grid-template-columns:minmax(0,1fr)}
+  .vz-grid > aside{grid-template-columns:minmax(0,1fr)}
+  .jarayon-blok{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body data-sahifa="vazifalar">
@@ -195,7 +195,7 @@
         </div>
 
         <div data-jp="malumot" hidden>
-          <div class="detal-jadval" id="malumot-royxat" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 12px;margin-top:18px"></div>
+          <div class="detal-jadval" id="malumot-royxat" style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px 12px;margin-top:18px"></div>
         </div>
         </div>
         <div class="bosh-holat" id="jp-bosh-holat" hidden>
@@ -490,7 +490,7 @@ document.getElementById("vz-yangi-tugma").addEventListener("click", ()=>{
          <div class="kirish"><input id="vz-f-tur" type="text" maxlength="80" placeholder="Masalan: Ko'rib chiqish"></div></div>
        <div><label class="maydon-yorliq" for="vz-f-ijro">Ijrochi</label>
          <div class="kirish"><input id="vz-f-ijro" type="text" maxlength="80" placeholder="F.I.Sh. kiriting"></div></div>
-       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+       <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px">
          <div><label class="maydon-yorliq" for="vz-f-sana">Muddat sanasi</label>
            <div class="kirish"><input id="vz-f-sana" type="date"></div></div>
          <div><label class="maydon-yorliq" for="vz-f-vaqt">Muddat vaqti</label>

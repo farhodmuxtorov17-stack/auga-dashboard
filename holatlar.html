@@ -13,7 +13,7 @@
 .h-markaz h1{font-size:28px;font-weight:750;letter-spacing:-.015em}
 .h-markaz p{font-size:14px;color:var(--matn-3);margin-top:4px}
 
-.holat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:8px}
+.holat-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:8px}
 .holat-k{background:var(--karta);border-radius:18px;box-shadow:var(--soya);padding:16px;display:flex;flex-direction:column;text-align:center}
 .holat-teg{align-self:flex-start;font-size:11.5px;font-weight:700;padding:5px 12px;border-radius:99px}
 .teg-yashil{background:#EBF7D8;color:#3E7C0A}
@@ -40,9 +40,9 @@
 .h-oxiri .ic{width:19px;height:19px;color:#5B6168}
 .h-oxiri a{color:#3E9412;font-weight:650}
 .h-oxiri a:hover{text-decoration:underline}
-@media (max-width:1500px){.holat-grid{grid-template-columns:repeat(3,1fr)}}
-@media (max-width:1100px){.holat-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:700px){.holat-grid{grid-template-columns:1fr}}
+@media (max-width:1500px){.holat-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:1100px){.holat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:700px){.holat-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body data-sahifa="sozlamalar" data-topbar-sarlavha="Xatolik va ogohlantirish ekranlari" data-topbar-ikon="i-ogoh">

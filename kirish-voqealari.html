@@ -18,7 +18,7 @@
 .kv-tab .son{font-size:12px;font-weight:750;background:#EAF6D3;color:#3E7C0A;border-radius:99px;padding:2px 8px;margin-left:6px}
 .kv-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
 
-.kv-grid{display:grid;grid-template-columns:440px 1fr 460px;gap:18px;align-items:start}
+.kv-grid{display:grid;grid-template-columns:440px minmax(0,1fr) 460px;gap:18px;align-items:start}
 .kv-filtrlar{display:flex;gap:10px;margin-bottom:4px}
 .kv-filtrlar .tanlov{height:44px}
 .voqea-band{
@@ -92,8 +92,8 @@
 .amal-oq:hover{background:#F6F7F8}
 .amal-oq .ic{width:17px;height:17px}
 .kv-grid > aside{display:flex;flex-direction:column;gap:18px}
-@media (max-width:1700px){.kv-grid{grid-template-columns:400px 1fr}.kv-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}}
-@media (max-width:1200px){.kv-grid{grid-template-columns:1fr}.kv-grid > aside{grid-template-columns:1fr}.shaxs-bosh{flex-direction:column}.shaxs-bosh img{width:100%;height:220px}}
+@media (max-width:1700px){.kv-grid{grid-template-columns:400px minmax(0,1fr)}.kv-grid > aside{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}}
+@media (max-width:1200px){.kv-grid{grid-template-columns:minmax(0,1fr)}.kv-grid > aside{grid-template-columns:minmax(0,1fr)}.shaxs-bosh{flex-direction:column}.shaxs-bosh img{width:100%;height:220px}}
 </style>
 </head>
 <body data-sahifa="smart-access">

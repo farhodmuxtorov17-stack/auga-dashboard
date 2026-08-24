@@ -11,7 +11,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
 /* ---- Faqat shu sahifa: xarita, filtrlar, pastki qator ---- */
-.xarita-qator{display:grid;grid-template-columns:1fr 300px;gap:18px}
+.xarita-qator{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px}
 .xarita-karta{
   position:relative;background:var(--karta);border-radius:var(--r-katta);
   box-shadow:var(--soya);overflow:hidden;min-height:470px;
@@ -47,8 +47,8 @@
 .jami-qator{display:flex;align-items:center;margin-top:12px;padding-top:14px;border-top:1px solid var(--chiziq);font-size:15px}
 .jami-qator span{color:#3F454C;font-weight:600}
 .jami-qator b{margin-left:auto;font-size:16px;font-weight:800;color:#17191C}
-.past-qator{display:grid;grid-template-columns:1.78fr .84fr .66fr;gap:18px}
-.aktiv-torlar{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.past-qator{display:grid;grid-template-columns:minmax(0,1.78fr) minmax(0,.84fr) minmax(0,.66fr);gap:18px}
+.aktiv-torlar{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
 .aktiv-kartacha{border-radius:16px;text-align:left;transition:transform var(--tez);display:block}
 .aktiv-kartacha:hover{transform:translateY(-2px)}
 .aktiv-kartacha img{width:100%;height:126px;object-fit:cover;border-radius:16px;outline:1px solid rgba(23,26,31,.06);outline-offset:-1px}
@@ -74,17 +74,17 @@
 .eslatma-tugma:hover{background:#F6F7F8}
 .eslatma-tugma .ic{margin-left:auto;width:17px;height:17px;color:#43484E}
 @media (max-width:1500px){
-  .past-qator{grid-template-columns:1fr 1fr}
+  .past-qator{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
   .past-qator .karta:first-child{grid-column:1/-1}
   .aktiv-torlar img{height:140px}
 }
 @media (max-width:1240px){
-  .xarita-qator{grid-template-columns:1fr}
-  .aktiv-torlar{grid-template-columns:repeat(3,1fr)}
+  .xarita-qator{grid-template-columns:minmax(0,1fr)}
+  .aktiv-torlar{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:1100px){
-  .past-qator{grid-template-columns:1fr}
-  .aktiv-torlar{grid-template-columns:repeat(2,1fr)}
+  .past-qator{grid-template-columns:minmax(0,1fr)}
+  .aktiv-torlar{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
 /* ---- Rolga qarab bosh sahifa (Rahbar / Operator / Texnik) ---- */
@@ -103,7 +103,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
 .holat-qator .n{display:inline-block;width:8px;height:8px;border-radius:99px}
 
 .salom{font-size:14px;color:var(--matn-3);margin-top:3px}
-.rol-qator{display:grid;grid-template-columns:1.55fr 1fr;gap:18px}
+.rol-qator{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px}
 .royxat-jadval td{cursor:default}
 .royxat-jadval tbody tr{cursor:pointer}
 .mini-holat{display:flex;align-items:center;gap:8px}
@@ -114,7 +114,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
 .segment-legend span{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--matn-2)}
 .segment-legend .nuqta{width:8px;height:8px;border-radius:99px;flex:none}
 .segment-legend b{color:#17191C;font-weight:700;margin-left:2px}
-@media (max-width:1240px){.rol-qator{grid-template-columns:1fr}}
+@media (max-width:1240px){.rol-qator{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body data-sahifa="panel">
@@ -363,7 +363,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
     </section>
 
     <!-- Shartnomalar nazorati + Aktivlar holati -->
-    <section style="display:grid;grid-template-columns:1.55fr 1fr;gap:18px">
+    <section style="display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:18px">
       <div class="karta eslatma-karta">
         <div class="karta-bosh"><h2>Shartnomalar nazorati</h2><a class="karta-havola" href="shartnomalar.html">Barchasini ko'rish<svg class="ic"><use href="#i-ong"/></svg></a></div>
         <a class="eslatma" href="shartnomalar.html">
@@ -409,7 +409,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
     </section>
 
     <!-- So'nggi aktivlar -->
-    <section class="past-qator" style="grid-template-columns:1fr">
+    <section class="past-qator" style="grid-template-columns:minmax(0,1fr)">
       <div class="karta">
         <div class="karta-bosh">
           <h2>So'nggi aktivlar</h2>

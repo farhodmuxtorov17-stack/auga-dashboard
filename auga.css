@@ -40,9 +40,6 @@
   --rol-rahbar:#8A4BD8;   --rol-rahbar-fon:#F3EBFE;  --rol-rahbar-matn:#7233C4;
   --rol-operator:#2F6BCF; --rol-operator-fon:#E7F0FE;--rol-operator-matn:#2058B0;
   --rol-texnik:#1C8A82;   --rol-texnik-fon:#E1F5F2;  --rol-texnik-matn:#146F68;
-  /* Administrator rangi ochiq yuzalarda (avatar, yorliq) to'g'ri ishlaydi, lekin to'q
-     sidebar fonida ko'rinmay qoladi — shu sababli sidebar uchun ochiq varianti. */
-  --rol-admin-sb:#D5D9C9;
 
   --qizil:#F45E53;
   --qizil-fon:#FDEEEC;
@@ -65,15 +62,6 @@
   --r-katta:20px; --r-karta:18px; --r-ich:16px; --r-el:12px;
   --tez:150ms cubic-bezier(.23,1,.32,1);
 
-  /* Sidebar — to'q fon (premium admin-panel uslubi: Linear/Vercel/Stripe kabi),
-     --tile-dark oilasidan qurilgan, brendga mos, o'zboshimchalik bilan tanlanmagan. */
-  --sb-bg:#14170F;
-  --sb-bg-hover:#1E2318;
-  --sb-bg-aktiv:#232B18;
-  --sb-chiziq:rgba(255,255,255,.06);
-  --sb-matn:#9CA394;
-  --sb-matn-ustida:#EDEFE7;
-  --sb-ikon:#767C6C;
 
   /* Interaktiv kartalar uchun muallaqlash (hover) ko'tarilish effekti */
   --soya-muallaq:0 2px 4px rgba(23,26,31,.06), 0 16px 32px -8px rgba(23,26,31,.16);
@@ -94,52 +82,52 @@ img{display:block;max-width:100%}
 .ic{stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none;width:20px;height:20px}
 
 /* ============ Karkas ============ */
-.app{display:grid;grid-template-columns:268px 1fr;min-height:100vh}
+.app{display:grid;grid-template-columns:268px minmax(0,1fr);min-height:100vh}
 .asosiy{min-width:0;display:flex;flex-direction:column}
 .kontent{padding:6px 28px 36px;display:flex;flex-direction:column;gap:18px}
 
 /* ============ Sidebar ============ */
 .sidebar{
-  background:var(--sb-bg);
-  border-right:1px solid rgba(255,255,255,.04);
+  background:var(--karta);
+  border-right:1px solid var(--chiziq);
   padding:26px 20px 22px;
   display:flex;flex-direction:column;
   position:sticky;top:0;height:100vh;overflow-y:auto;
 }
 .logo{display:flex;align-items:center;gap:12px;padding:2px 6px 0}
-.logo-soz{font-size:25px;font-weight:800;letter-spacing:.01em;color:#fff}
-.menyu{margin-top:28px;display:flex;flex-direction:column;gap:3px}
+.logo-soz{font-size:25px;font-weight:800;letter-spacing:.01em;color:#17191C}
+.menyu{margin-top:26px;display:flex;flex-direction:column;gap:8px}
 .m-band{
   position:relative;display:flex;align-items:center;gap:14px;
-  height:50px;padding:0 16px;border-radius:12px;width:100%;text-align:left;
-  font-size:14.5px;font-weight:500;color:var(--sb-matn);
+  height:52px;padding:0 16px;border-radius:14px;width:100%;text-align:left;
+  font-size:15px;font-weight:500;color:var(--matn-2);
   transition:background var(--tez),color var(--tez);
 }
-.m-band .ic{width:21px;height:21px;color:var(--sb-ikon);transition:color var(--tez)}
-.m-band:hover{background:var(--sb-bg-hover);color:var(--sb-matn-ustida)}
-.m-band:hover .ic{color:var(--sb-matn-ustida)}
-.m-band.aktiv{background:var(--sb-bg-aktiv);color:#fff;font-weight:650}
-.m-band.aktiv .ic{color:var(--lime)}
+.m-band .ic{width:22px;height:22px;color:#8B9198;transition:color var(--tez)}
+.m-band:hover{background:#F6F7F8;color:var(--matn)}
+.m-band:hover .ic{color:var(--matn-2)}
+.m-band.aktiv{background:#F3F4F6;color:#17191C;font-weight:650}
+.m-band.aktiv .ic{color:#17191C}
 .m-band.aktiv::after{
   content:"";position:absolute;right:-20px;top:6px;bottom:6px;width:4px;
   background:var(--lime);border-radius:4px 0 0 4px;
 }
 /* Rol identifikatori — aktiv band chizig'i har bir rolda o'z rangida (har sahifada ko'rinadi) */
-.sidebar.rol-admin .m-band.aktiv::after{background:var(--rol-admin-sb);box-shadow:0 0 12px -1px rgba(213,217,201,.5)}
-.sidebar.rol-rahbar .m-band.aktiv::after{background:var(--rol-rahbar);box-shadow:0 0 12px -1px var(--rol-rahbar)}
-.sidebar.rol-operator .m-band.aktiv::after{background:var(--rol-operator);box-shadow:0 0 12px -1px var(--rol-operator)}
-.sidebar.rol-texnik .m-band.aktiv::after{background:var(--rol-texnik);box-shadow:0 0 12px -1px var(--rol-texnik)}
+.sidebar.rol-admin .m-band.aktiv::after{background:var(--rol-admin)}
+.sidebar.rol-rahbar .m-band.aktiv::after{background:var(--rol-rahbar)}
+.sidebar.rol-operator .m-band.aktiv::after{background:var(--rol-operator)}
+.sidebar.rol-texnik .m-band.aktiv::after{background:var(--rol-texnik)}
 .sidebar-past{margin-top:auto;padding-top:18px}
 .yordam{
   display:flex;align-items:center;gap:13px;width:100%;
-  border:1px solid var(--sb-chiziq);border-radius:16px;
+  border:1px solid var(--kirish-chiziq);border-radius:16px;
   height:62px;padding:0 18px;text-align:left;
-  font-size:15px;font-weight:600;color:var(--sb-matn);
-  transition:background var(--tez),border-color var(--tez);
+  font-size:15px;font-weight:600;color:#33383E;
+  transition:background var(--tez);
 }
-.yordam:hover{background:var(--sb-bg-hover);border-color:rgba(255,255,255,.1)}
-.yordam .ic{width:21px;height:21px;color:var(--sb-ikon)}
-.yordam .strelka{margin-left:auto;width:16px;height:16px;color:var(--sb-ikon)}
+.yordam:hover{background:#F6F7F8}
+.yordam .ic{width:21px;height:21px;color:#555B62}
+.yordam .strelka{margin-left:auto;width:16px;height:16px;color:#71767E}
 
 /* ============ Topbar ============ */
 .topbar{display:flex;align-items:center;gap:22px;padding:22px 28px 20px}
@@ -410,7 +398,7 @@ table.jadval{width:100%;border-collapse:collapse}
 .bosh-holat p{font-size:13.5px;color:var(--matn-3);margin:5px 0 16px;max-width:260px}
 
 /* ============ KPI (dashboard + boshqa sahifalar) ============ */
-.kpi-band{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.kpi-band{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}
 .kpi{
   background:var(--karta);border-radius:var(--r-karta);box-shadow:var(--soya);
   padding:20px 22px;display:flex;align-items:center;gap:18px;min-height:116px;
@@ -478,10 +466,10 @@ table.jadval{width:100%;border-collapse:collapse}
 
 /* ============ Moslashuvchanlik ============ */
 @media (max-width:1500px){
-  .kpi-band{grid-template-columns:repeat(2,1fr)}
+  .kpi-band{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:1100px){
-  .app{grid-template-columns:84px 1fr}
+  .app{grid-template-columns:84px minmax(0,1fr)}
   .sidebar{padding:22px 14px}
   .logo-soz,.m-band .yozuv,.yordam .yozuv,.yordam .strelka{display:none}
   .m-band{justify-content:center;padding:0}

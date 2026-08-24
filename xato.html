@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- 404 (ekran 11) ---- */
-.xato-orash{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;min-height:calc(100vh - 160px)}
+.xato-orash{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:center;min-height:calc(100vh - 160px)}
 .orqaga-havola{display:inline-flex;align-items:center;gap:9px;font-size:14.5px;font-weight:600;color:#5B6168;border-radius:8px;margin-bottom:10px}
 .orqaga-havola:hover{color:#17191C}
 .orqaga-havola .ic{width:17px;height:17px}
@@ -24,7 +24,7 @@
 .havola-karta .tile{background:#F0F1F4;color:#43484E;box-shadow:var(--chuqur-tile-tor)}
 .xato-rasm img{width:100%;max-height:78vh;object-fit:contain}
 @media (max-width:1100px){
-  .xato-orash{grid-template-columns:1fr}
+  .xato-orash{grid-template-columns:minmax(0,1fr)}
   .xato-rasm{order:-1}
   .xato-rasm img{max-height:340px}
   .xato-kod{font-size:96px}

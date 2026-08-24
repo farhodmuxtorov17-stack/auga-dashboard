@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="auga.css">
 <style>
 /* ---- Obyektlar ro'yxati (ekran 3) ---- */
-.asosiy-grid{display:grid;grid-template-columns:1fr;gap:18px;align-items:start}
-.asosiy-grid.inspector-ochiq{grid-template-columns:1fr 380px}
+.asosiy-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;align-items:start}
+.asosiy-grid.inspector-ochiq{grid-template-columns:minmax(0,1fr) 380px}
 
 .filtr-qator{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .f-izlash{
@@ -85,7 +85,7 @@
 }
 .insp-tugma:hover{background:#E8EAEE}
 @media (max-width:1400px){
-  .asosiy-grid.inspector-ochiq{grid-template-columns:1fr}
+  .asosiy-grid.inspector-ochiq{grid-template-columns:minmax(0,1fr)}
   .inspektor{position:fixed;right:16px;top:16px;bottom:16px;width:380px;max-width:calc(100vw - 32px);z-index:60;overflow-y:auto;box-shadow:var(--soya-modal)}
 }
 </style>
@@ -412,11 +412,11 @@ document.getElementById("yangi-obyekt").addEventListener("click", ()=>{
   AUGA.modal("Yangi obyekt qo'shish",
     `<div style="display:grid;gap:14px;margin-top:6px">
       <div><label class="maydon-yorliq">Obyekt nomi</label><div class="kirish"><svg class="ic"><use href="#i-bino"/></svg><input id="yo-nom" placeholder="Masalan: Chilonzor Plaza"></div></div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px">
         <div><label class="maydon-yorliq">Hudud</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><select id="yo-hudud">${hududlar.map(h=>`<option>${h}</option>`).join("")}</select></div></div>
         <div><label class="maydon-yorliq">Turi</label><div class="kirish"><svg class="ic"><use href="#i-aktiv"/></svg><select id="yo-tur">${turlar.map(t=>`<option>${t}</option>`).join("")}</select></div></div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px">
         <div><label class="maydon-yorliq">Status</label><div class="kirish"><select id="yo-status">${statuslar.map(s=>`<option>${s}</option>`).join("")}</select></div></div>
         <div><label class="maydon-yorliq">Qiymati (so'm)</label><div class="kirish"><svg class="ic"><use href="#i-daromad"/></svg><input id="yo-qiymat" placeholder="Masalan: 1 500 000 000"></div></div>
       </div>

@@ -49,7 +49,7 @@
 
 .hudud-kartalar{
   position:absolute;z-index:4;left:0;right:390px;bottom:12px;
-  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;
 }
 .hudud-kartalar .h-karta{background:var(--karta);border-radius:16px;box-shadow:var(--soya);padding:18px;text-align:left;transition:transform var(--tez)}
 .hudud-kartalar .h-karta:hover{transform:translateY(-2px)}
@@ -63,14 +63,14 @@
 .h-karta svg.chizma{width:100%;height:38px;margin-top:10px}
 
 @media (max-width:1500px){
-  .hudud-kartalar{grid-template-columns:repeat(2,1fr)}
+  .hudud-kartalar{grid-template-columns:repeat(2,minmax(0,1fr))}
   .legenda{right:390px;top:90px}
 }
 @media (max-width:1240px){
   .xarita-maydon{min-height:auto;display:flex;flex-direction:column;gap:16px}
   #leaflet-uzb{position:relative;height:420px}
   .legenda,.hudud-panel,.hudud-kartalar{position:static;width:100%;max-width:none;right:auto}
-  .hudud-kartalar{grid-template-columns:repeat(2,1fr)}
+  .hudud-kartalar{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 </style>
 </head>

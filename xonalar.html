@@ -12,7 +12,7 @@
 /* ---- Xonalar va qavatlar (ekran 16) ---- */
 .orqa-tugma{width:48px;height:48px;border-radius:14px;background:var(--karta);box-shadow:var(--soya);display:grid;place-items:center;color:#23272C;flex:none}
 .orqa-tugma .ic{width:20px;height:20px}
-.xq-grid{display:grid;grid-template-columns:335px 1fr 385px;gap:18px;align-items:start}
+.xq-grid{display:grid;grid-template-columns:335px minmax(0,1fr) 385px;gap:18px;align-items:start}
 
 .obyekt-karta{display:flex;align-items:center;gap:14px}
 .obyekt-karta img{width:76px;height:64px;object-fit:cover;border-radius:12px;outline:1px solid rgba(23,26,31,.06);outline-offset:-1px}
@@ -96,8 +96,8 @@
 .xp-tahrir{width:100%;height:52px;margin-top:16px;border-radius:13px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:10px;font-size:14.5px;font-weight:700;transition:background var(--tez)}
 .xp-tahrir:hover{background:#F6F7F8}
 .xp-tahrir .ic{width:17px;height:17px}
-@media (max-width:1600px){.xq-grid{grid-template-columns:300px 1fr}.xq-grid > aside:last-child{grid-column:1/-1}}
-@media (max-width:1200px){.xq-grid{grid-template-columns:1fr}.qavat-sahna img{padding:16px 20px}}
+@media (max-width:1600px){.xq-grid{grid-template-columns:300px minmax(0,1fr)}.xq-grid > aside:last-child{grid-column:1/-1}}
+@media (max-width:1200px){.xq-grid{grid-template-columns:minmax(0,1fr)}.qavat-sahna img{padding:16px 20px}}
 </style>
 </head>
 <body data-sahifa="xonalar">

@@ -17,7 +17,7 @@
 .mon-kpi .kpi-qiymat b small{font-size:16px;color:var(--matn-3);font-weight:600}
 .mon-kpi .delta.qizil{color:#D8432F}
 
-.mon-orta{display:grid;grid-template-columns:250px 1fr 380px;gap:18px;align-items:stretch}
+.mon-orta{display:grid;grid-template-columns:250px minmax(0,1fr) 380px;gap:18px;align-items:stretch}
 .toifa-karta h3{font-size:16.5px;font-weight:750;margin-bottom:10px}
 .toifa-qator{display:flex;align-items:center;gap:11px;width:100%;padding:10px 4px;font-size:14.5px;border-radius:9px;transition:background var(--tez);text-align:left}
 .toifa-qator:hover{background:#F6F7F8}
@@ -44,7 +44,7 @@
 .holat-callout .sub{display:block;font-size:12px;font-weight:500;color:var(--matn-3)}
 
 .kamera-karta .karta-bosh h2{font-size:16.5px}
-.kamera-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.kamera-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
 .kamera{position:relative;border-radius:13px;overflow:hidden;text-align:left}
 .kamera img{width:100%;height:118px;object-fit:cover;transition:transform var(--tez)}
 .kamera:hover img{transform:scale(1.04)}
@@ -55,7 +55,7 @@
 }
 .kamera .yorliq .nuqta{width:6px;height:6px;border-radius:99px;background:#7DE24A}
 
-.mon-past{display:grid;grid-template-columns:1fr 1.35fr;gap:18px}
+.mon-past{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:18px}
 .quvvat-karta h3, .ogoh-karta h3{font-size:16.5px;font-weight:750;margin-bottom:14px}
 .ogoh-karta .jadval th{padding:10px 14px}
 .ogoh-karta .jadval td{padding:12px 14px}
@@ -65,14 +65,14 @@
 .holat-belgi.ogoh{color:#DD9A0A}
 .ogoh-havola{display:flex;justify-content:flex-end;margin-top:6px}
 @media (max-width:1500px){
-  .mon-orta{grid-template-columns:220px 1fr}
+  .mon-orta{grid-template-columns:220px minmax(0,1fr)}
   .kamera-karta{grid-column:1/-1}
-  .kamera-grid{grid-template-columns:repeat(4,1fr)}
+  .kamera-grid{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media (max-width:1240px){
-  .mon-orta{grid-template-columns:1fr}
-  .mon-past{grid-template-columns:1fr}
-  .kamera-grid{grid-template-columns:1fr 1fr}
+  .mon-orta{grid-template-columns:minmax(0,1fr)}
+  .mon-past{grid-template-columns:minmax(0,1fr)}
+  .kamera-grid{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 }
 </style>
 </head>

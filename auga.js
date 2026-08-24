@@ -317,11 +317,24 @@ function tanlovUla(root){
     pop.style.cssText = "top:calc(100% + 8px);left:0;right:auto;min-width:100%";
     pop.innerHTML = variantlar.map(v=>`<button type="button" data-v="${v}"><span>${v}</span></button>`).join("");
     btn.appendChild(pop);
+    /* Oyna o'ng chekkasidagi tanlovda ro'yxat vyuportdan chiqib ketardi — yopiq holatda
+       ham (opacity:0 layoutni egallaydi) gorizontal skroll hosil qilardi. Sig'masa
+       chapga emas, o'ng chekkaga tekislanadi. */
+    const joylashtir = ()=>{
+      pop.style.left = "0"; pop.style.right = "auto";
+      if (pop.getBoundingClientRect().right > document.documentElement.clientWidth - 8){
+        pop.style.left = "auto"; pop.style.right = "0";
+      }
+    };
+    joylashtir();
+    // Shrift (Onest) kech yuklanadi va matn kengayadi — o'lchashni qayta bajarish shart.
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(joylashtir);
+    window.addEventListener("resize", joylashtir);
     btn.addEventListener("click", e=>{
       if (e.target.closest(".menyu-popover")) return;
       const ochiqmi = pop.classList.contains("ochiq");
       hammaPopoverYop();
-      if (!ochiqmi) pop.classList.add("ochiq");
+      if (!ochiqmi){ joylashtir(); pop.classList.add("ochiq"); }
     });
     pop.querySelectorAll("button").forEach(v=>{
       v.addEventListener("click", ()=>{
