@@ -150,7 +150,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
         <button class="tugma tugma-oq" id="hisobot-tugma" aria-haspopup="menu" aria-expanded="false">
           <svg class="ic"><use href="#i-yuklab"/></svg>
           Hisobot yaratish
-          <svg class="ic" style="width:16px;height:16px;color:#5F6169"><use href="#i-past"/></svg>
+          <svg class="ic" style="width:16px;height:16px;color:var(--matn-3)"><use href="#i-past"/></svg>
         </button>
         <div class="menyu-popover" id="hisobot-menyu" role="menu" style="top:calc(100% + 8px);right:0">
           <button type="button" data-format="PDF"><svg class="ic"><use href="#i-hujjat"/></svg>PDF hisobot</button>
@@ -317,7 +317,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
         <button class="tugma tugma-oq" id="hisobot-tugma-rahbar" aria-haspopup="menu" aria-expanded="false">
           <svg class="ic"><use href="#i-yuklab"/></svg>
           Hisobot yaratish
-          <svg class="ic" style="width:16px;height:16px;color:#5F6169"><use href="#i-past"/></svg>
+          <svg class="ic" style="width:16px;height:16px;color:var(--matn-3)"><use href="#i-past"/></svg>
         </button>
         <div class="menyu-popover" id="hisobot-menyu-rahbar" role="menu" style="top:calc(100% + 8px);right:0">
           <button type="button" data-format="PDF"><svg class="ic"><use href="#i-hujjat"/></svg>PDF hisobot</button>
@@ -791,6 +791,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
   AKTIV_NUQTALAR.forEach(n=>{
     const rang = ranglar.getPropertyValue(n.rangVar).trim();
     const belgi = L.marker([n.lat, n.lng], {
+      title: n.tur,
+      alt: n.tur,
       icon: L.divIcon({className:"auga-pin", html:`<span class="nuqtacha" style="background:${rang}"></span>`, iconSize:[24,24], iconAnchor:[12,12]})
     }).addTo(xMap);
     belgi.bindTooltip(

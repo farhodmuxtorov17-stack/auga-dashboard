@@ -18,7 +18,7 @@
   font-size:14px;font-weight:650;color:#33383E;position:relative;
 }
 .holat-tanlov .nuqta{width:8px;height:8px;border-radius:99px;background:#F2C230}
-.holat-tanlov .ic{width:16px;height:16px;color:#5F6169}
+.holat-tanlov .ic{width:16px;height:16px;color:var(--matn-3)}
 
 .sv-grid{display:grid;grid-template-columns:330px minmax(0,1fr) 400px;gap:18px;align-items:start}
 .sv-info h3{font-size:16px;font-weight:750;margin-bottom:6px}
@@ -81,14 +81,14 @@
 .tv-belgi{width:28px;height:28px;border-radius:99px;display:grid;place-items:center;flex:none;margin-top:1px;box-shadow:var(--chuqur-tile-tor)}
 .tv-band.bajarildi .tv-belgi{background:#8CD121;color:#fff}
 .tv-band.jarayonda .tv-belgi{background:#fff;border:2.5px solid #3B82F6}
-.tv-band.kutish .tv-belgi{background:#EEF0EA;color:#71767E}
+.tv-band.kutish .tv-belgi{background:#EEF0EA;color:var(--matn-4)}
 .tv-belgi .ic{width:14px;height:14px;stroke-width:2.6}
 .tv-band b{display:block;font-size:14px;font-weight:650;line-height:1.35}
 .tv-band p{font-size:12.5px;color:var(--matn-3);line-height:1.45;margin-top:3px}
 .tv-holat{margin-left:auto;flex:none;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700}
 .tv-band.bajarildi .tv-holat{color:#3E7C0A}
 .tv-band.jarayonda .tv-holat{color:#9A6E00}
-.tv-band.kutish .tv-holat{color:#71767E}
+.tv-band.kutish .tv-holat{color:var(--matn-4)}
 .tv-holat .n{width:7px;height:7px;border-radius:99px;background:currentColor}
 .tv-holat .ic{width:14px;height:14px;color:var(--matn-4)}
 
@@ -250,7 +250,7 @@
             <h3>Texnik izohlar</h3>
             <span class="saqlangan-chip" id="saqlangan" style="background:#FFF6DE;color:#9A6E00">Saqlanmagan</span>
           </div>
-          <textarea class="izoh-matn" id="izoh" maxlength="1000">1-qavat kameralarida tasvir sifati yaxshi.
+          <textarea class="izoh-matn" id="izoh" maxlength="1000" aria-label="Texnik izohlar">1-qavat kameralarida tasvir sifati yaxshi.
 Interkom tizimida ovoz biroz past, ammo ishlash holati normal.
 Face ID qurilmalari yangilanishi tavsiya etiladi.</textarea>
           <div class="izoh-past">

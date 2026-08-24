@@ -38,7 +38,7 @@
 .hudud-band{display:flex;align-items:center;gap:11px;width:100%;padding:9px 8px;margin:0 -8px;border-radius:10px;font-size:14.5px;transition:background var(--tez);text-align:left}
 .hudud-band:hover{background:#F6F7F8}
 .hudud-band.faol{background:#F3FBE2;box-shadow:inset 0 0 0 1px #CBE99B}
-.hudud-band .ic{width:18px;height:18px;color:#5F6169}
+.hudud-band .ic{width:18px;height:18px;color:var(--matn-3)}
 .hudud-band .nomi{color:#33383E;font-weight:550}
 .hudud-band b{margin-left:auto;font-weight:750;font-variant-numeric:tabular-nums;color:#17191C}
 .hudud-band .delta{width:56px;text-align:right;font-size:13px}
@@ -205,6 +205,8 @@ HUDUDLAR.forEach(h=>{
   const d = Math.round(18 + 42*Math.sqrt(son/maxSon));
   const rang = DARAJA_RANG[geo.daraja];
   const belgi = L.marker([geo.lat, geo.lng], {
+    title: `${h[0]} — ${h[1]}`,
+    alt: `${h[0]} — ${h[1]}`,
     icon: L.divIcon({className:"auga-pin", html:`<span class="nuqtacha" style="background:${rang}"></span>`, iconSize:[d,d], iconAnchor:[d/2,d/2]})
   }).addTo(uzMap);
   belgi.bindTooltip(

@@ -127,7 +127,7 @@ img{display:block;max-width:100%}
 }
 .yordam:hover{background:#F6F7F8}
 .yordam .ic{width:21px;height:21px;color:#555B62}
-.yordam .strelka{margin-left:auto;width:16px;height:16px;color:#71767E}
+.yordam .strelka{margin-left:auto;width:16px;height:16px;color:var(--matn-4)}
 
 /* ============ Topbar ============ */
 .topbar{display:flex;align-items:center;gap:22px;padding:22px 28px 20px}
@@ -137,8 +137,8 @@ img{display:block;max-width:100%}
   box-shadow:var(--soya);cursor:text;
 }
 .izlash input{flex:1;border:none;outline:none;background:none;font:inherit;font-size:15px;color:var(--matn)}
-.izlash input::placeholder{color:#71767E}
-.izlash .ic{width:21px;height:21px;color:#5F6169}
+.izlash input::placeholder{color:var(--matn-4)}
+.izlash .ic{width:21px;height:21px;color:var(--matn-3)}
 .topbar-ong{margin-left:auto;display:flex;align-items:center;gap:18px}
 .qongiroq{position:relative;width:44px;height:44px;display:grid;place-items:center;border-radius:12px;color:#43484E;transition:background var(--tez)}
 .qongiroq:hover{background:#EFF0F3}
@@ -183,7 +183,7 @@ img{display:block;max-width:100%}
 .profil .matnlar span.rol-yorliq.rol-rahbar{background:var(--rol-rahbar-fon);color:var(--rol-rahbar-matn)}
 .profil .matnlar span.rol-yorliq.rol-operator{background:var(--rol-operator-fon);color:var(--rol-operator-matn)}
 .profil .matnlar span.rol-yorliq.rol-texnik{background:var(--rol-texnik-fon);color:var(--rol-texnik-matn)}
-.popover-bolim{padding:8px 12px 4px;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:#71767E}
+.popover-bolim{padding:8px 12px 4px;font-size:10.5px;font-weight:700;letter-spacing:.05em;color:var(--matn-4)}
 
 /* ============ Sahifa boshi ============ */
 .sahifa-qator{display:flex;align-items:center;gap:16px;margin-top:8px;flex-wrap:wrap}
@@ -236,7 +236,7 @@ img{display:block;max-width:100%}
   flex:1;border:none;outline:none;background:none;font:inherit;font-size:15px;color:var(--matn);min-width:0;
 }
 .kirish input::placeholder{color:#A6ACB4}
-.kirish .ic{width:20px;height:20px;color:#5F6169}
+.kirish .ic{width:20px;height:20px;color:var(--matn-3)}
 .kirish-katta textarea{padding:14px 0;resize:vertical;min-height:96px}
 .tanlov{
   display:flex;align-items:center;gap:10px;width:100%;
@@ -247,7 +247,7 @@ img{display:block;max-width:100%}
   position:relative;white-space:nowrap;
 }
 .tanlov:hover{border-color:#D7DAE0;background:#FAFAFC}
-.tanlov .ic{margin-left:auto;width:17px;height:17px;color:#5F6169}
+.tanlov .ic{margin-left:auto;width:17px;height:17px;color:var(--matn-3)}
 .tanlov.tanlandi{color:#23272C;font-weight:600}
 
 /* Checkbox */
@@ -431,7 +431,7 @@ table.jadval{width:100%;border-collapse:collapse}
 .havola-karta .ic{width:20px;height:20px}
 .havola-karta b{display:block;font-size:14.5px;font-weight:700}
 .havola-karta span{display:block;font-size:12.5px;color:var(--matn-4);margin-top:1px}
-.havola-karta .strelka{margin-left:auto;width:16px;height:16px;color:#71767E;flex:none}
+.havola-karta .strelka{margin-left:auto;width:16px;height:16px;color:var(--matn-4);flex:none}
 
 /* ============ Legend qatori ============ */
 .legend{display:flex;flex-direction:column;gap:13px}
