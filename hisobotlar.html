@@ -251,11 +251,7 @@ dm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
   const davr = DAVR_KOEF[b.textContent];
   if (davr){
     dt.childNodes[0].nodeValue = davr.label + " ";
-    KPI_BAZA.forEach((base,i)=>{
-      const qiymat = (base.qiymat*davr.k).toFixed(2).replace(".",",");
-      document.getElementById("kpi-qiymat-"+i).innerHTML = `${qiymat} <small>${base.birlik}</small>`;
-      document.getElementById("kpi-delta-"+i).textContent = (base.delta>=0?"↑ ":"↓ ")+Math.abs(base.delta).toFixed(1).replace(".",",")+"%";
-    });
+    kpiChiz(davr.k);
   }
   AUGA.toast("Davr: "+b.textContent+"", "i-kalendar");
 }));
@@ -297,11 +293,20 @@ function chiz(){
 }
 chiz();
 let rz; window.addEventListener("resize", ()=>{clearTimeout(rz); rz=setTimeout(chiz,120);});
+// aria-label markupda Oylik qatoriga muzlab qolgan edi: granulyarlik almashsa ham
+// skrinrider oylik tavsifni eshitaverardi. Endi joriy qatordan hosil qilinadi.
+function grafikYorliqYangila(){
+  const son = v => String(v).replace(".", ",");
+  document.getElementById("daromad-grafik").setAttribute("aria-label",
+    `Daromad dinamikasi: ${OYLAR[0]} dan ${OYLAR[OYLAR.length-1]} gacha, `
+    + `${son(QIYMAT[0])} dan ${son(QIYMAT[QIYMAT.length-1])} milliard so'mgacha`);
+}
 document.getElementById("grafik-granul").addEventListener("tanlov", e=>{
   const g = GRANULYARLIK[e.detail];
   OYLAR = g.yorliq; QIYMAT = g.qiymat; grafikMaxY = g.maxY;
-  chiz();
+  chiz(); grafikYorliqYangila();
 });
+grafikYorliqYangila();
 
 /* Davr filtri — KPI'larni tanlangan davrga moslashtiradi */
 const DAVR_KOEF = {
@@ -316,10 +321,22 @@ const KPI_BAZA = [
   {qiymat:8.93,  birlik:"mlrd so'm", delta:-3.1, manfiy:true},
   {qiymat:3.55,  birlik:"mlrd so'm", delta:12.4, manfiy:false}
 ];
+function kpiChiz(k = 1){
+  KPI_BAZA.forEach((base,i)=>{
+    const qiymat = (base.qiymat*k).toFixed(2).replace(".",",");
+    document.getElementById("kpi-qiymat-"+i).innerHTML = `${qiymat} <small>${base.birlik}</small>`;
+    document.getElementById("kpi-delta-"+i).textContent =
+      (base.delta>=0?"↑ ":"↓ ")+Math.abs(base.delta).toFixed(1).replace(".",",")+"%";
+  });
+}
 document.querySelectorAll(".kpi-band .kpi").forEach((k,i)=>{
   k.querySelector(".kpi-qiymat b").id = "kpi-qiymat-"+i;
   k.querySelector(".kpi-qiymat .delta").id = "kpi-delta-"+i;
 });
+// KPI raqamlari ikki joyda qattiq yozilgan edi: markupda (birinchi bo'yoq) va KPI_BAZA'da
+// (davr tanlangandan keyin). Ikkalasi bir-biridan ajralib ketishi mumkin edi — endi
+// yuklanishda ham KPI_BAZA'dan chiziladi, ya'ni yagona manba qoladi.
+kpiChiz();
 
 /* Tuzilma donut */
 (function(){
