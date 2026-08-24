@@ -503,6 +503,11 @@ table.jadval{width:100%;border-collapse:collapse}
   .kpi-qiymat b{font-size:26px}
   .kpi-qiymat b small{font-size:16px}
 }
+@media (max-width:560px){
+  /* 4->2 dan keyin boshqa qoida yo'q edi: 375px'da ustun 134.5px bo'lib qolardi,
+     .kpi-tile esa flex:none 64px — qiymatga 9px joy qolib, plitkadan chiqib ketardi. */
+  .kpi-band{grid-template-columns:minmax(0,1fr)}
+}
 @media (max-width:640px){
   .app{grid-template-columns:64px minmax(0,1fr)}
   .sidebar{padding:18px 8px}

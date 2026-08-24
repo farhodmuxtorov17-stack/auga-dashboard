@@ -70,6 +70,9 @@
 .faoliyat-jadval{margin-top:18px}
 .faoliyat-jadval h4{font-size:15.5px;font-weight:750;margin-bottom:8px}
 .fj-qator{display:grid;grid-template-columns:120px 160px minmax(0,1fr);gap:10px;padding:9px 0;border-bottom:1px solid #F2F3F5;font-size:13px}
+/* 120+160+2x10 = 300px qat'iy trek; 375px'da mavjud quti 243px bo'lib, uchinchi
+   ustun (asosiy matn) aynan 0px ga siqilardi. Tor ekranda qatorlar ustma-ust. */
+@media (max-width:760px){.fj-qator{grid-template-columns:minmax(0,1fr);gap:2px}.fj-qator .kim{font-weight:650}}
 .fj-qator:last-child{border-bottom:none}
 .fj-qator .vaqt{color:var(--matn-4)}
 .fj-qator .kim{font-weight:650;color:#33383E}

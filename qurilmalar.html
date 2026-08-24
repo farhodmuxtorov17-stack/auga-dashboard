@@ -58,6 +58,8 @@
 .soglik{position:relative;width:52px;height:52px;display:grid;place-items:center}
 .soglik b{position:absolute;font-size:13px;font-weight:750;color:#17191C}
 .qm-tablar{display:flex;gap:22px;border-bottom:1px solid var(--chiziq);margin-top:16px}
+/* 5 ta tab tor ekranga sig'maydi, o'ralmaydi ham — lentaning o'zi suriladi. */
+@media (max-width:900px){.qm-tablar{gap:16px;overflow-x:auto;scrollbar-width:thin}.qm-tab{white-space:nowrap}}
 .qm-tab{padding:9px 2px 12px;font-size:14px;font-weight:650;color:var(--matn-3);border-bottom:2px solid transparent;margin-bottom:-1px}
 .qm-tab.aktiv{color:#17191C;border-bottom-color:var(--yashil)}
 .qm-korinish{margin-top:16px}

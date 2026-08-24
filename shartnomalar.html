@@ -176,7 +176,7 @@
 
     <div class="filtr-qator">
       <div class="f-izlash" onclick="this.querySelector('input').focus()">
-        <input type="search" placeholder="Qidirish..." aria-label="Shartnomalarni qidirish">
+        <input type="search" id="izlash" placeholder="Qidirish..." aria-label="Shartnomalarni qidirish">
         <svg class="ic"><use href="#i-izlash"/></svg>
       </div>
       <button class="tanlov" id="f-obyekt" data-variantlar='["Barcha aktivlar","Green Tower","Mega Mall","Humo Office","Nurafshon majmuasi","Yashnobod yer"]'><span class="t-yorliq">Barcha aktivlar</span><svg class="ic"><use href="#i-past"/></svg></button>
@@ -378,6 +378,7 @@ let filtrHolat = "";                     // "" = tab filtri yo'q (Barchasi tanla
 let filtrObyekt = "Barcha aktivlar";
 let filtrTuri = "Barcha turlar";
 let filtrStatus = "Barcha statuslar";
+let filtrQidiruv = "";                 // qidiruv qatori (raqam / obyekt / firma / kod)
 
 // Filtrdagi qisqa nom bilan obyekt maydonidagi to'liq nom farq qiladigan holatlar uchun
 const OBYEKT_NOM_MOS = {
@@ -386,7 +387,9 @@ const OBYEKT_NOM_MOS = {
 };
 
 function royxatniFiltrla(){
+  const q = filtrQidiruv.trim().toLowerCase();
   return SHARTNOMALAR.filter(s=>
+    (!q || [s.raqam, s.obyekt, s.firma, s.kod, s.turi].some(v=>String(v).toLowerCase().includes(q))) &&
     (!filtrHolat || s.holat===filtrHolat) &&
     (filtrObyekt==="Barcha aktivlar" || s.obyekt===(OBYEKT_NOM_MOS[filtrObyekt]||filtrObyekt)) &&
     (filtrTuri==="Barcha turlar" || s.turi.startsWith(filtrTuri)) &&
@@ -499,6 +502,7 @@ document.getElementById("bekor-qilish").addEventListener("click", ()=>{
     {xavf:true, okMatn:"Bekor qilish", ok(){ AUGA.toast("Shartnoma bekor qilish jarayoni boshlandi"); }});
 });
 
+document.getElementById("izlash").addEventListener("input", e=>{ filtrQidiruv = e.target.value; yangila(); });
 document.getElementById("f-obyekt").addEventListener("tanlov", e=>{ filtrObyekt = e.detail; yangila(); });
 document.getElementById("f-turi").addEventListener("tanlov", e=>{ filtrTuri = e.detail; yangila(); });
 document.getElementById("f-status").addEventListener("tanlov", e=>{ filtrStatus = e.detail; yangila(); });

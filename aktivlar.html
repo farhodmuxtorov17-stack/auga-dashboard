@@ -125,7 +125,7 @@
         <svg class="ic"><use href="#i-izlash"/></svg>
       </div>
       <button class="tanlov" id="f-hudud" data-variantlar='["Barcha hududlar","Toshkent sh.","Bo&#39;stonliq tum.","Nurafshon sh.","Samarqand","Buxoro"]'><span class="t-yorliq">Barcha hududlar</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="tanlov" id="f-tur" data-variantlar='["Barcha turlar","Biznes markazi","Dacha","Yer maydoni","Savdo markazi","Turar-joy","Ofis"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
+      <button class="tanlov" id="f-tur" data-variantlar='["Barcha turlar","Biznes markazi","Dacha","Yer maydoni","Savdo markazi","Turar-joy","Ofis","Davlat muassasasi"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-status" data-variantlar='["Barcha statuslar","Faol","Rejalashtirilgan","Ta&#39;mirda","Nofaol"]'><span class="t-yorliq">Barcha statuslar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="f-tugma" data-toast="Kengaytirilgan filtrlar paneli">
         <svg class="ic"><use href="#i-slayder"/></svg>
@@ -353,8 +353,12 @@ const p = new URLSearchParams(location.search);
 if (p.get("qidiruv")){ holatFiltri.qidiruv = p.get("qidiruv"); document.getElementById("izlash").value = holatFiltri.qidiruv; }
 if (p.get("tur")){
   const t = p.get("tur");
-  const mos = {"Biznes markazi":"Biznes markazi","Savdo markazi":"Savdo markazi","Dacha":"Dacha","Bo'sh yer":"Yer maydoni","Turar-joy":"Turar-joy","Davlat muassasasi":"Barcha turlar","Ofis":"Ofis"};
-  holatFiltri.tur = mos[t] || "Barcha turlar";
+  // mos — index.html lug'atini shu sahifanikiga o'giradi (masalan "Bo'sh yer" -> "Yer maydoni").
+  // "Davlat muassasasi" avval "Barcha turlar"ga tushirilgan edi: foydalanuvchi 15 ta davlat
+  // muassasasini so'rab, JIMGINA barcha turlarning to'liq ro'yxatini olardi. Endi so'ralgan tur
+  // qanday bo'lsa shunday qo'llanadi — mos kelmasa "Obyekt topilmadi" bosh holati chiqadi.
+  const mos = {"Biznes markazi":"Biznes markazi","Savdo markazi":"Savdo markazi","Dacha":"Dacha","Bo'sh yer":"Yer maydoni","Turar-joy":"Turar-joy","Ofis":"Ofis"};
+  holatFiltri.tur = mos[t] || t;
   document.querySelector("#f-tur .t-yorliq").textContent = holatFiltri.tur;
 }
 if (p.get("holat")){
