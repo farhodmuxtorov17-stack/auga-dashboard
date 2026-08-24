@@ -441,6 +441,20 @@ document.addEventListener("DOMContentLoaded", ()=>{
     });
   }
 
+  // Bo'lim ruxsatiga bog'liq boshqaruv elementlari. Sahifa qo'riqchisi faqat SAHIFA
+  // darajasida ishlaydi; rol kira olmaydigan bo'limga havola qiluvchi tugma esa 403
+  // ga olib boruvchi o'lik yo'l bo'lib qolardi. Yashiriladi (o'chirilmaydi) — sahifa
+  // init-skriptlari elementni topa olishi kerak.
+  // Bir martalik querySelectorAll yetarli emas: sahifalar ro'yxat/panellarni init'dan
+  // KEYIN qayta render qiladi va yangi tugunlar tekshiruvdan o'tmay qolardi. Shu sababli
+  // uslub qoidasi qo'yiladi — u qachon yaratilishidan qat'i nazar hamma tugunga tegadi.
+  const taqiqlangan = MENYU.map(([id])=>id).filter(id=>!ruxsatlimi(id));
+  if (taqiqlangan.length){
+    const st = document.createElement("style");
+    st.textContent = taqiqlangan.map(id=>`[data-ruxsat="${id}"]{display:none!important}`).join("");
+    document.head.appendChild(st);
+  }
+
   // data-toast tugmalar
   document.body.addEventListener("click", e=>{
     const t = e.target.closest("[data-toast]");
@@ -450,6 +464,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   tanlovUla();
 });
 
+AUGA.ruxsatlimi = ruxsatlimi;
 AUGA.joriyRol = joriyRol;
 AUGA.asilRol = asilRol;
 AUGA.rolKaliti = () => ROL_KALIT[joriyRol()];

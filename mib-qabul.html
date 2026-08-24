@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
 let qadam = 1;
 let hujjatlar = 0;
+const yuklanganlar = new Set();   // qaysi hujjat yuklangani (sanoq majburiylarni ayira olmaydi)
 
 function korsat(){
   document.querySelectorAll("[data-panel]").forEach(p=>p.hidden = p.dataset.panel != qadam);
@@ -215,12 +216,36 @@ function korsat(){
     : 'Davom etish<svg class="ic"><use href="#i-strelka"/></svg>';
   if (qadam === 4){
     document.getElementById("x-nom").textContent = document.getElementById("f-nom").value || "Nomsiz obyekt";
-    document.getElementById("x-tur").textContent = document.querySelector("#f-tur .t-yorliq").textContent;
+    const turMatn = document.querySelector("#f-tur .t-yorliq").textContent.trim();
+    // "Turini tanlang" — bu placeholder, ma'lumot emas; xulosada "—" ko'rsatiladi.
+    document.getElementById("x-tur").textContent = (turMatn && turMatn !== "Turini tanlang") ? turMatn : "—";
     document.getElementById("x-mib").textContent = document.getElementById("f-mib").value || "—";
     document.getElementById("x-hujjat").textContent = hujjatlar+" / 4";
   }
 }
+// 2-qadam matni "hujjatsiz obyekt tasdiqlangan hisoblanmaydi" deb yozadi va ikki plitka
+// "majburiy" deb belgilangan, lekin sehrgar hech narsani tekshirmasdan yakunlanardi.
+const MAJBURIY_HUJJAT = ["Sud qarori / Ijro varaqasi", "Musodara dalolatnomasi"];
+function qadamYaroqlimi(q){
+  if (q === 1){
+    if (!document.getElementById("f-nom").value.trim())
+      return "Obyekt nomini kiriting.";
+    if (document.querySelector("#f-tur .t-yorliq").textContent.trim() === "Turini tanlang")
+      return "Obyekt turini tanlang.";
+    if (!document.getElementById("f-mib").value.trim())
+      return "MIB ijro ishi raqamini kiriting.";
+  }
+  if (q === 2){
+    const yetishmaydi = MAJBURIY_HUJJAT.filter(h=>!yuklanganlar.has(h));
+    if (yetishmaydi.length)
+      return "Majburiy hujjat yuklanmadi: " + yetishmaydi.join(", ") + ".";
+  }
+  return null;
+}
+
 document.getElementById("oldinga").addEventListener("click", ()=>{
+  const xato = qadamYaroqlimi(qadam);
+  if (xato){ AUGA.toast(xato, "i-ogoh"); return; }
   if (qadam < 4){ qadam++; korsat(); return; }
   AUGA.modal("Obyektni nazoratga olish",
     "Obyekt tizimga kiritiladi, texnik xodimga qurilmalar o'rnatish topshirig'i (work-order) yuboriladi va obyekt Admin, Rahbariyat hamda Operatorlarga ko'rinadigan bo'ladi.",
@@ -236,6 +261,7 @@ document.querySelectorAll(".hujjat-tile").forEach(t=>{
     if (t.classList.contains("yuklandi")) return;
     t.classList.add("yuklandi");
     t.querySelector(".holat").textContent = "Yuklandi ✓";
+    yuklanganlar.add(t.dataset.hujjat);
     hujjatlar++;
     AUGA.toast(t.dataset.hujjat+" yuklandi", "i-yuklash");
   });
