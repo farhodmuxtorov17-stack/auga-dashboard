@@ -403,6 +403,12 @@ function detalChiz(h){
   mm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
     e.stopPropagation(); mm.classList.remove("ochiq");
     if (b.dataset.amal==="ochirish"){
+      // Yopish Administrator bilan cheklangan, o'chirish esa umuman tekshirilmasdi —
+      // ya'ni hodisani YOPA olmaydigan rol uni O'CHIRA olardi.
+      if (AUGA.asilRol() !== "Administrator"){
+        AUGA.toast("Faqat Administrator hodisani o'chirishi mumkin", "i-qalqon");
+        return;
+      }
       AUGA.modal("Hodisani o'chirish", `${h.kod} hodisasini o'chirmoqchimisiz? Bu amalni bekor qilib bo'lmaydi.`,
         {xavf:true, okMatn:"O'chirish", ok(){
           const i = HODISALAR.findIndex(x=>x.kod===h.kod);

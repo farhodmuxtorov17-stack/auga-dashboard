@@ -486,6 +486,12 @@ table.jadval{width:100%;border-collapse:collapse}
      Grid tomonida xuddi shu standart minmax(0,1fr) svipi bilan yopilgan — bu flex tomoni. */
   .topbar > *{min-width:0}
   .izlash input{min-width:0}
+  /* Sarlavhali sahifalarda (holatlar, xaritalar) qidiruv o'rniga matn bloki turadi va
+     u siqilmagani uchun profil klasterini ekrandan chiqarib yuborardi. Klaster qat'iy
+     qilinadi, butun taqchillik sarlavhaga tushadi va u ellipsis bilan qisqaradi. */
+  .topbar-ong{flex:none}
+  .tb-sarlavha{min-width:0}
+  .tb-sarlavha span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .topbar{gap:12px;padding:14px 12px}
   .holat-karta{gap:12px;padding:0 8px 0 12px}
   /* Ob-havo 1100px'da yashiringan; bu yerda vaqt/sana ham ketadi. .profil .holat-karta

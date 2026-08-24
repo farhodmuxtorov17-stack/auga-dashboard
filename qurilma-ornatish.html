@@ -83,7 +83,7 @@
 @media (max-width:1240px){.w-grid{grid-template-columns:minmax(0,1fr)}.forma-grid,.tur-grid{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
-<body data-sahifa="monitoring">
+<body data-sahifa="monitoring" data-rol-yoq="rahbar">
 
 <div class="app">
 <aside class="sidebar" data-shell-sidebar></aside>
@@ -241,6 +241,7 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 let qadam = 1;
+let testOtdi = false;   // yakuniy tugma faqat 4-qadamda VA test o'tgach ko'rinadi
 const YARQIROQ = ["ping","api","stream"];
 
 function korsat(){
@@ -254,6 +255,10 @@ function korsat(){
   document.getElementById("orqaga").hidden = qadam === 1;
   const oldinga = document.getElementById("oldinga");
   oldinga.hidden = qadam === 4;
+  // "Qurilmani faollashtirish" .w-harakat panelida, qadam panellaridan TASHQARIDA yotadi —
+  // bir marta ko'rsatilgach, orqaga qaytilganda ham bosiladigan bo'lib qolardi.
+  const yakun = document.getElementById("yakunlash");
+  if (yakun) yakun.hidden = !(qadam === 4 && testOtdi);
   if (qadam === 4){
     document.getElementById("x-nom").textContent = document.getElementById("f-nom").value || "Nomsiz qurilma";
     document.getElementById("x-tur").textContent = document.querySelector(".tur-karta.tanlangan b").textContent;
@@ -314,6 +319,7 @@ document.getElementById("test-boshlash").addEventListener("click", function(){
       this.innerHTML = '<svg class="ic"><use href="#i-belgi"/></svg>Barcha testlar muvaffaqiyatli';
       document.getElementById("faollashtirish-forma").hidden = false;
       document.getElementById("xulosa").hidden = false;
+      testOtdi = true;
       document.getElementById("yakunlash").hidden = false;
       AUGA.toast("Qurilma tarmoqqa muvaffaqiyatli ulandi", "i-belgi-doira");
       return;

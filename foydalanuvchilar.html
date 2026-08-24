@@ -243,10 +243,11 @@ const HA = `<span class="ha"><svg class="ic"><use href="#i-belgi-doira"/></svg><
 const KOZ = `<span class="koz"><svg class="ic"><use href="#i-koz"/></svg></span>`;
 const MODULLAR = [
   ["Boshqaruv paneli", HA, HA, HA, HA],
-  ["Aktivlar", HA, "–", HA, "–"],
-  ["Shartnomalar", HA, "–", HA, "–"],
-  ["Hisobotlar", HA, HA, HA, "–"],
-  ["Sozlamalar", HA, "–", HA, "–"]
+  // Ustunlar: Admin · Operator · Rahbar · Texnik — qiymatlar auga.js ROL_RUXSAT'dan olingan
+  ["Aktivlar", HA, HA, HA, HA],
+  ["Shartnomalar", HA, HA, HA, "–"],
+  ["Hisobotlar", HA, "–", HA, "–"],
+  ["Sozlamalar", HA, HA, HA, HA]
 ];
 document.getElementById("matritsa-tanasi").innerHTML = MODULLAR.map(m=>`
   <tr><td>${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td>${m[4]}</td></tr>`).join("");

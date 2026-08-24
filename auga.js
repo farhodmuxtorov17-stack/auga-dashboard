@@ -207,7 +207,7 @@ function topbarHTML(){
   const sarlavha = document.body.dataset.topbarSarlavha;
   const ikon = document.body.dataset.topbarIkon || "i-xarita";
   const chap = sarlavha
-    ? `<div style="display:flex;align-items:center;gap:14px">
+    ? `<div class="tb-sarlavha" style="display:flex;align-items:center;gap:14px">
          <svg class="ic" style="width:26px;height:26px;color:#17191C"><use href="#${ikon}"/></svg>
          <span style="font-size:24px;font-weight:750;letter-spacing:-.01em;color:#17191C">${sarlavha}</span>
        </div>`
@@ -405,7 +405,11 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // Eslatma: mavjud elementlarni O'CHIRMAYMIZ, yashiramiz — sahifaning o'z
   // skriptlari getElementById bilan ishlashda xato bermasligi uchun.
   const sahifa = document.body.dataset.sahifa;
-  if (sahifa && sb && !ruxsatlimi(sahifa)){
+  // data-rol-yoq — bo'lim ruxsati YETARLI bo'lgan, lekin rol uchun baribir taqiqlangan
+  // sahifalar uchun (masalan Rahbar monitoringni ko'radi, lekin qurilma o'rnatolmaydi).
+  const rolKal = ROL_KALIT[joriyRol()];
+  const sahifaTaqiq = (document.body.dataset.rolYoq || "").split(/\s+/).includes(rolKal);
+  if (sahifa && sb && (!ruxsatlimi(sahifa) || sahifaTaqiq)){
     const kontent = document.querySelector(".kontent");
     if (kontent){
       document.title = "AUGA — Ruxsat yetarli emas";
@@ -449,11 +453,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
   // KEYIN qayta render qiladi va yangi tugunlar tekshiruvdan o'tmay qolardi. Shu sababli
   // uslub qoidasi qo'yiladi — u qachon yaratilishidan qat'i nazar hamma tugunga tegadi.
   const taqiqlangan = MENYU.map(([id])=>id).filter(id=>!ruxsatlimi(id));
-  if (taqiqlangan.length){
-    const st = document.createElement("style");
-    st.textContent = taqiqlangan.map(id=>`[data-ruxsat="${id}"]{display:none!important}`).join("");
-    document.head.appendChild(st);
-  }
+  const qoidalar = taqiqlangan.map(id=>`[data-ruxsat="${id}"]{display:none!important}`);
+  // Bo'lim ochiq bo'lsa ham AMAL taqiqlanishi mumkin — bunda data-ruxsat yaramaydi.
+  // :not(body) — body'ning o'zida bu atribut sahifa darajasidagi taqiq uchun ishlatiladi.
+  qoidalar.push(`[data-rol-yoq~="${ROL_KALIT[joriyRol()]}"]:not(body){display:none!important}`);
+  const st = document.createElement("style");
+  st.textContent = qoidalar.join("");
+  document.head.appendChild(st);
 
   // data-toast tugmalar
   document.body.addEventListener("click", e=>{
