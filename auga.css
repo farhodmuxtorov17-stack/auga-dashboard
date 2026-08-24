@@ -479,6 +479,36 @@ table.jadval{width:100%;border-collapse:collapse}
   .kontent{padding:6px 16px 28px}
   .topbar{padding:16px}
 }
+@media (max-width:900px){
+  /* Flex bolalarining standart min-width:auto qiymati qobiqqa 765px'lik QATTIQ pol
+     bergan edi: .topbar-ong hech qachon o'z kontentidan pastga siqilmasdi, shu sababli
+     30 sahifadan 29 tasi 900px'dan pastda aynan (765 - kenglik) pikselga toshib ketardi.
+     Grid tomonida xuddi shu standart minmax(0,1fr) svipi bilan yopilgan — bu flex tomoni. */
+  .topbar > *{min-width:0}
+  .izlash input{min-width:0}
+  .topbar{gap:12px;padding:14px 12px}
+  .holat-karta{gap:12px;padding:0 8px 0 12px}
+  /* Ob-havo 1100px'da yashiringan; bu yerda vaqt/sana ham ketadi. .profil .holat-karta
+     ICHIDA yotadi — kartani butunlay yashirish profil menyusini ham olib ketardi. */
+  .holat-karta .h-blok,.holat-karta .ajratgich{display:none}
+  .kontent{padding:6px 12px 24px}
+
+  /* Sahifa amallari qatori siqilmasdi (flex, o'ralmaydi) — endi o'raladi. */
+  .sahifa-harakat{flex-wrap:wrap;margin-left:auto;justify-content:flex-end}
+  /* Tab lentasi width:max-content bilan qat'iy edi — tor ekranda o'zi suriladi. */
+  .tablar{max-width:100%;overflow-x:auto;scrollbar-width:thin}
+  /* KPI qiymati white-space:nowrap + 30px — "58,4 mlrd so'm" 159px uzilmas satr
+     bo'lib plitkadan chiqib ketardi. O'ram emas, kegl kichraytiriladi: son va
+     birlikni ajratib tashlash o'qishni buzadi. */
+  .kpi-qiymat b{font-size:26px}
+  .kpi-qiymat b small{font-size:16px}
+}
+@media (max-width:640px){
+  .app{grid-template-columns:64px minmax(0,1fr)}
+  .sidebar{padding:18px 8px}
+  .profil .matnlar,.profil .strelka{display:none}
+  .profil{padding:6px}
+}
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
 }

@@ -65,6 +65,8 @@
 
 /* Tab + kontent */
 .tab-chiziq{display:flex;gap:26px;border-bottom:1px solid var(--chiziq);padding:0 2px}
+/* 6 ta tab + 26px oraliq tor ekranga sig'maydi va o'ralmaydi — lentaning o'zi suriladi. */
+@media (max-width:900px){.tab-chiziq{gap:18px;overflow-x:auto;scrollbar-width:thin}.tab-chiziq .tab-band{white-space:nowrap}}
 .tab-band{
   padding:12px 2px 14px;font-size:15px;font-weight:600;color:var(--matn-3);
   border-bottom:2px solid transparent;margin-bottom:-1px;transition:color var(--tez);
