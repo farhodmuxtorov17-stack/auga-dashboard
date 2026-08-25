@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/bino_tower.png" alt="AUGA" width="420">
+<img src="assets/logo.svg" alt="AUGA" width="260">
 
 # AUGA
 

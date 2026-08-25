@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="72" viewBox="0 0 260 72" role="img" aria-label="AUGA">
+  <g transform="translate(4,2) scale(1.9)">
+    <path d="M18 3 31 10.2v.9L18 18.4 5 11.1v-.9z" fill="#9CDC3A"/>
+    <path d="M5 11.1 18 18.4V33L5 25.7z" fill="#5FA51B"/>
+    <path d="M31 11.1 18 18.4V33l13-7.3z" fill="#77C10E"/>
+    <path d="m11.6 6.5 13 7.2 3.2-1.8-13-7.2z" fill="#C4EC66"/>
+  </g>
+  <text x="86" y="49" font-family="'Segoe UI',system-ui,-apple-system,Arial,sans-serif"
+        font-size="40" font-weight="800" letter-spacing=".5" fill="#171A14">AUGA</text>
+</svg>
