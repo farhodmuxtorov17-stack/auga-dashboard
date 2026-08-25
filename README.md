@@ -1,16 +1,26 @@
-# AUGA - Davlat aktivlarini boshqarish tizimi
+<div align="center">
 
-**Единая платформа управления государственными активами**: приём конфискованных объектов от МИБ, охрана и мониторинг, Smart Access, удалённый осмотр, реализация и постоянный архив — полный жизненный цикл объекта в одной системе.
+<img src="assets/bino_tower.png" alt="AUGA" width="420">
 
-**Живая версия:** https://farhodmuxtorov17-stack.github.io/auga-dashboard/login.html
+# AUGA
 
-> Текущая ветка - интерактивная эталонная реализация интерфейса (reference implementation): 30 экранов, полная ролевая модель и рабочие пользовательские сценарии. Целевой продакшн-стек зафиксирован в ТЗ: **Vue 3 / Nuxt 3 + Tailwind CSS** на клиенте, **Python / Django REST Framework** на сервере. Прототип служит контрактом для переноса — каждый экран, состояние и правило доступа уже определены и проверены.
+**Davlat aktivlarini boshqarish tizimi**
+
+MIB'dan qabul · Xavfsizlik va monitoring · Smart Access · Masofaviy ko'rik · Sotuv · Doimiy arxiv
+
+[Jonli tizim](https://farhodmuxtorov17-stack.github.io/auga-dashboard/login.html) ·
+[Modullar](#modullar) · [Rollar](#rollar-va-huquqlar) · [Arxitektura](#arxitektura)
+
+</div>
 
 ---
 
-## Быстрый старт
+Musodara qilingan obyekt tizimga MIB'dan kirib keladi va undan hech qachon chiqib ketmaydi:
+qabul → qurilmalar o'rnatish (kamera, FaceID, IP-reyestr) → doimiy monitoring → xaridor uchun
+masofaviy ko'rik → sotuv → o'chirilmas arxiv. Har bir bosqich — alohida modul, har bir amal —
+rol huquqlari bilan nazorat qilinadi.
 
-Система собрана без сборщиков и внешних зависимостей — достаточно любого статического сервера:
+## Ishga tushirish
 
 ```bash
 git clone https://github.com/farhodmuxtorov17-stack/auga-dashboard.git
@@ -19,85 +29,80 @@ python -m http.server 8765
 # → http://localhost:8765/login.html
 ```
 
-Вход выполняется через `login.html` - там же выбирается роль. Демо-переключатель ролей доступен в меню профиля (правый верхний угол).
+Qurilish bosqichi talab qilinmaydi — tizim istalgan statik serverda ishlaydi.
+Kirish `login.html` orqali; rol o'sha yerda tanlanadi.
 
-## Ролевая модель
+## Rollar va huquqlar
 
-Доступ контролируется на двух уровнях: **страницы** (запрещённый раздел отвечает экраном 403) и **действия** (кнопка, недоступная роли, не отображается - механизмы `data-ruxsat` и `data-rol-yoq`). У каждой роли собственный дашборд.
+Huquqlar ikki qatlamda tekshiriladi: **sahifa** darajasida (taqiqlangan bo'lim — 403 ekrani)
+va **amal** darajasida (rolga taqiqlangan tugma ko'rsatilmaydi). Har bir rol o'z boshqaruv
+paneliga ega; portfel xaritasi hammasida funksional.
 
-| Роль | Разделов | Ключевые ограничения |
+| Rol | Bo'limlar | Cheklovlar |
+|---|---:|---|
+| **Administrator** | 17 | to'liq huquq, foydalanuvchilar va audit jurnali |
+| **Operator** | 14 | moliyaviy hisobotlar yopiq |
+| **Rahbar** | 13 | monitoring — faqat ko'rish; qurilma/eshik amallari yo'q |
+| **Texnik xodim** | 9 | hujjatlar, moliya va sotuv yopiq |
+
+`foydalanuvchilar.html` dagi huquqlar matritsasi sahifa qo'riqchisi ishlatadigan ayni
+`ROL_RUXSAT` jadvalidan chiziladi — interfeys siyosatdan ajralib keta olmaydi.
+
+## Modullar
+
+| Bosqich | Sahifa | Mazmun |
 |---|---|---|
-| **Administrator** | 17 | полный доступ, включая пользователей и аудит-журнал |
-| **Operator** | 14 | закрыта финансовая отчётность |
-| **Rahbar** (руководство) | 13 | просмотр мониторинга без действий с устройствами и дверьми |
-| **Texnik xodim** (техник) | 9 | закрыты документы, финансы, продажи |
+| Boshqaruv paneli | `index.html` | 4 ta rolga mos panel, klaster-xarita, KPI |
+| Aktivlar reyestri | `aktivlar.html`, `aktiv.html` | qidiruv, filtrlar, obyekt kartasi 360°, qavat navigatsiyasi |
+| MIB'dan qabul | `mib-qabul.html` | majburiy hujjatlar validatsiyali 4 bosqichli sehrgar |
+| Qurilmalar | `qurilma-ornatish.html`, `qurilmalar.html` | provizioning, diagnostika, IP-reyestr |
+| Monitoring | `monitoring.html`, `hodisalar.html` | kameralar, ogohlantirishlar, hodisalar kanbani |
+| Smart Access | `smart-access.html`, `jonli-tashrif.html`, `kirish-voqealari.html` | FaceID, turniketlar, kirish jurnali |
+| Masofaviy ko'rik | `masofaviy-korik.html` | xaridor uchun jonli kameralar va qavat rejasi |
+| Shartnomalar | `shartnomalar.html` | to'lov jadvallari, muddat nazorati |
+| Sotuv va arxiv | `sotuv.html`, `arxiv.html` | bosqichli pipeline, o'chirilmas arxiv |
+| Hisobotlar | `hisobotlar.html`, `hisobotlar-markazi.html` | moliyaviy KPI, dinamika, eksport markazi |
+| Xaritalar | `xaritalar.html` | O'zbekiston bo'ylab hududiy taqsimot |
+| Ma'muriyat | `foydalanuvchilar.html`, `sozlamalar.html` | rollar matritsasi, audit jurnali |
 
-Матрица прав в интерфейсе (`foydalanuvchilar.html`) генерируется из той же таблицы `ROL_RUXSAT`, что и защита страниц, - интерфейс не может разойтись с политикой.
+## Arxitektura
 
-## Бизнес-процесс МИБ
+**Joriy bosqich** — to'liq interaktiv etalon (reference implementation): 30 ekran, sof
+HTML/CSS/JS, tashqi qaramliksiz (yagona istisno — Leaflet xarita kutubxonasi; tarmoq
+bo'lmasa sahifa ishlashda davom etadi). Har bir ekran o'z faylida — komponentlarga
+ko'chirish izolyatsiyalangan holda bajariladi.
 
-Жизненный цикл конфискованного объекта, реализованный сквозными сценариями:
-
-```
-Приём от МИБ → Монтаж охраны (камеры, FaceID, IP-реестр) → Мониторинг
-     → Удалённый осмотр покупателем → Реализация → Постоянный архив
-```
-
-| Этап | Экран |
-|---|---|
-| Приём (мастер с валидацией обязательных документов) | `mib-qabul.html` |
-| Установка и активация устройств | `qurilma-ornatish.html` |
-| Мониторинг, диагностика, реестр устройств | `monitoring.html`, `qurilmalar.html` |
-| Живой визит (Smart Access) / удалённый осмотр | `jonli-tashrif.html`, `masofaviy-korik.html` |
-| Пайплайн продажи | `sotuv.html` |
-| Архив (только чтение) | `arxiv.html` |
-
-## Ключевые возможности интерфейса
-
-- **Геокарта портфеля** - 267 объектов на реальных координатах Ташкента и области, собственная кластеризация без сторонних плагинов; фильтры пересчитывают карту, счётчики всегда сходятся с данными.
-- **Карточка объекта** - переключение «внешний вид / поэтажный разрез», кликабельные этажи с переходом на план этажа, галерея с увеличением, полноэкранный режим.
-- **Деградация без сети** - картографические CDN недоступны? Страница продолжает работать: фильтры, KPI и списки живут, вместо карты - информативная заглушка.
-- **Дизайн-система** - токены цвета/типографики/теней в `auga.css`, изометрические 3D-иллюстрации как фирменный стиль, диаграммы с градиентами и глубиной.
-
-## Структура репозитория
+**Maqsadli stek** (TZ bo'yicha):
 
 ```
-├── index.html            дашборды (4 ролевых варианта)
-├── login.html            вход и выбор роли
-├── auga.css              дизайн-токены и общие компоненты
-├── auga.js               shell: сайдбар, топбар, RBAC-защита, тосты,
-│                         модальные окна, лайтбокс, полноэкранный режим
-├── <модуль>.html         30 экранов, каждый самодостаточен
-└── assets/               изометрические рендеры, планы, иллюстрации
+Frontend   Vue 3 · Nuxt 3 · Tailwind CSS
+Backend    Python · Django REST Framework
+           obyekt darajasidagi huquqlar (§7) · audit · fayl xizmati
 ```
 
-Каждый экран несёт свои данные и логику в собственном `<script>` - это осознанное решение стадии прототипа: экран читается целиком в одном файле и переносится в компоненты Nuxt изолированно.
+Etalon — ko'chirish shartnomasi: ekranlar, holatlar va huquq qoidalari allaqachon
+aniqlangan va tekshirilgan.
 
-## Качество
+## Sifat nazorati
 
-Контроль качества выполнялся систематически; все утверждения воспроизводимы:
+Barcha ko'rsatkichlar qayta tekshirish mumkin bo'lgan tartibda olingan:
 
-- **120 комбинаций** (30 страниц × 4 роли): ноль ошибок консоли, ноль пустых страниц;
-- **RBAC** - 116/116 проверок «роль × страница» соответствуют политике, плюс закрыты действия внутри разрешённых страниц;
-- **Вёрстка** - ноль горизонтальных переполнений на ширинах от 480px на всех экранах;
-- **Доступность** - у всех интерактивных элементов есть имена, у полей - подписи; ARIA-атрибуты отражают реальное состояние;
-- **Целостность данных** - счётчики, проценты и суммы выводятся из массивов данных, а не дублируются вручную; ссылки с идентификаторами проверены на существование записей.
+- 30 sahifa × 4 rol = **120 kombinatsiya**: konsol xatosi — 0, bo'sh sahifa — 0
+- RBAC: sahifa darajasida **116/116** siyosatga mos; amallar darajasi ham qamrab olingan
+- Moslashuvchanlik: 480px va undan keng ekranlarda gorizontal toshish — 0
+- Interfeys elementlari auditi: 236 boshqaruv elementi tasniflangan va haqiqiy
+  funksiyaga keltirilgan
+- Barcha sanoq va foizlar ma'lumot massivlaridan chiqariladi, qo'lda yozilmaydi
 
-Все данные в системе — демонстрационные.
+Tizimdagi barcha ma'lumotlar — namoyish uchun.
 
-## Дорожная карта
+## Kelgusi bosqichlar
 
-1. Перенос клиента на **Nuxt 3 + Tailwind** (экраны прототипа — прямые прообразы компонентов).
-2. **Django REST Framework**: модели `Aktiv / Shartnoma / Qurilma / Hodisa`, объектные права (§7 ТЗ), журналирование.
-3. Интеграция Smart Access с контроллерами (FaceID, турникеты) по IP-реестру.
-4. Мобильная адаптация (< 480px).
-
-## Конвенции
-
-- Язык интерфейса и кода — узбекский (латиница); идентификаторы следуют доменной терминологии (`shartnoma`, `qavat`, `ruxsat`).
-- Один экран — один файл; общее выносится в `auga.css` / `auga.js` только после второго использования.
-- Коммиты описывают *почему*, а не *что*; каждое исправление сопровождается проверкой.
+1. Nuxt 3 komponentlariga ko'chirish
+2. DRF: `Aktiv · Shartnoma · Qurilma · Hodisa` modellari, obyekt huquqlari, audit
+3. Smart Access kontrollerlari bilan integratsiya (FaceID, turniket)
+4. Mobil moslashuv (< 480px)
 
 ---
 
-*Внутренний проект. Все права защищены.*
+<div align="center"><sub>Ichki loyiha · Barcha huquqlar himoyalangan</sub></div>
