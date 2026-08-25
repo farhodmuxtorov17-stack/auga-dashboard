@@ -101,7 +101,7 @@
           </div>
           <div id="bn-royxat"></div>
           <div class="sahifalash" style="padding:14px 0 0">
-            <span class="oraliq">Jami: <b>12</b></span>
+            <span class="oraliq">Jami: <b id="jami-bildirish">6</b></span>
             <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
             <button class="s-tugma aktiv">1</button>
             <button class="s-tugma" data-toast="2-sahifa">2</button>
@@ -224,7 +224,8 @@ document.querySelectorAll(".bn-chip").forEach(c=>{
 
 document.getElementById("hammasi-oqildi").addEventListener("click", ()=>{
   BILDIRISHLAR.forEach(b=>b.yangi=false);
-  royxatChiz();
+  document.getElementById("jami-bildirish").textContent = BILDIRISHLAR.length;
+royxatChiz();
   AUGA.toast("Barcha bildirishnomalar o'qilgan deb belgilandi", "i-belgi-doira");
 });
 document.getElementById("sozlama-ochish").addEventListener("click", ()=>{

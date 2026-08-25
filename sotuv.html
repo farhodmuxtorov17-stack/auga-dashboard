@@ -101,7 +101,7 @@
     <section class="st-kpi">
       <button class="karta" data-toast="Sotuvdagi obyektlar ro'yxati">
         <span class="tile yashil"><svg class="ic"><use href="#i-daromad"/></svg></span>
-        <span><span class="yorliq">Sotuvda</span><b>12</b></span>
+        <span><span class="yorliq">Sotuvda</span><b id="kpi-sotuvda">6</b></span>
       </button>
       <button class="karta" data-toast="Belgilangan ko'riklar jadvali">
         <span class="tile kok"><svg class="ic"><use href="#i-kamera"/></svg></span>
@@ -151,6 +151,7 @@ const OBYEKTLAR = [
   {id:6, nom:"Nurafshon kvartirasi", kod:"NK-2024-201 · MIB-2026-0011", narx:"780 000 000 so'm", rasm:"assets/bino_turar.png",
    bosqich:"rasmiylashtirish", korik:0, mijozlar:[["Umid Soliyev","+998 94 222-33-44","tayyor","To'lov kutilmoqda"]]}
 ];
+document.addEventListener("DOMContentLoaded", ()=>{ const el=document.getElementById("kpi-sotuvda"); if (el) el.textContent = OBYEKTLAR.length; });
 const BOSQICHLAR = [
   ["tayyorlanmoqda","Sotuvga tayyorlanmoqda","#F2C230"],
   ["elon","E'lon qilingan","#3B82F6"],
