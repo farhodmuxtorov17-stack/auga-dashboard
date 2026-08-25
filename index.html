@@ -11,6 +11,12 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
 /* ---- Faqat shu sahifa: xarita, filtrlar, pastki qator ---- */
+.xarita-legenda{
+  position:absolute;left:14px;bottom:14px;z-index:500;
+  display:flex;align-items:center;gap:10px;max-width:300px;
+  background:var(--karta);border-radius:12px;box-shadow:var(--soya-pin);
+  padding:9px 13px;font-size:11.5px;color:var(--matn-3);line-height:1.45;
+}
 .xarita-qator{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px}
 .xarita-karta{
   position:relative;background:var(--karta);border-radius:var(--r-katta);
@@ -205,6 +211,13 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
           <button class="x-tugma" id="x-katta" aria-label="Yaqinlashtirish"><svg class="ic"><use href="#i-qoshish"/></svg></button>
           <button class="x-tugma" id="x-kichik" aria-label="Uzoqlashtirish"><svg class="ic"><use href="#i-minus"/></svg></button>
           <button class="x-tugma" id="x-3d" aria-label="Sputnik ko'rinishi" aria-pressed="false" style="margin-top:6px">Sputnik</button>
+        </div>
+        <div class="xarita-legenda" aria-hidden="true">
+          <span class="klaster-doira" style="--kr:var(--t-turar);width:26px;height:26px;font-size:11px">12</span>
+          <span>Doiradagi son — hududdagi obyektlar. Bosilsa — yaqinlashadi.<br>
+          Halqa rangi — hududda ustun turdagi obyekt.</span>
+        </div>
+        <div hidden>
         </div>
       </div>
 
@@ -803,12 +816,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
   // Tur -> soni (sahifadagi "Obyekt turlari" kartasi bilan bir xil), rang va joylashuv doirasi
   const TUR_TAQSIMOT = [
-    {tur:"Biznes markazi",      son:12,  rangVar:"--t-biznes", href:"aktivlar.html?tur=Biznes+markazi", hudud:SHAHAR},
-    {tur:"Savdo markazi",       son:8,   rangVar:"--t-savdo",  href:"aktivlar.html?tur=Savdo+markazi",  hudud:SHAHAR},
-    {tur:"Davlat muassasasi",   son:15,  rangVar:"--t-davlat", href:"aktivlar.html",                    hudud:SHAHAR},
-    {tur:"Turar-joy / Ofislar", son:124, rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",      hudud:TUMANLAR},
-    {tur:"Dacha",               son:36,  rangVar:"--t-dacha",  href:"aktivlar.html?tur=Dacha",          hudud:TOG},
-    {tur:"Bo'sh yer maydoni",   son:72,  rangVar:"--t-yer",    href:"aktivlar.html?tur=Bo'sh+yer",      hudud:VILOYAT}
+    {tur:"Biznes markazi",      son:12,  ikon:"i-bino",   rangVar:"--t-biznes", href:"aktivlar.html?tur=Biznes+markazi", hudud:SHAHAR},
+    {tur:"Savdo markazi",       son:8,   ikon:"i-aktiv",  rangVar:"--t-savdo",  href:"aktivlar.html?tur=Savdo+markazi",  hudud:SHAHAR},
+    {tur:"Davlat muassasasi",   son:15,  ikon:"i-qalqon", rangVar:"--t-davlat", href:"aktivlar.html",                    hudud:SHAHAR},
+    {tur:"Turar-joy / Ofislar", son:124, ikon:"i-uy",     rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",      hudud:TUMANLAR},
+    {tur:"Dacha",               son:36,  ikon:"i-uy",     rangVar:"--t-dacha",  href:"aktivlar.html?tur=Dacha",          hudud:TOG},
+    {tur:"Bo'sh yer maydoni",   son:72,  ikon:"i-yer",    rangVar:"--t-yer",    href:"aktivlar.html?tur=Bo'sh+yer",      hudud:VILOYAT}
   ];
   // Holat ulushlari — "Aktivlar holati" donuti bilan bir xil (87 / 8 / 3 / 2 %)
   const HOLAT_ULUSH = [["Faol",87],["Ijarada",95],["Ta'mirda",98],["Nofaol",100]];
@@ -827,7 +840,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
       const p = rnd() * 100;
       const holat = (HOLAT_ULUSH.find(h=>p <= h[1]) || HOLAT_ULUSH[0])[0];
       AKTIV_NUQTALAR.push({
-        tur: t.tur, rang, href: t.href, holat,
+        tur: t.tur, rang, ikon: t.ikon, href: t.href, holat,
         viloyat: tuman.viloyat, tuman: tuman.nom,
         nom: `${tuman.nom} — ${t.tur}`,
         lat: tuman.lat + masofa * Math.cos(burchak) * 0.75,
@@ -910,15 +923,23 @@ document.addEventListener("DOMContentLoaded", ()=>{
         const m = L.marker([n.lat, n.lng], {
           title: n.nom, alt: n.nom,
           icon: L.divIcon({className:"auga-pin",
-            html:`<span class="nuqtacha" style="background:${n.rang}"></span>`,
-            iconSize:[22,22], iconAnchor:[11,11]})
+            html:`<span class="pin-ikon" style="--kr:${n.rang}"><svg><use href="#${n.ikon}"/></svg></span>`,
+            iconSize:[30,30], iconAnchor:[15,15]})
         });
-        m.bindTooltip(
-          `<span class="pin-chip"><span class="pin-nuqta" style="background:${n.rang}"></span>`+
-          `<span><b style="font-weight:700">${n.nom}</b><br>` +
-          `<span style="color:#71767E">${n.holat} · ${n.viloyat}</span></span></span>`,
-          {direction:"top", offset:[0,-6], className:"auga-chip"});
-        m.on("click", ()=> location.href = n.href);
+        // Haqiqiy tizim naqshi: bosilganda darhol boshqa sahifaga otilmaydi —
+        // xaritada obyekt KARTOCHKASI ochiladi, undan reyestrga o'tish mumkin.
+        m.bindPopup(
+          `<div style="font-family:inherit;min-width:200px">
+             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+               <span style="width:10px;height:10px;border-radius:99px;background:${n.rang};flex:none"></span>
+               <b style="font-size:14px">${n.nom}</b></div>
+             <div style="font-size:12.5px;color:#5F6169;line-height:1.5">
+               ${n.tur}<br>${n.tuman} tumani · ${n.viloyat}<br>
+               Holat: <b style="color:#17191C">${n.holat}</b></div>
+             <a href="${n.href}" style="display:inline-block;margin-top:9px;background:#78C802;color:#fff;
+                border-radius:9px;padding:6px 13px;font-size:12.5px;font-weight:700;text-decoration:none">
+                Reyestrda ochish</a>
+           </div>`, {closeButton:true, offset:[0,-4]});
         qatlamGuruh.addLayer(m);
       } else {
         // Klaster ichida eng ko'p uchraydigan tur rangini olamiz

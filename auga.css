@@ -474,6 +474,16 @@ table.jadval{width:100%;border-collapse:collapse}
   transition:transform var(--tez);cursor:pointer;
 }
 .klaster-doira:hover{transform:scale(1.08)}
+/* Yakka obyekt belgisi — turga mos ikonka: uy, bino, yer... (klaster raqamli qoladi) */
+.pin-ikon{
+  display:grid;place-items:center;width:30px;height:30px;border-radius:10px;
+  background:var(--karta);border:2px solid var(--kr);
+  box-shadow:0 0 0 3px color-mix(in srgb, var(--kr) 25%, transparent),
+             0 2px 6px rgba(23,26,31,.16);
+  transition:transform var(--tez);cursor:pointer;
+}
+.pin-ikon svg{width:16px;height:16px;stroke:var(--kr);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.pin-ikon:hover{transform:scale(1.12)}
 
 /* ============ Moslashuvchanlik ============ */
 @media (max-width:1500px){
