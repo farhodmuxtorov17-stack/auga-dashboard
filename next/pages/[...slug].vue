@@ -6,12 +6,14 @@ const XARITA: Record<string, string> = {
   'hisobotlar': 'hisobotlar.html', 'smart-access': 'smart-access.html', 'hujjatlar': 'hujjatlar.html',
   'monitoring': 'monitoring.html', 'hodisalar': 'hodisalar.html', 'vazifalar': 'vazifalar.html',
   'yer-maydonlari': 'yer-maydonlari.html', 'sotuv': 'sotuv.html', 'arxiv': 'arxiv.html',
-  'foydalanuvchilar': 'foydalanuvchilar.html', 'sozlamalar': 'sozlamalar.html', 'yordam': 'holatlar.html'
+  'foydalanuvchilar': 'foydalanuvchilar.html', 'sozlamalar': 'sozlamalar.html', 'yordam': 'holatlar.html', 'xonalar': 'xonalar.html'
 }
 const slug = computed(() => String(route.params.slug?.[0] ?? ''))
 const etalon = computed(() => {
   const f = XARITA[slug.value]
-  return f ? `https://farhodmuxtorov17-stack.github.io/auga-dashboard/${f}` : null
+  if (!f) return null
+  const q = new URLSearchParams(route.query as Record<string, string>).toString()
+  return `https://farhodmuxtorov17-stack.github.io/auga-dashboard/${f}${q ? '?' + q : ''}`
 })
 </script>
 

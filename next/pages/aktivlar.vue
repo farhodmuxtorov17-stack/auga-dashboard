@@ -122,6 +122,9 @@ watch(faol, () => { if (insTab.value === 'moliyaviy' && !moliyaBor.value) insTab
             <span class="text-xs text-matn-4 flex-none">{{ hajm }}</span>
           </li>
         </ul>
+        <NuxtLink :to="'/aktiv/' + faol.id"
+          class="mt-5 flex items-center justify-center h-11 rounded-el bg-yashil text-white font-bold hover:bg-yashil-toq transition">
+          To'liq ma'lumot</NuxtLink>
       </aside>
     </div>
   </div>
