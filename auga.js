@@ -429,7 +429,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
             <div style="display:flex;gap:10px;justify-content:center;margin-top:22px">
               <a class="tugma tugma-yashil" href="index.html"><svg class="ic"><use href="#i-uy"/></svg>Bosh sahifaga qaytish</a>
               ${asilRol()==="Administrator"
-                ? `<button class="tugma tugma-chiziqli" onclick="document.getElementById('profil-tugma').click()">Rolni almashtirish</button>`
+                ? `<button class="tugma tugma-chiziqli" onclick="event.stopPropagation();document.getElementById('profil-tugma').click()">Rolni almashtirish</button>`
                 : `<a class="tugma tugma-chiziqli" href="login.html">Boshqa rol bilan kirish</a>`}
             </div>
           </div>

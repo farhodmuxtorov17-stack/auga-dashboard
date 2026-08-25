@@ -103,7 +103,7 @@
     <div class="sahifa-qator">
       <h1>Obyektlar ro'yxati</h1>
       <div class="sahifa-harakat" style="position:relative">
-        <a class="tugma tugma-oq" href="mib-qabul.html"><svg class="ic"><use href="#i-aktiv"/></svg>MIB'dan qabul qilish</a>
+        <a class="tugma tugma-oq" href="mib-qabul.html" data-rol-yoq="rahbar texnik"><svg class="ic"><use href="#i-aktiv"/></svg>MIB'dan qabul qilish</a>
         <button class="tugma tugma-oq" id="eksport-tugma" aria-haspopup="menu" aria-expanded="false">
           <svg class="ic"><use href="#i-yuklash"/></svg>
           Eksport
@@ -468,6 +468,15 @@ document.getElementById("yangi-obyekt").addEventListener("click", ()=>{
 /* Boshlash */
 qollash();
 inspektorChiz(OBYEKTLAR[0]);
+// Filtr hech narsa qaytarmasa, o'ng paneldagi eski obyekt "Jami: 0" yonida osilib qolardi.
+const inspPanel = document.querySelector(".inspektor") || document.getElementById("inspektor");
+if (inspPanel){
+  const kuzat = new MutationObserver(()=>{
+    const bosh = document.querySelector(".jadval .bosh-holat");
+    inspPanel.style.display = bosh ? "none" : "";
+  });
+  kuzat.observe(document.querySelector("#obyekt-jadval tbody") || document.body, {childList:true});
+}
 });
 </script>
 </body>

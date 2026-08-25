@@ -159,6 +159,10 @@
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
 
+// Bildirishnoma manzilini ROL_RUXSAT bo'lim kalitiga bog'laydi — ruxsatsiz bo'limga
+// sakrab 403 ekraniga urilmaslik uchun.
+const BN_BOLIM = {"vazifalar.html":"vazifalar", "shartnomalar.html":"shartnomalar",
+                  "foydalanuvchilar.html":"foydalanuvchilar", "monitoring.html":"monitoring"};
 const BILDIRISHLAR = [
   {ikon:"i-shartnoma", t:"Tasdiqlar", sarlavha:"Yangi xarid so'rovnomasi yaratildi",
    matn:"Green Tower loyihasi uchun yangi xarid so'rovnomasi (№ PR-2024-0568) yaratildi.", vaqt:"14:30", yangi:true, havola:"vazifalar.html"},
@@ -187,6 +191,11 @@ function royxatChiz(){
   document.querySelectorAll(".bn-band").forEach(b=>{
     b.addEventListener("click", ()=>{
       const x = BILDIRISHLAR[+b.dataset.i];
+      const bolim = BN_BOLIM[x.havola];
+      if (bolim && !AUGA.ruxsatlimi(bolim)){
+        AUGA.toast("Bu bo'limga joriy rolingizda ruxsat yo'q", "i-qulf");
+        return;
+      }
       x.yangi = false;
       location.href = x.havola;
     });
