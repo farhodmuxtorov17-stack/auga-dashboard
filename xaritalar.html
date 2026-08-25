@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AUGA — Xarita va hududlar</title>
+<title>AUGA — Hududlar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@300..800&display=swap" rel="stylesheet">
@@ -74,7 +74,7 @@
 }
 </style>
 </head>
-<body data-sahifa="xaritalar" data-topbar-sarlavha="Xarita va hududlar" data-topbar-ikon="i-xarita">
+<body data-sahifa="xaritalar" data-topbar-sarlavha="Hududlar" data-topbar-ikon="i-xarita">
 
 <div class="app">
 <aside class="sidebar" data-shell-sidebar></aside>
@@ -131,12 +131,23 @@ const HUDUDLAR = [
   ["Qoraqalpog'iston R.","189","↑ 2,8%",1]
 ];
 document.getElementById("hudud-royxat").innerHTML = HUDUDLAR.map(h=>`
-  <button class="hudud-band" data-toast="${h[0]} bo'yicha batafsil">
+  <button class="hudud-band">
     <svg class="ic"><use href="#i-bino"/></svg>
     <span class="nomi">${h[0]}</span>
     <b>${h[1]}</b>
     <span class="delta ${h[3]?"":"salbiy"}">${h[2]}</span>
   </button>`).join("");
+/* Ro'yxat qatorlari — belgi va hudud filtri bilan bir xil harakat: xaritani uchirish + ajratish */
+document.querySelectorAll(".hudud-band").forEach(band=>{
+  band.addEventListener("click", ()=>{
+    const nom = band.querySelector(".nomi").textContent;
+    const geo = HUDUD_GEO[nom];
+    document.querySelectorAll(".hudud-band").forEach(b=>b.classList.remove("faol"));
+    band.classList.add("faol");
+    if (geo && xaritaBor) uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
+    AUGA.toast(`${nom} bo'yicha batafsil`, "i-bino");
+  });
+});
 
 const KARTALAR = [
   ["Toshkent shahri","1 248","↑ 8,2%","i-bino"],
@@ -157,7 +168,7 @@ function chizma(){
   </svg>`;
 }
 document.getElementById("hudud-kartalar").innerHTML = KARTALAR.map(k=>`
-  <button class="h-karta" data-toast="${k[0]}: faol aktivlar ro'yxati">
+  <a class="h-karta" href="aktivlar.html">
     <span class="bosh">
       <span class="tile"><svg class="ic"><use href="#${k[3]}"/></svg></span>
       <span>
@@ -167,7 +178,7 @@ document.getElementById("hudud-kartalar").innerHTML = KARTALAR.map(k=>`
       </span>
     </span>
     ${chizma()}
-  </button>`).join("");
+  </a>`).join("");
 
 /* Xarita — Leaflet + OpenStreetMap: viloyat markazlari haqiqiy koordinatalarda,
    doira o'lchami aktivlar soniga (proporsional belgi), rangi faollik darajasiga bog'liq */
