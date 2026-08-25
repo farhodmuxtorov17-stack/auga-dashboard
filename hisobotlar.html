@@ -264,7 +264,11 @@ function el(t,a){const n=document.createElementNS(NS,t);for(const k in a)n.setAt
 const GRANULYARLIK = {
   "Oylik":     {yorliq:["Yan","Fev","Mar","Apr","May"], qiymat:[5.8,6.4,9.0,9.6,12.0], maxY:15},
   "Choraklik": {yorliq:["2023 Q4","2024 Q1","2024 Q2*"], qiymat:[19.5,21.2,21.6], maxY:24},
-  "Yillik":    {yorliq:["2021","2022","2023","2024*"], qiymat:[38.4,45.1,52.8,29.9], maxY:56}
+  "Yillik":    {yorliq:["2021","2022","2023","2024*"], qiymat:[38.4,45.1,52.8,42.8], maxY:56}
+  // 2024* = 42.8 Oylik va Choraklik qatorlaridan KELIB CHIQADI: 5.8+6.4+9.0 = 21.2 (Q1),
+  // 9.6+12.0 = 21.6 (Q2*), jami 42.8. Avval 29.9 turardi — u hech qanday arifmetikaga
+  // bog'lanmagan yagona raqam edi, ya'ni dropdown almashtirilganda bir davr uchun ikki
+  // xil daromad ko'rsatilardi. Mutlaq SHKALA (grafik 42.8 vs KPI 12.48) hali ochiq savol.
 };
 let OYLAR = GRANULYARLIK["Oylik"].yorliq;
 let QIYMAT = GRANULYARLIK["Oylik"].qiymat;
