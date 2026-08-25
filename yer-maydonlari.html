@@ -43,7 +43,7 @@
 .joylashuv-karta h3{font-size:16.5px;font-weight:750}
 .joylashuv-karta .kod{font-size:12.5px;color:var(--matn-4);margin-top:1px}
 .aero{position:relative;border-radius:15px;overflow:hidden;margin-top:12px}
-.aero img{width:100%;height:420px;object-fit:cover;transition:filter .25s ease}
+.aero img{width:100%;height:420px;object-fit:cover;transition:filter .25s ease,transform .25s ease}
 .aero img.sxematik{filter:grayscale(.85) contrast(1.15) brightness(1.08)}
 .aero .nazorat{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:8px}
 .aero .nazorat button{width:36px;height:36px;background:#fff;border-radius:10px;box-shadow:var(--soya-pin);display:grid;place-items:center;font-size:16px;font-weight:700;color:#2B3036}
@@ -118,12 +118,12 @@
     </div>
 
     <div class="tur-chiplar">
-      <button class="tur-chip aktiv" data-t="Barchasi">Barchasi<span class="son">32</span></button>
-      <button class="tur-chip" data-t="Bo'sh yer">Bo'sh yer<span class="son">8</span></button>
-      <button class="tur-chip" data-t="Qishloq xo'jaligi">Qishloq xo'jaligi<span class="son">14</span></button>
-      <button class="tur-chip" data-t="Qurilish uchun">Qurilish uchun<span class="son">6</span></button>
-      <button class="tur-chip" data-t="Investitsiya">Investitsiya<span class="son">4</span></button>
-      <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
+      <button class="tur-chip aktiv" data-t="Barchasi">Barchasi<span class="son">6</span></button>
+      <button class="tur-chip" data-t="Bo'sh yer">Bo'sh yer<span class="son">2</span></button>
+      <button class="tur-chip" data-t="Qishloq xo'jaligi">Qishloq xo'jaligi<span class="son">2</span></button>
+      <button class="tur-chip" data-t="Qurilish uchun">Qurilish uchun<span class="son">1</span></button>
+      <button class="tur-chip" data-t="Investitsiya">Investitsiya<span class="son">1</span></button>
+      <button class="f-tugma" id="filtr-tozalash" data-toast="Filtrlar tozalandi"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlarni tozalash</button>
     </div>
 
     <div class="ym-grid">
@@ -132,14 +132,6 @@
       <div class="karta">
         <div class="uch-jadval-bosh"><span>Uchastka</span><span>Maydon</span><span>Status</span><span></span></div>
         <div id="uch-royxat"></div>
-        <div class="sahifalash" style="padding:14px 0 0">
-          <span class="oraliq">Jami: <b>32</b></span>
-          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
-          <button class="s-tugma aktiv">1</button>
-          
-          
-          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
-        </div>
       </div>
 
       <!-- Markaz -->
@@ -149,9 +141,9 @@
         <div class="aero">
           <img id="aero-rasm" src="assets/uchastka_aero.png" alt="Uchastka aerofoto ko'rinishi — chegara polygon bilan">
           <div class="nazorat">
-            <a href="yer-maydonlari.html">+</a>
-            <button data-toast="Uzoqlashtirish">−</button>
-            <button data-toast="Joylashuvni markazlash" aria-label="Markazlash"><svg class="ic"><use href="#i-navigatsiya"/></svg></button>
+            <button id="aero-yaqin" aria-label="Yaqinlashtirish">+</button>
+            <button id="aero-uzoq" aria-label="Uzoqlashtirish">−</button>
+            <button id="aero-markaz" aria-label="Markazlash"><svg class="ic"><use href="#i-navigatsiya"/></svg></button>
           </div>
           <div class="rejim" role="group">
             <button id="a-2d">Sxema</button>
@@ -163,10 +155,10 @@
         <div class="tezkor-statlar">
           <h4>Tezkor statistikalar</h4>
           <div class="ts-grid">
-            <button class="ts-katak" data-toast="Barcha uchastkalar"><span class="yorliq">Jami maydon</span><b>32</b><span>uchastka</span></button>
-            <button class="ts-katak" data-toast="Umumiy maydon tahlili"><span class="yorliq">Umumiy maydon</span><b>115.45</b><span>gektar</span></button>
-            <button class="ts-katak" data-toast="Bo'sh yerlar ro'yxati"><span class="yorliq">Bo'sh yerlar</span><b>8</b><span>uchastka</span></button>
-            <button class="ts-katak" data-toast="Qiymat tahlili"><span class="yorliq">Umumiy qiymat</span><b>1,56 trln</b><span>so'm</span></button>
+            <button class="ts-katak" id="ts-jami"><span class="yorliq">Jami maydon</span><b id="ts-jami-son">6</b><span>uchastka</span></button>
+            <div class="ts-katak"><span class="yorliq">Umumiy maydon</span><b>115.45</b><span>gektar</span></div>
+            <button class="ts-katak" id="ts-bosh"><span class="yorliq">Bo'sh yerlar</span><b id="ts-bosh-son">2</b><span>uchastka</span></button>
+            <div class="ts-katak"><span class="yorliq">Umumiy qiymat</span><b>1,56 trln</b><span>so'm</span></div>
           </div>
         </div>
       </div>
@@ -218,7 +210,7 @@
 
         <div class="up-harakat">
           <button class="tahrir" id="u-tahrir" data-rol-yoq="texnik">Tahrirlash</button>
-          <a class="oq" href="yer-maydonlari.html"><svg class="ic"><use href="#i-hujjat"/></svg>Hujjatlarni ko'rish</a>
+          <a class="oq" href="yer-maydonlari.html"><svg class="ic"><use href="#i-hujjat"/></svg>Hujjatlarni ko'rish</a>
           
           <button class="arxiv" id="u-arxiv" data-rol-yoq="texnik"><svg class="ic"><use href="#i-savat"/></svg>Arxivlash</button>
         </div>
@@ -265,13 +257,24 @@ const UCHASTKALAR = [
    tarix:[{vaqt:"30-noy, 13:15", matn:"Investitsiya shartnomasi imzolandi"}, {vaqt:"20-avg, 10:40", matn:"Texnik-iqtisodiy asos tasdiqlandi"}, {vaqt:"08-avg, 09:00", matn:"Ro'yxatdan o'tkazildi"}]}
 ];
 const STATUS_RANG = {"Bo'sh yer":"#4A90F2", "Qishloq xo'jaligi":"#22B14C", "Qurilish uchun":"#F2994A", "Investitsiya":"#9B59F5"};
-const HOLAT_RANG = {"Faol":"#3E7C0A", "Nazoratda":"#B07C08", "Arxivlash jarayonida":"#C43C31"};
+const HOLAT_RANG = {"Faol":"#3E7C0A", "Nazoratda":"#B07C08", "Arxivlash jarayonida":"#C43C31", "Arxivlangan":"#71767E"};
 function pulFormat(son){
   return Math.round(son).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }
 let faol = 0, turF = "Barchasi";
 
+/* Chip va tezkor-stat sonlari — har doim UCHASTKALAR massivining o'zidan hisoblanadi */
+function sonlarYangila(){
+  document.querySelectorAll(".tur-chip").forEach(c=>{
+    const t = c.dataset.t;
+    c.querySelector(".son").textContent = t==="Barchasi" ? UCHASTKALAR.length : UCHASTKALAR.filter(u=>u.status===t).length;
+  });
+  document.getElementById("ts-jami-son").textContent = UCHASTKALAR.length;
+  document.getElementById("ts-bosh-son").textContent = UCHASTKALAR.filter(u=>u.status==="Bo'sh yer").length;
+}
+
 function royxatChiz(){
+  sonlarYangila();
   const r = UCHASTKALAR.filter(u=>turF==="Barchasi"||u.status===turF);
   document.getElementById("uch-royxat").innerHTML = r.map(u=>{
     const i = UCHASTKALAR.indexOf(u);
@@ -327,6 +330,28 @@ document.querySelectorAll(".tur-chip").forEach(c=>{
   });
 });
 
+/* Filtrlarni tozalash — "Barchasi" chipiga qaytaradi (toast global data-toast orqali) */
+document.getElementById("filtr-tozalash").addEventListener("click", ()=>{
+  document.querySelector('.tur-chip[data-t="Barchasi"]').click();
+});
+
+/* Tezkor statlar — mavjud tur-chip filtrlariga ulangan */
+document.getElementById("ts-jami").addEventListener("click", ()=>{
+  document.querySelector('.tur-chip[data-t="Barchasi"]').click();
+});
+document.getElementById("ts-bosh").addEventListener("click", ()=>{
+  document.querySelector(".tur-chip[data-t=\"Bo'sh yer\"]").click();
+});
+
+/* Aero rasm masshtabi — uchala tugma bitta o'zgaruvchini boshqaradi */
+let aeroMasshtab = 1;
+function aeroQollash(){
+  document.getElementById("aero-rasm").style.transform = "scale("+aeroMasshtab+") translate(0,0)";
+}
+document.getElementById("aero-yaqin").addEventListener("click", ()=>{ aeroMasshtab = Math.min(2.5, aeroMasshtab+0.25); aeroQollash(); });
+document.getElementById("aero-uzoq").addEventListener("click", ()=>{ aeroMasshtab = Math.max(1, aeroMasshtab-0.25); aeroQollash(); });
+document.getElementById("aero-markaz").addEventListener("click", ()=>{ aeroMasshtab = 1; aeroQollash(); });
+
 document.getElementById("a-2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-3d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.add("sxematik"); AUGA.toast("Sxematik ko'rinish"); });
 document.getElementById("a-3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-2d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.remove("sxematik"); AUGA.toast("Aerofoto ko'rinishi"); });
 document.querySelector(".up-yop").addEventListener("click", ()=>{
@@ -334,14 +359,49 @@ document.querySelector(".up-yop").addEventListener("click", ()=>{
   document.querySelectorAll(".uch-band").forEach(r=>r.classList.remove("faol"));
 });
 
+const YER_TURI = {"Bo'sh yer":"Zaxira yerlar", "Qishloq xo'jaligi":"Qishloq xo'jaligi yerlari", "Qurilish uchun":"Qurilish yerlari", "Investitsiya":"Investitsiya yerlari"};
 document.getElementById("yangi-yer").addEventListener("click", ()=>{
   AUGA.modal("Yangi yer maydoni qo'shish",
-    `<div style="display:grid;gap:14px;margin-top:6px">
-      <div><label class="maydon-yorliq">Kadastr raqami</label><div class="kirish"><input placeholder="11:09:03:02:____"></div></div>
-      <div><label class="maydon-yorliq">Maydon (gektar)</label><div class="kirish"><input placeholder="10.00"></div></div>
-      <div><label class="maydon-yorliq">Joylashuv</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><input placeholder="Tuman, viloyat"></div></div>
+    `<div style="display:grid;gap:14px;margin-top:6px;text-align:left">
+      <div><label class="maydon-yorliq">Kadastr raqami</label><div class="kirish"><input id="yy-kadastr" placeholder="11:09:03:02:____"></div></div>
+      <div><label class="maydon-yorliq">Maydon (gektar)</label><div class="kirish"><input id="yy-maydon" type="number" step="0.01" min="0.01" placeholder="10.00"></div></div>
+      <div><label class="maydon-yorliq">Joylashuv</label><div class="kirish"><svg class="ic"><use href="#i-pin"/></svg><input id="yy-joy" placeholder="Tuman, viloyat"></div></div>
+      <div><label class="maydon-yorliq">Turi</label><div class="kirish"><select id="yy-tur">
+        ${Object.keys(YER_TURI).map(s=>`<option>${s}</option>`).join("")}
+      </select></div></div>
     </div>`,
-    { okMatn:"Qo'shish", ok(){ AUGA.toast("Yangi uchastka ro'yxatga qo'shildi"); } });
+    { okMatn:"Qo'shish", ok(){
+        const kadastr = document.getElementById("yy-kadastr").value.trim();
+        if (!kadastr) return; // himoya chorasi: bo'sh holatda "capture" tinglovchisi yopilishni allaqachon to'xtatgan
+        const maydonSon = parseFloat(document.getElementById("yy-maydon").value);
+        const joy = document.getElementById("yy-joy").value.trim();
+        const [tuman, viloyat] = joy.includes(",") ? joy.split(",").map(s=>s.trim()) : [joy || "Kiritilmagan", ""];
+        const status = document.getElementById("yy-tur").value;
+        UCHASTKALAR.push({
+          kod:"YM-2024-"+String(UCHASTKALAR.length+1).padStart(3,"0"), tuman, viloyat,
+          maydon: isNaN(maydonSon) ? "—" : maydonSon.toFixed(2)+" gektar",
+          status, srang: STATUS_RANG[status], narx:"—",
+          kadastr, yerturi: YER_TURI[status], jami:"—",
+          ball:0, holat2:"Faol", royxatSana:"Bugun",
+          hujjat:[], tarix:[{vaqt:"Bugun", matn:"Ro'yxatdan o'tkazildi"}]
+        });
+        faol = UCHASTKALAR.length-1;
+        document.querySelector('.tur-chip[data-t="Barchasi"]').click(); // yangi qator ko'rinsin
+        panelChiz();
+        AUGA.toast("Yangi uchastka ro'yxatga qo'shildi");
+      } });
+
+  // AUGA.modal "OK" bosilganda darhol yopiladi — vazifalar.html'dagi naqsh: bosishni
+  // "capture" bosqichida ushlab, kadastr raqami bo'sh bo'lsa yopilishga yo'l qo'ymaymiz.
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("yy-kadastr").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Kadastr raqamini kiriting");
+    }
+  }, true);
 });
 document.getElementById("u-tahrir").addEventListener("click", ()=>{
   const u = UCHASTKALAR[faol];
@@ -369,7 +429,11 @@ document.getElementById("u-tahrir").addEventListener("click", ()=>{
 });
 document.getElementById("u-arxiv").addEventListener("click", ()=>{
   AUGA.modal("Uchastkani arxivlash", UCHASTKALAR[faol].kod+" uchastkasini arxivga o'tkazmoqchimisiz?",
-    {xavf:true, okMatn:"Arxivlash", ok(){ AUGA.toast("Uchastka arxivlandi"); }});
+    {xavf:true, okMatn:"Arxivlash", ok(){
+      UCHASTKALAR[faol].holat2 = "Arxivlangan";
+      royxatChiz(); panelChiz();
+      AUGA.toast("Uchastka arxivlandi");
+    }});
 });
 
 document.querySelectorAll(".up-tab").forEach(t=>{

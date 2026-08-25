@@ -349,6 +349,30 @@ function tanlovUla(root){
   });
 }
 AUGA.tanlovUla = tanlovUla;
+/* Donut segmentiga individual gradient: rangni HSL'da 18% yoritib, segment o'rta
+   burchagi bo'ylab yo'naltiradi. Chizuvchi kod stroke sifatida url(#id) oladi. */
+AUGA.segmentGradient = function(svg, rang, oRtaBurchak, idx){
+  const NS = "http://www.w3.org/2000/svg";
+  let defs = svg.querySelector("defs");
+  if (!defs){ defs = document.createElementNS(NS,"defs"); svg.prepend(defs); }
+  const id = svg.id + "-seg" + idx;
+  const g = document.createElementNS(NS,"linearGradient");
+  g.setAttribute("id", id);
+  const rad = (oRtaBurchak-90) * Math.PI/180;
+  g.setAttribute("x1", String(50-45*Math.cos(rad))+"%");
+  g.setAttribute("y1", String(50-45*Math.sin(rad))+"%");
+  g.setAttribute("x2", String(50+45*Math.cos(rad))+"%");
+  g.setAttribute("y2", String(50+45*Math.sin(rad))+"%");
+  const st1 = document.createElementNS(NS,"stop");
+  st1.setAttribute("offset","0%");
+  st1.setAttribute("stop-color", rang);
+  st1.setAttribute("style","stop-color:color-mix(in srgb, "+rang+" 72%, white)");
+  const st2 = document.createElementNS(NS,"stop");
+  st2.setAttribute("offset","100%"); st2.setAttribute("stop-color", rang);
+  g.append(st1, st2);
+  defs.appendChild(g);
+  return "url(#"+id+")";
+};
 
 /* ---------- Ishga tushirish ---------- */
 document.addEventListener("DOMContentLoaded", ()=>{

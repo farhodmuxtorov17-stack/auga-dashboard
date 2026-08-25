@@ -99,18 +99,18 @@
 
     <!-- KPI -->
     <section class="st-kpi">
-      <button class="karta" data-toast="Sotuvdagi obyektlar ro'yxati">
+      <div class="karta">
         <span class="tile yashil"><svg class="ic"><use href="#i-daromad"/></svg></span>
         <span><span class="yorliq">Sotuvda</span><b id="kpi-sotuvda">6</b></span>
-      </button>
-      <button class="karta" data-toast="Belgilangan ko'riklar jadvali">
+      </div>
+      <div class="karta">
         <span class="tile kok"><svg class="ic"><use href="#i-kamera"/></svg></span>
         <span><span class="yorliq">Ko'rik belgilangan</span><b>5</b></span>
-      </button>
-      <button class="karta" data-toast="Muzokaradagi obyektlar">
+      </div>
+      <div class="karta">
         <span class="tile sariq"><svg class="ic"><use href="#i-tashrif"/></svg></span>
         <span><span class="yorliq">Muzokarada</span><b>3</b></span>
-      </button>
+      </div>
       <a class="karta" href="arxiv.html">
         <span class="tile binafsha"><svg class="ic"><use href="#i-papka"/></svg></span>
         <span><span class="yorliq">Shu oy sotilgan</span><b>5</b></span>
@@ -203,7 +203,7 @@ function panelChiz(){
           <span><b>${m[0]}</b><span>${m[1]}</span></span>
           <span class="teg teg-${m[2]}">${m[3]}</span>
         </div>`).join("")}
-      <button class="tp-amal a" style="margin-top:9px;width:100%" data-toast="Yangi mijoz qo'shish oynasi">
+      <button class="tp-amal a" style="margin-top:9px;width:100%" id="mijoz-qoshish">
         <svg class="ic"><use href="#i-qoshish"/></svg>Mijoz qo'shish
       </button>
     </div>
@@ -219,6 +219,22 @@ function panelChiz(){
       </div>
     </div>`;
 
+  document.getElementById("mijoz-qoshish").addEventListener("click", ()=>{
+    AUGA.modal("Yangi mijoz qo'shish — "+o.nom,
+      `<div style="display:grid;gap:13px;margin-top:6px">
+        <div><label class="maydon-yorliq">Ism yoki tashkilot nomi</label><div class="kirish"><svg class="ic"><use href="#i-foyd"/></svg><input id="mij-nom"></div></div>
+        <div><label class="maydon-yorliq">Telefon yoki izoh</label><div class="kirish"><input id="mij-aloqa" placeholder="+998 __ ___-__-__"></div></div>
+      </div>`,
+      { okMatn:"Qo'shish", ok(){
+        const nom = document.getElementById("mij-nom").value.trim();
+        if (!nom){ AUGA.toast("Mijoz ismi kiritilmadi — ro'yxat o'zgarmadi", "i-ogoh"); return; }
+        const aloqa = document.getElementById("mij-aloqa").value.trim() || "Aloqa kiritilmagan";
+        o.mijozlar.push([nom, aloqa, "korik", "Ko'rik so'raldi"]);
+        bosqichChiz(); panelChiz();
+        AUGA.toast(nom+" potensial mijozlar ro'yxatiga qo'shildi");
+      }});
+  });
+
   document.getElementById("sotuv-yakunlash").addEventListener("click", ()=>{
     AUGA.modal("Sotuvni yakunlash — "+o.nom,
       `<div style="display:grid;gap:13px;margin-top:6px">
@@ -233,7 +249,7 @@ function panelChiz(){
         </div>
       </div>`,
       { okMatn:"Sotuvni tasdiqlash", ok(){
-        AUGA.toast(o.nom+" sotildi — doimiy arxivga o'tkazildi", "i-belgi-doira");
+        AUGA.toast(o.nom+" sotuvi rasmiylashtirildi — arxiv yozuvi tayyorlanmoqda", "i-belgi-doira");
         setTimeout(()=>location.href="arxiv.html", 1100);
       }});
   });

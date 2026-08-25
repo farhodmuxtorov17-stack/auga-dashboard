@@ -47,9 +47,6 @@
 }
 .yuklab-mini:hover{background:#F3FBE2}
 .yuklab-mini .ic{width:17px;height:17px}
-.uch-nuqta-mini{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:var(--matn-3);flex:none}
-.uch-nuqta-mini:hover{background:#F0F1F4}
-.uch-nuqta-mini .ic{width:16px;height:16px}
 
 /* Detal */
 .hd-bosh{display:flex;align-items:center;gap:12px}
@@ -95,9 +92,6 @@
 .format.xlsx{color:#3E9B4F}
 .format.pdf{color:#E8563F}
 .format.pptx{color:#E8752C}
-.shablon-tugma{width:100%;height:48px;margin-top:14px;border-radius:13px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:9px;font-size:14px;font-weight:700;transition:background var(--tez)}
-.shablon-tugma:hover{background:#F6F7F8}
-.shablon-tugma .ic{width:16px;height:16px}
 @media (max-width:1500px){.hm-grid{grid-template-columns:minmax(0,1fr)}.hm-past{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
@@ -142,7 +136,7 @@
         <span><span class="yorliq">Format</span><b class="t-yorliq">Barcha formatlar</b></span>
         <svg class="ic"><use href="#i-past"/></svg>
       </button>
-      <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
+      <button class="f-tugma" id="filtr-tozalash"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlarni tozalash</button>
     </div>
 
     <div class="hm-grid">
@@ -152,9 +146,7 @@
         <div id="kutubxona"></div>
         <div class="sahifalash" style="padding:14px 0 0">
           <span class="oraliq">Jami: <b id="kutubxona-jami">6</b></span>
-          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
           <button class="s-tugma aktiv">1</button>
-          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
         </div>
       </div>
 
@@ -186,7 +178,7 @@
             </div>
           </div>
           <div class="hd-harakat">
-            <a class="tugma tugma-chiziqli" href="hisobotlar-markazi.html"><svg class="ic"><use href="#i-koz"/></svg>Ko'rish</a>
+            <a class="tugma tugma-chiziqli" href="hisobotlar-markazi.html"><svg class="ic"><use href="#i-koz"/></svg>Ko'rish</a>
             <button class="tugma tugma-yashil" id="d-yuklab-tugma"><svg class="ic"><use href="#i-yuklab"/></svg>Yuklab olish</button>
           </div>
         </div>
@@ -223,7 +215,6 @@
           <button class="eksport-tile" data-toast="Moliyaviy ko'rsatkichlar PDF shakllantirilmoqda"><span class="eksport-ikon pdf"><svg class="ic"><use href="#i-hujjat"/></svg></span><b>Moliyaviy ko'rsatkichlar</b><span class="format pdf">PDF</span></button>
           <button class="eksport-tile" data-toast="KPI panel PPTX shakllantirilmoqda"><span class="eksport-ikon pptx"><svg class="ic"><use href="#i-ekran"/></svg></span><b>KPI panel eksporti</b><span class="format pptx">PPTX</span></button>
         </div>
-        <button class="shablon-tugma" data-toast="Barcha eksport shablonlari">Barcha shablonlarni ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
       </div>
     </div>
   </main>
@@ -316,13 +307,11 @@ function kutubxonaChiz(){
       <span style="min-width:0;flex:1"><b>${h.nom}</b><span class="sub">${h.sub}</span></span>
       <span class="vaqt">${h.sana}<br>${h.soat}</span>
       <button class="yuklab-mini" data-yuklab="${h.nom}" aria-label="Yuklab olish"><svg class="ic"><use href="#i-yuklab"/></svg></button>
-      <button class="uch-nuqta-mini" data-toast="Amallar: ulashish / qayta yaratish / o'chirish" aria-label="Amallar"><svg class="ic"><use href="#i-nuqtalar"/></svg></button>
     </div>`;
   }).join("");
   document.querySelectorAll(".kutubxona-band").forEach(b=>{
     b.addEventListener("click", e=>{
       if (e.target.closest(".yuklab-mini")){ AUGA.toast(e.target.closest(".yuklab-mini").dataset.yuklab+" yuklab olinmoqda","i-yuklab"); return; }
-      if (e.target.closest(".uch-nuqta-mini")) return;
       faol = +b.dataset.i;
       kutubxonaChiz();
       detalYangila();
@@ -413,6 +402,15 @@ document.getElementById("format-tanlov").addEventListener("tanlov", e=>{
   kutubxonaChiz();
   detalYangila();
 });
+/* Filtrlarni tozalash — uchala tanlovni "Barcha ..." bandiga qaytaradi. Popoverdagi
+   variant tugmasini dasturiy bosamiz: yorliq, belgi va "tanlov" hodisasi bir mexanizmdan o'tadi. */
+document.getElementById("filtr-tozalash").addEventListener("click", ()=>{
+  [["davr-tanlov","Barcha davrlar"],["tur-tanlov","Barcha turlar"],["format-tanlov","Barcha formatlar"]].forEach(([id, qiymat])=>{
+    const band = document.querySelector(`#${id} .menyu-popover [data-v="${qiymat}"]`);
+    if (band) band.click();
+  });
+  AUGA.toast("Filtrlar tozalandi");
+});
 
 /* Avtomatik hisobotlar jadvali */
 const AVATAR = `<span class="a"><svg viewBox="0 0 34 34"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>`;
@@ -421,24 +419,29 @@ const AVTO = [
   ["Haftalik aktivlar hisoboti","Har hafta","02-iyun, 2024","09:00","+2"],
   ["Kvartalik moliyaviy tahlil","Har kvartal","30-iyun, 2024","10:00","+4"]
 ];
-document.getElementById("avto-jadval").innerHTML = AVTO.map((a,i)=>`
-  <tr>
-    <td><b>${a[0]}</b></td>
-    <td>${a[1]}</td>
-    <td><b>${a[2]}</b> &nbsp;<span style="color:var(--matn-4)">${a[3]}</span></td>
-    <td><span class="avatar-yigin">${AVATAR}${AVATAR}${AVATAR}<span class="plus">${a[4]}</span></span></td>
-    <td><span class="status-katak" id="avto-status-${i}" style="display:flex;align-items:center;gap:8px;font-size:13.5px"><span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol</span></td>
-    <td><label class="ulagich"><input type="checkbox" checked data-nom="${a[0]}" data-i="${i}"><span class="yoq"></span></label></td>
-  </tr>`).join("");
-document.querySelectorAll('#avto-jadval input[type="checkbox"]').forEach(c=>{
-  c.addEventListener("change", ()=>{
-    AUGA.toast(c.dataset.nom+" "+(c.checked?"yoqildi":"to'xtatildi"));
-    const badge = document.getElementById("avto-status-"+c.dataset.i);
-    badge.innerHTML = c.checked
-      ? `<span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol`
-      : `<span style="width:7px;height:7px;border-radius:99px;background:var(--h-nofaol)"></span>To'xtatilgan`;
+/* Jadval bir manbadan chiziladi — "Yangi jadval qo'shish" ham shu funksiyani chaqiradi.
+   Yangi qo'shilgan qatorda sana/qabul qiluvchilar hali yo'q — o'ylab topilmaydi, halol "—" ko'rsatiladi. */
+function avtoChiz(){
+  document.getElementById("avto-jadval").innerHTML = AVTO.map((a,i)=>`
+    <tr>
+      <td><b>${a[0]}</b></td>
+      <td>${a[1]}</td>
+      <td>${a[2] ? `<b>${a[2]}</b> &nbsp;<span style="color:var(--matn-4)">${a[3]}</span>` : `<span style="color:var(--matn-4)">—</span>`}</td>
+      <td>${a[4] ? `<span class="avatar-yigin">${AVATAR}${AVATAR}${AVATAR}<span class="plus">${a[4]}</span></span>` : `<span style="color:var(--matn-4)">—</span>`}</td>
+      <td><span class="status-katak" id="avto-status-${i}" style="display:flex;align-items:center;gap:8px;font-size:13.5px"><span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol</span></td>
+      <td><label class="ulagich"><input type="checkbox" checked data-nom="${a[0]}" data-i="${i}"><span class="yoq"></span></label></td>
+    </tr>`).join("");
+  document.querySelectorAll('#avto-jadval input[type="checkbox"]').forEach(c=>{
+    c.addEventListener("change", ()=>{
+      AUGA.toast(c.dataset.nom+" "+(c.checked?"yoqildi":"to'xtatildi"));
+      const badge = document.getElementById("avto-status-"+c.dataset.i);
+      badge.innerHTML = c.checked
+        ? `<span style="width:7px;height:7px;border-radius:99px;background:#22B14C"></span>Faol`
+        : `<span style="width:7px;height:7px;border-radius:99px;background:var(--h-nofaol)"></span>To'xtatilgan`;
+    });
   });
-});
+}
+avtoChiz();
 
 /* Tugmalar */
 document.getElementById("hisobot-yaratish").addEventListener("click", ()=>{
@@ -463,10 +466,28 @@ em.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
 document.getElementById("yangi-jadval").addEventListener("click", ()=>{
   AUGA.modal("Yangi avtomatik jadval",
     `<div style="display:grid;gap:14px;margin-top:6px">
-      <div><label class="maydon-yorliq">Hisobot nomi</label><div class="kirish"><input placeholder="Oylik hisobot"></div></div>
-      <div><label class="maydon-yorliq">Chastota</label><div class="kirish"><input placeholder="Har oy"></div></div>
+      <div><label class="maydon-yorliq">Hisobot nomi</label><div class="kirish"><input id="aj-nom" placeholder="Oylik hisobot"></div></div>
+      <div><label class="maydon-yorliq">Chastota</label><div class="kirish"><input id="aj-chastota" placeholder="Har oy"></div></div>
     </div>`,
-    { okMatn:"Qo'shish", ok(){ AUGA.toast("Avtomatik jadval qo'shildi"); } });
+    { okMatn:"Qo'shish", ok(){
+        const nom = document.getElementById("aj-nom").value.trim();
+        if (!nom) return; // himoya: bo'sh holatda "capture" tinglovchisi yopilishni allaqachon to'xtatgan
+        const chastota = document.getElementById("aj-chastota").value.trim() || "—";
+        AVTO.push([nom, chastota, "", "", ""]);
+        avtoChiz();
+        AUGA.toast("Avtomatik jadval qo'shildi");
+      } });
+  // AUGA.modal "OK" bosilganda modalni darhol yopadi — nom bo'sh bo'lsa yopilishni
+  // "capture" bosqichida to'xtatamiz (vazifalar.html'dagi ishlaydigan namuna).
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("aj-nom").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Hisobot nomi kiritilishi shart");
+    }
+  }, true);
 });
 });
 </script>

@@ -112,15 +112,9 @@
         <h3>Foydalanuvchilar<span class="f-son">24</span></h3>
         <div class="fr-qidiruv">
           <div class="kirish"><input id="f-izlash" placeholder="Qidirish..." aria-label="Foydalanuvchi qidirish"></div>
-          <button class="fr-filtr" data-toast="Filtrlar: rol, bo'lim, holat"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
+          <button class="fr-filtr" id="f-tozalash" data-toast="Filtrlar tozalandi"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlarni tozalash</button>
         </div>
         <div id="foyd-royxat"></div>
-        <div class="sahifalash" style="padding:14px 0 0">
-          <span class="oraliq">Jami: <b>24</b></span>
-          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
-          <button class="s-tugma aktiv">1</button>
-          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
-        </div>
       </div>
 
       <!-- Markaz: ma'lumotlar -->
@@ -158,13 +152,13 @@
       <aside style="display:flex;flex-direction:column;gap:18px">
         <div class="karta">
           <div style="display:flex;align-items:center;margin-bottom:8px">
-            <h3>Rollar ro'yxati<span class="f-son">4</span></h3>
+            <h3>Rollar ro'yxati<span class="f-son" id="rol-son">4</span></h3>
             <button class="tugma tugma-yashil tugma-kichik" style="margin-left:auto" id="yangi-rol"><svg class="ic"><use href="#i-qoshish"/></svg>Yangi rol</button>
           </div>
-          <button class="rol-band" data-toast="Administrator roli tafsiloti"><span class="rol-tile yashil"><svg class="ic"><use href="#i-foyd"/></svg></span><span><b>Administrator</b><span>Tizimga to'liq kirish huquqi</span></span><span class="son">3</span></button>
-          <button class="rol-band" data-toast="Operator roli tafsiloti"><span class="rol-tile kok"><svg class="ic"><use href="#i-ekran"/></svg></span><span><b>Operator</b><span>Operatsion ma'lumotlar bilan ishlash</span></span><span class="son">8</span></button>
-          <button class="rol-band" data-toast="Rahbar roli tafsiloti"><span class="rol-tile binafsha"><svg class="ic"><use href="#i-vazifa"/></svg></span><span><b>Rahbar</b><span>Boshqaruv, hisobotlar va tasdiqlar bo'yicha kirish</span></span><span class="son">9</span></button>
-          <button class="rol-band" data-toast="Texnik xodim roli tafsiloti"><span class="rol-tile kul"><svg class="ic"><use href="#i-sozlama"/></svg></span><span><b>Texnik xodim</b><span>Texnik xizmat va obyektlar bo'yicha kirish</span></span><span class="son">4</span></button>
+          <button class="rol-band"><span class="rol-tile yashil"><svg class="ic"><use href="#i-foyd"/></svg></span><span><b>Administrator</b><span>Tizimga to'liq kirish huquqi</span></span><span class="son">3</span></button>
+          <button class="rol-band"><span class="rol-tile kok"><svg class="ic"><use href="#i-ekran"/></svg></span><span><b>Operator</b><span>Operatsion ma'lumotlar bilan ishlash</span></span><span class="son">8</span></button>
+          <button class="rol-band"><span class="rol-tile binafsha"><svg class="ic"><use href="#i-vazifa"/></svg></span><span><b>Rahbar</b><span>Boshqaruv, hisobotlar va tasdiqlar bo'yicha kirish</span></span><span class="son">9</span></button>
+          <button class="rol-band"><span class="rol-tile kul"><svg class="ic"><use href="#i-sozlama"/></svg></span><span><b>Texnik xodim</b><span>Texnik xizmat va obyektlar bo'yicha kirish</span></span><span class="son">4</span></button>
         </div>
 
         <div class="karta matritsa">
@@ -253,6 +247,12 @@ function ruxsatlarChiz(rolNomi){
   }).join("");
 }
 document.getElementById("f-izlash").addEventListener("input", e=>{ izlash = e.target.value.toLowerCase(); royxatChiz(); });
+/* Filtrlarni tozalash — qidiruv bo'shatilib ro'yxat qayta chiziladi (toast data-toast'dan) */
+document.getElementById("f-tozalash").addEventListener("click", ()=>{
+  izlash = "";
+  document.getElementById("f-izlash").value = "";
+  royxatChiz();
+});
 royxatChiz(); profilChiz();
 
 /* Matritsa */
@@ -269,14 +269,65 @@ const MODULLAR = [
 document.getElementById("matritsa-tanasi").innerHTML = MODULLAR.map(m=>`
   <tr><td>${m[0]}</td><td>${m[1]}</td><td>${m[2]}</td><td>${m[3]}</td><td>${m[4]}</td></tr>`).join("");
 
+/* Rol tafsiloti — nom, tavsif va foydalanuvchilar soni kartaning o'zidan,
+   bo'limlar ro'yxati auga.js ROL_RUXSAT'dan olinadi (yangi rolda bo'lim hali biriktirilmagan). */
+function rolTafsilotOch(band){
+  const nom = band.querySelector("b").textContent;
+  const tavsif = band.querySelector("b").nextElementSibling.textContent;
+  const son = band.querySelector(".son").textContent;
+  const bolimlar = band.dataset.yangi ? [] : AUGA.rolBolimlari(nom);   // null = barcha bo'limlar
+  const qatorlar = RUXSAT_TAVSIF.map(([kalit,ikon,bnom,izoh])=>{
+    const bor = !bolimlar || bolimlar.includes(kalit);
+    return `<div style="display:flex;align-items:center;gap:12px;padding:10px 2px;border-bottom:1px solid #F2F3F5${bor?"":";opacity:.5"}">
+      <svg class="ic" style="width:18px;height:18px;color:#43484E"><use href="#${ikon}"/></svg>
+      <span style="min-width:0"><b style="font-size:13.5px">${bnom}</b><br><span style="font-size:12px;color:var(--matn-3)">${bor ? izoh : "Bu rol uchun yopiq"}</span></span>
+      <svg class="ic" style="width:15px;height:15px;margin-left:auto;flex:none;color:${bor?"#22B14C":"var(--matn-4)"}"><use href="#${bor?"i-belgi-doira":"i-qulf"}"/></svg>
+    </div>`;
+  }).join("");
+  AUGA.modal(nom + " roli",
+    `<div style="font-size:13.5px;color:var(--matn-2)">${tavsif}</div>
+    <div style="font-size:12.5px;color:var(--matn-4);margin-top:4px">Foydalanuvchilar: <b>${son}</b></div>
+    <div style="margin-top:10px">${qatorlar}</div>`,
+    { okMatn:"Yopish" });
+}
+function rolBandUla(band){
+  band.addEventListener("click", ()=>rolTafsilotOch(band));
+}
+document.querySelectorAll(".rol-band").forEach(rolBandUla);
+
 /* Yangi rol */
 document.getElementById("yangi-rol").addEventListener("click", ()=>{
   AUGA.modal("Yangi rol yaratish",
     `<div style="display:grid;gap:14px;margin-top:6px">
-      <div><label class="maydon-yorliq">Rol nomi</label><div class="kirish"><input placeholder="Masalan: Nazoratchi"></div></div>
-      <div><label class="maydon-yorliq">Tavsif</label><div class="kirish"><input placeholder="Qisqa tavsif"></div></div>
+      <div><label class="maydon-yorliq">Rol nomi</label><div class="kirish"><input id="yr-nom" placeholder="Masalan: Nazoratchi"></div></div>
+      <div><label class="maydon-yorliq">Tavsif</label><div class="kirish"><input id="yr-tavsif" placeholder="Qisqa tavsif"></div></div>
     </div>`,
-    { okMatn:"Yaratish", ok(){ AUGA.toast("Yangi rol yaratildi"); } });
+    { okMatn:"Yaratish", ok(){
+        const nom = document.getElementById("yr-nom").value.trim();
+        const tavsif = document.getElementById("yr-tavsif").value.trim() || "Tavsif kiritilmagan";
+        const karta = document.getElementById("yangi-rol").closest(".karta");
+        karta.insertAdjacentHTML("beforeend",
+          `<button class="rol-band" data-yangi="1"><span class="rol-tile sariq"><svg class="ic"><use href="#i-foyd"/></svg></span><span><b></b><span></span></span><span class="son">0</span></button>`);
+        const band = karta.lastElementChild;
+        band.querySelector("b").textContent = nom;
+        band.querySelector("b").nextElementSibling.textContent = tavsif;
+        rolBandUla(band);
+        const nishon = document.getElementById("rol-son");
+        nishon.textContent = +nishon.textContent + 1;
+        AUGA.toast("Yangi rol yaratildi");
+      } });
+
+  // AUGA.modal "OK" bosilganda modalni darhol yopadi — bo'sh nomda yopilishga
+  // yo'l qo'ymaslik uchun bosish "capture" bosqichida ushlanadi (hujjatlar.html usuli).
+  const modallar = document.querySelectorAll(".modal-fon");
+  const fon = modallar[modallar.length-1];
+  fon.addEventListener("click", e=>{
+    if (!e.target.closest("[data-m-ok]")) return;
+    if (!document.getElementById("yr-nom").value.trim()){
+      e.stopPropagation();
+      AUGA.toast("Rol nomini kiriting", "i-ogoh");
+    }
+  }, true);
 });
 });
 </script>

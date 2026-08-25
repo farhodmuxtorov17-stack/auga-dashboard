@@ -224,7 +224,7 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
       <aside class="filtr-karta" aria-label="Filtrlar">
         <div class="filtr-bosh">
           <h2>Filtrlar</h2>
-          <button data-toast="Kengaytirilgan filtrlar" aria-label="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg></button>
+          <button id="f-tozalash" data-toast="Filtrlar tozalandi" aria-label="Filtrlarni tozalash"><svg class="ic"><use href="#i-slayder"/></svg></button>
         </div>
         <button class="tanlov" id="f-viloyat" data-variantlar='["Barcha viloyatlar","Toshkent shahri","Toshkent viloyati","Samarqand","Buxoro","Farg&#39;ona","Andijon","Namangan","Xorazm"]'><span class="t-yorliq">Barcha viloyatlar</span><svg class="ic"><use href="#i-past"/></svg></button>
         <button class="tanlov" id="f-tur" data-variantlar='["Barcha turlar","Biznes markazi","Savdo markazi","Davlat muassasasi","Turar-joy / Ofis","Dacha","Bo&#39;sh yer"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
@@ -602,7 +602,8 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
           <div class="salom" id="salom-texnik"></div>
         </div>
         <div class="sahifa-harakat">
-          <a class="tugma tugma-yashil" href="servis.html"><svg class="ic"><use href="#i-servis"/></svg>Servis topshirig'i</a>
+          <a class="tugma tugma-oq" href="servis.html"><svg class="ic"><use href="#i-servis"/></svg>Servis topshirig'i</a>
+          <a class="tugma tugma-yashil" href="qurilma-ornatish.html"><svg class="ic"><use href="#i-qoshish"/></svg>Qurilma qo'shish</a>
         </div>
       </div>
 
@@ -745,11 +746,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
   ];
   const C = 2*Math.PI*r, gapDeg = 2.6;
   let boshi = -90;
-  data.forEach(([foiz, rang])=>{
+  data.forEach(([foiz, rang], di)=>{
     const yoy = foiz/100*360 - gapDeg;
     const c = document.createElementNS(NS,"circle");
     c.setAttribute("cx",cx); c.setAttribute("cy",cy); c.setAttribute("r",r);
-    c.setAttribute("fill","none"); c.setAttribute("stroke",rang);
+    const grad = AUGA.segmentGradient(svg, rang, boshi + foiz/100*180, di);
+    c.setAttribute("fill","none"); c.setAttribute("stroke",grad);
     c.setAttribute("stroke-width",w);
     c.setAttribute("stroke-dasharray",(Math.max(yoy,1.4)/360*C)+" "+C);
     c.setAttribute("transform","rotate("+(boshi+gapDeg/2)+" "+cx+" "+cy+")");
@@ -991,6 +993,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("f-viloyat").addEventListener("tanlov", e=>{ xaritaFiltri.viloyat = e.detail; qollash(); });
   document.getElementById("f-tur").addEventListener("tanlov", e=>{ xaritaFiltri.tur = e.detail; qollash(); });
   document.getElementById("f-holat").addEventListener("tanlov", e=>{ xaritaFiltri.holat = e.detail; qollash(); });
+  document.getElementById("f-tozalash").addEventListener("click", ()=>{
+    xaritaFiltri.viloyat = "Barcha viloyatlar"; xaritaFiltri.tur = "Barcha turlar"; xaritaFiltri.holat = "Barcha holatlar";
+    document.querySelector("#f-viloyat .t-yorliq").textContent = "Barcha viloyatlar";
+    document.querySelector("#f-tur .t-yorliq").textContent = "Barcha turlar";
+    document.querySelector("#f-holat .t-yorliq").textContent = "Barcha holatlar";
+    qollash();
+  });
 
   document.getElementById("x-katta").addEventListener("click", ()=> { if (xaritaBor) xMap.zoomIn(); });
   document.getElementById("x-kichik").addEventListener("click", ()=> { if (xaritaBor) xMap.zoomOut(); });

@@ -63,6 +63,12 @@
 .tur-qator2 b{font-weight:650;color:#23272C}
 .tur-qator2 .qiymat{margin-left:auto;color:var(--matn-3);font-size:13px}
 .tur-qator2 .strelka{color:var(--matn-4);width:15px;height:15px}
+/* Tur qatorlari endi .tanlov (data-variantlar) mexanizmida ishlaydi — auga.css'dagi
+   karta-ko'rinish qator uslubini bosib ketmasligi uchun neytrallashtiriladi. */
+.tur-qator2.tanlov{border:none;background:transparent;height:auto;color:inherit;font-weight:inherit;white-space:normal}
+.tur-qator2.tanlov:hover{background:#F6F7F8}
+.tur-qator2.tanlov > .ic{margin-left:0}
+.tur-qator2.tanlov .belgi{color:var(--yashil);width:17px;height:17px}
 @media (max-width:1400px){.bn-grid{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:800px){.muhim-karta{grid-template-columns:minmax(0,1fr)}}
 </style>
@@ -102,10 +108,7 @@
           <div id="bn-royxat"></div>
           <div class="sahifalash" style="padding:14px 0 0">
             <span class="oraliq">Jami: <b id="jami-bildirish">6</b></span>
-            <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
             <button class="s-tugma aktiv">1</button>
-            
-            <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
           </div>
         </div>
 
@@ -143,11 +146,11 @@
           <label class="kanal-qator katakcha"><input type="checkbox" id="kanal-sms"><span class="quti"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>SMS</label>
 
           <h4>Bildirishnoma turlari</h4>
-          <button class="tur-qator2" data-toast="Tizim bildirishnomalari sozlamasi"><svg class="ic"><use href="#i-sozlama"/></svg><b>Tizim</b><span class="qiymat">Barchasi</span><svg class="ic strelka"><use href="#i-ong"/></svg></button>
-          <button class="tur-qator2" data-toast="Hodisalar bildirishnomalari sozlamasi"><svg class="ic"><use href="#i-ogoh"/></svg><b>Hodisalar</b><span class="qiymat">Muhim</span><svg class="ic strelka"><use href="#i-ong"/></svg></button>
-          <button class="tur-qator2" data-toast="Tasdiqlar bildirishnomalari sozlamasi"><svg class="ic"><use href="#i-vazifa"/></svg><b>Tasdiqlar</b><span class="qiymat">Barchasi</span><svg class="ic strelka"><use href="#i-ong"/></svg></button>
-          <button class="tur-qator2" data-toast="Moliya bildirishnomalari sozlamasi"><svg class="ic"><use href="#i-daromad"/></svg><b>Moliya</b><span class="qiymat">Muhim</span><svg class="ic strelka"><use href="#i-ong"/></svg></button>
-          <button class="tur-qator2" data-toast="Smart Access bildirishnomalari sozlamasi"><svg class="ic"><use href="#i-qulf"/></svg><b>Smart Access</b><span class="qiymat">Muhim</span><svg class="ic strelka"><use href="#i-ong"/></svg></button>
+          <button class="tur-qator2 tanlov" data-variantlar='["Barchasi","Muhim","O&#39;chirilgan"]'><svg class="ic"><use href="#i-sozlama"/></svg><b>Tizim</b><span class="qiymat t-yorliq">Barchasi</span><svg class="ic strelka"><use href="#i-past"/></svg></button>
+          <button class="tur-qator2 tanlov" data-variantlar='["Barchasi","Muhim","O&#39;chirilgan"]'><svg class="ic"><use href="#i-ogoh"/></svg><b>Hodisalar</b><span class="qiymat t-yorliq">Muhim</span><svg class="ic strelka"><use href="#i-past"/></svg></button>
+          <button class="tur-qator2 tanlov" data-variantlar='["Barchasi","Muhim","O&#39;chirilgan"]'><svg class="ic"><use href="#i-vazifa"/></svg><b>Tasdiqlar</b><span class="qiymat t-yorliq">Barchasi</span><svg class="ic strelka"><use href="#i-past"/></svg></button>
+          <button class="tur-qator2 tanlov" data-variantlar='["Barchasi","Muhim","O&#39;chirilgan"]'><svg class="ic"><use href="#i-daromad"/></svg><b>Moliya</b><span class="qiymat t-yorliq">Muhim</span><svg class="ic strelka"><use href="#i-past"/></svg></button>
+          <button class="tur-qator2 tanlov" data-variantlar='["Barchasi","Muhim","O&#39;chirilgan"]'><svg class="ic"><use href="#i-qulf"/></svg><b>Smart Access</b><span class="qiymat t-yorliq">Muhim</span><svg class="ic strelka"><use href="#i-past"/></svg></button>
         </div>
       </aside>
     </div>

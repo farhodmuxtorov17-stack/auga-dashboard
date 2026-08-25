@@ -174,7 +174,7 @@
           </a>
         </div>
         <div class="sv-band"><span class="yorliq">Manzil</span><b style="font-weight:550;line-height:1.5">Toshkent sh., Shayxontohur tumani,<br>Amir Temur ko'chasi, 88</b></div>
-        <div class="sv-band"><span class="yorliq">Sana va vaqt</span><b>24-may, 2024 &nbsp; 10:00 – 12:00</b></div>
+        <div class="sv-band"><span class="yorliq">Sana va vaqt</span><b id="sv-sana">24-may, 2024 &nbsp; 10:00 – 12:00</b></div>
         <div class="sv-band"><span class="yorliq">Texnik xodim</span>
           <span class="sv-xodim">
             <span class="avatar"><svg viewBox="0 0 34 34" style="width:28px;height:28px;display:block;margin:4px auto 0"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg></span>
@@ -203,8 +203,8 @@
         <div class="sv-xarita">
           <img src="assets/servis_xarita.png" alt="3-qavat xaritasi — qurilmalar joylashuvi bilan">
           <div class="zoom">
-            <a href="servis.html">+</a>
-            <a href="servis.html">−</a>
+            <a href="servis.html">+</a>
+            <a href="servis.html">−</a>
           </div>
         </div>
         <div class="sv-legend">
@@ -218,10 +218,10 @@
         <div class="oldin-keyin">
           <h4>Tekshiruvdan oldin va keyin</h4>
           <div class="ok-grid">
-            <button class="ok-juft" data-toast="Kameralar: oldin/keyin taqqoslash"><img src="assets/sx_kamera.png" alt="Kameralar oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
-            <button class="ok-juft" data-toast="Panellar: oldin/keyin taqqoslash"><img src="assets/sx_panel.png" alt="Panel oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
-            <button class="ok-juft" data-toast="Detektorlar: oldin/keyin taqqoslash"><img src="assets/sx_detektor.png" alt="Detektorlar oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
-            <a class="ok-yuklash" href="servis.html"><svg class="ic"><use href="#i-qoshish"/></svg>Rasm yoki fayl yuklash</a>
+            <button class="ok-juft" data-lightbox="Kameralar: oldin/keyin taqqoslash"><img src="assets/sx_kamera.png" alt="Kameralar oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
+            <button class="ok-juft" data-lightbox="Panellar: oldin/keyin taqqoslash"><img src="assets/sx_panel.png" alt="Panel oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
+            <button class="ok-juft" data-lightbox="Detektorlar: oldin/keyin taqqoslash"><img src="assets/sx_detektor.png" alt="Detektorlar oldin va keyin"><span class="teglar"><span>Oldin</span><span>Keyin</span></span></button>
+            <a class="ok-yuklash" href="servis.html"><svg class="ic"><use href="#i-qoshish"/></svg>Rasm yoki fayl yuklash</a>
           </div>
         </div>
       </div>
@@ -404,18 +404,25 @@ hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
   AUGA.toast("Topshiriq holati: "+b.dataset.h);
 }));
 
-/* 3D/2D */
-document.getElementById("s2d").classList.remove("aktiv"); AUGA.toast("3D reja"); });
-document.getElementById("s3d").classList.remove("aktiv"); AUGA.toast("2D reja"); });
-
 /* Tahrirlash */
 document.getElementById("sv-tahrir").addEventListener("click", ()=>{
+  const sanaEl = document.getElementById("sv-sana");
+  const priEl = document.querySelector(".prioritet");
   AUGA.modal("Topshiriqni tahrirlash",
     `<div style="display:grid;gap:13px;margin-top:6px">
-      <div><label class="maydon-yorliq">Sana va vaqt</label><div class="kirish"><svg class="ic"><use href="#i-kalendar"/></svg><input value="24-may, 2024 10:00–12:00"></div></div>
-      <div><label class="maydon-yorliq">Prioritet</label><div class="kirish"><input value="O'rta"></div></div>
+      <div><label class="maydon-yorliq">Sana va vaqt</label><div class="kirish"><svg class="ic"><use href="#i-kalendar"/></svg><input id="th-sana" value="${sanaEl.textContent.replace(/\s+/g," ").trim()}"></div></div>
+      <div><label class="maydon-yorliq">Prioritet</label><div class="kirish"><input id="th-prioritet" value="${priEl.textContent.trim()}"></div></div>
     </div>`,
-    { okMatn:"Saqlash", ok(){ AUGA.toast("Topshiriq yangilandi"); } });
+    { okMatn:"Saqlash", ok(){
+      const sana = document.getElementById("th-sana").value.trim();
+      const pri = document.getElementById("th-prioritet").value.trim();
+      if (sana) sanaEl.textContent = sana;
+      if (pri){
+        priEl.innerHTML = `<span class="nuqta"></span>`;
+        priEl.appendChild(document.createTextNode(pri));
+      }
+      AUGA.toast("Topshiriq yangilandi");
+    } });
 });
 });
 </script>

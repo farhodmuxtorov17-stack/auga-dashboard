@@ -286,11 +286,11 @@
             <table class="jadval">
               <thead><tr><th>Xona</th><th>Qavat</th><th>Maydon</th><th>Ijarachi</th><th>Holat</th></tr></thead>
               <tbody>
-                <tr data-toast="Xona 501 kartasi"><td><b>Ofis 501</b></td><td>5</td><td>1 200 m²</td><td>CRC Group</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Band</span></td></tr>
-                <tr data-toast="Xona 302 kartasi"><td><b>Ofis 302</b></td><td>3</td><td>800 m²</td><td>CRC Group</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Band</span></td></tr>
-                <tr data-toast="Xona 204 kartasi"><td><b>Ofis 204</b></td><td>2</td><td>450 m²</td><td>—</td><td><span class="chip chip-kul"><span class="nuqta"></span>Bo'sh</span></td></tr>
-                <tr data-toast="Konferensiya zali kartasi"><td><b>Konferensiya zali</b></td><td>1</td><td>150 m²</td><td>Umumiy</td><td><span class="chip chip-kok"><span class="nuqta"></span>Bron qilinadi</span></td></tr>
-                <tr data-toast="Avtoturargoh kartasi"><td><b>Yerosti avtoturargoh</b></td><td>-1</td><td>2 400 m²</td><td>Umumiy</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Faol</span></td></tr>
+                <tr><td><b>Ofis 501</b></td><td>5</td><td>1 200 m²</td><td>CRC Group</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Band</span></td></tr>
+                <tr><td><b>Ofis 302</b></td><td>3</td><td>800 m²</td><td>CRC Group</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Band</span></td></tr>
+                <tr><td><b>Ofis 204</b></td><td>2</td><td>450 m²</td><td>—</td><td><span class="chip chip-kul"><span class="nuqta"></span>Bo'sh</span></td></tr>
+                <tr><td><b>Konferensiya zali</b></td><td>1</td><td>150 m²</td><td>Umumiy</td><td><span class="chip chip-kok"><span class="nuqta"></span>Bron qilinadi</span></td></tr>
+                <tr><td><b>Yerosti avtoturargoh</b></td><td>-1</td><td>2 400 m²</td><td>Umumiy</td><td><span class="chip chip-yashil"><span class="nuqta"></span>Faol</span></td></tr>
               </tbody>
             </table>
           </div>
@@ -308,9 +308,9 @@
             <div class="xus-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Sug'urta polisi.pdf · 640 KB</span>
               <span class="qiymat"><button class="amal-tugma" data-toast="Sug'urta polisi yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg></button></span></div>
           </div>
-          <button class="tugma tugma-chiziqli" style="margin-top:16px" data-toast="Hujjat yuklash oynasi">
+          <a class="tugma tugma-chiziqli" style="margin-top:16px" href="hujjatlar.html" data-ruxsat="hujjatlar">
             <svg class="ic"><use href="#i-yuklash"/></svg>Hujjat yuklash
-          </button>
+          </a>
         </div>
 
         <!-- MONITORING -->
@@ -583,6 +583,21 @@ document.querySelectorAll(".tab-band").forEach(t=>{
     document.querySelectorAll(".tab-band").forEach(x=>x.classList.remove("aktiv"));
     t.classList.add("aktiv");
     document.querySelectorAll("[data-panel]").forEach(p=>p.hidden = p.dataset.panel !== t.dataset.tab);
+  });
+});
+
+/* Xonalar jadvali — qator o'z kataklaridan xona kartasini ochadi, tashqi manba yo'q */
+document.querySelectorAll('[data-panel="xonalar"] tbody tr').forEach(qator=>{
+  qator.addEventListener("click", ()=>{
+    const k = qator.querySelectorAll("td");
+    AUGA.modal(k[0].textContent.trim(),
+      `<div style="display:grid;gap:12px;margin-top:6px;font-size:14px">
+        <div style="display:flex;justify-content:space-between;gap:14px"><span style="color:var(--matn-3)">Qavat</span><b>${k[1].textContent.trim()}</b></div>
+        <div style="display:flex;justify-content:space-between;gap:14px"><span style="color:var(--matn-3)">Maydon</span><b>${k[2].textContent.trim()}</b></div>
+        <div style="display:flex;justify-content:space-between;gap:14px"><span style="color:var(--matn-3)">Ijarachi</span><b>${k[3].textContent.trim()}</b></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:14px"><span style="color:var(--matn-3)">Holat</span>${k[4].innerHTML}</div>
+      </div>`,
+      { okMatn:"Yopish" });
   });
 });
 document.getElementById("barcha-faoliyat").addEventListener("click", ()=>{

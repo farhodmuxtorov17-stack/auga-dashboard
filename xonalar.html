@@ -90,9 +90,6 @@
 .xp-qator .yorliq{color:var(--matn-3)}
 .xp-qator b{margin-left:auto;font-weight:650;text-align:right}
 .xp-qator b .nuqta{display:inline-block;width:7px;height:7px;border-radius:99px;background:#22B14C;margin-right:6px;vertical-align:1px}
-.jihoz-tugma{width:100%;height:46px;margin-top:10px;border-radius:12px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:9px;font-size:13.5px;font-weight:700;transition:background var(--tez)}
-.jihoz-tugma:hover{background:#F6F7F8}
-.jihoz-tugma .ic{width:15px;height:15px}
 .xp-tahrir{width:100%;height:52px;margin-top:16px;border-radius:13px;border:1px solid var(--kirish-chiziq);display:flex;align-items:center;justify-content:center;gap:10px;font-size:14.5px;font-weight:700;transition:background var(--tez)}
 .xp-tahrir:hover{background:#F6F7F8}
 .xp-tahrir .ic{width:17px;height:17px}
@@ -302,7 +299,6 @@ function panelChiz(){
     <div class="xp-blok">
       <h4>Jihozlar</h4>
       ${x.jihozlar.map(j=>`<div class="xp-qator"><svg class="ic"><use href="#i-ekran"/></svg><span class="yorliq">${j[0]}</span><b>${j[1]}</b></div>`).join("")}
-      <button class="jihoz-tugma" data-toast="Barcha jihozlar inventar ro'yxati">Barcha jihozlar<svg class="ic"><use href="#i-strelka"/></svg></button>
     </div>
 
     <div class="xp-blok">

@@ -98,7 +98,7 @@
     <img src="assets/st_yuz.png" alt="Yuz mos kelmadi illyustratsiyasi">
     <h3>Yuz mos kelmadi</h3>
     <p>Yuz identifikatsiyasi muvaffaqiyatsiz bo'ldi. Iltimos, qo'lda tasdiqlang.</p>
-    <button class="h-yashil" data-toast="Qo'lda tasdiqlash oynasi ochildi">Qo'lda tasdiqlash</button>
+    <button class="h-yashil" id="qolda-tasdiq">Qo'lda tasdiqlash</button>
     <button class="h-oq" data-toast="Yuz tanish qayta ishga tushirildi">Qayta urinib ko'rish</button>
   </div>
 
@@ -123,7 +123,7 @@
     <img src="assets/st_yongin.png" alt="Yong'in signali illyustratsiyasi">
     <h3>Yong'in signali – kritik</h3>
     <p>Yong'in signalizatsiyasi faollashdi! Zudlik bilan xavfsizlik choralarini ko'ring.</p>
-    <button class="h-qizil" data-toast="Xavfsizlik rejasi ochildi — evakuatsiya yo'nalishlari">Xavfsizlik rejasi</button>
+    <button class="h-qizil" data-toast="Xavfsizlik rejasi PDF sifatida yuklab olinmoqda">Xavfsizlik rejasini yuklab olish</button>
     <button class="h-oq" data-toast="Xavfsizlik xizmatiga qo'ng'iroq: 101"><svg class="ic"><use href="#i-tel"/></svg>Xavfsizlik xizmatiga qo'ng'iroq qilish</button>
   </div>
 
@@ -158,5 +158,14 @@
 </div>
 
 <script src="auga.js"></script>
+<script>
+/* Yuz mos kelmadi — qo'lda tasdiqlash oynasi */
+document.getElementById("qolda-tasdiq").addEventListener("click", ()=>{
+  AUGA.modal("Qo'lda tasdiqlash", "Yuz identifikatsiyasi muvaffaqiyatsiz bo'ldi. Kirishni qo'lda tasdiqlaysizmi?", {
+    okMatn:"Tasdiqlash",
+    ok(){ AUGA.toast("Kirish qo'lda tasdiqlandi"); }
+  });
+});
+</script>
 </body>
 </html>

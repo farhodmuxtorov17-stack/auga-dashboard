@@ -152,7 +152,7 @@
       <div class="karta vz-karta">
         <h3>Tasdiqlash navbati<span class="vz-son" id="vz-son-navbat">5</span></h3>
         <div id="navbat"></div>
-        <button class="vz-havola" data-toast="Barcha tasdiqlash so'rovlari">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
+        <a class="vz-havola" href="tasdiqlar.html">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></a>
       </div>
 
       <!-- Markaziy jarayon -->
@@ -218,7 +218,6 @@
             </button>
           </div>
           <div id="mening-vazifalar-royxat"></div>
-          <button class="vz-havola" data-toast="Barcha vazifalar ro'yxati">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
         </div>
 
         <div class="karta">
@@ -476,7 +475,7 @@ function vazifalarChiz(){
     v.addEventListener("click", ()=>{
       document.querySelectorAll(".vazifa-kartacha").forEach(x=>x.classList.remove("faol"));
       v.classList.add("faol");
-      AUGA.toast(v.querySelector("b").textContent+" vazifasi ochildi");
+      AUGA.toast(v.querySelector("b").textContent+" vazifasi tanlandi");
     });
   });
 }
@@ -559,7 +558,12 @@ document.getElementById("taqvim-tanasi").innerHTML = KUNLAR.map((h,hi)=>`
     return `<td><button class="${cls}" data-kun="${k}">${k}</button></td>`;
   }).join("")}</tr>`).join("");
 document.querySelectorAll(".taqvim button").forEach(b=>{
-  b.addEventListener("click", ()=>AUGA.toast(b.dataset.kun+"-may: "+(b.classList.contains("bugun")?"2 ta muddat":"muddatlar yo'q")+"", "i-kalendar"));
+  b.addEventListener("click", ()=>{
+    // "bugun" (24-may) yozuvlari sana:"Bugun" ko'rinishida saqlanadi, belgili kunlar esa "25-may" kabi
+    const sana = b.classList.contains("bugun") ? "Bugun" : b.dataset.kun+"-may";
+    const soni = b.classList.contains("boshqa-oy") ? 0 : MENING_VAZIFALARIM.filter(v=>v.sana===sana).length;
+    AUGA.toast(b.dataset.kun+"-may: "+(soni ? soni+" ta muddat" : "muddatlar yo'q"), "i-kalendar");
+  });
 });
 });
 </script>

@@ -97,7 +97,7 @@
     <div class="sahifa-qator">
       <h1>Hujjatlar markazi</h1>
       <div class="sahifa-harakat">
-        <button class="tugma tugma-oq" data-toast="Tanlangan hujjatlar arxiv sifatida yuklanmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>Yuklab olish</button>
+        <button class="tugma tugma-oq" data-toast="Hujjatlar ro'yxati arxiv sifatida yuklanmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>Yuklab olish</button>
         <button class="tugma tugma-yashil" id="hujjat-qoshish"><svg class="ic"><use href="#i-qoshish"/></svg>Hujjat qo'shish</button>
       </div>
     </div>
@@ -110,7 +110,7 @@
       <button class="tanlov" id="f-obyekt" data-variantlar='["Barcha obyektlar","Green Tower","Chorvoq dacha","Mega Mall","Humo Office","Nurafshon majmuasi"]'><span class="t-yorliq">Barcha obyektlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-tur-dd" data-variantlar='["Barcha turlar","Texnik pasport","Kadastr","Shartnoma","Rasm","Hisobot"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-holat" data-variantlar='["Barcha holatlar","Tasdiqlangan","Yangi","Ko&#39;rib chiqilmoqda"]'><span class="t-yorliq">Barcha holatlar</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
+      <button class="f-tugma" id="f-tozalash" data-toast="Filtrlar tozalandi"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlarni tozalash</button>
     </div>
 
     <div class="tur-chiplar" id="tur-chiplar">
@@ -126,19 +126,9 @@
       <div class="karta jadval-korpus hj-jadval">
         <div class="jadval-orash">
           <table class="jadval">
-            <thead><tr><th>Hujjat nomi</th><th>Obyekt</th><th>Turi</th><th>Sana</th><th>Holat</th><th></th></tr></thead>
+            <thead><tr><th>Hujjat nomi</th><th>Obyekt</th><th>Turi</th><th>Sana</th><th>Holat</th></tr></thead>
             <tbody id="hujjat-jadval"></tbody>
           </table>
-        </div>
-        <div class="sahifalash">
-          <span class="oraliq">Jami: <b>128</b></span>
-          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
-          <button class="s-tugma aktiv">1</button>
-          
-          
-          <span style="color:var(--matn-4)">…</span>
-          
-          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
         </div>
       </div>
 
@@ -210,13 +200,11 @@ function jadvalChiz(){
       <td><span class="tur-teg ${h.teg}">${h.tur}</span></td>
       <td>${h.sana}</td>
       <td><span class="holat-katak"><span class="nuqta" style="background:${h.hrang}"></span>${h.holat}</span></td>
-      <td><button class="amal-tugma" data-menyu="${h.id}" aria-label="Amallar"><svg class="ic"><use href="#i-nuqtalar"/></svg></button></td>
     </tr>`).join("") :
-    `<tr><td colspan="6"><div class="bosh-holat"><span class="doira"><svg class="ic"><use href="#i-hujjat"/></svg></span><h3>Hujjat topilmadi</h3><p>Qidiruv yoki filtrga mos hujjat yo'q.</p></div></td></tr>`;
+    `<tr><td colspan="5"><div class="bosh-holat"><span class="doira"><svg class="ic"><use href="#i-hujjat"/></svg></span><h3>Hujjat topilmadi</h3><p>Qidiruv yoki filtrga mos hujjat yo'q.</p></div></td></tr>`;
 
   tbody.querySelectorAll("tr[data-id]").forEach(tr=>{
-    tr.addEventListener("click", e=>{
-      if (e.target.closest(".amal-tugma")){ AUGA.toast("Amallar: ko'rish / yuklab olish / o'chirish"); return; }
+    tr.addEventListener("click", ()=>{
       faolId = tr.dataset.id;
       tbody.querySelectorAll("tr[data-id]").forEach(r=>r.classList.toggle("tanlangan", r===tr));
       panelChiz(HUJJATLAR.find(h=>h.id===faolId));
@@ -254,9 +242,23 @@ function panelChiz(h){
       <div class="versiya-qator"><span class="v">v1.0</span><span class="izoh">Boshlang'ich versiya</span><span class="sana">Birinchi yuklanganda</span><span class="kim">Akmalov L.</span></div>
     </div>
     <div class="hp-harakat">
-      <button class="korish" data-toast="${h.nom} ko'rish oynasida ochildi"><svg class="ic" style="width:18px;height:18px"><use href="#i-koz"/></svg>Ko'rish</button>
-      <button class="nuqtalar-tugma" style="width:50px;height:50px;border:1px solid var(--kirish-chiziq);border-radius:13px;display:grid;place-items:center" data-toast="Qo'shimcha amallar" aria-label="Qo'shimcha amallar"><svg class="ic" style="width:18px;height:18px"><use href="#i-nuqtalar"/></svg></button>
+      <button class="korish"><svg class="ic" style="width:18px;height:18px"><use href="#i-koz"/></svg>Ko'rish</button>
     </div>`;
+
+  // Ko'rish — yozuvning o'z ma'lumotlaridan haqiqiy ko'rish oynasi ochiladi.
+  panel.querySelector(".korish").addEventListener("click", ()=>{
+    AUGA.modal(h.nom,
+      `<div class="hp-rasm" style="margin-top:4px"><img src="${h.rasm}" alt="${h.obyekt}"></div>
+      <div style="margin-top:10px">
+        <div class="hp-qator"><svg class="ic"><use href="#i-bino"/></svg><span class="yorliq">Obyekt</span><b>${h.obyekt}</b></div>
+        <div class="hp-qator"><svg class="ic"><use href="#i-hujjat"/></svg><span class="yorliq">Turi</span><b>${h.tur}</b></div>
+        <div class="hp-qator"><svg class="ic"><use href="#i-kalendar"/></svg><span class="yorliq">Sana</span><b>${h.sana}</b></div>
+        <div class="hp-qator"><svg class="ic"><use href="#i-info"/></svg><span class="yorliq">Holat</span><b>${h.holat}</b></div>
+        <div class="hp-qator"><svg class="ic"><use href="#i-yuklash"/></svg><span class="yorliq">Hajmi</span><b>${h.hajm}</b></div>
+        <div class="hp-qator"><svg class="ic"><use href="#i-ekran"/></svg><span class="yorliq">Format</span><b>${h.format}</b></div>
+      </div>`,
+      { okMatn:"Yopish" });
+  });
 }
 
 /* Tur chiplari */
@@ -275,6 +277,16 @@ document.getElementById("f-holat").addEventListener("tanlov", e=>{ holatFiltri =
 document.getElementById("f-tur-dd").addEventListener("tanlov", e=>{
   turFiltri = e.detail === "Barcha turlar" ? "Barchasi" : e.detail;
   document.querySelectorAll(".tur-chip").forEach(x=>x.classList.toggle("aktiv", x.dataset.tur===turFiltri));
+  jadvalChiz();
+});
+/* Filtrlarni tozalash — to'rttala filtr boshlang'ich holatga qaytadi (toast data-toast'dan) */
+document.getElementById("f-tozalash").addEventListener("click", ()=>{
+  qidiruv = ""; obyektFiltri = "Barcha obyektlar"; holatFiltri = "Barcha holatlar"; turFiltri = "Barchasi";
+  document.getElementById("izlash").value = "";
+  document.querySelector("#f-obyekt .t-yorliq").textContent = "Barcha obyektlar";
+  document.querySelector("#f-tur-dd .t-yorliq").textContent = "Barcha turlar";
+  document.querySelector("#f-holat .t-yorliq").textContent = "Barcha holatlar";
+  document.querySelectorAll(".tur-chip").forEach(x=>x.classList.toggle("aktiv", x.dataset.tur==="Barchasi"));
   jadvalChiz();
 });
 document.getElementById("hj-grid").addEventListener("click", e=>{

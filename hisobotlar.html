@@ -99,38 +99,38 @@
 
     <!-- KPI -->
     <section class="kpi-band" aria-label="Moliyaviy ko'rsatkichlar">
-      <button class="kpi" data-toast="Daromadlar tafsiloti">
+      <div class="kpi">
         <span class="kpi-tile dark"><svg class="ic"><use href="#i-daromad"/></svg></span>
         <div class="kpi-matn">
           <div class="kpi-yorliq">Jami daromad (YTD)</div>
           <div class="kpi-qiymat"><b>12,48 <small>mlrd so'm</small></b><span class="delta">↑ 8,2%</span></div>
           <div class="kpi-izoh">O'tgan yilga nisbatan</div>
         </div>
-      </button>
-      <button class="kpi" data-toast="Sof foyda tafsiloti">
+      </div>
+      <div class="kpi">
         <span class="kpi-tile lime"><svg class="ic"><use href="#i-papka"/></svg></span>
         <div class="kpi-matn">
           <div class="kpi-yorliq">Sof foyda (YTD)</div>
           <div class="kpi-qiymat"><b>2,16 <small>mlrd so'm</small></b><span class="delta">↑ 5,6%</span></div>
           <div class="kpi-izoh">O'tgan yilga nisbatan</div>
         </div>
-      </button>
-      <button class="kpi" data-toast="Xarajatlar tafsiloti">
+      </div>
+      <div class="kpi">
         <span class="kpi-tile dark"><svg class="ic"><use href="#i-hisobot"/></svg></span>
         <div class="kpi-matn">
           <div class="kpi-yorliq">Jami xarajatlar (YTD)</div>
           <div class="kpi-qiymat"><b>8,93 <small>mlrd so'm</small></b><span class="delta salbiy">↓ 3,1%</span></div>
           <div class="kpi-izoh">O'tgan yilga nisbatan</div>
         </div>
-      </button>
-      <button class="kpi" data-toast="Pul oqimi tafsiloti">
+      </div>
+      <div class="kpi">
         <span class="kpi-tile lime"><svg class="ic"><use href="#i-grafik"/></svg></span>
         <div class="kpi-matn">
           <div class="kpi-yorliq">Pul oqimi (YTD)</div>
           <div class="kpi-qiymat"><b>3,55 <small>mlrd so'm</small></b><span class="delta">↑ 12,4%</span></div>
           <div class="kpi-izoh">O'tgan yilga nisbatan</div>
         </div>
-      </button>
+      </div>
     </section>
 
     <!-- O'rta qator -->
@@ -156,10 +156,10 @@
           <svg id="tuzilma-donut" width="170" height="170" viewBox="0 0 170 170" role="img" filter="url(#depth-md)"
                aria-label="Daromad tuzilmasi: ijara 45,2%, savdo 26,7%, xizmat 18,3%, boshqa 9,8%"></svg></div>
           <div class="legend">
-            <button class="legend-qator" data-toast="Ijara tushumlari tafsiloti"><span class="nuqta" style="background:#3E9B4F"></span><span class="nomi">Ijara tushumlari</span><b>45,2%</b></button>
-            <button class="legend-qator" data-toast="Savdo tushumlari tafsiloti"><span class="nuqta" style="background:#B7E534"></span><span class="nomi">Savdo tushumlari</span><b>26,7%</b></button>
-            <button class="legend-qator" data-toast="Xizmat ko'rsatish tafsiloti"><span class="nuqta" style="background:#7BAEFC"></span><span class="nomi">Xizmat ko'rsatish</span><b>18,3%</b></button>
-            <button class="legend-qator" data-toast="Boshqa daromadlar tafsiloti"><span class="nuqta" style="background:#C7C7CD"></span><span class="nomi">Boshqa daromadlar</span><b>9,8%</b></button>
+            <div class="legend-qator"><span class="nuqta" style="background:#3E9B4F"></span><span class="nomi">Ijara tushumlari</span><b>45,2%</b></div>
+            <div class="legend-qator"><span class="nuqta" style="background:#B7E534"></span><span class="nomi">Savdo tushumlari</span><b>26,7%</b></div>
+            <div class="legend-qator"><span class="nuqta" style="background:#7BAEFC"></span><span class="nomi">Xizmat ko'rsatish</span><b>18,3%</b></div>
+            <div class="legend-qator"><span class="nuqta" style="background:#C7C7CD"></span><span class="nomi">Boshqa daromadlar</span><b>9,8%</b></div>
           </div>
         </div>
         <div class="tuzilma-jami"><span>Jami:</span><b>100%</b></div>
@@ -353,11 +353,12 @@ kpiChiz();
   const cx=85, cy=85, r=64, w=30, C=2*Math.PI*r, gap=2.4;
   const data = [[45.2,"#3E9B4F"],[26.7,"#B7E534"],[18.3,"#7BAEFC"],[9.8,"#C7C7CD"]];
   let boshi=-90;
-  data.forEach(([f,rang])=>{
+  data.forEach(([f,rang],di)=>{
     const yoy = f/100*360 - gap;
     const c = document.createElementNS(NS,"circle");
     c.setAttribute("cx",cx);c.setAttribute("cy",cy);c.setAttribute("r",r);
-    c.setAttribute("fill","none");c.setAttribute("stroke",rang);c.setAttribute("stroke-width",w);
+    const grad = AUGA.segmentGradient(s, rang, boshi + f/100*180, di);
+    c.setAttribute("fill","none");c.setAttribute("stroke",grad);c.setAttribute("stroke-width",w);
     c.setAttribute("stroke-dasharray",(Math.max(yoy,1.5)/360*C)+" "+C);
     c.setAttribute("transform","rotate("+(boshi+gap/2)+" "+cx+" "+cy+")");
     s.appendChild(c);

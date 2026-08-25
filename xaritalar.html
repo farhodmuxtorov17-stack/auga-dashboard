@@ -223,6 +223,7 @@ const uzSputnik = xaritaBor && L.tileLayer("https://server.arcgisonline.com/ArcG
 });
 
 const maxSon = Math.max(...HUDUDLAR.map(h=>parseInt(h[1].replace(/\s/g,""),10)));
+const viloyatQatlam = xaritaBor ? L.layerGroup().addTo(uzMap) : null;
 if (xaritaBor) HUDUDLAR.forEach(h=>{
   const geo = HUDUD_GEO[h[0]];
   if (!geo) return;
@@ -235,7 +236,8 @@ if (xaritaBor) HUDUDLAR.forEach(h=>{
     // Dashboard klasterlari bilan bir xil zamonaviy belgi: oq doira + faollik rangidagi
     // halqa + ichida aktivlar SONI. Eski yassi nuqta o'rniga.
     icon: L.divIcon({className:"auga-klaster", html:`<span class="klaster-doira" style="--kr:${rang};width:${d}px;height:${d}px;font-size:${d>=52?14:12.5}px">${h[1].replace(/\s/g," ")}</span>`, iconSize:[d,d], iconAnchor:[d/2,d/2]})
-  }).addTo(uzMap);
+  });
+  viloyatQatlam.addLayer(belgi);
   belgi.bindTooltip(
     `<span class="pin-chip"><span class="pin-nuqta" style="background:${rang}"></span>${h[0]} — <b>${h[1]}</b></span>`,
     {direction:"top", offset:[0,-4], className:"auga-chip"}
@@ -245,6 +247,105 @@ if (xaritaBor) HUDUDLAR.forEach(h=>{
     AUGA.toast(`${h[0]} bo'yicha batafsil`, "i-bino");
   });
 });
+
+/* ============================================================================
+   Ikki bosqichli xarita (panel bilan bir xil naqsh):
+   uzoq masshtab — viloyat bo'yicha ANIQ sonli halqa-belgi;
+   yaqinlashganda (zoom >= 8) — o'sha viloyatning barcha obyektlari:
+   turiga mos ikonli pinlar va oraliq klasterlar. Nuqtalar viloyat soni
+   bo'yicha DETERMINLASHGAN tarzda hosil qilinadi — har yuklashda bir xil.
+   ========================================================================== */
+const TUR_ULUSH = [   // portfel bo'yicha tur taqsimoti (panel bilan bir nisbat)
+  ["Turar-joy / Ofislar", .46, "--t-turar",  "i-uy"],
+  ["Bo'sh yer maydoni",   .27, "--t-yer",    "i-yer"],
+  ["Dacha",               .13, "--t-dacha",  "i-uy"],
+  ["Davlat muassasasi",   .06, "--t-davlat", "i-qalqon"],
+  ["Biznes markazi",      .05, "--t-biznes", "i-bino"],
+  ["Savdo markazi",       .03, "--t-savdo",  "i-aktiv"]
+];
+const ranglarQiym = getComputedStyle(document.documentElement);
+let hududUrugh = 20260824;
+const hrnd = ()=>{ hududUrugh = (hududUrugh*1103515245 + 12345) & 0x7fffffff; return hududUrugh/0x7fffffff; };
+
+const HUDUD_NUQTALARI = [];
+HUDUDLAR.forEach(h=>{
+  const geo = HUDUD_GEO[h[0]];
+  if (!geo) return;
+  const jami = parseInt(h[1].replace(/\s/g,""),10);
+  TUR_ULUSH.forEach(([tur, ulush, rangVar, ikon], ti)=>{
+    const soni = ti === TUR_ULUSH.length-1
+      ? jami - HUDUD_NUQTALARI.filter(n=>n.hudud===h[0]).length   // qoldiq — jami ANIQ chiqsin
+      : Math.round(jami*ulush);
+    const rang = ranglarQiym.getPropertyValue(rangVar).trim();
+    for (let i=0;i<soni;i++){
+      const burchak = hrnd()*Math.PI*2, masofa = Math.sqrt(hrnd())*0.42;
+      HUDUD_NUQTALARI.push({hudud:h[0], tur, rang, ikon,
+        lat: geo.lat + masofa*Math.cos(burchak)*0.62,
+        lng: geo.lng + masofa*Math.sin(burchak)});
+    }
+  });
+});
+
+const nuqtaQatlam = xaritaBor ? L.layerGroup().addTo(uzMap) : null;
+function hududKlaster(nuqtalar, zoom){
+  const qadam = zoom >= 12 ? 0 : 1.6/Math.pow(2, zoom-6);
+  if (qadam === 0) return nuqtalar.map(n=>({tip:"nuqta", n}));
+  const katak = new Map();
+  nuqtalar.forEach(n=>{
+    const k = Math.round(n.lat/qadam)+"|"+Math.round(n.lng/qadam);
+    if (!katak.has(k)) katak.set(k,[]);
+    katak.get(k).push(n);
+  });
+  const out=[];
+  katak.forEach(g=>{
+    if (g.length===1) out.push({tip:"nuqta", n:g[0]});
+    else out.push({tip:"klaster", lat:g.reduce((a,n)=>a+n.lat,0)/g.length,
+                   lng:g.reduce((a,n)=>a+n.lng,0)/g.length, guruh:g});
+  });
+  return out;
+}
+
+function hududDrillChiz(){
+  if (!xaritaBor) return;
+  const zoom = uzMap.getZoom();
+  if (zoom <= 7){                       // umumiy ko'rinish — viloyat belgilar qatlami
+    nuqtaQatlam.clearLayers();
+    viloyatQatlam.addTo(uzMap);
+    return;
+  }
+  uzMap.removeLayer(viloyatQatlam);     // yaqin ko'rinish — haqiqiy obyektlar
+  nuqtaQatlam.clearLayers();
+  const chegara = uzMap.getBounds().pad(0.2);
+  const korinadigan = HUDUD_NUQTALARI.filter(n=>chegara.contains([n.lat,n.lng]));
+  hududKlaster(korinadigan, zoom).forEach(el=>{
+    if (el.tip==="nuqta"){
+      const n = el.n;
+      const m = L.marker([n.lat,n.lng],{title:`${n.hudud} — ${n.tur}`, alt:`${n.hudud} — ${n.tur}`,
+        icon: L.divIcon({className:"auga-pin",
+          html:`<span class="pin-ikon" style="--kr:${n.rang}"><svg><use href="#${n.ikon}"/></svg></span>`,
+          iconSize:[30,30], iconAnchor:[15,15]})});
+      m.bindPopup(`<div style="min-width:190px">
+          <b style="font-size:13.5px">${n.tur}</b>
+          <div style="font-size:12px;color:#5F6169;margin-top:3px">${n.hudud}</div>
+          <a href="aktivlar.html" style="display:inline-block;margin-top:8px;background:#78C802;color:#fff;border-radius:9px;padding:5px 12px;font-size:12px;font-weight:700;text-decoration:none">Reyestrda ochish</a>
+        </div>`,{offset:[0,-4]});
+      nuqtaQatlam.addLayer(m);
+    } else {
+      const sanoq={}; el.guruh.forEach(n=>{sanoq[n.rang]=(sanoq[n.rang]||0)+1;});
+      const rang=Object.entries(sanoq).sort((a,b)=>b[1]-a[1])[0][0];
+      const d = el.guruh.length>=200?56 : el.guruh.length>=60?48 : 38;
+      const m = L.marker([el.lat,el.lng],{title:el.guruh.length+" ta obyekt",
+        icon: L.divIcon({className:"auga-klaster",
+          html:`<span class="klaster-doira" style="--kr:${rang};width:${d}px;height:${d}px">${el.guruh.length}</span>`,
+          iconSize:[d,d], iconAnchor:[d/2,d/2]})});
+      m.on("click", ()=> uzMap.flyTo([el.lat,el.lng], Math.min(uzMap.getZoom()+2, 13), {duration:0.45}));
+      nuqtaQatlam.addLayer(m);
+    }
+  });
+}
+if (xaritaBor){
+  uzMap.on("zoomend moveend", hududDrillChiz);
+}
 
 /* Hudud filtri — xaritani tanlangan hududga uchiradi va ro'yxatda ajratib ko'rsatadi */
 document.getElementById("hudud-filtr").addEventListener("tanlov", e=>{

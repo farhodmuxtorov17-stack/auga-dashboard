@@ -152,25 +152,25 @@
 
     <!-- KPI -->
     <section class="sh-kpi" aria-label="Shartnoma ko'rsatkichlari">
-      <button class="karta" data-toast="Barcha shartnomalar">
+      <button class="karta" id="kpi-jami">
         <span class="tile"><svg class="ic"><use href="#i-shartnoma"/></svg></span>
         <span><span class="yorliq">Jami shartnomalar</span><b>128</b></span>
       </button>
-      <button class="karta" data-toast="Faol shartnomalar">
+      <button class="karta" id="kpi-faol">
         <span class="tile"><svg class="ic"><use href="#i-belgi-doira"/></svg></span>
         <span><span class="yorliq">Faol</span><b>96</b></span>
       </button>
-      <button class="karta" data-toast="Muddati yaqinlashganlar">
+      <button class="karta" id="kpi-yaqin">
         <span class="tile sariq"><svg class="ic"><use href="#i-muddat"/></svg></span>
         <span><span class="yorliq">Muddati yaqinlashgan</span><b>14</b><span class="sub">30 kun ichida</span></span>
       </button>
-      <button class="karta" data-toast="Muddati o'tganlar">
+      <button class="karta" id="kpi-otgan" data-toast="Muddati o'tganlar">
         <span class="tile qizil"><svg class="ic"><use href="#i-ogoh"/></svg></span>
         <span><span class="yorliq">Muddati o'tgan</span><b>3</b></span>
       </button>
-      <button class="karta" data-toast="Tuzilish jarayonidagilar">
+      <button class="karta" id="kpi-jarayon" data-toast="Tuzilish jarayonidagilar">
         <span class="tile kok"><svg class="ic"><use href="#i-qalam"/></svg></span>
-        <span><span class="yorliq">Tuzilish jarayonida</span><b>15</b></span>
+        <span><span class="yorliq">Tuzilish jarayonida</span><b>0</b></span>
       </button>
     </section>
 
@@ -182,8 +182,7 @@
       <button class="tanlov" id="f-obyekt" data-variantlar='["Barcha aktivlar","Green Tower","Mega Mall","Humo Office","Nurafshon majmuasi","Yashnobod yer"]'><span class="t-yorliq">Barcha aktivlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-turi" data-variantlar='["Barcha turlar","Ijara","Xizmat ko&#39;rsatish","Qurilish","Sotish"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-status" data-variantlar='["Barcha statuslar","Faol","Muddati yaqinlashgan","Muddati o&#39;tgan","Jarayonda"]'><span class="t-yorliq">Barcha statuslar</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="tanlov" data-toast="Sana oralig'ini tanlash" style="width:auto;min-width:140px;background:var(--karta);border:none;box-shadow:var(--soya)"><span class="t-yorliq">Sana oralig'i</span><svg class="ic"><use href="#i-kalendar"/></svg></button>
-      <button class="f-tugma" data-toast="Kengaytirilgan filtrlar"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlar</button>
+      <button class="f-tugma" id="filtr-tozalash" data-toast="Filtrlar tozalandi"><svg class="ic"><use href="#i-slayder"/></svg>Filtrlarni tozalash</button>
     </div>
 
     <div class="sh-grid">
@@ -196,14 +195,6 @@
           <button class="sh-tab" data-holat="Muddati yaqinlashgan">Muddati yaqinlashgan<span class="son">2</span></button>
         </div>
         <div id="sh-royxat"></div>
-        <div class="sahifalash" style="padding:14px 0 0">
-          <span class="oraliq">Jami: <b>128</b></span>
-          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
-          <button class="s-tugma aktiv">1</button>
-          
-          
-          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
-        </div>
       </div>
 
       <!-- Markaz -->
@@ -255,7 +246,7 @@
         <div class="karta amal-karta">
           <h3>Tezkor amallar</h3>
           <button class="amal-band asosiy" id="tasdiqlash-tugma" data-toast="Shartnoma tasdiqlandi"><svg class="ic" style="color:#3E7C0A"><use href="#i-belgi-doira"/></svg>Tasdiqlash</button>
-          <a class="amal-band" href="shartnomalar.html"><svg class="ic"><use href="#i-kalendar"/></svg>Uzaytirish</a>
+          <a class="amal-band" href="shartnomalar.html"><svg class="ic"><use href="#i-kalendar"/></svg>Uzaytirish</a>
           <button class="amal-band" data-toast="Shartnoma PDF yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>Shartnomani yuklab olish</button>
           <button class="amal-band" data-toast="To'lov jadvali XLSX yuklab olinmoqda"><svg class="ic"><use href="#i-yuklab"/></svg>To'lov jadvalini yuklab olish</button>
           <button class="amal-band xavfli" id="bekor-qilish"><svg class="ic"><use href="#i-savat"/></svg>Shartnomani bekor qilish</button>
@@ -506,6 +497,32 @@ document.getElementById("izlash").addEventListener("input", e=>{ filtrQidiruv = 
 document.getElementById("f-obyekt").addEventListener("tanlov", e=>{ filtrObyekt = e.detail; yangila(); });
 document.getElementById("f-turi").addEventListener("tanlov", e=>{ filtrTuri = e.detail; yangila(); });
 document.getElementById("f-status").addEventListener("tanlov", e=>{ filtrStatus = e.detail; yangila(); });
+
+// KPI kartalar — mavjud tab va status filtrlarini ishga soladi
+function statusTanla(qiymat){
+  const v = document.querySelector('#f-status .menyu-popover [data-v="'+qiymat+'"]');
+  if (v) v.click();
+}
+document.getElementById("kpi-jami").addEventListener("click", ()=>document.querySelector('.sh-tab[data-holat=""]').click());
+document.getElementById("kpi-faol").addEventListener("click", ()=>document.querySelector('.sh-tab[data-holat="Faol"]').click());
+document.getElementById("kpi-yaqin").addEventListener("click", ()=>document.querySelector('.sh-tab[data-holat="Muddati yaqinlashgan"]').click());
+document.getElementById("kpi-otgan").addEventListener("click", ()=>statusTanla("Muddati o'tgan"));
+document.getElementById("kpi-jarayon").addEventListener("click", ()=>statusTanla("Jarayonda"));
+
+// Filtrlarni tozalash — qidiruv, tab va uchala tanlov boshlang'ich holatga qaytadi
+document.getElementById("filtr-tozalash").addEventListener("click", ()=>{
+  document.getElementById("izlash").value = "";
+  filtrQidiruv = ""; filtrHolat = "";
+  filtrObyekt = "Barcha aktivlar"; filtrTuri = "Barcha turlar"; filtrStatus = "Barcha statuslar";
+  document.querySelectorAll(".sh-tab").forEach(x=>x.classList.toggle("aktiv", !x.dataset.holat));
+  ["f-obyekt","f-turi","f-status"].forEach(id=>{
+    const b = document.getElementById(id);
+    b.classList.remove("tanlandi");
+    b.querySelector(".t-yorliq").textContent = JSON.parse(b.dataset.variantlar)[0];
+    b.querySelectorAll(".menyu-popover button").forEach(v=>v.innerHTML="<span>"+v.dataset.v+"</span>");
+  });
+  yangila();
+});
 
 document.getElementById("tasdiqlash-tugma").addEventListener("click", ()=>{
   const s = SHARTNOMALAR[faolIdx];

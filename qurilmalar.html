@@ -139,7 +139,7 @@
       </div>
       <div class="sahifa-harakat" style="position:relative">
         <button class="tugma tugma-oq" id="qurilma-qoshish" data-rol-yoq="rahbar"><svg class="ic"><use href="#i-qoshish"/></svg>Qurilma qo'shish</button>
-        <button class="tugma tugma-oq tugma-ikonli" style="width:48px;height:48px" data-toast="Diagnostika ma'lumotlari nusxalandi" aria-label="Nusxalash"><svg class="ic"><use href="#i-hujjat"/></svg></button>
+        <button class="tugma tugma-oq tugma-ikonli" style="width:48px;height:48px" id="nusxalash" aria-label="Nusxalash"><svg class="ic"><use href="#i-hujjat"/></svg></button>
         <button class="tugma tugma-yashil" id="xizmat-tugma">
           Xizmat hisobotini yaratish
           <svg class="ic" style="width:16px;height:16px"><use href="#i-past"/></svg>
@@ -157,7 +157,7 @@
       <div class="karta">
         <div class="q-izlash">
           <div class="kirish"><input placeholder="Qurilma yoki joylashuv..." aria-label="Qurilma qidirish" id="q-izlash-input"></div>
-          <button class="filtr" data-toast="Qurilma filtrlari" aria-label="Filtr"><svg class="ic"><use href="#i-slayder"/></svg></button>
+          <button class="filtr" id="filtr-tozalash" data-toast="Filtrlar tozalandi" aria-label="Filtrlarni tozalash"><svg class="ic"><use href="#i-slayder"/></svg></button>
         </div>
         <div class="q-tablar">
           <button class="q-tab" data-t="Barcha">Barcha<span class="son">32</span></button>
@@ -165,14 +165,6 @@
           <button class="q-tab" data-t="Offline">Offline<span class="son">4</span></button>
         </div>
         <div id="q-royxat"></div>
-        <div class="sahifalash" style="padding:14px 0 0">
-          <span class="oraliq">Jami: <b>32</b></span>
-          <button class="s-tugma" data-toast="Oldingi sahifa" aria-label="Oldingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-chap"/></svg></button>
-          <button class="s-tugma aktiv">1</button>
-          
-          
-          <button class="s-tugma" data-toast="Keyingi sahifa" aria-label="Keyingi"><svg class="ic" style="width:16px;height:16px"><use href="#i-ong"/></svg></button>
-        </div>
       </div>
 
       <!-- Markaz -->
@@ -218,11 +210,11 @@
           <div class="asosiy-k">
             <h4>Asosiy ko'rsatkichlar</h4>
             <div class="ak-grid">
-              <button class="ak-katak" data-toast="CPU tarixi grafigi"><span class="yorliq">CPU yuklanishi</span><b id="qm-cpu">18%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,14 12,12 24,15 36,10 48,13 60,9 72,12 84,8 100,11" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></button>
-              <button class="ak-katak" data-toast="Xotira tarixi"><span class="yorliq">Xotira</span><b id="qm-xotira">42%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,16 14,13 28,14 42,11 56,13 70,10 84,12 100,9" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></button>
-              <button class="ak-katak" data-toast="Tarmoq kechikishi tarixi"><span class="yorliq">Tarmoq kechikishi</span><b id="qm-kechikish">12 ms</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,11 14,13 28,10 42,14 56,11 70,13 84,10 100,12" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></button>
+              <div class="ak-katak"><span class="yorliq">CPU yuklanishi</span><b id="qm-cpu">18%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,14 12,12 24,15 36,10 48,13 60,9 72,12 84,8 100,11" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></div>
+              <div class="ak-katak"><span class="yorliq">Xotira</span><b id="qm-xotira">42%</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,16 14,13 28,14 42,11 56,13 70,10 84,12 100,9" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></div>
+              <div class="ak-katak"><span class="yorliq">Tarmoq kechikishi</span><b id="qm-kechikish">12 ms</b><svg class="chizma" viewBox="0 0 100 22" preserveAspectRatio="none"><polyline points="0,11 14,13 28,10 42,14 56,11 70,13 84,10 100,12" fill="none" stroke="#78C802" stroke-width="1.6" vector-effect="non-scaling-stroke" filter="url(#depth-sm)"/></svg></div>
               <button class="ak-katak" id="qm-t4" data-rol-yoq="rahbar"><span class="yorliq" id="qm-t4-y">Eshik holati</span><span class="qulf"><svg class="ic" id="qm-t4-ic"><use href="#i-qulf"/></svg><span id="qm-t4-q">Yopiq</span></span></button>
-              <button class="ak-katak" data-toast="Batafsil statistika"><span class="yorliq" id="qm-t5-y">O'tishlar soni (bugun)</span><b id="qm-t5-q">128</b><svg class="chizma" viewBox="0 0 100 22"><rect x="4" y="12" width="5" height="10" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="14" y="8" width="5" height="14" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="24" y="14" width="5" height="8" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="34" y="6" width="5" height="16" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="44" y="10" width="5" height="12" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="54" y="4" width="5" height="18" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="64" y="9" width="5" height="13" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="74" y="12" width="5" height="10" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="84" y="7" width="5" height="15" rx="3" fill="url(#grad-bar-3d)" filter="url(#depth-sm)"/></svg></button>
+              <div class="ak-katak"><span class="yorliq" id="qm-t5-y">O'tishlar soni (bugun)</span><b id="qm-t5-q">128</b><svg class="chizma" viewBox="0 0 100 22"><rect x="4" y="12" width="5" height="10" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="14" y="8" width="5" height="14" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="24" y="14" width="5" height="8" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="34" y="6" width="5" height="16" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="44" y="10" width="5" height="12" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="54" y="4" width="5" height="18" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="64" y="9" width="5" height="13" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="74" y="12" width="5" height="10" rx="3" fill="url(#grad-bar-3d-passiv)" filter="url(#depth-sm)"/><rect x="84" y="7" width="5" height="15" rx="3" fill="url(#grad-bar-3d)" filter="url(#depth-sm)"/></svg></div>
             </div>
           </div>
         </div>
@@ -289,7 +281,7 @@
           <h3>Xizmat amallari</h3>
           <button class="xa-tugma" id="restart"><svg class="ic"><use href="#i-saralash"/></svg>Qurilmani qayta ishga tushirish</button>
           <button class="xa-tugma" data-toast="Kalibrovka jarayoni boshlandi — 2 daqiqa davom etadi"><svg class="ic"><use href="#i-sozlama"/></svg>Kalibrovka qilish</button>
-          <a class="xa-tugma" href="qurilmalar.html"><svg class="ic"><use href="#i-kamera"/></svg>Sinov surat olish</a>
+          <a class="xa-tugma" href="qurilmalar.html"><svg class="ic"><use href="#i-kamera"/></svg>Sinov surat olish</a>
           <a class="xa-tugma" href="servis.html"><svg class="ic"><use href="#i-qalam"/></svg>Xizmat so'rovini yaratish</a>
         </div>
 
@@ -299,7 +291,6 @@
             
           </div>
           <div id="qm-log-royxat"></div>
-          <button class="log-tugma" data-toast="To'liq loglar jurnali">Barcha loglarni ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
         </div>
       </aside>
     </div>
@@ -554,6 +545,13 @@ document.querySelectorAll(".q-tab").forEach(t=>{
     t.classList.add("aktiv"); tab = t.dataset.t; royxatChiz();
   });
 });
+/* Filtrlarni tozalash — qidiruv bo'shatilib, "Barcha" tabi qaytariladi */
+document.getElementById("filtr-tozalash").addEventListener("click", ()=>{
+  document.getElementById("q-izlash-input").value = "";
+  izlash = "";
+  document.querySelector('.q-tab[data-t="Barcha"]').click();
+});
+
 royxatChiz();
 panelChiz(QURILMALAR[faol]);
 
@@ -581,6 +579,19 @@ document.getElementById("restart").addEventListener("click", ()=>{
   AUGA.modal("Qurilmani qayta ishga tushirish",
     q.nom+" qayta ishga tushiriladi. Jarayon davomida (~40 soniya) qurilma vaqtincha javob bermaydi.",
     {okMatn:"Qayta ishga tushirish", ok(){ AUGA.toast(q.nom+" qayta ishga tushirilmoqda…", "i-saralash"); }});
+});
+
+/* Nusxalash — joriy qurilmaning diagnostika ma'lumotlarini buferga ko'chirish */
+document.getElementById("nusxalash").addEventListener("click", ()=>{
+  const matn = [
+    ["Qurilma","qm-nom"],["Turi","qm-tur"],["Seriya raqami","qm-seriya"],
+    ["IP manzil","qm-ip"],["MAC manzil","qm-mac"],["Firmware","qm-fw"],["Uptime","qm-uptime2"]
+  ].map(j=>j[0]+": "+document.getElementById(j[1]).textContent).join("\n");
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(matn).then(
+      ()=>AUGA.toast("Diagnostika ma'lumotlari nusxalandi"),
+      ()=>AUGA.toast("Nusxalash imkoni bo'lmadi", "i-ogoh"));
+  } else AUGA.toast("Nusxalash imkoni bo'lmadi", "i-ogoh");
 });
 
 /* Diagnostika testini qayta ishga tushirish */

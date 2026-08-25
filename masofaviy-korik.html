@@ -281,7 +281,13 @@ document.getElementById("mikrofon").addEventListener("click", function(){
   this.style.color = yoq ? "" : "#5B6168";
   AUGA.toast(yoq ? "Mikrofon yoqildi" : "Mikrofon o'chirildi");
 });
-document.getElementById("dinamik").addEventListener("click", ()=>AUGA.toast("Dinamik sozlandi"));
+document.getElementById("dinamik").addEventListener("click", function(){
+  const yoq = this.parentElement.classList.toggle("dinamik");
+  this.style.background = yoq ? "" : "#E8EAEE";
+  this.style.color = yoq ? "" : "#5B6168";
+  this.setAttribute("aria-pressed", yoq ? "true" : "false");
+  AUGA.toast(yoq ? "Dinamik yoqildi" : "Dinamik o'chirildi");
+});
 function yakunla(){
   AUGA.modal("Sessiyani yakunlash",
     "Masofaviy ko'rik sessiyasi yakunlanadi: barcha ichki eshiklar yopiladi va ruxsat bekor qilinadi.",

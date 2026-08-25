@@ -178,10 +178,11 @@
           <button>Parking kirish</button>
         </div>
         <div class="kirish-sahna">
-          <img src="assets/kirish_sahna.png" alt="Asosiy kirish — turniketlar 3D ko'rinishi">
+          <img id="sahna-rasm" src="assets/kirish_sahna.png" alt="Asosiy kirish — turniketlar 3D ko'rinishi">
+          <div class="sahna-yorliq"><span class="n"></span><span id="sahna-nuqta">Asosiy kirish</span></div>
         </div>
         <div class="qurilma-qator">
-          <button class="qurilma-k" id="turniket" data-toast="Turniketlar boshqaruvi: 2/2 faol">
+          <button class="qurilma-k" id="turniket" data-toast="Turniketlar: 2/2 faol">
             <span><b>Turniketlar</b><span data-holat>2/2 faol</span></span>
             <svg class="ic"><use href="#i-ekran"/></svg>
           </button>
@@ -193,9 +194,9 @@
             <span><b>Eshik</b><span data-holat>Yopiq</span></span>
             <svg class="ic"><use href="#i-qulf"/></svg>
           </button>
-          <button class="qurilma-k uch-nuqta" data-toast="Qo'shimcha qurilmalar" aria-label="Boshqa qurilmalar">
+          <a class="qurilma-k uch-nuqta" href="qurilmalar.html" aria-label="Boshqa qurilmalar">
             <svg class="ic" style="margin:0"><use href="#i-nuqtalar"/></svg>
-          </button>
+          </a>
         </div>
 
         <div class="karta mehmon-karta">
@@ -351,11 +352,14 @@ document.querySelectorAll(".sahna-tab button").forEach(b=>{
   b.addEventListener("click", ()=>{
     document.querySelectorAll(".sahna-tab button").forEach(x=>x.classList.remove("aktiv"));
     b.classList.add("aktiv");
-    const q = NUQTA_QURILMA[b.textContent.trim()];
+    const nom = b.textContent.trim();
+    document.getElementById("sahna-nuqta").textContent = nom;
+    document.getElementById("sahna-rasm").alt = nom + " — 3D ko'rinish";
+    const q = NUQTA_QURILMA[nom];
     if (q){
       const turniket = document.getElementById("turniket");
       turniket.querySelector("[data-holat]").textContent = q.turniket;
-      turniket.dataset.toast = "Turniketlar boshqaruvi: "+q.turniket;
+      turniket.dataset.toast = "Turniketlar: "+q.turniket;
       document.getElementById("shlagbaum").querySelector("[data-holat]").textContent = q.shlagbaum;
       document.getElementById("eshik").querySelector("[data-holat]").textContent = q.eshik;
     }
@@ -412,6 +416,20 @@ document.getElementById("bekor").addEventListener("click", ()=>{
       document.getElementById("bekor").disabled = true;
       document.getElementById("chiqish-ruxsat").style.opacity = document.getElementById("bekor").style.opacity = ".45";
     }});
+});
+
+/* Chiqishni ruxsat etish — chiqish vaqti va tarix haqiqatan yoziladi */
+document.getElementById("chiqish-ruxsat").addEventListener("click", ()=>{
+  const btn = document.getElementById("chiqish-ruxsat");
+  if (btn.disabled) return;
+  const vaqt = "24-may, 14:32";   // topbar ko'rsatayotgan joriy vaqt
+  const nuqta = document.getElementById("sh-nuqta").textContent.split(" ")[0];
+  document.getElementById("sh-chiqish-vaqt").textContent = vaqt;
+  document.getElementById("sh-tarix").insertAdjacentHTML("afterbegin",
+    `<div class="shaxs-qator"><svg class="ic"><use href="#i-soat"/></svg><span class="yorliq">${vaqt}</span><b>Chiqish — ${nuqta}</b></div>`);
+  const p = MEHMONLAR.find(x=>x.nom===document.getElementById("sh-nom").textContent);
+  if (p){ p.chiqishVaqti = vaqt; p.tarix.unshift([vaqt, "Chiqish — "+nuqta]); }
+  btn.disabled = true; btn.style.opacity = ".45";
 });
 
 /* Yangi kirish so'rovi yaratish */

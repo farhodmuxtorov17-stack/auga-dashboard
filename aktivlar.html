@@ -127,9 +127,9 @@
       <button class="tanlov" id="f-hudud" data-variantlar='["Barcha hududlar","Toshkent sh.","Bo&#39;stonliq tum.","Nurafshon sh.","Samarqand","Buxoro"]'><span class="t-yorliq">Barcha hududlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-tur" data-variantlar='["Barcha turlar","Biznes markazi","Dacha","Yer maydoni","Savdo markazi","Turar-joy","Ofis","Davlat muassasasi"]'><span class="t-yorliq">Barcha turlar</span><svg class="ic"><use href="#i-past"/></svg></button>
       <button class="tanlov" id="f-status" data-variantlar='["Barcha statuslar","Faol","Rejalashtirilgan","Ta&#39;mirda","Nofaol"]'><span class="t-yorliq">Barcha statuslar</span><svg class="ic"><use href="#i-past"/></svg></button>
-      <button class="f-tugma" data-toast="Kengaytirilgan filtrlar paneli">
+      <button class="f-tugma" id="f-tozalash" data-toast="Filtrlar tozalandi">
         <svg class="ic"><use href="#i-slayder"/></svg>
-        Filtrlar
+        Filtrlarni tozalash
       </button>
     </div>
 
@@ -346,6 +346,14 @@ document.getElementById("izlash").addEventListener("input", e=>{ holatFiltri.qid
 document.getElementById("f-hudud").addEventListener("tanlov", e=>{ holatFiltri.hudud = e.detail; qollash(); });
 document.getElementById("f-tur").addEventListener("tanlov", e=>{ holatFiltri.tur = e.detail; qollash(); });
 document.getElementById("f-status").addEventListener("tanlov", e=>{ holatFiltri.status = e.detail; qollash(); });
+document.getElementById("f-tozalash").addEventListener("click", ()=>{
+  holatFiltri.qidiruv = ""; holatFiltri.hudud = "Barcha hududlar"; holatFiltri.tur = "Barcha turlar"; holatFiltri.status = "Barcha statuslar";
+  document.getElementById("izlash").value = "";
+  document.querySelector("#f-hudud .t-yorliq").textContent = "Barcha hududlar";
+  document.querySelector("#f-tur .t-yorliq").textContent = "Barcha turlar";
+  document.querySelector("#f-status .t-yorliq").textContent = "Barcha statuslar";
+  qollash();
+});
 
 /* URL parametrlari (dashboarddan kelgan havolalar) */
 const p = new URLSearchParams(location.search);

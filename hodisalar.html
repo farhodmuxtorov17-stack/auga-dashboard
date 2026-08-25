@@ -167,10 +167,9 @@
             <div class="royxat-panel">
               <div class="bosh">
                 <h4>Hodisalar ro'yxati</h4>
-                <a href="hodisalar.html" aria-label="Saralash"><svg class="ic" style="width:17px;height:17px"><use href="#i-saralash"/></svg></a>
               </div>
               <div id="royxat-panel-royxat"></div>
-              <button class="royxat-hamma" data-toast="Barcha hodisalar ro'yxati">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
+              <button class="royxat-hamma" id="royxat-hamma-tugma" aria-expanded="false">Barchasini ko'rish<svg class="ic"><use href="#i-strelka"/></svg></button>
             </div>
             <div class="kb-ustun" data-ustun="yangi">
               <div class="kb-ustun-bosh"><h4>Yangi</h4><span class="son"></span></div>
@@ -207,8 +206,8 @@
             <div class="xarita-blok">
               <img src="assets/hodisa_xarita.png" alt="Hodisalar issiqlik xaritasi">
               <div class="nazorat">
-                <a href="hodisalar.html">+</a>
-                <a href="hodisalar.html">−</a>
+                <button type="button" id="hx-plus" aria-label="Yaqinlashtirish">+</button>
+                <button type="button" id="hx-minus" aria-label="Uzoqlashtirish">−</button>
               </div>
             </div>
           </div>
@@ -309,8 +308,9 @@ function jiddiylikMos(h){ return faolJiddiylik==="Barcha hodisalar" || JIDDIYLIK
 const USTUN_HOLAT = {yangi:"Yangi", tekshirilmoqda:"Tekshirilmoqda", bartaraf:"Bartaraf etilmoqda", hal_qilindi:"Hal qilindi", yopildi:"Yopildi"};
 
 /* Chap ro'yxat paneli (birinchi 5 ta, filtrga mos) */
+let hammasiOchiq = false;   // "Barchasini ko'rish" ro'yxatni to'liq ochadi/yig'adi
 function royxatChiz(){
-  document.getElementById("royxat-panel-royxat").innerHTML = HODISALAR.filter(jiddiylikMos).slice(0,5).map(h=>`
+  document.getElementById("royxat-panel-royxat").innerHTML = HODISALAR.filter(jiddiylikMos).slice(0, hammasiOchiq ? HODISALAR.length : 5).map(h=>`
     <button class="royxat-band ${h.kod===faolKod?"faol":""}" data-kod="${h.kod}">
       <span class="h-kod"><span class="nuqta" style="background:${h.rang}"></span>${h.kod}</span>
       <div class="sarlavha">${h.sarlavha}</div>
@@ -528,7 +528,7 @@ function ulash(){
         { okMatn:"Qo'shish", ok(){
           const sarlavha = document.getElementById("yh-sarlavha").value.trim();
           const obyekt = document.getElementById("yh-obyekt").value.trim();
-          if (!sarlavha){ AUGA.toast("Sarlavha kiritilishi shart"); return; }
+          if (!sarlavha) return; // himoya: "capture" tinglovchisi yopilishni allaqachon to'xtatgan
           const raqam = 129 + HODISALAR.length;
           const yangi = {
             kod:`#INC-2024-00${raqam}`, rang:"#3B82F6", sarlavha: obyekt ? `${obyekt} — ${sarlavha}` : sarlavha,
@@ -542,6 +542,13 @@ function ulash(){
           royxatChiz(); kanbanChiz(); detalChiz(yangi);
           AUGA.toast("Yangi hodisa yaratildi");
         } });
+      /* Bo'sh sarlavhada modal yopilib ketmasligi uchun — halQilindiOynasi dagi "capture" qo'riqchisi bilan bir xil */
+      const modallarYh = document.querySelectorAll(".modal-fon");
+      const yhFon = modallarYh[modallarYh.length-1];
+      yhFon.addEventListener("click", e=>{
+        if (!e.target.closest("[data-m-ok]")) return;
+        if (!document.getElementById("yh-sarlavha").value.trim()){ e.stopPropagation(); AUGA.toast("Sarlavha kiritilishi shart"); }
+      }, true);
     });
   });
 }
@@ -612,6 +619,19 @@ document.getElementById("jiddiylik-filtr").addEventListener("tanlov", e=>{
 });
 
 /* Boshlash */
+document.getElementById("royxat-hamma-tugma").addEventListener("click", function(){
+  hammasiOchiq = !hammasiOchiq;
+  this.setAttribute("aria-expanded", String(hammasiOchiq));
+  this.firstChild.nodeValue = hammasiOchiq ? "Qisqartirish" : "Barchasini ko'rish";
+  royxatChiz();
+});
+(function(){
+  const rasm = document.querySelector(".xarita-blok img");
+  let k = 1;
+  const qolla = ()=>{ rasm.style.transform = `scale(${k})`; rasm.style.transformOrigin = "center"; rasm.style.transition = "transform 150ms ease"; };
+  document.getElementById("hx-plus").addEventListener("click", ()=>{ k = Math.min(k+0.25, 2.5); qolla(); });
+  document.getElementById("hx-minus").addEventListener("click", ()=>{ k = Math.max(k-0.25, 1); qolla(); });
+})();
 royxatChiz(); kanbanChiz(); detalChiz(HODISALAR[0]);
 });
 </script>
