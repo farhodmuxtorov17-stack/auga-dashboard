@@ -443,6 +443,19 @@ document.getElementById("yangi-obyekt").addEventListener("click", ()=>{
         tarix: [["Hozirgina","Obyekt ro'yxatga olindi","i-foyd"]]
       };
       OBYEKTLAR.push(yangi);
+      /* Yangi obyektning "To'liq ma'lumot" havolasi aktiv.html ga olib boradi, u yerda esa
+         MALUMOT'da bunday id yo'q edi va sahifa JIMGINA Green Tower'ni ko'rsatardi.
+         Endi karta uchun zarur maydonlar sessiyaga yoziladi va aktiv.html ularni o'qiydi. */
+      try {
+        const saqlangan = JSON.parse(sessionStorage.getItem("auga-yangi-obyektlar") || "{}");
+        saqlangan[yangi.id] = {
+          nom, tur, holat: status, rasm: yangi.rasm,
+          manzil: manzil || "—", maydon: "—", yer: "—", qavat: "—", yil: "—",
+          tavsif: "Obyekt tizimga yangi kiritildi. Texnik tavsif va hujjatlar hali to'ldirilmagan.",
+          infra: {suv:"Ma'lumot yo'q", gaz:"Ma'lumot yo'q", elektr:"Ma'lumot yo'q", kanal:"Ma'lumot yo'q"}
+        };
+        sessionStorage.setItem("auga-yangi-obyektlar", JSON.stringify(saqlangan));
+      } catch(e){ /* sessionStorage yopiq bo'lsa — ro'yxat baribir ishlaydi */ }
       tanlanganId = yangi.id;
       qollash();
       grid.classList.add("inspector-ochiq");

@@ -408,7 +408,36 @@ const MALUMOT = {
     infra:{suv:"Shahar tarmog'i", gaz:"Tabiiy gaz mavjud, alohida hisoblagich", elektr:"220/380V, asosiy taqsimlash paneli — yerto'la", kanal:"Shahar kanalizatsiya tarmog'iga ulangan"}}
 };
 const id = new URLSearchParams(location.search).get("id") || "green-tower";
-const o = MALUMOT[id] || MALUMOT["green-tower"];
+/* Avval har qanday noma'lum id JIMGINA Green Tower'ga tushardi — sahifa boshqa binoni
+   boshqa nom bilan ishonch bilan ko'rsatardi. Endi: MALUMOT -> shu sessiyada yaratilgan
+   obyektlar -> topilmasa, halol xabar. */
+let sessiyaObyektlari = {};
+try { sessiyaObyektlari = JSON.parse(sessionStorage.getItem("auga-yangi-obyektlar") || "{}"); } catch(e){}
+const o = MALUMOT[id] || sessiyaObyektlari[id] || null;
+if (!o){
+  document.title = "AUGA — Obyekt topilmadi";
+  // Butun kontentni ALMASHTIRAMIZ: bolalarni yashirish yetarli emas edi, chunki
+  // sahifaning statik markupi Green Tower matnini o'zida saqlab qolardi.
+  const notFoundChiz = ()=>{
+    const k = document.querySelector(".kontent");
+    if (!k) return;
+    k.innerHTML = `
+      <div style="display:grid;place-items:center;min-height:calc(100vh - 200px)">
+        <div style="text-align:center;max-width:460px">
+          <img src="assets/st_404.png" alt="" style="width:210px;margin:0 auto 10px">
+          <h2 style="font-size:24px;font-weight:750">Obyekt topilmadi</h2>
+          <p style="font-size:14.5px;color:var(--matn-3);line-height:1.6;margin-top:10px">
+            <b>${id}</b> identifikatoriga mos obyekt reyestrda yo'q.
+          </p>
+          <a class="tugma tugma-yashil" style="margin-top:20px;display:inline-flex" href="aktivlar.html">
+            Obyektlar ro'yxatiga qaytish</a>
+        </div>
+      </div>`;
+  };
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", notFoundChiz);
+  else notFoundChiz();
+  throw new Error("obyekt topilmadi: " + id);
+}
 document.title = "AUGA — " + o.nom;
 document.getElementById("h-nom").textContent = o.nom;
 document.getElementById("h-tur").textContent = o.tur;
