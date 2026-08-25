@@ -92,56 +92,53 @@
       <!-- Bo'limlar -->
       <div class="karta bolim-karta">
         <h3>Sozlama bo'limlari</h3>
-        <button class="bolim-band aktiv" data-toast="Tizim parametrlari — quyida"><svg class="ic"><use href="#i-sozlama"/></svg>Tizim parametrlari</button>
-        <button class="bolim-band" data-toast="Hudud va til sozlamalari"><svg class="ic"><use href="#i-xarita"/></svg>Hudud va til</button>
-        <button class="bolim-band" data-toast="Valyuta va soliqlar sozlamalari"><svg class="ic"><use href="#i-daromad"/></svg>Valyuta va soliqlar</button>
-        <button class="bolim-band" data-toast="Hujjatlar va fayllar sozlamalari"><svg class="ic"><use href="#i-hujjat"/></svg>Hujjatlar va fayllar</button>
-        <button class="bolim-band" data-toast="Integratsiyalar sozlamalari"><svg class="ic"><use href="#i-ekran"/></svg>Integratsiyalar</button>
-        <button class="bolim-band" data-toast="Elektron pochta sozlamalari"><svg class="ic"><use href="#i-mail"/></svg>Elektron pochta</button>
-        <button class="bolim-band" data-toast="Ma'lumotlarni saqlash sozlamalari"><svg class="ic"><use href="#i-aktiv"/></svg>Ma'lumotlarni saqlash</button>
+        <button class="bolim-band aktiv" data-bolim="tizim"><svg class="ic"><use href="#i-sozlama"/></svg>Tizim parametrlari</button>
+        <button class="bolim-band" data-bolim="hudud"><svg class="ic"><use href="#i-xarita"/></svg>Hudud va til</button>
+        <button class="bolim-band" data-bolim="hujjat"><svg class="ic"><use href="#i-hujjat"/></svg>Hujjatlar va fayllar</button>
+        <button class="bolim-band" data-bolim="saqlash"><svg class="ic"><use href="#i-aktiv"/></svg>Ma'lumotlarni saqlash</button>
         <button class="bolim-band" id="audit-jurnali-tugma" data-rol-yoq="rahbar operator texnik"><svg class="ic"><use href="#i-qalqon"/></svg>Audit jurnali</button>
         <a class="bolim-band" href="holatlar.html"><svg class="ic"><use href="#i-ogoh"/></svg>Xatolik va holat ekranlari</a>
       </div>
 
       <!-- Parametrlar -->
       <div class="karta param-karta">
-        <h3>Tizim parametrlari</h3>
-        <div class="sub">Tizimning asosiy ishlash parametrlarini sozlang.</div>
+        <h3 id="param-sarlavha">Tizim parametrlari</h3>
+        <div class="sub" id="param-sub">Tizimning asosiy ishlash parametrlarini sozlang.</div>
 
         <form id="param-forma" style="margin-top:8px">
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="tizim">
             <div><div class="nomi">Tizim nomi</div><div class="izoh">Tizimda ko'rsatiladigan nom.</div></div>
             <div class="kirish"><input value="AUGA Asset Management System" aria-label="Tizim nomi"></div>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="hudud">
             <div><div class="nomi">Tizim tili</div><div class="izoh">Asosiy interfeys tili.</div></div>
             <button type="button" class="tanlov" data-variantlar='["O&#39;zbek tili","Русский язык","English"]'><span class="t-yorliq">O'zbek tili</span><svg class="ic"><use href="#i-past"/></svg></button>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="hudud">
             <div><div class="nomi">Vaqt zonasi</div><div class="izoh">Hisobotlar va vaqt ko'rsatkichlari uchun.</div></div>
             <button type="button" class="tanlov" data-variantlar='["Asia/Tashkent (UTC +05:00)","Asia/Samarkand (UTC +05:00)","UTC"]'><span class="t-yorliq">Asia/Tashkent (UTC +05:00)</span><svg class="ic"><use href="#i-past"/></svg></button>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="saqlash">
             <div><div class="nomi">Avtomatik zaxira nusxa</div><div class="izoh">Ma'lumotlar har kuni avtomatik zaxiralanadi.</div></div>
             <label class="ulagich"><input type="checkbox" checked data-nom="Avtomatik zaxira nusxa"><span class="yoq"></span></label>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="tizim">
             <div><div class="nomi">Faol sessiyalarni kuzatish</div><div class="izoh">Foydalanuvchi sessiyalarini nazorat qilishni yoqish.</div></div>
             <label class="ulagich"><input type="checkbox" checked data-nom="Sessiyalarni kuzatish"><span class="yoq"></span></label>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="tizim">
             <div><div class="nomi">Tizim bildirishnomalari</div><div class="izoh">Muhim tizim hodisalari haqida xabar berish.</div></div>
             <label class="ulagich"><input type="checkbox" checked data-nom="Tizim bildirishnomalari"><span class="yoq"></span></label>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="tizim">
             <div><div class="nomi">Ikki bosqichli autentifikatsiya</div><div class="izoh">Tizimga kirishda SMS orqali tasdiqlash kodini talab qilish.</div></div>
             <label class="ulagich"><input type="checkbox" data-nom="Ikki bosqichli autentifikatsiya"><span class="yoq"></span></label>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="hujjat">
             <div><div class="nomi">Hisobotlar formati</div><div class="izoh">Hisobotlar eksporti formati.</div></div>
             <button type="button" class="tanlov" data-variantlar='["PDF","XLSX","DOCX"]'><span class="t-yorliq">PDF</span><svg class="ic"><use href="#i-past"/></svg></button>
           </div>
-          <div class="param-qator">
+          <div class="param-qator" data-bolim="tizim">
             <div><div class="nomi">Elementlar sahifadagi soni</div><div class="izoh">Jadvallarda sahifada ko'rsatiladigan elementlar soni.</div></div>
             <button type="button" class="tanlov" data-variantlar='["10","25","50","100"]'><span class="t-yorliq">25</span><svg class="ic"><use href="#i-past"/></svg></button>
           </div>
@@ -189,13 +186,33 @@
 <script>
 document.addEventListener("DOMContentLoaded", ()=>{
 
+/* Bo'lim tanlash avval FAQAT sinf almashtirardi — o'ng panel hech qachon o'zgarmasdi,
+   ya'ni to'qqizta band bosilib, hech narsa bo'lmasdi. Endi har bir band o'z parametrlarini
+   ko'rsatadi. Kontenti bo'lmagan uch band (valyuta, integratsiya, pochta) olib tashlandi:
+   bo'sh bo'limni ko'rsatgandan ko'ra bo'lmagani ma'qul. */
+const BOLIM_MATN = {
+  tizim:   ["Tizim parametrlari",   "Tizimning asosiy ishlash parametrlarini sozlang."],
+  hudud:   ["Hudud va til",         "Interfeys tili va vaqt zonasi."],
+  hujjat:  ["Hujjatlar va fayllar", "Hisobot va hujjatlarning standart formati."],
+  saqlash: ["Ma'lumotlarni saqlash","Zaxira nusxa va saqlash siyosati."]
+};
+function bolimKorsat(bolim){
+  document.querySelectorAll(".param-qator").forEach(q=>{
+    q.style.display = q.dataset.bolim === bolim ? "" : "none";
+  });
+  const [sarlavha, izoh] = BOLIM_MATN[bolim] || BOLIM_MATN.tizim;
+  document.getElementById("param-sarlavha").textContent = sarlavha;
+  document.getElementById("param-sub").textContent = izoh;
+}
 document.querySelectorAll(".bolim-band").forEach(b=>{
-  if (b.tagName === "A") return;
+  if (b.tagName === "A" || !b.dataset.bolim) return;
   b.addEventListener("click", ()=>{
     document.querySelectorAll(".bolim-band").forEach(x=>x.classList.remove("aktiv"));
     b.classList.add("aktiv");
+    bolimKorsat(b.dataset.bolim);
   });
 });
+bolimKorsat("tizim");
 
 document.getElementById("param-forma").addEventListener("submit", e=>{
   e.preventDefault();

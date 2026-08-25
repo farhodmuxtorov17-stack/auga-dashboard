@@ -114,12 +114,12 @@
     </div>
 
     <div class="tur-chiplar" id="tur-chiplar">
-      <button class="tur-chip aktiv" data-tur="Barchasi">Barchasi<span class="son">128</span></button>
-      <button class="tur-chip" data-tur="Texnik pasport">Texnik pasport<span class="son">24</span></button>
-      <button class="tur-chip" data-tur="Kadastr">Kadastr<span class="son">18</span></button>
-      <button class="tur-chip" data-tur="Shartnoma">Shartnoma<span class="son">36</span></button>
-      <button class="tur-chip" data-tur="Rasm">Rasm<span class="son">22</span></button>
-      <button class="tur-chip" data-tur="Hisobot">Hisobot<span class="son">28</span></button>
+      <button class="tur-chip aktiv" data-tur="Barchasi">Barchasi<span class="son"></span></button>
+      <button class="tur-chip" data-tur="Texnik pasport">Texnik pasport<span class="son"></span></button>
+      <button class="tur-chip" data-tur="Kadastr">Kadastr<span class="son"></span></button>
+      <button class="tur-chip" data-tur="Shartnoma">Shartnoma<span class="son"></span></button>
+      <button class="tur-chip" data-tur="Rasm">Rasm<span class="son"></span></button>
+      <button class="tur-chip" data-tur="Hisobot">Hisobot<span class="son"></span></button>
     </div>
 
     <div class="hj-grid" id="hj-grid">
@@ -185,6 +185,16 @@ let obyektFiltri = "Barcha obyektlar";
 let holatFiltri = "Barcha holatlar";
 
 const tbody = document.getElementById("hujjat-jadval");
+
+// Chip — filtr, KPI emas: bosilganda sanoq va jadval bir xil son ko'rsatishi SHART.
+// Shuning uchun sanoqlar HUJJATLAR massividan hisoblanadi, qo'lda yozilmaydi.
+function chipSonlariChiz(){
+  document.querySelectorAll(".tur-chip").forEach(c=>{
+    const t = c.dataset.tur;
+    const n = t === "Barchasi" ? HUJJATLAR.length : HUJJATLAR.filter(h=>h.tur === t).length;
+    c.querySelector(".son").textContent = n;
+  });
+}
 
 function jadvalChiz(){
   const royxat = HUJJATLAR.filter(h=>
@@ -370,6 +380,7 @@ document.getElementById("hujjat-qoshish").addEventListener("click", ()=>{
   }, true);
 });
 
+chipSonlariChiz();
 jadvalChiz();
 panelChiz(HUJJATLAR[0]);
 });
