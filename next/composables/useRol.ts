@@ -32,9 +32,13 @@ export const MENYU: [string, string, string][] = [
 
 export function useRol() {
   const rol = useState<string>('auga-rol', () => 'Administrator')
+  // localStorage'ni gidratatsiyadan KEYIN o'qiymiz — setup vaqtida o'qish SSR/klient
+  // nomuvofiqligiga ("Hydration mismatch") olib kelardi.
   if (import.meta.client) {
-    const saqlangan = localStorage.getItem('auga-rol')
-    if (saqlangan && saqlangan in ROL_KALIT) rol.value = saqlangan
+    onMounted(() => {
+      const saqlangan = localStorage.getItem('auga-rol')
+      if (saqlangan && saqlangan in ROL_KALIT && saqlangan !== rol.value) rol.value = saqlangan
+    })
   }
   const kalit = computed(() => ROL_KALIT[rol.value] ?? 'texnik')
   const ism = computed(() => FOYD_ISM[kalit.value])
