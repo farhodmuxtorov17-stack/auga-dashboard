@@ -154,10 +154,10 @@
             <button data-toast="Joylashuvni markazlash" aria-label="Markazlash"><svg class="ic"><use href="#i-navigatsiya"/></svg></button>
           </div>
           <div class="rejim" role="group">
-            <button id="a-2d">2D</button>
-            <button id="a-3d" class="aktiv">3D</button>
+            <button id="a-2d">Sxema</button>
+            <button id="a-3d" class="aktiv">Foto</button>
           </div>
-          <button class="kengay" data-toast="To'liq ekran" aria-label="To'liq ekran"><svg class="ic"><use href="#i-kengay"/></svg></button>
+          <button class="kengay" data-fullscreen=".aero" aria-label="To'liq ekran"><svg class="ic"><use href="#i-kengay"/></svg></button>
         </div>
 
         <div class="tezkor-statlar">
@@ -327,8 +327,8 @@ document.querySelectorAll(".tur-chip").forEach(c=>{
   });
 });
 
-document.getElementById("a-2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-3d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.add("sxematik"); AUGA.toast("2D xarita rejimi"); });
-document.getElementById("a-3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-2d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.remove("sxematik"); AUGA.toast("3D xarita rejimi"); });
+document.getElementById("a-2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-3d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.add("sxematik"); AUGA.toast("Sxematik ko'rinish"); });
+document.getElementById("a-3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("a-2d").classList.remove("aktiv"); document.getElementById("aero-rasm").classList.remove("sxematik"); AUGA.toast("Aerofoto ko'rinishi"); });
 document.querySelector(".up-yop").addEventListener("click", ()=>{
   document.querySelector(".ym-grid aside").style.display = "none";
   document.querySelectorAll(".uch-band").forEach(r=>r.classList.remove("faol"));

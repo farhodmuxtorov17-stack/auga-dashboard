@@ -197,9 +197,7 @@
           <h3>Obyekt xaritasi</h3>
           <span class="qavat-chip">3-qavat</span>
           <div class="rejim">
-            <button class="aktiv" id="s3d">3D</button>
-            <button id="s2d">2D</button>
-            <button data-toast="To'liq ekran" aria-label="To'liq ekran"><svg class="ic" style="width:15px;height:15px"><use href="#i-kengay"/></svg></button>
+            <button data-fullscreen=".sv-xarita" aria-label="To'liq ekran"><svg class="ic" style="width:15px;height:15px"><use href="#i-kengay"/></svg></button>
           </div>
         </div>
         <div class="sv-xarita">
@@ -407,8 +405,8 @@ hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
 }));
 
 /* 3D/2D */
-document.getElementById("s3d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s2d").classList.remove("aktiv"); AUGA.toast("3D reja"); });
-document.getElementById("s2d").addEventListener("click", function(){ this.classList.add("aktiv"); document.getElementById("s3d").classList.remove("aktiv"); AUGA.toast("2D reja"); });
+document.getElementById("s2d").classList.remove("aktiv"); AUGA.toast("3D reja"); });
+document.getElementById("s3d").classList.remove("aktiv"); AUGA.toast("2D reja"); });
 
 /* Tahrirlash */
 document.getElementById("sv-tahrir").addEventListener("click", ()=>{

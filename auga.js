@@ -463,6 +463,30 @@ document.addEventListener("DOMContentLoaded", ()=>{
   st.textContent = qoidalar.join("");
   document.head.appendChild(st);
 
+  // Laytboks — [data-lightbox] ko'targan har qanday element ichidagi rasmni
+  // modal oynada to'liq ochadi. "Kattalashtirilgan ko'rinish" endi haqiqatan
+  // kattalashtiradi. data-toast bilan bitta elementda ishlatilmaydi.
+  document.body.addEventListener("click", e=>{
+    const lb = e.target.closest("[data-lightbox]");
+    if (!lb) return;
+    const im = lb.querySelector("img") || (lb.tagName === "IMG" ? lb : null);
+    if (!im) return;
+    const sarlavha = lb.dataset.lightbox || im.alt || "";
+    AUGA.modal(sarlavha,
+      `<img src="${im.src}" alt="${im.alt || ""}" style="width:100%;border-radius:14px;display:block">`,
+      { okMatn:"Yopish" });
+  });
+
+  // To'liq ekran — [data-fullscreen="selektor"] tugmasi ko'rsatilgan blokni
+  // haqiqiy fullscreen'ga chiqaradi (aktiv.html'dagi ishlaydigan naqsh umumlashtirildi).
+  document.body.addEventListener("click", e=>{
+    const fs = e.target.closest("[data-fullscreen]");
+    if (!fs) return;
+    if (document.fullscreenElement){ document.exitFullscreen(); return; }
+    const maqsad = document.querySelector(fs.dataset.fullscreen);
+    if (maqsad && maqsad.requestFullscreen) maqsad.requestFullscreen();
+  });
+
   // data-toast tugmalar
   document.body.addEventListener("click", e=>{
     const t = e.target.closest("[data-toast]");

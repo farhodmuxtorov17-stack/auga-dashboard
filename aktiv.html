@@ -41,6 +41,19 @@
 .tahrir-tugma{margin-top:22px}
 
 /* 3D sahna */
+.qavat-zona{
+  position:absolute;left:16%;right:16%;z-index:4;border-radius:10px;cursor:pointer;
+  display:flex;align-items:center;justify-content:flex-end;padding-right:14px;
+  border:1.5px dashed transparent;transition:background var(--tez),border-color var(--tez);
+}
+.qavat-zona span{
+  opacity:0;background:var(--karta);border-radius:10px;padding:7px 13px;
+  font-size:13px;font-weight:700;color:#17191C;box-shadow:var(--soya-pin);
+  transition:opacity var(--tez);pointer-events:none;
+}
+.qavat-zona:hover{background:rgba(180,220,60,.14);border-color:var(--lime)}
+.qavat-zona:hover span,.qavat-zona:focus-visible span{opacity:1}
+
 .sahna{position:relative;border-radius:18px;overflow:hidden;min-height:480px;background:linear-gradient(180deg,#FDFDFC,#F4F5F2)}
 .sahna > img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:20px 40px 40px}
 .callout{
@@ -198,7 +211,16 @@
       </div>
 
       <div class="sahna">
-        <img id="h-rasm" src="assets/hero_tower.png" alt="Obyektning 3D ko'rinishi">
+        <img id="h-rasm" src="assets/bino_tower.png" alt="Obyektning 3D ko'rinishi">
+        <!-- Qavat navigatsiyasi: "Qavatlar kesimi" rejimida har bir qavat BOSILADI va
+             xonalar.html'da o'sha qavat ochiladi. Zonalar rasm proportsiyasiga bog'langan. -->
+        <div id="qavat-zonalar" hidden>
+          <a class="qavat-zona" style="top:14%;height:13%"  href="xonalar.html?qavat=5"><span>5 — Penthouse</span></a>
+          <a class="qavat-zona" style="top:27%;height:13%"  href="xonalar.html?qavat=4"><span>4 — Ofis qavati</span></a>
+          <a class="qavat-zona" style="top:40%;height:13%"  href="xonalar.html?qavat=3"><span>3 — Ofis qavati</span></a>
+          <a class="qavat-zona" style="top:53%;height:14%"  href="xonalar.html?qavat=2"><span>2 — Savdo qavati</span></a>
+          <a class="qavat-zona" style="top:67%;height:16%"  href="xonalar.html?qavat=1"><span>1 — Kirish va lobby</span></a>
+        </div>
         <div class="callout" style="left:4%;top:9%">
           <span class="doira"><svg class="ic"><use href="#i-energiya"/></svg></span>
           <span><span class="yorliq">Energiya samaradorligi</span><b>A+ sinf</b></span>
@@ -215,9 +237,10 @@
           <span class="doira"><svg class="ic"><use href="#i-belgi-doira"/></svg></span>
           <span><span class="yorliq">Texnik holat</span><b>Yaxshi</b></span>
         </div>
-        <div class="sahna-nazorat">
-          <button class="sahna-tugma lime" id="s-3d" aria-pressed="true">3D</button>
-          <button class="sahna-tugma" data-toast="Model ko'rinishi almashtirildi" aria-label="Model rejimi"><svg class="ic"><use href="#i-kvadrat3d"/></svg></button>
+        <div class="sahna-nazorat" id="sahna-korinishlar" role="tablist" aria-label="Ko'rinish rejimi">
+          <!-- tugmalar JS bilan obyekt turiga qarab quriladi -->
+        </div>
+        <div class="sahna-nazorat" style="left:auto;right:18px;transform:none">
           <button class="sahna-tugma" id="s-toliq" aria-label="To'liq ekran"><svg class="ic"><use href="#i-kengay"/></svg></button>
         </div>
       </div>
@@ -245,11 +268,11 @@
             </div>
           </div>
           <div class="galereya" id="galereya">
-            <button class="gal-karta" data-toast="Ofis qavat 5 — kattalashtirilgan ko'rinish"><img src="assets/gal_ofis.png" alt="Ofis qavat 5"><b>Ofis qavat 5</b><span>1200 m²</span></button>
-            <button class="gal-karta" data-toast="Konferensiya zali — kattalashtirilgan ko'rinish"><img src="assets/gal_konf.png" alt="Konferensiya zali"><b>Konferensiya zali</b><span>150 m²</span></button>
-            <button class="gal-karta" data-toast="Yer maydoni — kattalashtirilgan ko'rinish"><img src="assets/gal_yer.png" alt="Yer maydoni"><b>Yer maydoni</b><span>4 250 m²</span></button>
-            <button class="gal-karta" data-toast="Yaqin atrofdagi uy — kattalashtirilgan ko'rinish"><img src="assets/gal_uy.png" alt="Yaqin atrofdagi uy"><b>Yaqin atrofdagi uy</b><span>850 m</span></button>
-            <button class="gal-karta" data-toast="Zaxira generator — kattalashtirilgan ko'rinish"><img src="assets/gal_gen.png" alt="Zaxira generator"><b>Zaxira generator</b><span>250 kVA</span></button>
+            <button class="gal-karta" data-lightbox="Ofis qavat 5"><img src="assets/gal_ofis.png" alt="Ofis qavat 5"><b>Ofis qavat 5</b><span>1200 m²</span></button>
+            <button class="gal-karta" data-lightbox="Konferensiya zali"><img src="assets/gal_konf.png" alt="Konferensiya zali"><b>Konferensiya zali</b><span>150 m²</span></button>
+            <button class="gal-karta" data-lightbox="Yer maydoni"><img src="assets/gal_yer.png" alt="Yer maydoni"><b>Yer maydoni</b><span>4 250 m²</span></button>
+            <button class="gal-karta" data-lightbox="Yaqin atrofdagi uy"><img src="assets/gal_uy.png" alt="Yaqin atrofdagi uy"><b>Yaqin atrofdagi uy</b><span>850 m</span></button>
+            <button class="gal-karta" data-lightbox="Zaxira generator"><img src="assets/gal_gen.png" alt="Zaxira generator"><b>Zaxira generator</b><span>250 kVA</span></button>
           </div>
           <div class="tavsif" style="margin-top:22px">
             <h3>Tavsif</h3>
@@ -365,8 +388,17 @@
 document.addEventListener("DOMContentLoaded", ()=>{
 
 /* Obyekt ma'lumotlari (?id=) */
+/* Sahna ko'rinishlari: tashqi render har obyektning o'z rasmi; "Qavatlar" kesimi
+   binolar uchun (bino_qavatlar.png — qavatma-qavat interyerli kesim), "Hudud"
+   yer maydonlari uchun (bino_9.png — uchastkaning tepadan ko'rinishi). */
+const KORINISH_TOPLAM = {
+  bino:  [["tashqi","Tashqi ko'rinish", null],
+          ["qavat","Qavatlar kesimi","assets/bino_qavatlar.png"]],
+  yer:   [["tashqi","Umumiy ko'rinish", null],
+          ["hudud","Hudud chegarasi","assets/bino_9.png"]]
+};
 const MALUMOT = {
-  "green-tower":{nom:"Green Tower",tur:"Biznes markazi",holat:"Faol",rasm:"assets/hero_tower.png",
+  "green-tower":{nom:"Green Tower",tur:"Biznes markazi",holat:"Faol",rasm:"assets/bino_tower.png",
     manzil:"Toshkent shahri, Shayxontohur tumani,<br>Amir Temur ko'chasi, 88",
     maydon:"18 500 m²",yer:"4 250 m²",qavat:"12",yil:"2022",
     tavsif:"Green Tower – zamonaviy biznes markazi bo'lib, 12 qavatdan iborat. Bino ofis maydonlari, konferensiya zallari, yerosti avtoturargohi va to'liq infratuzilma bilan ta'minlangan.",
@@ -507,11 +539,38 @@ hm.querySelectorAll("button").forEach(b=>b.addEventListener("click", e=>{
 }));
 
 /* Sahna tugmalari */
-document.getElementById("s-3d").addEventListener("click", function(){
-  const yoq = this.classList.toggle("lime");
-  this.setAttribute("aria-pressed", String(yoq));
-  AUGA.toast(yoq ? "3D rejim yoqildi" : "2D rejim", "i-kvadrat3d");
-});
+/* Ko'rinish almashtirgich — tugma RASMNI HAQIQATAN almashtiradi.
+   Avval "3D" tugmasi faqat sinf va toast almashtirardi — sahnada hech narsa
+   o'zgarmasdi. Kalautlar faqat tashqi ko'rinishda ma'noga ega (ular bino
+   fasadiga bog'langan), boshqa rejimlarda yashiriladi. */
+(function(){
+  const yerMi = /yer/i.test(o.tur);
+  const toplam = KORINISH_TOPLAM[yerMi ? "yer" : "bino"];
+  const quti = document.getElementById("sahna-korinishlar");
+  const rasm = document.getElementById("h-rasm");
+  const kalautlar = document.querySelectorAll(".sahna .callout");
+  let joriy = "tashqi";
+  function korsat(kalit){
+    joriy = kalit;
+    const [,nomi,manba] = toplam.find(k=>k[0]===kalit);
+    rasm.src = manba || o.rasm;
+    rasm.alt = `${o.nom} — ${nomi.toLowerCase()}`;
+    kalautlar.forEach(c=>{ c.style.display = kalit==="tashqi" ? "" : "none"; });
+    // Qavat zonalari faqat kesim rejimida — va faqat binolarda
+    const zonalar = document.getElementById("qavat-zonalar");
+    if (zonalar) zonalar.hidden = kalit !== "qavat";
+    quti.querySelectorAll(".sahna-tugma").forEach(b=>{
+      const faol = b.dataset.k===kalit;
+      b.classList.toggle("lime", faol);
+      b.setAttribute("aria-selected", String(faol));
+    });
+  }
+  quti.innerHTML = toplam.map(([kalit,nomi])=>
+    `<button class="sahna-tugma" role="tab" data-k="${kalit}" aria-selected="false">${nomi}</button>`).join("");
+  quti.querySelectorAll(".sahna-tugma").forEach(b=>
+    b.addEventListener("click", ()=>korsat(b.dataset.k)));
+  korsat("tashqi");
+})();
 document.getElementById("s-toliq").addEventListener("click", ()=>{
   const s = document.querySelector(".sahna");
   if (document.fullscreenElement) document.exitFullscreen();

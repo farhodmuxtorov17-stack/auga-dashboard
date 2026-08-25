@@ -164,8 +164,8 @@
           <h3>Binoning 3D ko'rinishi</h3>
           <div class="rejim" role="group">
             <button class="aktiv" id="rj-3d">3D</button>
-            <button id="rj-2d">2D</button>
-            <button data-toast="To'liq ekran" aria-label="To'liq ekran"><svg class="ic" style="width:16px;height:16px"><use href="#i-kengay"/></svg></button>
+            <button id="rj-2d">Sxema</button>
+            <button data-fullscreen=".qavat-sahna" aria-label="To'liq ekran"><svg class="ic" style="width:16px;height:16px"><use href="#i-kengay"/></svg></button>
           </div>
         </div>
         <div class="qavat-sahna">
@@ -201,7 +201,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
 const QAVATLAR = [
   ["5","Penthouse"],["4","Ofis qavati"],["3","Ofis qavati"],["2","Savdo qavati"],["1","Kirish va lobby"],["-1","Texnik qavat"]
 ];
-let faolQavat = "3";
+// aktiv.html'dagi bino kesimidan tanlangan qavat shu parametr bilan keladi
+const urlQavat = new URLSearchParams(location.search).get("qavat");
+let faolQavat = (urlQavat && ["5","4","3","2","1","-1"].includes(urlQavat)) ? urlQavat : "3";
 
 function qavatChiz(){
   document.getElementById("qavatlar").innerHTML = QAVATLAR.map(q=>`
@@ -233,6 +235,12 @@ document.querySelectorAll(".qavat-yorliq").forEach(y=>{
 });
 
 const XONALAR = [
+  {nom:"Penthouse ofis 501", qavat:"5", maydon:"210 m²", rasm:"assets/xona_ofis.png", tur:"Ofis", sigim:"18 kishi", holat:"Band",
+   egasi:"Green Capital MChJ", shartnoma:"NPR-2024-0601", muddat:"31-dek, 2025",
+   jihozlar:[["Stol","18 ta"],["Kreslo","18 ta"],["Kompyuter","16 ta"],["Konditsioner","3 ta"]]},
+  {nom:"Qabulxona va lobby", qavat:"1", maydon:"140 m²", rasm:"assets/xona_konf.png", tur:"Umumiy", sigim:"—", holat:"Faol",
+   egasi:"AUGA ma'muriyati", shartnoma:"—", muddat:"—",
+   jihozlar:[["Qabul stoli","2 ta"],["Kutish o'rindiqlari","14 ta"],["Turniket","3 ta"]]},
   {nom:"Ofis 301", qavat:"3", maydon:"120 m²", rasm:"assets/xona_ofis.png", tur:"Ofis", sigim:"12 kishi", holat:"Band",
    egasi:"Tech Solutions LLC", shartnoma:"NPR-2024-0566", muddat:"26-may, 2025",
    jihozlar:[["Stol","12 ta"],["Kreslo","12 ta"],["Kompyuter","12 ta"],["Printer","2 ta"],["Konditsioner","2 ta"]]},
@@ -324,7 +332,7 @@ function panelChiz(){
     document.querySelectorAll(".xona-k").forEach(k=>k.classList.remove("faol"));
   });
 }
-qavatChiz();
+qavatTanla(faolQavat);
 xonalarChiz(); panelChiz();
 
 document.getElementById("xona-keyingi").addEventListener("click", ()=>{
@@ -340,7 +348,7 @@ document.getElementById("rj-3d").addEventListener("click", function(){
 document.getElementById("rj-2d").addEventListener("click", function(){
   this.classList.add("aktiv"); document.getElementById("rj-3d").classList.remove("aktiv");
   document.getElementById("qavat-rasm").classList.add("sxematik");
-  AUGA.toast("2D reja ko'rinishi");
+  AUGA.toast("Sxematik ko'rinish yoqildi");
 });
 
 /* Hisobot */
