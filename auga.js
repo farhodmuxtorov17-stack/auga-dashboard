@@ -231,7 +231,8 @@ function topbarHTML(){
       </div>
       <div class="profil" id="profil-tugma" role="button" tabindex="0" style="cursor:pointer" aria-haspopup="menu" aria-expanded="false">
         <span class="avatar rol-${ROL_KALIT[joriyRol()]}" aria-hidden="true">
-          <svg viewBox="0 0 34 34"><circle cx="17" cy="12" r="6.5" fill="#8B94A3"/><path d="M4 34c1.6-8 7-11.5 13-11.5S28.4 26 30 34z" fill="#8B94A3"/></svg>
+          <span class="harf">${FOYD_ISM[ROL_KALIT[joriyRol()]].split(" ").map(x=>x[0]).join("")}</span>
+          <img src="assets/avatars/${ROL_KALIT[joriyRol()]}.jpg" alt="" onerror="this.remove()">
         </span>
         <div class="matnlar">
           <b>${FOYD_ISM[ROL_KALIT[joriyRol()]]}</b>

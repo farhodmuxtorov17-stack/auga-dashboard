@@ -170,6 +170,15 @@ img{display:block;max-width:100%}
 .avatar.rol-operator{--_rol-rang:var(--rol-operator)}
 .avatar.rol-texnik{--_rol-rang:var(--rol-texnik)}
 .avatar svg{width:34px;height:34px;display:block}
+/* Inisial-avatar: rol rangi gradientida harflar; assets/avatars/<rol>.jpg mavjud
+   bo'lsa foto ustidan yopadi (onerror'da rasm o'chadi va harflar qoladi). */
+.avatar{display:grid;place-items:center;position:relative}
+.avatar .harf{
+  font-size:15px;font-weight:800;letter-spacing:.02em;color:#fff;
+  width:100%;height:100%;display:grid;place-items:center;border-radius:99px;
+  background:linear-gradient(145deg, color-mix(in srgb, var(--_rol-rang,#7BAEFC) 82%, white), var(--_rol-rang,#7BAEFC));
+}
+.avatar img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:99px}
 .profil .strelka{width:17px;height:17px;color:#7A8087}
 .profil .matnlar{text-align:left}
 .profil .matnlar b{display:block;font-size:15px;font-weight:700;line-height:1.25;color:#17191C}
@@ -529,6 +538,14 @@ table.jadval{width:100%;border-collapse:collapse}
      birlikni ajratib tashlash o'qishni buzadi. */
   .kpi-qiymat b{font-size:26px}
   .kpi-qiymat b small{font-size:16px}
+}
+@media (max-width:480px){
+  /* Telefon kengligi: donat+legenda ustma-ust; legenda satri siqila oladi. */
+  .legend{min-width:0;flex:1 1 100%}
+  .legend-qator .nomi{white-space:normal}
+  /* Umumiy amal qatorlari va filtrlar o'raladi yoki suriladi. */
+  .filtr-qator{flex-wrap:wrap}
+  .tanlov{max-width:100%}
 }
 @media (max-width:560px){
   /* 4->2 dan keyin boshqa qoida yo'q edi: 375px'da ustun 134.5px bo'lib qolardi,

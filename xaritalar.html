@@ -18,6 +18,7 @@
 .ustki-qator{position:relative;z-index:4;display:flex;align-items:flex-start}
 .ustki-qator .tanlov{width:auto;min-width:210px;background:var(--karta);border:none;box-shadow:var(--soya);height:52px;border-radius:14px;font-weight:600;color:#23272C}
 .rejim{margin-left:auto;display:flex;gap:6px;background:var(--karta);border-radius:13px;padding:5px;box-shadow:var(--soya)}
+@media (max-width:480px){.ustki-qator{flex-wrap:wrap}.rejim{margin-left:0}}
 .rejim button{height:40px;min-width:52px;border-radius:9px;font-size:14px;font-weight:700;color:#5B6168;transition:all var(--tez)}
 .rejim button.aktiv{border:1.5px solid var(--yashil);color:#17191C;background:#FDFFF5}
 
@@ -72,6 +73,8 @@
   .legenda,.hudud-panel,.hudud-kartalar{position:static;width:100%;max-width:none;right:auto}
   .hudud-kartalar{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+@media (max-width:480px){.hudud-band{flex-wrap:wrap}.hudud-band b,.hudud-band .delta{margin-left:0}}
+@media (max-width:480px){.h-karta .bosh{flex-wrap:wrap}.h-karta .bosh > span{min-width:0}.h-karta .qiymat{flex-wrap:wrap}}
 </style>
 </head>
 <body data-sahifa="xaritalar" data-topbar-sarlavha="Hududlar" data-topbar-ikon="i-xarita">
