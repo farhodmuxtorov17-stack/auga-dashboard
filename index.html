@@ -283,8 +283,13 @@ html.erta-rol-rahbar #dash-rahbar{display:block}
       <div class="karta">
         <div class="karta-bosh"><h2>Aktivlar holati</h2></div>
         <div class="holat-korpus">
+          <div style="position:relative;width:150px;flex:none">
+          <div style="position:absolute;inset:0;display:grid;place-items:center;text-align:center;pointer-events:none">
+            <div><div style="font-size:20px;font-weight:750;letter-spacing:-.02em">1 248</div>
+            <div style="font-size:10.5px;color:var(--matn-3)">aktiv</div></div>
+          </div>
           <svg id="donut" width="150" height="150" viewBox="0 0 150 150" role="img" filter="url(#depth-md)"
-               aria-label="Aktivlar holati: Faol 1082 (87%), Ijarada 104 (8%), Ta'mirda 42 (3%), Nofaol 20 (2%)"></svg>
+               aria-label="Aktivlar holati: Faol 1082 (87%), Ijarada 104 (8%), Ta'mirda 42 (3%), Nofaol 20 (2%)"></svg></div>
           <div class="legend">
             <a class="legend-qator" href="aktivlar.html?holat=Faol"><span class="nuqta" style="background:var(--h-faol)"></span><span class="nomi">Faol</span><b>1 082 (87%)</b></a>
             <a class="legend-qator" href="aktivlar.html"><span class="nuqta" style="background:var(--h-ijara)"></span><span class="nomi">Ijarada</span><b>104 (8%)</b></a>
@@ -853,10 +858,15 @@ document.addEventListener("DOMContentLoaded", ()=>{
      buyurtmachi buni regressiya deb qabul qildi. Xarita bo'limi rolga qarab rahbar
      paneliga KO'CHIRILADI (nusxa emas — id'lar bitta). Leaflet init'idan OLDIN
      bajarilishi shart, aks holda o'lchamlar noto'g'ri hisoblanadi. */
-  if (document.documentElement.classList.contains("erta-rol-rahbar")){
-    const xaritaSek = document.querySelector("#dash-admin .xarita-qator");
-    const rahbarKpi = document.querySelector("#dash-rahbar .kpi-band");
-    if (xaritaSek && rahbarKpi) rahbarKpi.after(xaritaSek);
+  {
+    // Har bir rol o'z dashboardida FUNKSIONAL xaritani ko'radi — bo'lim hammaga ochiq.
+    const rolKlass = ["rahbar","operator","texnik"].find(r =>
+      document.documentElement.classList.contains("erta-rol-" + r));
+    if (rolKlass){
+      const xaritaSek = document.querySelector("#dash-admin .xarita-qator");
+      const joy = document.querySelector("#dash-" + rolKlass + " .kpi-band");
+      if (xaritaSek && joy) joy.after(xaritaSek);
+    }
   }
 
   /* Leaflet CDN'dan yuklanadi. Tarmoq sekin yoki bloklangan bo'lsa L aniqlanmay qoladi;
