@@ -754,6 +754,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     c.setAttribute("fill","none"); c.setAttribute("stroke",grad);
     c.setAttribute("stroke-width",w);
     c.setAttribute("stroke-dasharray",(Math.max(yoy,1.4)/360*C)+" "+C);
+    c.setAttribute("stroke-linecap","round");
     c.setAttribute("transform","rotate("+(boshi+gapDeg/2)+" "+cx+" "+cy+")");
     svg.appendChild(c);
     boshi += foiz/100*360;

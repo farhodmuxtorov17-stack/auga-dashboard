@@ -360,6 +360,7 @@ kpiChiz();
     const grad = AUGA.segmentGradient(s, rang, boshi + f/100*180, di);
     c.setAttribute("fill","none");c.setAttribute("stroke",grad);c.setAttribute("stroke-width",w);
     c.setAttribute("stroke-dasharray",(Math.max(yoy,1.5)/360*C)+" "+C);
+    c.setAttribute("stroke-linecap","round");
     c.setAttribute("transform","rotate("+(boshi+gap/2)+" "+cx+" "+cy+")");
     s.appendChild(c);
     boshi += f/100*360;

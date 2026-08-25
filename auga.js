@@ -366,7 +366,7 @@ AUGA.segmentGradient = function(svg, rang, oRtaBurchak, idx){
   const st1 = document.createElementNS(NS,"stop");
   st1.setAttribute("offset","0%");
   st1.setAttribute("stop-color", rang);
-  st1.setAttribute("style","stop-color:color-mix(in srgb, "+rang+" 72%, white)");
+  st1.setAttribute("style","stop-color:color-mix(in srgb, "+rang+" 55%, white)");
   const st2 = document.createElementNS(NS,"stop");
   st2.setAttribute("offset","100%"); st2.setAttribute("stop-color", rang);
   g.append(st1, st2);
