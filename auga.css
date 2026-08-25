@@ -463,6 +463,17 @@ table.jadval{width:100%;border-collapse:collapse}
   transition:transform var(--tez);
 }
 .auga-pin:hover .nuqtacha{transform:scale(1.12)}
+/* Klaster belgisi — bir guruh obyektni son bilan ifodalaydi, bosilsa yaqinlashadi */
+.auga-klaster{background:none;border:none}
+.klaster-doira{
+  display:grid;place-items:center;border-radius:99px;
+  background:var(--karta);color:#17191C;font-weight:750;font-size:13px;
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--kr) 30%, transparent),
+             0 2px 6px rgba(23,26,31,.14), 0 10px 24px rgba(23,26,31,.16);
+  border:2.5px solid var(--kr);
+  transition:transform var(--tez);cursor:pointer;
+}
+.klaster-doira:hover{transform:scale(1.08)}
 
 /* ============ Moslashuvchanlik ============ */
 @media (max-width:1500px){

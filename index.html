@@ -768,14 +768,73 @@ document.addEventListener("DOMContentLoaded", ()=>{
   hisobotDropdownUla("hisobot-tugma-rahbar", "hisobot-menyu-rahbar");
 
   /* Xarita — Leaflet + OpenStreetMap (haqiqiy geo-koordinatalar) */
-  const AKTIV_NUQTALAR = [
-    {tur:"Biznes markazi",      rangVar:"--t-biznes", href:"aktivlar.html?tur=Biznes+markazi",     lat:41.3111, lng:69.2797, viloyat:"Toshkent shahri",   holat:"Faol"},
-    {tur:"Dacha",               rangVar:"--t-dacha",  href:"aktivlar.html?tur=Dacha",               lat:41.6230, lng:69.7810, viloyat:"Toshkent viloyati", holat:"Faol"},
-    {tur:"Davlat muassasasi",   rangVar:"--t-davlat", href:"aktivlar.html?tur=Davlat+muassasasi",   lat:41.2874, lng:69.2734, viloyat:"Toshkent shahri",   holat:"Faol"},
-    {tur:"Savdo markazi",       rangVar:"--t-savdo",  href:"aktivlar.html?tur=Savdo+markazi",       lat:41.2775, lng:69.2054, viloyat:"Toshkent shahri",   holat:"Faol"},
-    {tur:"Bo'sh yer maydoni",   rangVar:"--t-yer",    href:"aktivlar.html?tur=Bo'sh+yer",           lat:41.1500, lng:69.1700, viloyat:"Toshkent viloyati", holat:"Nofaol"},
-    {tur:"Turar-joy / Ofislar", rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",           lat:41.0378, lng:69.3567, viloyat:"Toshkent viloyati", holat:"Ijarada"}
+  /* ============================================================================
+     Aktivlar xaritasi — HAQIQIY nuqtalar to'plami.
+     Nuqtalar soni sahifaning O'Z ma'lumotidan keladi: yuqoridagi "Obyekt turlari"
+     kartasi 12+8+15+124+36+72 = 267 ta obyekt deb yozadi, xarita ham shuncha
+     ko'rsatadi. Joylashuvlar — Toshkent shahri tumanlari va viloyat markazlarining
+     haqiqiy koordinatalari, ustiga tuman ichida tarqatish uchun DETERMINLASHGAN
+     siljish (har yuklashda bir xil manzara).
+     ========================================================================== */
+  const TUMANLAR = [
+    // Toshkent shahri
+    {nom:"Yunusobod",       viloyat:"Toshkent shahri",   lat:41.3600, lng:69.2890, r:0.030},
+    {nom:"Mirzo Ulug'bek",  viloyat:"Toshkent shahri",   lat:41.3350, lng:69.3400, r:0.030},
+    {nom:"Yakkasaroy",      viloyat:"Toshkent shahri",   lat:41.2830, lng:69.2560, r:0.020},
+    {nom:"Chilonzor",       viloyat:"Toshkent shahri",   lat:41.2750, lng:69.2040, r:0.030},
+    {nom:"Shayxontohur",    viloyat:"Toshkent shahri",   lat:41.3220, lng:69.2280, r:0.025},
+    {nom:"Olmazor",         viloyat:"Toshkent shahri",   lat:41.3480, lng:69.2100, r:0.030},
+    {nom:"Mirobod",         viloyat:"Toshkent shahri",   lat:41.2950, lng:69.2900, r:0.022},
+    {nom:"Sergeli",         viloyat:"Toshkent shahri",   lat:41.2200, lng:69.2200, r:0.035},
+    {nom:"Uchtepa",         viloyat:"Toshkent shahri",   lat:41.2900, lng:69.1700, r:0.028},
+    {nom:"Yashnobod",       viloyat:"Toshkent shahri",   lat:41.2700, lng:69.3300, r:0.030},
+    {nom:"Bektemir",        viloyat:"Toshkent shahri",   lat:41.2100, lng:69.3400, r:0.025},
+    // Toshkent viloyati
+    {nom:"Nurafshon",       viloyat:"Toshkent viloyati", lat:40.9900, lng:69.3450, r:0.040},
+    {nom:"Chirchiq",        viloyat:"Toshkent viloyati", lat:41.4690, lng:69.5820, r:0.045},
+    {nom:"Angren",          viloyat:"Toshkent viloyati", lat:41.0170, lng:70.1430, r:0.050},
+    {nom:"Bo'stonliq",      viloyat:"Toshkent viloyati", lat:41.6230, lng:69.7810, r:0.070},
+    {nom:"Zangiota",        viloyat:"Toshkent viloyati", lat:41.1800, lng:69.1300, r:0.045},
+    {nom:"Yangiyo'l",       viloyat:"Toshkent viloyati", lat:41.1130, lng:69.0470, r:0.045}
   ];
+  const SHAHAR = TUMANLAR.filter(t=>t.viloyat==="Toshkent shahri");
+  const VILOYAT = TUMANLAR.filter(t=>t.viloyat==="Toshkent viloyati");
+  const TOG = TUMANLAR.filter(t=>t.nom==="Bo'stonliq" || t.nom==="Chirchiq");
+
+  // Tur -> soni (sahifadagi "Obyekt turlari" kartasi bilan bir xil), rang va joylashuv doirasi
+  const TUR_TAQSIMOT = [
+    {tur:"Biznes markazi",      son:12,  rangVar:"--t-biznes", href:"aktivlar.html?tur=Biznes+markazi", hudud:SHAHAR},
+    {tur:"Savdo markazi",       son:8,   rangVar:"--t-savdo",  href:"aktivlar.html?tur=Savdo+markazi",  hudud:SHAHAR},
+    {tur:"Davlat muassasasi",   son:15,  rangVar:"--t-davlat", href:"aktivlar.html",                    hudud:SHAHAR},
+    {tur:"Turar-joy / Ofislar", son:124, rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",      hudud:TUMANLAR},
+    {tur:"Dacha",               son:36,  rangVar:"--t-dacha",  href:"aktivlar.html?tur=Dacha",          hudud:TOG},
+    {tur:"Bo'sh yer maydoni",   son:72,  rangVar:"--t-yer",    href:"aktivlar.html?tur=Bo'sh+yer",      hudud:VILOYAT}
+  ];
+  // Holat ulushlari — "Aktivlar holati" donuti bilan bir xil (87 / 8 / 3 / 2 %)
+  const HOLAT_ULUSH = [["Faol",87],["Ijarada",95],["Ta'mirda",98],["Nofaol",100]];
+
+  // Determinlashgan psevdo-tasodif: har yuklashda xarita bir xil ko'rinadi
+  let urugh = 20260824;
+  const rnd = ()=>{ urugh = (urugh * 1103515245 + 12345) & 0x7fffffff; return urugh / 0x7fffffff; };
+
+  const AKTIV_NUQTALAR = [];
+  TUR_TAQSIMOT.forEach(t=>{
+    const rang = ranglar.getPropertyValue(t.rangVar).trim();
+    for (let i = 0; i < t.son; i++){
+      const tuman = t.hudud[Math.floor(rnd() * t.hudud.length)];
+      const burchak = rnd() * Math.PI * 2;
+      const masofa = Math.sqrt(rnd()) * tuman.r;          // doira bo'ylab tekis tarqatish
+      const p = rnd() * 100;
+      const holat = (HOLAT_ULUSH.find(h=>p <= h[1]) || HOLAT_ULUSH[0])[0];
+      AKTIV_NUQTALAR.push({
+        tur: t.tur, rang, href: t.href, holat,
+        viloyat: tuman.viloyat, tuman: tuman.nom,
+        nom: `${tuman.nom} — ${t.tur}`,
+        lat: tuman.lat + masofa * Math.cos(burchak) * 0.75,
+        lng: tuman.lng + masofa * Math.sin(burchak)
+      });
+    }
+  });
 
   /* Leaflet CDN'dan yuklanadi. Tarmoq sekin yoki bloklangan bo'lsa L aniqlanmay qoladi;
      himoyasiz L.map() esa BUTUN DOMContentLoaded ishlov beruvchisini to'xtatardi — ya'ni
@@ -803,22 +862,76 @@ document.addEventListener("DOMContentLoaded", ()=>{
     maxZoom:18, attribution:"Tiles &copy; Esri"
   });
 
-  const nuqtaBelgilar = [];
-  if (xaritaBor) AKTIV_NUQTALAR.forEach(n=>{
-    const rang = ranglar.getPropertyValue(n.rangVar).trim();
-    const belgi = L.marker([n.lat, n.lng], {
-      title: n.tur,
-      alt: n.tur,
-      icon: L.divIcon({className:"auga-pin", html:`<span class="nuqtacha" style="background:${rang}"></span>`, iconSize:[24,24], iconAnchor:[12,12]})
-    }).addTo(xMap);
-    belgi.bindTooltip(
-      `<span class="pin-chip"><span class="pin-nuqta" style="background:${rang}"></span>${n.tur}</span>`,
-      {direction:"top", offset:[0,-6], className:"auga-chip"}
-    );
-    belgi.on("click", ()=> location.href = n.href);
-    nuqtaBelgilar.push(belgi);
-  });
-  const boshlangichChegara = xaritaBor ? L.featureGroup(nuqtaBelgilar).getBounds() : null;
+  /* --- Klasterli render: 267 nuqta alohida pin bo'lib ko'rinmaydi — yaqin nuqtalar
+     sonli klasterga yig'iladi, kattalashtirganda yoyiladi. Tashqi kutubxona YO'Q:
+     tarmoq mustahkamligi fiksidan keyin yangi CDN qaramlik qo'shilmaydi. --- */
+  let faolNuqtalar = AKTIV_NUQTALAR.slice();   // joriy filtrga tushganlar
+  let qatlamGuruh = xaritaBor ? L.layerGroup().addTo(xMap) : null;
+
+  function klasterQur(nuqtalar, zoom){
+    // Panjara qadamini zoomga bog'laymiz: uzoqdan yirik katak, yaqindan mayda
+    const qadam = zoom >= 13 ? 0 : 0.55 / Math.pow(2, zoom - 8);
+    if (qadam === 0) return nuqtalar.map(n=>({tip:"nuqta", n}));
+    const katak = new Map();
+    nuqtalar.forEach(n=>{
+      const k = Math.round(n.lat/qadam) + "|" + Math.round(n.lng/qadam);
+      if (!katak.has(k)) katak.set(k, []);
+      katak.get(k).push(n);
+    });
+    const out = [];
+    katak.forEach(guruh=>{
+      if (guruh.length === 1) out.push({tip:"nuqta", n:guruh[0]});
+      else {
+        const lat = guruh.reduce((a,n)=>a+n.lat,0)/guruh.length;
+        const lng = guruh.reduce((a,n)=>a+n.lng,0)/guruh.length;
+        out.push({tip:"klaster", lat, lng, guruh});
+      }
+    });
+    return out;
+  }
+
+  function xaritaChiz(){
+    if (!xaritaBor) return;
+    qatlamGuruh.clearLayers();
+    const elementlar = klasterQur(faolNuqtalar, xMap.getZoom());
+    elementlar.forEach(el=>{
+      if (el.tip === "nuqta"){
+        const n = el.n;
+        const m = L.marker([n.lat, n.lng], {
+          title: n.nom, alt: n.nom,
+          icon: L.divIcon({className:"auga-pin",
+            html:`<span class="nuqtacha" style="background:${n.rang}"></span>`,
+            iconSize:[22,22], iconAnchor:[11,11]})
+        });
+        m.bindTooltip(
+          `<span class="pin-chip"><span class="pin-nuqta" style="background:${n.rang}"></span>`+
+          `<span><b style="font-weight:700">${n.nom}</b><br>` +
+          `<span style="color:#71767E">${n.holat} · ${n.viloyat}</span></span></span>`,
+          {direction:"top", offset:[0,-6], className:"auga-chip"});
+        m.on("click", ()=> location.href = n.href);
+        qatlamGuruh.addLayer(m);
+      } else {
+        // Klaster ichida eng ko'p uchraydigan tur rangini olamiz
+        const sanoq = {};
+        el.guruh.forEach(n=>{ sanoq[n.rang]=(sanoq[n.rang]||0)+1; });
+        const rang = Object.entries(sanoq).sort((a,b)=>b[1]-a[1])[0][0];
+        const d = el.guruh.length >= 60 ? 52 : el.guruh.length >= 25 ? 44 : 36;
+        const m = L.marker([el.lat, el.lng], {
+          title: el.guruh.length + " ta obyekt", alt: el.guruh.length + " ta obyekt",
+          icon: L.divIcon({className:"auga-klaster",
+            html:`<span class="klaster-doira" style="--kr:${rang};width:${d}px;height:${d}px">${el.guruh.length}</span>`,
+            iconSize:[d,d], iconAnchor:[d/2,d/2]})
+        });
+        m.on("click", ()=> xMap.flyTo([el.lat, el.lng], Math.min(xMap.getZoom()+2, 14), {duration:0.45}));
+        qatlamGuruh.addLayer(m);
+      }
+    });
+  }
+  if (xaritaBor) xMap.on("zoomend", xaritaChiz);
+
+  const boshlangichChegara = xaritaBor
+    ? L.latLngBounds(AKTIV_NUQTALAR.map(n=>[n.lat,n.lng])).pad(0.08) : null;
+  xaritaChiz();
 
   /* Xarita filtrlari — viloyat/tur/holat bo'yicha ko'rinadigan belgilarni boshqaradi.
      TUR_MOS — filtr ro'yxatidagi qisqa nomlarni AKTIV_NUQTALAR dagi "tur" yorlig'iga moslaydi
@@ -827,16 +940,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
   const xaritaFiltri = {viloyat:"Barcha viloyatlar", tur:"Barcha turlar", holat:"Barcha holatlar"};
   function qollash(){
     const turQiymati = TUR_MOS[xaritaFiltri.tur] || xaritaFiltri.tur;
-    let korinadigan = 0;
-    AKTIV_NUQTALAR.forEach((n, i)=>{
-      const mosKeladi =
-        (xaritaFiltri.viloyat==="Barcha viloyatlar" || n.viloyat===xaritaFiltri.viloyat) &&
-        (xaritaFiltri.tur==="Barcha turlar" || n.tur===turQiymati) &&
-        (xaritaFiltri.holat==="Barcha holatlar" || n.holat===xaritaFiltri.holat);
-      if (mosKeladi){ if (xaritaBor) nuqtaBelgilar[i].addTo(xMap); korinadigan++; }
-      else if (xaritaBor) xMap.removeLayer(nuqtaBelgilar[i]);
-    });
-    if (korinadigan === 0) AUGA.toast("Tanlangan filtrlarga mos obyekt topilmadi");
+    faolNuqtalar = AKTIV_NUQTALAR.filter(n=>
+      (xaritaFiltri.viloyat==="Barcha viloyatlar" || n.viloyat===xaritaFiltri.viloyat) &&
+      (xaritaFiltri.tur==="Barcha turlar" || n.tur===turQiymati) &&
+      (xaritaFiltri.holat==="Barcha holatlar" || n.holat===xaritaFiltri.holat));
+    xaritaChiz();
+    if (faolNuqtalar.length === 0) AUGA.toast("Tanlangan filtrlarga mos obyekt topilmadi");
   }
   document.getElementById("f-viloyat").addEventListener("tanlov", e=>{ xaritaFiltri.viloyat = e.detail; qollash(); });
   document.getElementById("f-tur").addEventListener("tanlov", e=>{ xaritaFiltri.tur = e.detail; qollash(); });
