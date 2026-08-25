@@ -836,6 +836,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
   });
 
+  /* Rahbar dashboardida xarita YO'Q edi (uning alohida paneli xaritasiz qurilgan) —
+     buyurtmachi buni regressiya deb qabul qildi. Xarita bo'limi rolga qarab rahbar
+     paneliga KO'CHIRILADI (nusxa emas — id'lar bitta). Leaflet init'idan OLDIN
+     bajarilishi shart, aks holda o'lchamlar noto'g'ri hisoblanadi. */
+  if (document.documentElement.classList.contains("erta-rol-rahbar")){
+    const xaritaSek = document.querySelector("#dash-admin .xarita-qator");
+    const rahbarKpi = document.querySelector("#dash-rahbar .kpi-band");
+    if (xaritaSek && rahbarKpi) rahbarKpi.after(xaritaSek);
+  }
+
   /* Leaflet CDN'dan yuklanadi. Tarmoq sekin yoki bloklangan bo'lsa L aniqlanmay qoladi;
      himoyasiz L.map() esa BUTUN DOMContentLoaded ishlov beruvchisini to'xtatardi — ya'ni
      xarita bilan birga quyidagi uchta filtr va zoom/3D/lokatsiya tugmalari ham o'lardi.
