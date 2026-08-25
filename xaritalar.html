@@ -188,17 +188,31 @@ const HUDUD_GEO = {
 };
 const DARAJA_RANG = {yuqori:"#A5D46A", ortacha:"#F2D664", past:"#F0A868", nofaol:"#C7C7CD"};
 
-const uzMap = L.map("leaflet-uzb", {zoomControl:false, attributionControl:true, scrollWheelZoom:true})
-  .setView([41.35, 64.4], 6);
-const uzXarita = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+/* Leaflet CDN'dan keladi — tarmoqsiz L aniqlanmaydi va himoyasiz L.map() shu skriptning
+   QOLGAN QISMINI to'xtatardi (hudud ro'yxati, filtr, 2D/3D almashtirgich). Endi xarita
+   bo'lmasa ham sahifaning boshqa hamma narsasi ishlaydi. */
+const xaritaBor = typeof L !== "undefined";
+if (!xaritaBor){
+  const quti = document.getElementById("leaflet-uzb");
+  if (quti) quti.innerHTML =
+    `<div style="height:100%;display:grid;place-items:center;text-align:center;padding:24px;color:var(--matn-3)">
+       <div><div style="font-size:15px;font-weight:650;color:#33383E">Xarita xizmati mavjud emas</div>
+       <div style="font-size:13.5px;margin-top:6px">Tarmoq ulanishini tekshiring — hudud ro'yxati va filtrlar ishlaydi.</div></div>
+     </div>`;
+}
+const uzMap = xaritaBor
+  ? L.map("leaflet-uzb", {zoomControl:false, attributionControl:true, scrollWheelZoom:true}).setView([41.35, 64.4], 6)
+  : null;
+const uzXarita = xaritaBor && L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom:18, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
-}).addTo(uzMap);
-const uzSputnik = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+});
+if (xaritaBor) uzXarita.addTo(uzMap);
+const uzSputnik = xaritaBor && L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
   maxZoom:18, attribution:"Tiles &copy; Esri"
 });
 
 const maxSon = Math.max(...HUDUDLAR.map(h=>parseInt(h[1].replace(/\s/g,""),10)));
-HUDUDLAR.forEach(h=>{
+if (xaritaBor) HUDUDLAR.forEach(h=>{
   const geo = HUDUD_GEO[h[0]];
   if (!geo) return;
   const son = parseInt(h[1].replace(/\s/g,""),10);
@@ -214,7 +228,7 @@ HUDUDLAR.forEach(h=>{
     {direction:"top", offset:[0,-4], className:"auga-chip"}
   );
   belgi.on("click", ()=>{
-    uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
+    if (xaritaBor) uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
     AUGA.toast(`${h[0]} bo'yicha batafsil`, "i-bino");
   });
 });
@@ -223,13 +237,13 @@ HUDUDLAR.forEach(h=>{
 document.getElementById("hudud-filtr").addEventListener("tanlov", e=>{
   document.querySelectorAll(".hudud-band").forEach(b=>b.classList.remove("faol"));
   if (e.detail === "Barcha hududlar"){
-    uzMap.flyTo([41.35, 64.4], 6, {duration:0.6});
+    if (xaritaBor) uzMap.flyTo([41.35, 64.4], 6, {duration:0.6});
     return;
   }
   const nom = HUDUDLAR.map(h=>h[0]).find(n=>n.startsWith(e.detail)) || e.detail;
   const geo = HUDUD_GEO[nom];
   if (geo){
-    uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
+    if (xaritaBor) uzMap.flyTo([geo.lat, geo.lng], 9, {duration:0.6});
     AUGA.toast(`${nom} bo'yicha batafsil`, "i-bino");
     const band = Array.from(document.querySelectorAll(".hudud-band")).find(b=>b.textContent.includes(nom));
     if (band) band.classList.add("faol");
@@ -241,6 +255,7 @@ const r2 = document.getElementById("r-2d"), r3 = document.getElementById("r-3d")
 [r2,r3].forEach(b=>b.addEventListener("click", ()=>{
   [r2,r3].forEach(x=>x.classList.remove("aktiv"));
   b.classList.add("aktiv");
+  if (!xaritaBor) return AUGA.toast("Xarita xizmati mavjud emas");
   if (b.id === "r-3d"){ uzMap.removeLayer(uzXarita); uzSputnik.addTo(uzMap); AUGA.toast("Sputnik ko'rinishi yoqildi", "i-xarita"); }
   else { uzMap.removeLayer(uzSputnik); uzXarita.addTo(uzMap); AUGA.toast("Sxematik xarita ko'rinishi", "i-xarita"); }
 }));

@@ -777,18 +777,34 @@ document.addEventListener("DOMContentLoaded", ()=>{
     {tur:"Turar-joy / Ofislar", rangVar:"--t-turar",  href:"aktivlar.html?tur=Turar-joy",           lat:41.0378, lng:69.3567, viloyat:"Toshkent viloyati", holat:"Ijarada"}
   ];
 
-  const xMap = L.map("leaflet-xarita", {zoomControl:false, attributionControl:true, scrollWheelZoom:true})
-    .setView([41.32, 69.45], 9);
+  /* Leaflet CDN'dan yuklanadi. Tarmoq sekin yoki bloklangan bo'lsa L aniqlanmay qoladi;
+     himoyasiz L.map() esa BUTUN DOMContentLoaded ishlov beruvchisini to'xtatardi — ya'ni
+     xarita bilan birga quyidagi uchta filtr va zoom/3D/lokatsiya tugmalari ham o'lardi.
+     Endi xarita bo'lmasa ham sahifaning qolgan qismi ishlaydi. */
+  const xaritaBor = typeof L !== "undefined";
+  if (!xaritaBor){
+    const quti = document.getElementById("leaflet-xarita");
+    if (quti) quti.innerHTML =
+      `<div style="height:100%;display:grid;place-items:center;text-align:center;padding:24px;color:var(--matn-3)">
+         <div><div style="font-size:15px;font-weight:650;color:#33383E">Xarita xizmati mavjud emas</div>
+         <div style="font-size:13.5px;margin-top:6px">Tarmoq ulanishini tekshiring — sahifaning qolgan qismi ishlaydi.</div></div>
+       </div>`;
+  }
 
-  const qatlamXarita = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  const xMap = xaritaBor
+    ? L.map("leaflet-xarita", {zoomControl:false, attributionControl:true, scrollWheelZoom:true}).setView([41.32, 69.45], 9)
+    : null;
+
+  const qatlamXarita = xaritaBor && L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom:18, attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'
-  }).addTo(xMap);
-  const qatlamSputnik = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+  });
+  if (xaritaBor) qatlamXarita.addTo(xMap);
+  const qatlamSputnik = xaritaBor && L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
     maxZoom:18, attribution:"Tiles &copy; Esri"
   });
 
   const nuqtaBelgilar = [];
-  AKTIV_NUQTALAR.forEach(n=>{
+  if (xaritaBor) AKTIV_NUQTALAR.forEach(n=>{
     const rang = ranglar.getPropertyValue(n.rangVar).trim();
     const belgi = L.marker([n.lat, n.lng], {
       title: n.tur,
@@ -802,7 +818,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     belgi.on("click", ()=> location.href = n.href);
     nuqtaBelgilar.push(belgi);
   });
-  const boshlangichChegara = L.featureGroup(nuqtaBelgilar).getBounds();
+  const boshlangichChegara = xaritaBor ? L.featureGroup(nuqtaBelgilar).getBounds() : null;
 
   /* Xarita filtrlari — viloyat/tur/holat bo'yicha ko'rinadigan belgilarni boshqaradi.
      TUR_MOS — filtr ro'yxatidagi qisqa nomlarni AKTIV_NUQTALAR dagi "tur" yorlig'iga moslaydi
@@ -817,8 +833,8 @@ document.addEventListener("DOMContentLoaded", ()=>{
         (xaritaFiltri.viloyat==="Barcha viloyatlar" || n.viloyat===xaritaFiltri.viloyat) &&
         (xaritaFiltri.tur==="Barcha turlar" || n.tur===turQiymati) &&
         (xaritaFiltri.holat==="Barcha holatlar" || n.holat===xaritaFiltri.holat);
-      if (mosKeladi){ nuqtaBelgilar[i].addTo(xMap); korinadigan++; }
-      else xMap.removeLayer(nuqtaBelgilar[i]);
+      if (mosKeladi){ if (xaritaBor) nuqtaBelgilar[i].addTo(xMap); korinadigan++; }
+      else if (xaritaBor) xMap.removeLayer(nuqtaBelgilar[i]);
     });
     if (korinadigan === 0) AUGA.toast("Tanlangan filtrlarga mos obyekt topilmadi");
   }
@@ -826,14 +842,16 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("f-tur").addEventListener("tanlov", e=>{ xaritaFiltri.tur = e.detail; qollash(); });
   document.getElementById("f-holat").addEventListener("tanlov", e=>{ xaritaFiltri.holat = e.detail; qollash(); });
 
-  document.getElementById("x-katta").addEventListener("click", ()=> xMap.zoomIn());
-  document.getElementById("x-kichik").addEventListener("click", ()=> xMap.zoomOut());
+  document.getElementById("x-katta").addEventListener("click", ()=> { if (xaritaBor) xMap.zoomIn(); });
+  document.getElementById("x-kichik").addEventListener("click", ()=> { if (xaritaBor) xMap.zoomOut(); });
   document.getElementById("x-lokatsiya").addEventListener("click", ()=>{
+    if (!xaritaBor) return AUGA.toast("Xarita xizmati mavjud emas");
     xMap.flyToBounds(boshlangichChegara, {padding:[60,60], duration:0.6});
     AUGA.toast("Barcha aktivlar ko'rinishga keltirildi", "i-navigatsiya");
   });
   const x3d = document.getElementById("x-3d");
   x3d.addEventListener("click", ()=>{
+    if (!xaritaBor) return AUGA.toast("Xarita xizmati mavjud emas");
     const sputnikYoqilgan = x3d.classList.toggle("faol");
     x3d.setAttribute("aria-pressed", String(sputnikYoqilgan));
     x3d.textContent = sputnikYoqilgan ? "Xarita" : "Sputnik";
