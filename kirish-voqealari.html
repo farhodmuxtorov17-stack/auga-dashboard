@@ -113,9 +113,9 @@
     </div>
 
     <div class="kv-tablar">
-      <button class="kv-tab aktiv" data-toast="Jonli navbat — bugungi voqealar">Jonli navbat<span class="son">6</span></button>
-      <button class="kv-tab" data-toast="Barcha voqealar ro'yxati">Barcha voqealar</button>
-      <button class="kv-tab" data-toast="Arxiv">Arxiv</button>
+      <button class="kv-tab aktiv" data-tab="jonli">Jonli navbat<span class="son">6</span></button>
+      <button class="kv-tab" data-tab="barcha">Barcha voqealar</button>
+      <button class="kv-tab" data-tab="arxiv">Arxiv</button>
     </div>
 
     <div class="kv-grid">
@@ -315,12 +315,11 @@ function detalChiz(){
 royxatChiz(); detalChiz();
 document.getElementById("v-iz").style.width = "98%";
 
-const KV_TOIFA = {"Jonli navbat":"jonli", "Barcha voqealar":"barcha", "Arxiv":"arxiv"};
 document.querySelectorAll(".kv-tab").forEach(t=>{
   t.addEventListener("click", ()=>{
     document.querySelectorAll(".kv-tab").forEach(x=>x.classList.remove("aktiv"));
     t.classList.add("aktiv");
-    faolTab = KV_TOIFA[t.textContent.trim()] || "jonli";
+    faolTab = t.dataset.tab || "jonli";
     faol = 0;
     royxatChiz(); detalChiz();
   });
